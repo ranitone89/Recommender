@@ -1,0 +1,786 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 09.08.2017, 23:09:49
+    Author     : Nemanja Ranitovic
+*/
+/*
+ */
+
+
+/**
+ * ============================================================================
+ * 01. NORMALIZE
+ * ============================================================================
+ */
+
+html {
+	font-family: sans-serif;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+}
+
+html {
+	font-size: 10px;
+	-webkit-tap-highlight-color: transparent;
+    height:100%; 
+}
+
+body {
+    min-height:100%; padding:0; margin:0; position:relative; 
+	font-family: "Roboto Condensed", sans-serif;
+	font-size: 14px;
+	line-height: 1.42857;
+	color: #333333;
+	background-color: #fff;
+}
+
+body::after{ content:''; display:block; height:100px; }
+
+html, body {
+    width: 100%;
+    /*height: 1290px;*/
+    position: relative;
+}
+
+/**
+ * ---------------------------------------------
+ * 2.2. HELPERS
+ * ---------------------------------------------
+ */
+
+
+@media (max-width: 480px) {
+	.mobilehidden {
+		display: none !important;
+	}
+}
+
+@media (min-width: 480px) and (max-width: 768px) {
+	.tablethidden {
+		display: none !important;
+	}
+}
+
+
+
+/**
+ * ---------------------------------------------
+ * 2.3. FORM
+ * ---------------------------------------------
+ */
+
+/**
+ * ---------------------------------------------
+ * 2.4. BUTTON
+ * ---------------------------------------------
+ */
+
+
+/**
+ * ============================================================================
+ * 03. LAYOUT
+ * ============================================================================
+ */
+
+
+/**
+ * ---------------------------------------------
+ * 3.1. GRID
+ * ---------------------------------------------
+ */
+
+
+ /**
+ * ---------------------------------------------
+ * 
+ */
+ 
+ 
+
+ 
+ /*
+ *  ---- SLider oben -----------------
+ *
+ */
+ /*
+ * ----------------------------------------------------
+ */
+ 
+ 
+ /*
+ *  ----------------------------------------------
+ *   Container
+ *------------------------------------------------
+ */
+.container {
+	margin-right: auto;
+	margin-left: auto;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.container:before,
+.container:after {
+	content: " ";
+	display: table;
+}
+
+.container:after {
+	clear: both;
+}
+
+@media (min-width: 768px) {
+	.container {
+		width: 750px;
+	}
+}
+
+@media (min-width: 992px) {
+	.container {
+		width: 970px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.container {
+		width: 1170px;
+	}
+}
+
+.container-fluid {
+	margin-right: auto;
+	margin-left: auto;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.container-fluid:before,
+.container-fluid:after {
+	content: " ";
+	display: table;
+}
+
+.container-fluid:after {
+	clear: both;
+}
+
+
+/*
+* ---------------------------------------------------
+*/
+ 
+ 
+ 
+.page-id-131 #amy-top-bar .container {
+	position: relative;
+}
+
+.page-id-131 #amy-top-bar .container .amy-top-bar-right {
+	position: absolute;
+	right: 0;
+	top: 15px;
+}
+
+.page-id-131 #amy-header-logo .container {
+	position: relative;
+}
+
+.page-id-131 #amy-header-logo .container .amy-logo-wrapper {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.page-id-131 #amy-top-bar .container .amy-top-bar-right .box-user a {
+	font-size: 12px;
+	text-transform: uppercase;
+	font-family: "Roboto Condensed";
+	font-weight: bold;
+}
+.page-id-131 #amy-top-bar .container .amy-top-bar-right .box-user a .fa {
+	width: 34px;
+	height: 34px;
+	line-height: 34px;
+	background: #1a1a1a;
+	border-radius: 50%;
+	text-align: center;
+}
+.amy-actor.has-banner .container {
+	margin-top: -126px;
+}
+@media screen and (max-width: 640px) {
+	.amy-actor.has-banner .container {
+		margin-top: 20px;
+	}
+}
+
+
+
+
+ 
+ 
+ /*
+ * ----------------------------------------------
+ */
+
+
+
+
+
+/**
+ * ---------------------------------------------
+ * 3.4. HEADER
+ * ---------------------------------------------
+ */
+
+#masthead {
+	box-shadow: 1px -3px 4px #000000;
+    background: #000;
+    
+}
+
+#masthead.header-default #site-logo {
+	float: left;
+	padding: 14px 0;
+}
+
+
+#masthead.dark {
+	background: #000000;
+}
+
+#masthead.dark .header-right {
+	float: none !important;
+	text-align: right;
+}
+
+
+#masthead.dark #site-logo {
+	margin-top: 15px;
+}
+
+#masthead.dark .amy-primary-navigation {
+	display: inline-block;
+	margin-top: 10px;
+	margin-right: 30px;
+}
+
+#masthead.dark .amy-primary-navigation ul.nav-menu li>ul li ul {
+	left: 197px !important;
+	margin: 0 0 0 20px;
+	top: 0 !important;
+}
+
+#masthead.dark .amy-primary-navigation ul.nav-menu>li:last-child>a {
+	padding-right: 20px;
+}
+
+#masthead.dark .amy-primary-navigation ul.nav-menu>li:last-child:hover a:after {
+	margin-left: -37%;
+	width: 73%;
+}
+
+#masthead.dark .amy-primary-navigation ul.nav-menu>li.menu-item-has-children a:before {
+	content: none;
+}
+
+#masthead.dark .amy-primary-navigation ul.nav-menu>li.current-menu-item a:after {
+	margin-left: -37%;
+	width: 73%;
+}
+
+#masthead.dark .amy-primary-navigation ul.nav-menu>li.current-menu-item:last-child a:before {
+	margin-left: -37%;
+	width: 73%;
+}
+
+#masthead.dark .amy-primary-navigation ul.nav-menu>li.current-menu-item>a {
+	color: #fff;
+}
+
+#masthead.dark .amy-primary-navigation ul.nav-menu>li:hover>a {
+	color: #fff;
+}
+
+#masthead.dark .amy-primary-navigation ul.nav-menu>li:hover a:before {
+	margin-left: -37%;
+	width: 73%;
+}
+
+#masthead.dark .amy-primary-navigation ul.nav-menu>li>a {
+	color: #666666;
+	line-height: 65px;
+}
+
+#masthead.dark .amy-primary-navigation ul.nav-menu>li>a:after {
+	top: -9px;
+}
+
+#masthead.dark .amy-primary-navigation ul.nav-menu>li>a:before {
+	background: #fe7900 none repeat scroll 0 0;
+	bottom: 22px;
+	content: "";
+	height: 15px;
+	left: 50%;
+	margin-top: -1.5px;
+	position: absolute;
+	bottom: -17px;
+	transition: all 0.2s ease 0s;
+	width: 0;
+	z-index: 9;
+}
+
+#masthead.dark .amy-primary-navigation ul.nav-menu>li ul {
+	background-color: #fe7900;
+	top: 66px;
+}
+
+#masthead.dark .amy-primary-navigation ul.nav-menu>li ul>li>a {
+	color: #ffffff;
+	line-height: 1;
+	padding: 12px 0;
+	border-color: #fe912e;
+}
+
+#masthead.dark .amy-primary-navigation ul.nav-menu>li ul>li>a:before {
+	content: none;
+}
+
+#amy-menu-overlay {
+	background: rgba(0, 0, 0, 0.3);
+	left: 0;
+	overflow: hidden;
+	position: fixed;
+	top: 0;
+	z-index: 8010;
+	bottom: 0;
+	right: 0;
+	display: none;
+	height: auto;
+	width: auto;
+}
+/****************************HEADER NAVIGATION********************************/
+
+.header-right {
+    float:right;
+    margin-top: 55px;
+}
+
+
+.header-right ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.header-right .main-nav li{
+    float: left;
+    list-style: none;
+    text-align: center;
+    background-color: #f8f8f8;
+    width: 110px;
+    line-height: 38px;
+    font-family: 'Nunito', sans-serif;
+}
+
+
+.header-right .main-nav .nav-element_right{
+    border-right: 1px solid #b2b2b2;
+}
+.header-right .main-nav li{
+    text-decoration: none;
+    color: #000000;
+    display: block;
+    font-family: 'Nunito', sans-serif;  
+}
+
+.header-right .main-nav li:hover{
+    text-decoration: none;
+    color: #FFFFFF;
+    background-color: #ee7d13;
+}
+
+/*****************************************************************************/
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    padding: 14px 20px;
+    background-color: #f44336;
+}
+.cancelbtn a{
+    color: white;
+    text-decoration: none;
+}
+
+.signupbtn{
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    padding: 14px 20px;
+    background-color: #4CAF50;
+}
+
+.sendbtn{
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    padding: 14px 20px;
+    background-color: #4CAF50;
+}
+
+.sendbtn:hover{
+    opacity: 0.8;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn,.signupbtn {float:left;width:50%}
+
+.sendbtn {
+    width: 20%;
+    position: relative;
+    right: 10%;
+    float: right;
+}
+
+/* Add padding to container elements */
+.formular-container {
+    padding: 16px;
+    padding: 16px;
+    width: 670px;
+}
+
+.formular-container h2{
+    margin-bottom: 25px;
+    text-align: center;
+}
+.button-label{
+   margin-left: 200px;
+   margin-bottom: 7px;
+}
+
+.button-label label{
+   margin-right: 30px;
+   color: #666;
+   position: relative;
+   font-family: 'Nunito', sans-serif;  
+   margin-bottom: 20px;
+}
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+    display:none;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 700px; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+
+.close a{
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.close a:hover,
+.close a:focus {
+    color: red;
+    cursor: pointer;
+}
+
+/* Clear floats */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+    .cancelbtn, .signupbtn {
+       width: 100%;
+    }
+}
+
+span.register_span {
+    color: blue;
+    border-bottom: 1px solid blue;
+    cursor: pointer;
+}
+
+span.register_span:hover {
+    color: red;
+    border-bottom: 1px solid red;
+    cursor: pointer;
+}
+
+span.login_span {
+    color: blue;
+    border-bottom: 1px solid blue;
+    cursor: pointer;
+}
+
+span.login_span:hover {
+    color: red;
+    border-bottom: 1px solid red;
+    cursor: pointer;
+}
+/************************************************************************/
+.genre{
+    margin-bottom: 10px;
+    width: 86%;
+    height: 400px;
+    margin: 0 auto;
+}
+
+
+
+#ck-button {
+    margin:4px;
+    background-color:#ddd;
+    border-radius:4px;
+    /*border:1px solid #d8d8d8;*/
+    overflow:auto;
+    float:left;
+    color:#666;
+}
+
+#ck-button label {
+    float:left;
+    width:13.0em;
+}
+
+#ck-button label span {
+    text-align:center;
+    padding:9px 0px;
+    display:block;
+    font-size: 16px;
+    font-family: 'Nunito', sans-serif;
+}
+
+#ck-button label input {
+    position:absolute;
+    top:-20px;
+}
+
+#ck-button input:checked + span {
+    background-color:#ee7d13;
+    color:#fff;
+}
+
+#ck-button input:hover + span {
+    background-color:#ee7d13;
+    color:#fff;
+}
+
+/******************************SLIDER********************************************/
+
+
+.slider-carousel {
+    padding: 80px 0;
+    text-align: center;
+    box-sizing: border-box;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 100%;
+}
+
+
+.slider-carousel {
+    margin-top: 15px;
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.slider {
+    /*position: relative;*/
+    display: block;
+    width: 1390px;
+    height: 1290px;
+    margin: 0 auto;
+    }
+    
+.carousel-item {
+    width: 214px;
+    height:325px;
+    float:left;
+    margin-left:5px;
+    border-bottom: 3px solid #fe7900;
+    margin-bottom: 5px;
+}
+
+.carousel-item img {
+    width:214px;
+    height:325px;
+    display: block;
+}
+
+.carousel-item img {
+    vertical-align: middle;
+}
+
+.carousel-item img {
+    border: 0;
+}
+
+.carousel-content {
+    background: rgba(254, 121, 0, 0.6) none repeat scroll 0 0;
+    bottom: 0;
+    display: none;
+    padding: 20px 10px;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+}
+
+/****************************************************************************/
+
+/*==================================================
+ * Effect 8
+ * ===============================================*/
+
+/******************************FOOTER*********************/
+
+footer{ 
+  position:absolute; 
+  bottom:0;
+  width:100%; 
+  height:100px; 
+}
+
+.copyright-footer{
+    background: #000;
+    /*border-top: 1px solid;*/
+    position: absolute;
+    bottom: 0;
+    width:100%;
+    margin-top:100px;
+}
+
+.copyright {
+    line-height: 80px;
+    color: #666;
+    font-size: 15px;
+    width: 1290px;
+    margin: 0 auto;
+}
+
+.copyright-text{
+    width:280px;
+    height:120px;
+    margin: 0 auto;
+    float: left;
+}
+
+.copyright-menu ul {
+    width:580px;
+    height:120px;
+    margin: 0 auto;
+}
+
+.copyright-menu ul li {
+    display: inline-block;
+    list-style: none;
+    padding: 0 5px;
+}
+
+.copyright-menu a {
+    color: #666;
+    font-size: 15px;
+}
+/***********************************************************/
+
+
+/******************************FOOTER*********************/
+
+/*.copyright-footer{
+    border-top: 1px solid;
+}
+
+.copyright {
+    line-height: 80px;
+    color: #666;
+    font-size: 15px;
+    width: 1290px;
+    margin: 0 auto;
+}
+
+.copyright-text{
+    width:280px;
+    height:120px;
+    margin: 0 auto;
+    float: left;
+}
+
+.copyright-menu ul {
+    width:580px;
+    height:120px;
+    margin: 0 auto;
+}
+
+.copyright-menu ul li {
+    display: inline-block;
+    list-style: none;
+    padding: 0 5px;
+}
+
+.copyright-menu a {
+    color: #666;
+    font-size: 15px;
+}*/
+/***********************************************************/
