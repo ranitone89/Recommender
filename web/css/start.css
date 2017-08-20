@@ -1505,13 +1505,31 @@ input, button, select, textarea {
   position: relative;
  } 
  
-#TopRated, #Cooming, #New{
+ #Result .RatedMovie .movieImage {
+  width:90px;
+  height:154px;
+  margin: 0 auto;
+  border-bottom: 3px solid #fe7900;
+  position: relative;
+ } 
+ 
+#TopRated, #Cooming, #New, #Result{
   margin-top:2%;
   width:1290px;
   height:1200px;
   margin: 0 auto;
   clear: left;
   display:inline
+}
+
+#Result .RatedMovie{
+  margin-top:2%;
+  margin-bottom:8%;
+  margin-left:1%;
+  width:90px;
+  height:154px;
+  float:left;
+  min-width: 90px;
 }
 
 .RatedMovie{
@@ -1874,4 +1892,23 @@ footer{
 .copyright-menu a {
     color: #666;
     font-size: 15px;
+}
+
+/********************************************************************************/
+
+#loading
+{
+    display : none;
+    position : fixed;
+    z-index: 100;
+    background-size: 80px 80px;
+    background-image : url(../img/Default.gif);
+    background-color:#666;
+    opacity : 0.4;
+    background-repeat : no-repeat;
+    background-position : center;
+    left : 0;
+    bottom : 0;
+    right : 0;
+    top : 0;
 }

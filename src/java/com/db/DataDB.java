@@ -4,7 +4,9 @@ import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DataDB {
 	private Connection connection;
@@ -128,10 +130,11 @@ public class DataDB {
     
 
     public String search(String minLenght, String maxLenght, String minReleased, String maxReleased,String minStar, String[] actors, String[] genres) {
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         String message = null;
         PreparedStatement ps = null;
         String data;
+        List<String> results = new ArrayList<String>();
+        
         try {
             String sql = "SELECT movies.movieid,array_to_string(array_agg(distinct movies.title),',') AS title "
                     + "FROM moviedata, movies, actors,ratings, runningtimes "
@@ -139,20 +142,37 @@ public class DataDB {
                     + "AND movies.movieid = ratings.movieid "
                     + "AND movies.movieid = runningtimes.movieid "
                     + "AND moviedata.actorid = actors.actorid "
-                    + "AND actors.name LIKE ANY('{\"Depp, Johnny\",\"Pitt, Brad\",\"Spacey, Kevin\"}') "
-                    + "AND moviedata.year BETWEEN '2000' AND '2017' "
-                    + "AND ratings.rank::float BETWEEN 6.0 AND 10.0 "
+                    + "AND actors.name LIKE ANY(?) "
+                    + "AND moviedata.genre = ANY(?) "
+                    + "AND moviedata.year BETWEEN (?) AND (?) "
+                    + "AND runningtimes.time BETWEEN (?) AND (?) "
+                    + "AND ratings.rank::float BETWEEN (?) AND 10 "
                     + "GROUP BY 1 ";
+            
+            Array listActors = connection.createArrayOf("text", actors);
+            Array listGenres = connection.createArrayOf("text", genres);
+            float rating = Float.parseFloat(minStar);
             ps = connection.prepareStatement(sql);
 
             //setting the parameters
-            //ps.setString(1, username);
+            ps.setArray(1, listActors);
+            ps.setArray(2, listGenres);
+            ps.setString(3, minReleased);
+            ps.setString(4, maxReleased);
+            ps.setString(5, minLenght);
+            ps.setString(6, maxLenght);
+            ps.setFloat(7, rating);
 
             //executing the prepared statement, which returns a ResultSet
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
+                while(rs.next())
+                {
+                    String columnValue = rs.getString(2);
+                    results.add(columnValue);
+                }
                 System.out.println("SUCCESS SEARCH");
-                message = "SUCCESS";
+                message = results.toString();
             }else{
                 System.out.println("FAILURE SEARCH");
                 message = "FAILURE";
