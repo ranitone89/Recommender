@@ -9,7 +9,6 @@ function search(evt) {
    var minLenght = $('#lenght .range_min').text();
    var minStar = $('#star .range_star').text();
    
-   
     if(actors == ""){
         $('#messageSearch').css("display","block");
         $('#messageSearch').html("<font color='red'>Insert at least the Name of one Actor </font>")
@@ -67,8 +66,12 @@ function search(evt) {
 function showMessage(results){
     if(results != null){
         var recommendation = covertToArray(results,'r');
-        alert(recommendation);
         getMovies(recommendation);
+        $('.tab-nav').hide();
+        $('.search-back-nav').show();
+        $('.recom-text').show();
+        $('.search').hide();
+        $('.search-tab-close').hide();
     }
     else if(results == 'FAILURE'){
         alert('fehler');
@@ -81,6 +84,8 @@ function getMovies(movies){
   $('#Cooming').css("display","none");
   $('#Result').empty();
   $('#Result').css("display","block");
+  
+  
   for (var i = 0; i < movies.length; i++) {
     $.getJSON('http://www.omdbapi.com/?t='+ encodeURI(movies[i])+ '&apikey=dc2f6d3a').then(function(response){
     $('<div></div>')
@@ -91,13 +96,11 @@ function getMovies(movies){
                                         '<div id="textBlock">' + 
                                         '<h4>' + response.Title + '</h4>' + 
                                         '<h5>Realese: ' + response.Released + '</h5>' + 
-                                        '<div class ="detail">' + 
-                                        '<img src="img/info.png"><p class="detailLink">Detail</p></div>' + 
                                         '</div>'+
                                     '</div>'+
                                 '<div class="Content">' +
                                     '<div class="MovieImage">' +
-                                    '<img width="51" height="87" src="'+ response.Poster + 
+                                    '<img width="204" height="350" src="'+ response.Poster + 
                                     'alt="' + response.Title + '"> '+ 
                                     '</div>' +
                                     '<div class="MovieInfos">'+
