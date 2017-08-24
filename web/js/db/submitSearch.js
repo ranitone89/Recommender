@@ -147,6 +147,8 @@ function getMovies(movies){
       .appendTo('#Result');
    });
  }
+ $("#Result").append('<button class="btn" id="btn_prev">&#10094</button>');
+ $("#Result").append('<button class="btn" id="btn_next">&#10095</button>');
 }
 
 
