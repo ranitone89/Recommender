@@ -1596,7 +1596,7 @@ input, button, select, textarea {
   position: relative;
  } 
  
-#TopRated, #Cooming, #New, #SearchMovies{
+#TopRated, #Cooming, #New,#Result{
   margin-top:2%;
   width:1290px;
   height:1200px;
@@ -1604,32 +1604,70 @@ input, button, select, textarea {
   clear: left;
   display:inline
 }
-
+ 
 #Result{
-    margin-top: 2%;
+  margin-top:2%;
+  width:1400px;
+  height:1200px;
+  margin: 0 auto;
+  clear: left;
+  display:inline
+}
+
+#Row1, #Row2, #Row3{
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
     width: 621px;
     height: 255px;
-    margin: 0 auto;
-    clear: left;
+    /*clear: left;*/
     display: inline-block;
     overflow: hidden;
     /*white-space: nowrap;*/
     position: relative;
 }
 
-#Result .Movie {
+.claster1, .claster2 {
+    margin-top: 40px;
+    width: 621px;
+    height: 800px;
+    float: left;
+    border: 1px solid #f1f1f1;
+}
+
+.claster1 .Movie {
     /*display: inline-block;*/
     margin-left: 3px;
 }
 
-#Result .RatedMovie{
+.claster1 .RatedMovie{
   margin-top:2%;
   margin-bottom: 13%;
   margin-left:1%;
-  width:90px;
+  width: 86px;
   height:154px;
   float:left;
-  min-width: 90px;
+  min-width: 86px;
+  font-size: 10px;
+}
+
+.claster2 {
+    margin-left: 130px
+}
+
+.claster2 .Movie {
+    /*display: inline-block;*/
+    margin-left: 3px;
+}
+
+.claster2 .RatedMovie{
+  margin-top:2%;
+  margin-bottom: 13%;
+  margin-left:1%;
+  width: 86px;
+  height:154px;
+  float:left;
+  min-width: 86px;
   font-size: 10px;
 }
 
@@ -1671,7 +1709,7 @@ input, button, select, textarea {
     position: relative;
     float: right;
     top: 87px;
-    margin-right: 0px;
+    margin-right: 20px;
 }
 
 #btn_prev {

@@ -66,7 +66,15 @@ function search(evt) {
 function showMessage(results){
     if(results != null){
         var recommendation = covertToArray(results,'r');
-        getMovies(recommendation);
+        getMovies(recommendation,1,1);
+        getMovies(recommendation,1,2);
+        getMovies(recommendation,1,3);
+        
+        getMovies(recommendation,2,1);
+        getMovies(recommendation,2,2);
+        getMovies(recommendation,2,3);
+       
+        
         $('.tab-nav').hide();
         $('.search-back-nav').show();
         $('.recom-text').show();
@@ -78,18 +86,19 @@ function showMessage(results){
     }
 }
 
-function getMovies(movies){ 
+function getMovies(movies,klaster,row){ 
   $('#TopRated').css("display","none");
   $('#New').css("display","none");
   $('#Cooming').css("display","none");
-  $('#Result').empty();
+  $('.claster'+klaster+' #Row'+row).empty();
   $('#Result').css("display","block");
+  $('.claster'+klaster+ '#Row'+row).css("display","block");
   
   
   for (var i = 0; i < movies.length; i++) {
     $.getJSON('http://www.omdbapi.com/?t='+ encodeURI(movies[i])+ '&apikey=dc2f6d3a').then(function(response){
     $('<div></div>')
-      .addClass('Movie').append('<div class="RatedMovie">' +
+            .addClass('Movie').append('<div class="RatedMovie">' +
                                         '<img src="'+ response.Poster + 
                                         'alt="' + response.Title + '" ' + 
                                         'class="movieImage">' +  
@@ -144,11 +153,11 @@ function getMovies(movies){
                                     '<p>'+response.Plot+'</p>'+
                                 '</div>'+
                             '</div>')
-      .appendTo('#Result');
+      .appendTo('.claster'+klaster+' #Row'+row);
    });
  }
- $("#Result").append('<button class="btn" id="btn_prev">&#10094</button>');
- $("#Result").append('<button class="btn" id="btn_next">&#10095</button>');
+ $('.claster'+klaster+' #Row'+row).append('<button class="btn" id="btn_prev">&#10094</button>');
+ $('.claster'+klaster+' #Row'+row).append('<button class="btn" id="btn_next">&#10095</button>');
 }
 
 
