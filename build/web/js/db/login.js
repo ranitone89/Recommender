@@ -8,7 +8,6 @@ $(document).ready(function(){
     $("#login").on('click', function(){
                 var username = $("#username").val();
                 var password = $("#password").val();
-                alert('Fuck you '+username);
                 if(username == ""){
                     $('#messageDiv').css("display","block");
                     $('#messageDiv').html("<font color='red'>Username is required </font>")
