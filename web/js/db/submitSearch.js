@@ -76,7 +76,7 @@ function showMessage(results){
        
         
         $('.tab-nav').hide();
-        $('.search-back-nav').show();
+        $('.tab-back-nav').show();
         $('.recom-text').show();
         $('.search').hide();
         $('.search-tab-close').hide();
@@ -90,9 +90,9 @@ function getMovies(movies,klaster,row){
   $('#TopRated').css("display","none");
   $('#New').css("display","none");
   $('#Cooming').css("display","none");
-  $('.claster'+klaster+' #Row'+row).empty();
+  $('.cluster'+klaster+' #Row'+row).empty();
   $('#Result').css("display","block");
-  $('.claster'+klaster+ '#Row'+row).css("display","block");
+  $('.cluster'+klaster+ '#Row'+row).css("display","block");
   
   
   for (var i = 0; i < movies.length; i++) {
@@ -153,11 +153,11 @@ function getMovies(movies,klaster,row){
                                     '<p>'+response.Plot+'</p>'+
                                 '</div>'+
                             '</div>')
-      .appendTo('.claster'+klaster+' #Row'+row);
+      .appendTo('.cluster'+klaster+' #Row'+row);
    });
  }
- $('.claster'+klaster+' #Row'+row).append('<button class="btn" id="btn_prev">&#10094</button>');
- $('.claster'+klaster+' #Row'+row).append('<button class="btn" id="btn_next">&#10095</button>');
+ $('.cluster'+klaster+' #Row'+row).append('<button class="btn" id="btn_prev">&#10094</button>');
+ $('.cluster'+klaster+' #Row'+row).append('<button class="btn" id="btn_next">&#10095</button>');
 }
 
 

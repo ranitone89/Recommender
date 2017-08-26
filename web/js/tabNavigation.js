@@ -14,19 +14,25 @@ $(document).ready(function() {
         if(indexActive==0){
         alert('TopRated zuruck');
         $('#TopRated').children('.Movie').children('.RatedMovie').show();
+        $('#TopRated').show();
         }
     
         if(indexActive==1){
         alert('New zuruck');
-        $('#New').children('.Movie').children('.RatedMovie').show();        
+        $('#New').children('.Movie').children('.RatedMovie').show();
+        $('#New').show();
         }
         
         if(indexActive==2){
             alert('Cooming');
             $('#Cooming').children('.Movie').children('.RatedMovie').show();
+            $('#Cooming').show();
         }
+        $('.tab-nav').show();
+        $('#Result').hide();
         $('.Movie').show();
         $('.Content').hide();
         $('.tab-back-nav').hide();
+        $('.recom-text').hide();
    });
 }); 
