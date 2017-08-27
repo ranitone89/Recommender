@@ -94,13 +94,21 @@ function getMovies(movies,klaster,row){
   $('#Result').css("display","block");
   $('.cluster'+klaster+ '#Row'+row).css("display","block");
   
-  
+  var movieClass ='';
   for (var i = 0; i < movies.length; i++) {
+    var j = 0;
     $.getJSON('http://www.omdbapi.com/?t='+ encodeURI(movies[i])+ '&apikey=dc2f6d3a').then(function(response){
-    $('<div></div>')
-            .addClass('Movie').append('<div class="RatedMovie">' +
+        if(j<5){
+        movieClass ='Movie';
+        }
+        else{
+            movieClass ='Movie hide';
+        }
+        j = j+1;
+        $('<div></div>')
+            .addClass(''+movieClass).append('<div class="RatedMovie">' +
                                         '<img src="'+ response.Poster + 
-                                        'alt="' + response.Title + '" ' + 
+                                        'alt="' + response.Title + '" ' +
                                         'class="movieImage">' +  
                                         '<div id="textBlock">' + 
                                         '<h4>' + response.Title + '</h4>' + 
@@ -153,11 +161,14 @@ function getMovies(movies,klaster,row){
                                     '<p>'+response.Plot+'</p>'+
                                 '</div>'+
                             '</div>')
-      .appendTo('.cluster'+klaster+' #Row'+row);
-   });
- }
- $('.cluster'+klaster+' #Row'+row).append('<button class="btn" id="btn_prev">&#10094</button>');
- $('.cluster'+klaster+' #Row'+row).append('<button class="btn" id="btn_next">&#10095</button>');
+            .appendTo('.cluster'+klaster+' #Row'+row);
+        });
+        }
+    var cb = 'cb_cluster'+klaster+row;
+    $('.cluster'+klaster+' #Row'+row).append('<button class="btn" id="btn_prev">&#10094</button>');
+    $('.cluster'+klaster+' #Row'+row).append('<button class="btn" id="btn_next">&#10095</button>');
+    $('.cluster'+klaster+' #Row'+row).append('<input id="'+cb+'" type="checkbox" class="cb_cluster">');
+    $('.cluster'+klaster+' #Row'+row).append('<label class="cb_text" for="'+cb+'"></label>');
 }
 
 

@@ -434,6 +434,53 @@ html, body {
 		overflow: hidden;
 	}
 }
+
+.signupbtn{
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 35%;
+    padding: 14px 20px;
+    background-color: #4CAF50;
+    margin-left: 200px;
+}
+
+.signupbtn:active{
+    color: white;
+    background-color: #fe7900;
+}
+
+.signupbtn:hover{
+    color: white;
+    background-color: #fe7900;
+}
+
+.cancelbtn {
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 35%;
+    padding: 14px 20px;
+    background-color: #f44336;
+    margin-left: 200px;
+}
+
+.cancelbtn .like{
+    display: none;
+}
+
+
+.cancelbtn:hover{
+    color: white;
+    background-color: #4CAF50;
+}
+
+.cancelbtn:hover .unlike {display:none;}
+.cancelbtn:hover .like {display:block;}
  /*
  * ----------------------------------------------------
  */
@@ -729,9 +776,9 @@ html, body {
     /*margin-right: 1px;*/
 }
 
-
 .header-right .main-nav .nav-element_right{
     border-right: 1px solid #b2b2b2;
+    min-width: 140px;
 }
 .header-right .main-nav li{
     text-decoration: none;
@@ -786,6 +833,66 @@ html, body {
     color: #ee7d13;
 }*/
 
+/********************************************/
+#Result .cb_text {
+    display: inline-block;
+}
+#ck-button {
+    margin:4px;
+    color: white;
+    background-color:#f44336;
+    border-radius:4px;
+    border:1px solid #D0D0D0;
+    float:left;
+    margin-left: 200px;
+}
+
+#ck-button:hover {
+    color: white;
+    background-color: #4CAF50;
+}
+
+#ck-button label {
+    float:left;
+    width: 16em;
+}
+
+#ck-button label span {
+    text-align:center;
+    padding:15px 0px;
+    display:block;
+}
+
+#ck-button .like{
+    display: none;
+}
+
+
+#ck-button:hover .unlike {display:none;}
+#ck-button:hover .like {display:block;}
+
+
+#ck-button label input {
+    position:absolute;
+    top:-20px;
+}
+
+#ck-button input:checked + span{
+    background-color: #4CAF50;
+    color:#fff;
+}
+#ck-button input:checked  ~ .like{
+    display: block;
+    background-color: #4CAF50;
+    color:#fff;
+}
+#ck-button input:checked  ~ .unlike{
+    display: none;
+}
+#ck-button input[type="checkbox"] {
+    display: none;
+}
+/********************************************/
 
 /***************************************SEARCH BAR*************************************/
 
@@ -1479,7 +1586,7 @@ label.lenlabel {
     font-family: 'Nunito', sans-serif;
     line-height: 30px;
     margin-bottom: 3px;
-    text-transform: lowercase;
+    /*text-transform: lowercase;*/
 }
 
 .search-back-nav:hover h4{
@@ -1680,6 +1787,46 @@ input, button, select, textarea {
   float:left;  
 }
 
+/**************************************/
+/***************************************/
+
+.cb_cluster {
+  display: none;
+}
+
+#Result .cb_text {
+  display: inline-block;
+  position: relative;
+  padding-left: 25px;
+  /*font-size: 16px;
+  line-height: 20px;*/
+  margin: 5px;
+  float: right;
+  top: 84px;
+  margin-right: -77px;
+}
+#Result .cb_text:before {
+  line-height: 20px;
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  left: 0;
+  background-color: #ddd;
+  border: 1px solid #d2d2d2;
+}
+#Result input[type=checkbox]:checked + .cb_text:before,
+#Result .cb_text:hover:before {
+  content: "\2713";
+  color: #fff;
+  text-align: center;
+  line-height: 16px;
+  background-color: #fe7900;
+  border: 1px solid #fe7900;
+}
+
+/**************************************/
 
 .RatedMovie:hover{
   -webkit-transform: scale(1.1);
@@ -1709,7 +1856,7 @@ input, button, select, textarea {
     position: relative;
     float: right;
     top: 87px;
-    margin-right: 20px;
+    margin-right: 110px;
 }
 
 #btn_prev {

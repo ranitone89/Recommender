@@ -26,26 +26,22 @@ $(document).ready(function() {
         movieContent.hide();
         $(".Movie").show().removeAttr( 'style' );
         ratedMovies.show().removeAttr( 'style' );
-
-        $(".cluster1").css('border','1px solid #f1f1f1');
-        $(".cluster2").css('border','1px solid #f1f1f1');
-
-        $(".cluster1").show();
-        $(".cluster2").show();
-        
-        $('#Row1').show();
-        $('#Row2').show();
-        $('#Row3').show();
-        
-        $("#Row1").css('width', '621px');
-        $("#Row1").css('height', '255px');
-        
-        $("#Row2").css('width', '621px');
-        $("#Row2").css('height', '255px');
-        
-        $("#Row3").css('width', '621px');
-        $("#Row3").css('height', '255px');
-        
+        $(".cluster1").css('margin-left','0');
+        var i;
+        var cluster = ['cluster1','cluster2'];
+        for(i=0; i<cluster.length; i++){
+            $('.'+cluster[i]).css('border','1px solid #f1f1f1');
+            $('.'+cluster[i]).show();
+            $('.'+cluster[i]+ ' #Row1').show();
+            $('.'+cluster[i]+ ' #Row2').show();
+            $('.'+cluster[i]+ ' #Row3').show();
+            $('.'+cluster[i]+ ' #Row1').css('width', '621px');
+            $('.'+cluster[i]+ ' #Row1').css('height', '255px');
+            $('.'+cluster[i]+ ' #Row2').css('width', '621px');
+            $('.'+cluster[i]+ ' #Row2').css('height', '255px');
+            $('.'+cluster[i]+ ' #Row3').css('width', '621px');
+            $('.'+cluster[i]+ ' #Row3').css('height', '255px');
+        }
         $(".btn").show();
         $('.search-back-nav').hide();
         $('.tab-back-nav').show();
@@ -57,46 +53,48 @@ $(document).ready(function() {
     function showMovie(cluster,row) {
         if(cluster =="cluster1"){
             $(".cluster2").hide();
-            $(".cluster1").css('border','none');
+            $("."+cluster).css('border','none');
+            $(".cluster1").css('margin-left','130px');
             if(row=="Row1"){
-                $("#Row2").hide();
-                $("#Row3").hide();
-                $("#Row1").css('width', 'auto');
-                $("#Row1").css('height', 'auto');
+                $("."+cluster+" #Row2").hide();
+                $("."+cluster+" #Row3").hide();
+                $("."+cluster+" #Row1").css('width', 'auto');
+                $("."+cluster+" #Row1").css('height', 'auto');
             }
             if(row=="Row2"){
-                $("#Row1").hide();
-                $("#Row3").hide();
-                $("#Row2").css('width', 'auto');
-                $("#Row2").css('height', 'auto');
+                $("."+cluster+" #Row1").hide();
+                $("."+cluster+" #Row3").hide();
+                $("."+cluster+" #Row2").css('width', 'auto');
+                $("."+cluster+" #Row2").css('height', 'auto');
             }
             if(row=="Row3"){
-                $("#Row1").hide();
-                $("#Row2").hide();
-                $("#Row3").css('width', 'auto');
-                $("#Row3").css('height', 'auto');
+                $("."+cluster+" #Row1").hide();
+                $("."+cluster+" #Row2").hide();
+                $("."+cluster+" #Row3").css('width', 'auto');
+                $("."+cluster+" #Row3").css('height', 'auto');
             }
         }
         if(cluster =="cluster2"){
             $(".cluster1").hide();
-            $(".cluster2").css('border','none');
+            $("."+cluster).css('border','none');
+            
             if(row=="Row1"){
-                $("#Row2").hide();
-                $("#Row3").hide();
-                $("#Row1").css('width', 'auto');
-                $("#Row1").css('height', 'auto');
+                $("."+cluster+" #Row2").hide();
+                $("."+cluster+" #Row3").hide();
+                $("."+cluster+" #Row1").css('width', 'auto');
+                $("."+cluster+" #Row1").css('height', 'auto');
             }
             if(row=="Row2"){
-                $("#Row1").hide();
-                $("#Row3").hide();
-                $("#Row2").css('width', 'auto');
-                $("#Row2").css('height', 'auto');
+                $("."+cluster+" #Row1").hide();
+                $("."+cluster+" #Row3").hide();
+                $("."+cluster+" #Row2").css('width', 'auto');
+                $("."+cluster+" #Row2").css('height', 'auto');
             }
             if(row=="Row3"){
-                $("#Row1").hide();
-                $("#Row2").hide();
-                $("#Row3").css('width', 'auto');
-                $("#Row3").css('height', 'auto');
+                $("."+cluster+" #Row1").hide();
+                $("."+cluster+" #Row2").hide();
+                $("."+cluster+" #Row3").css('width', 'auto');
+                $("."+cluster+" #Row3").css('height', 'auto');
             }
         }
         $(".btn").hide();

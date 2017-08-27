@@ -1,6 +1,6 @@
 $(document).ready(function() {
     var slideIndex = [[0, 0, 0],[0, 0,0]];
-    var focus = 6;
+    var focus = 5;
     
     $(document).on("click", ".btn", function(event){
         var buttonid = $(this).attr('id');
@@ -11,7 +11,6 @@ $(document).ready(function() {
         var lenght = slider.length;
         cluster = checkCluster(cluster);
         row = checkRow(row);
-        //alert("C"+cluster+' Row'+row);
         checkIndex(buttonid,lenght,cluster,row);
         slide(slider,lenght,cluster,row);
    });
