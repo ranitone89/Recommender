@@ -845,6 +845,7 @@ html, body {
     border:1px solid #D0D0D0;
     float:left;
     margin-left: 200px;
+    margin-top: 10px;
 }
 
 #ck-button:hover {
@@ -1732,14 +1733,15 @@ input, button, select, textarea {
     overflow: hidden;
     /*white-space: nowrap;*/
     position: relative;
+    border: 1px solid #d8d8d8;
 }
 
 .cluster1, .cluster2 {
     margin-top: 40px;
-    width: 621px;
-    height: 800px;
+    width: 643px;
+    height: 819px;
     float: left;
-    border: 1px solid #f1f1f1;
+    border: 1px solid #d8d8d8;
 }
 
 .cluster1 .Movie {
@@ -1759,7 +1761,7 @@ input, button, select, textarea {
 }
 
 .cluster2 {
-    margin-left: 130px
+    margin-left: 90px;
 }
 
 .cluster2 .Movie {
@@ -1856,14 +1858,14 @@ input, button, select, textarea {
     position: relative;
     float: right;
     top: 87px;
-    margin-right: 110px;
+    margin-right: 100px;
 }
 
 #btn_prev {
     position: relative;
     float: left;
     top: 87px;
-    margin-left: 0px;
+    margin-left: 10px;
 }
 
 h5, h4{
