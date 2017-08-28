@@ -8,8 +8,9 @@ $(document).ready(function() {
         var $movie = $(this).closest('.Movie');
         var cluster = $(this).parents().eq(3).attr('class');
         var row = $(this).parents().eq(2).attr('id');
+        $('.cluster1 #ck-button').css('display','none');
+        $('.cluster2 #ck-button').css('display','none');
         showMovie(cluster,row);
-        
         movies = $(".Movie").not($movie);
         movieContent = $(this).closest('.Movie').children('.Content');
         
@@ -30,6 +31,7 @@ $(document).ready(function() {
         var i;
         var cluster = ['cluster1','cluster2'];
         for(i=0; i<cluster.length; i++){
+            $('.'+cluster[i] + ' #ck-button').css('display','block');
             $('.'+cluster[i]).css('border','1px solid #f1f1f1');
             $('.'+cluster[i]).show();
             $('.'+cluster[i]+ ' #Row1').show();

@@ -1719,7 +1719,7 @@ input, button, select, textarea {
   height:1200px;
   margin: 0 auto;
   clear: left;
-  display:inline
+  display:none;
 }
 
 #Row1, #Row2, #Row3{

@@ -94,20 +94,30 @@ function getMovies(movies,klaster,row){
   $('#Result').css("display","block");
   $('.cluster'+klaster+ '#Row'+row).css("display","block");
   
+  var focus = 5;
   var movieClass ='';
   for (var i = 0; i < movies.length; i++) {
-    var j = 0;
+    var movieNum = 0;
+    var poster = "";
+    
     $.getJSON('http://www.omdbapi.com/?t='+ encodeURI(movies[i])+ '&apikey=dc2f6d3a').then(function(response){
-        if(j<5){
+        if(movieNum<focus){
         movieClass ='Movie';
         }
         else{
             movieClass ='Movie hide';
         }
-        j = j+1;
+        movieNum = movieNum+1;
+        /*+ response.Poster +*/
+        if(response.Poster =="N/A"){
+            poster = "img/no_poster.png";
+        }
+        else{
+            poster = response.Poster;
+        }
         $('<div></div>')
             .addClass(''+movieClass).append('<div class="RatedMovie">' +
-                                        '<img src="'+ response.Poster + 
+                                        '<img src="'+ poster + '" '+ 
                                         'alt="' + response.Title + '" ' +
                                         'class="movieImage">' +  
                                         '<div id="textBlock">' + 
@@ -117,7 +127,7 @@ function getMovies(movies,klaster,row){
                                     '</div>'+
                                 '<div class="Content">' +
                                     '<div class="MovieImage">' +
-                                    '<img width="204" height="350" src="'+ response.Poster + 
+                                    '<img width="204" height="350" src="'+ poster + '" '+ 
                                     'alt="' + response.Title + '"> '+ 
                                     '</div>' +
                                     '<div class="MovieInfos">'+
