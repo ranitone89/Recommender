@@ -28,8 +28,9 @@ $(document).ready(function() {
     $(document).on('click', '.mutliSelect input[type="checkbox"]', function(event){
       var title = $(this).closest('.mutliSelect').find('input[type="checkbox"]').val(),
         title = $(this).val() + ",";
+        var OriginalHeight;
         var genreLengt = $('.multiSel').children().length;
-        
+        var actorBoxlenght = $("#actors").height();
         $("span.multiSel").each(function(){
             if($.trim($("span.multiSel").html()).length==0)
             alert('Empty');
@@ -38,6 +39,7 @@ $(document).ready(function() {
         if ($(this).is(':checked')) {
           var html = '<span title="' + title + '">' + title + '</span>';
           $('.multiSel').append(html);
+          OriginalHeight = $(".dropdown").height();
           $(".hida").hide();
         } 
         else {
@@ -47,7 +49,9 @@ $(document).ready(function() {
             $('span[title="' + title + '"]').remove();
             var ret = $(".hida");
             $('.dropdown dt a').append(ret);
+            OriginalHeight = $(".dropdown").height();
           }
+          $('#actors').css('height',OriginalHeight);
     });
     
 

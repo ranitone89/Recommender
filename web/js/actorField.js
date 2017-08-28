@@ -5,17 +5,20 @@
  */
 
 $(document).ready(function() {
-    $("#search").on('change keyup paste', function(){
-        var OriginalHeight = $(".dropdown").height();
-
+    $("#actors").on('change keyup paste', function(){
+        var genreBoxlenght = $(".dropdown").height();
+        var actorBoxlenght;
+        var height = 0;
+        
         if (!$.trim($(this).val())) {
-            $(this).css('height',''+OriginalHeight);
+            $(this).css('height',''+genreBoxlenght);
             $(this).css('padding','13 19 12 10');
         }
         else{
             $(this).css('height','auto');
-            $(this).height(this.scrollHeight);
+            $(this).height(this.scrollHeight-15);
+            $(this).css('min-height',(this.scrollHeight-10));
         }
     });
-    $("#search").attr('rows', '1');
+    $("#actors").attr('rows', '1');
 }); 
