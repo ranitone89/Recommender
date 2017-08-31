@@ -26,33 +26,47 @@ $(document).ready(function() {
 
 
     $(document).on('click', '.mutliSelect input[type="checkbox"]', function(event){
-      var title = $(this).closest('.mutliSelect').find('input[type="checkbox"]').val(),
-        title = $(this).val() + ",";
-        var OriginalHeight;
+        var title = $(this).closest('.mutliSelect').find('input[type="checkbox"]').val(),title = $(this).val() + ",";
         var genreLengt = $('.multiSel').children().length;
-        var actorBoxlenght = $("#actors").height();
-        $("span.multiSel").each(function(){
-            if($.trim($("span.multiSel").html()).length==0)
-            alert('Empty');
-        });
-
+        var genreEmpty = (genreLengt == 1);
+        var genreHeight = 0;
+        
         if ($(this).is(':checked')) {
           var html = '<span title="' + title + '">' + title + '</span>';
           $('.multiSel').append(html);
-          OriginalHeight = $(".dropdown").height();
           $(".hida").hide();
+          genreHeight = $(".dropdown").height();
         } 
         else {
-            if(genreLengt == 1){
+            if(genreEmpty){
                 $(".hida").show();
+                $('#actors').css('height','');
+                $(this).css('min-height','25');
             }
             $('span[title="' + title + '"]').remove();
             var ret = $(".hida");
             $('.dropdown dt a').append(ret);
-            OriginalHeight = $(".dropdown").height();
+            genreHeight = $(".dropdown").height();
           }
-          $('#actors').css('height',OriginalHeight);
+          $('#actors').css('height',genreHeight);
     });
     
+    $("#actors").on('change keyup paste', function(){
+        var OriginalHeight = $(".dropdown").height();
 
+        if (!$.trim($(this).val())) {
+            actorHeight = $(this).height();
+            $(this).css('height','');
+            $('.dropdown dt a').css('min-height','');
+            $(this).css('padding','13 19 12 10');
+        }
+        else{
+            $(this).css('height','auto');
+            $(this).height(this.scrollHeight-15);
+            $('.dropdown dt a').css('min-height',this.scrollHeight-15);
+            actorHeight = $(this).height();
+        }
+        $("#actors").attr('rows', '1');
+    });
+   
 });

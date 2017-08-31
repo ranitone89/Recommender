@@ -6,19 +6,18 @@
 
 $(document).ready(function() {
     $("#actors").on('change keyup paste', function(){
-        var genreBoxlenght = $(".dropdown").height();
-        var actorBoxlenght;
-        var height = 0;
-        
+        var OriginalHeight = $(".dropdown").height();
         if (!$.trim($(this).val())) {
-            $(this).css('height',''+genreBoxlenght);
+            $(this).css('height','');
+            $('.dropdown dt a').css('min-height','');
             $(this).css('padding','13 19 12 10');
         }
         else{
             $(this).css('height','auto');
             $(this).height(this.scrollHeight-15);
-            $(this).css('min-height',(this.scrollHeight-10));
+            $('.dropdown dt a').css('min-height',this.scrollHeight-15);
         }
+        $("#actors").attr('rows', '1');
     });
-    $("#actors").attr('rows', '1');
+    //$("#actors").attr('rows', '1');
 }); 

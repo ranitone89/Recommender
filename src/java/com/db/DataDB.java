@@ -144,14 +144,17 @@ public class DataDB {
                     + "AND moviedata.actorid = actors.actorid "
                     + "AND actors.name LIKE ANY(?) "
                     + "AND moviedata.genre = ANY(?) "
-                    + "AND moviedata.year BETWEEN (?) AND (?) "
-                    + "AND runningtimes.time BETWEEN (?) AND (?) "
+                    + "AND moviedata.year BETWEEN (?) AND (?)"
+                    //+ "AND runningtimes.time BETWEEN (?) AND (?) "
                     + "AND ratings.rank::float BETWEEN (?) AND 10 "
                     + "GROUP BY 1 ";
             
             Array listActors = connection.createArrayOf("text", actors);
             Array listGenres = connection.createArrayOf("text", genres);
             float rating = Float.parseFloat(minStar);
+            /*int minRel = Integer.parseInt(minReleased);
+            int maxRel = Integer.parseInt(maxReleased);*/
+            
             ps = connection.prepareStatement(sql);
 
             //setting the parameters
@@ -159,9 +162,9 @@ public class DataDB {
             ps.setArray(2, listGenres);
             ps.setString(3, minReleased);
             ps.setString(4, maxReleased);
-            ps.setString(5, minLenght);
-            ps.setString(6, maxLenght);
-            ps.setFloat(7, rating);
+            /*ps.setString(5, minLenght);
+            ps.setString(6, maxLenght);*/
+            ps.setFloat(5, rating);
 
             //executing the prepared statement, which returns a ResultSet
             ResultSet rs = ps.executeQuery();
