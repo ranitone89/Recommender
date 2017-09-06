@@ -860,7 +860,7 @@ html, body {
 
 #ck-button label span {
     text-align:center;
-    padding:15px 0px;
+    padding:10px 0px;
     display:block;
 }
 
@@ -1150,11 +1150,14 @@ input[type=submit]:hover {
 }
 
 div#messageSearch {
-    margin-left: 10px;
     width: 1290px;
     margin: 8px auto;
 }
-
+div#messageSurvey {
+    width: 1290px;
+    text-align: center;
+    margin-left: 210px;
+}
 /**************************Genres*************************/
 
 
@@ -1716,7 +1719,7 @@ input, button, select, textarea {
 #Result{
   margin-top:2%;
   width:1400px;
-  height:1200px;
+  height: 950px;
   margin: 0 auto;
   clear: left;
   display:none;
@@ -1736,9 +1739,28 @@ input, button, select, textarea {
     border: 1px solid #d8d8d8;
 }
 
-img.question_icon {
-    float: left;
-    margin-left: 6px;
+.title .question_icon{
+    margin-top: 18px;
+    display: inherit;
+}
+
+.title .question_icon_hover{
+    margin-top: 18px;
+    display:none;
+}
+
+.title:hover img.question_icon_hover {
+    display: inherit;
+}
+
+.title:hover img.question_icon {
+    display: none;
+}
+
+.more_details{
+    margin-left: 250px;
+    width: 800px;
+    margin-top: 10px;
 }
 
 div#Row1 {
@@ -1755,27 +1777,33 @@ div#Row2 {
 
 .methods {
     margin-top: 40px;
+    text-align: center;
 }
 #method1,#method2 {
     float: left;
     text-transform: none;
     color: #666;
+    text-transform: uppercase;
 }
 
-h4#method2 {
-    float: right;
-    margin-right: 250px;
+#method2 {
+    width: 643px;
+    margin-left: 90px;
 }
 
-h4#method1 {
-    margin-left: 200px;
+#method1 {
+    width: 643px;
+    margin-left: 150px;
 }
-h4.main-text {
+.main-text {
     text-transform: none;
     color: #666;
     margin-top: 2px;
     float: left;
+    margin-left: 250px;
+    margin-right: 7px;
 }
+
 .cluster1, .cluster2 {
     margin-top: 40px;
     width: 643px;
@@ -1827,6 +1855,26 @@ h4.main-text {
   width:180px;
   height:339px;
   float:left;  
+}
+
+.survey input[type=submit]:hover {
+    background-color: #ee7d13;
+    margin: 60px 45px;
+    color: white;
+}
+
+.survey input[type=submit] {
+    width: 15%;
+    background-color: #ddd;
+    color: black;
+    padding: 12px 20px;
+    margin: 60px 45px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    right: 41%;
+    float: right;
 }
 
 /**************************************/
@@ -2203,12 +2251,13 @@ p {
 }
 
 
-label.cb_text_label {
+.cb_text_label {
     font-size: 12px;
     float: right;
     width: 83px;
     margin-right: -107px;
     margin-top: 42px;
+    color: red;
 }
 /******************************FOOTER*********************/
 

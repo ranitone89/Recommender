@@ -40,6 +40,8 @@
     <script src="js/loadMovies.js" type="text/javascript"></script>
     <script src="js/initStar.js" type="text/javascript"></script>
     <script src="js/movieSearchDetail.js" type="text/javascript"></script>
+    <script src="js/titleDetail.js" type="text/javascript"></script>
+    <script src="js/submitSurvey.js" type="text/javascript"></script>
     <!--script src="js/movieSearchSlide.js" type="text/javascript"></script-->
   </head>
     
@@ -295,7 +297,7 @@
                     </div>
                     <div class="row"> 
                         <div class="item">
-                            <input type="submit" value="Submit" class="submitBtn"/>
+                            <input type="submit" value="Search" class="submitBtn"/>
                         </div>
                     </div>
                 </div>         
@@ -328,13 +330,13 @@
             <div class="search-back-nav">
                 <img class="default" src="img/back-left.png"> 
                 <img class="hover" src="img/arrow-left-hover.png">
-                <h4 class="backLink"> Back to start</h4>
+                <h4 class="backLink"> Back to results</h4>
                 <div style="clear: both;"></div>
            </div>
             <div class="tab-back-nav">
                 <img class="default" src="img/back-left.png"> 
                 <img class="hover" src="img/arrow-left-hover.png"> 
-                <h4 class="backLink"> Back to results</h4>
+                <h4 class="backLink"> Back to start</h4>
                 <div style="clear: both;"></div>
            </div>
            <!--------------------------------- TAB CONTENT ------------------------------------------>
@@ -346,15 +348,21 @@
 
             <div id="Cooming" class="tabcontent" >
             </div>
-            <div class="title" style="display: block;">
+            <div class="title" style="display: none;">
                 <h4 class="main-text">In this section you need to select the group of recommendations that response better to you - choose between methode 1 and methode 2.</h4>
-                <img class="quetion_icon" src="img/q.png"> 
+                <img class="question_icon more" src="img/add_default.png">
+                <img class="question_icon_hover more" src="img/add.png">
+                <span class="more_details" style="display:none">
+                In order to make better recommendations for you, you need to choose between two methods. In order to do that you need to select for each row one recommendation that you perfer.
+                The rows between you should choose have allways the same color and contains a group of movies that we recommend to you.And the end you need to choose method that in your opinion matches your personal tastes.
+      
+                </span>
             </div>
            
              
-                <div class="methods">
-                    <h4 id="method1">Recommendation generated with the first Method</h4>
-                    <h4 id="method2">Recommendation generated with the first Method</h4>
+                <div class="methods" style="display: none;">
+                    <h4 id="method1">Method one</h4>
+                    <h4 id="method2">Method two</h4>
                 </div>
             <div id="Result">
                 <div class="cluster1">
@@ -386,12 +394,16 @@
                     </div>
                     <div id="ck-button">
                         <label class="cb_label">
-                           <input type="checkbox" value="1">
+                           <input type="checkbox" value="2">
                            <span class="unlike"> <img src="img/unlike.png"/> Unlike</span>
                            <span class="like"> <img src="img/like.png"/> Like</span>
                         </label>
                      </div>
                 </div>
+            </div>
+           <div id="messageSurvey" style="display:none"></div>
+            <div class="survey" style="display:none">
+                <input type="submit" value="Submit" class="submitSurvey"/>
             </div>
             
             <!---------------------------------------------------------------------------------------->

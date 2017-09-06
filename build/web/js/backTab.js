@@ -2,7 +2,7 @@ function backToTab(evt) {
     var $activeTab = $('.tab-nav li.active');
     var indexActive = $activeTab.index();
     alert(indexActive);
-       
+
     if(indexActive==0){
        alert('TopRated zuruck');
        document.getElementById("topRated").click();

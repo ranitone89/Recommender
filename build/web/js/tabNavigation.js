@@ -7,6 +7,8 @@
 $(document).ready(function() {
         $(document).on("click", ".tab-back-nav", function(event){
         var $movie = $(this).closest('.Movie');
+        $('.title').css('display', 'none');
+        $('.methods').css('display', 'none');
         
         var $activeTab = $('.tab-nav li.active');
         var indexActive = $activeTab.index();

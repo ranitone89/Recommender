@@ -139,6 +139,9 @@ $(document).ready(function() {
     function showMessage(results){
         if(results != null){
             var recommendation = covertToArray(results,'r');
+            $('.survey').css('display', 'block');
+            $('.title').css('display', 'block');
+            $('.methods').css('display', 'block');
             getMovies(recommendation,1,1);
             getMovies(recommendation,1,2);
             getMovies(recommendation,1,3);
@@ -248,11 +251,12 @@ $(document).ready(function() {
             });
             }
         var cb = 'cb_cluster'+klaster+row;
+        var lb = 'lb_'+klaster+row;
         $('.cluster'+klaster+' #Row'+row).append('<button class="btn" id="btn_prev">&#10094</button>');
         $('.cluster'+klaster+' #Row'+row).append('<button class="btn" id="btn_next">&#10095</button>');
         $('.cluster'+klaster+' #Row'+row).append('<input id="'+cb+'" type="checkbox" class="cb_cluster">');
         $('.cluster'+klaster+' #Row'+row).append('<label class="cb_text" for="'+cb+'"></label>');
-        $('.cluster'+klaster+' #Row'+row).append('<label class="cb_text_label">I like this recommendation</label>');
+        $('.cluster'+klaster+' #Row'+row).append('<label id="'+lb+'" class="cb_text_label"></label>');
     }
     
     function covertToArray(array, string) 

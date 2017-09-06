@@ -5,6 +5,10 @@ $(document).ready(function() {
     var ratedMovies;
     
     $(document).on("click", ".RatedMovie img", function(event){
+        $('.survey').css('display', 'none');
+        $('.title').css('display', 'none');
+        $('.methods').css('display', 'none');
+        
         var $movie = $(this).closest('.Movie');
         var cluster = $(this).parents().eq(3).attr('class');
         var row = $(this).parents().eq(2).attr('id');
@@ -24,6 +28,11 @@ $(document).ready(function() {
    });
    
     $(document).on("click", ".search-back-nav ", function(event){
+        
+        $('.title').css('display', 'block');
+        $('.methods').css('display', 'block');
+        $('.survey').css('display', 'block');
+            
         movieContent.hide();
         $(".Movie").show().removeAttr( 'style' );
         ratedMovies.show().removeAttr( 'style' );
