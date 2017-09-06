@@ -1736,6 +1736,46 @@ input, button, select, textarea {
     border: 1px solid #d8d8d8;
 }
 
+img.question_icon {
+    float: left;
+    margin-left: 6px;
+}
+
+div#Row1 {
+    background-color: #f1f1f1;
+}
+
+div#Row3 {
+    background-color: #d9f5da;
+}
+
+div#Row2 {
+    background-color: #ffeaea;
+}
+
+.methods {
+    margin-top: 40px;
+}
+#method1,#method2 {
+    float: left;
+    text-transform: none;
+    color: #666;
+}
+
+h4#method2 {
+    float: right;
+    margin-right: 250px;
+}
+
+h4#method1 {
+    margin-left: 200px;
+}
+h4.main-text {
+    text-transform: none;
+    color: #666;
+    margin-top: 2px;
+    float: left;
+}
 .cluster1, .cluster2 {
     margin-top: 40px;
     width: 643px;
@@ -1935,7 +1975,7 @@ h5{
 }
 .Movie .Content .MovieInfos {
     display: block;
-    margin-left: 30px;
+    margin-left: 25px;
     margin-top: 0px;
     float:left;
 }
@@ -1945,8 +1985,9 @@ h5{
 	font-size: 22px;
 	font-weight: bold;
 	margin-top: 0;
+        width: 490px;
 	text-transform: uppercase;
-    font-family: 'Nunito', sans-serif;
+        font-family: 'Nunito', sans-serif;
 }
 
 .Content .MovieInfos .pg {
@@ -2161,6 +2202,14 @@ p {
     font-family: 'Nunito', sans-serif;
 }
 
+
+label.cb_text_label {
+    font-size: 12px;
+    float: right;
+    width: 83px;
+    margin-right: -107px;
+    margin-top: 42px;
+}
 /******************************FOOTER*********************/
 
 footer{ 

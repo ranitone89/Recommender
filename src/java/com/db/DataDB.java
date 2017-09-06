@@ -144,27 +144,28 @@ public class DataDB {
                     + "AND moviedata.actorid = actors.actorid "
                     + "AND actors.name LIKE ANY(?) "
                     + "AND moviedata.genre = ANY(?) "
-                    + "AND moviedata.year BETWEEN (?) AND (?)"
-                    //+ "AND runningtimes.time BETWEEN (?) AND (?) "
+                    + "AND movie_year(moviedata.year) BETWEEN (?) AND (?) "
+                    + "AND movie_runningtime(runningtimes.time) BETWEEN (?) AND (?) "
                     + "AND ratings.rank::float BETWEEN (?) AND 10 "
                     + "GROUP BY 1 ";
             
             Array listActors = connection.createArrayOf("text", actors);
             Array listGenres = connection.createArrayOf("text", genres);
             float rating = Float.parseFloat(minStar);
-            /*int minRel = Integer.parseInt(minReleased);
-            int maxRel = Integer.parseInt(maxReleased);*/
-            
+            int minRel = Integer.parseInt(minReleased);
+            int maxRel = Integer.parseInt(maxReleased);
+            int minLen = Integer.parseInt(minLenght);
+            int maxLen = Integer.parseInt(maxLenght);            
             ps = connection.prepareStatement(sql);
 
             //setting the parameters
             ps.setArray(1, listActors);
             ps.setArray(2, listGenres);
-            ps.setString(3, minReleased);
-            ps.setString(4, maxReleased);
-            /*ps.setString(5, minLenght);
-            ps.setString(6, maxLenght);*/
-            ps.setFloat(5, rating);
+            ps.setInt(3, minRel);
+            ps.setInt(4, maxRel);
+            ps.setInt(5, minLen);
+            ps.setInt(6, maxLen);
+            ps.setFloat(7, rating);
 
             //executing the prepared statement, which returns a ResultSet
             ResultSet rs = ps.executeQuery();

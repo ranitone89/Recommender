@@ -252,6 +252,7 @@ $(document).ready(function() {
         $('.cluster'+klaster+' #Row'+row).append('<button class="btn" id="btn_next">&#10095</button>');
         $('.cluster'+klaster+' #Row'+row).append('<input id="'+cb+'" type="checkbox" class="cb_cluster">');
         $('.cluster'+klaster+' #Row'+row).append('<label class="cb_text" for="'+cb+'"></label>');
+        $('.cluster'+klaster+' #Row'+row).append('<label class="cb_text_label">I like this recommendation</label>');
     }
     
     function covertToArray(array, string) 
