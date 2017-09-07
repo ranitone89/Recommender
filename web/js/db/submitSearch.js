@@ -1,7 +1,7 @@
 $(document).ready(function() {
     var slideIndex = [[0, 0, 0],[0, 0,0]];
     var focus = 5;
-    
+
     $(document).on("click", ".btn", function(event){
         var buttonid = $(this).attr('id');
         var cluster = $(this).parents().eq(1).attr('class');
@@ -14,9 +14,9 @@ $(document).ready(function() {
         checkIndex(buttonid,lenght,cluster,row);
         slide(slider,lenght,cluster,row);
    });
-   
+
     /**
-     * Check Index 
+     * Check Index
      */
     function checkIndex(id,lenght,cluster,row) {
         if(id=="btn_prev"){
@@ -33,7 +33,7 @@ $(document).ready(function() {
                 slideIndex[cluster][row] = (lenght-focus);
             }
             else{
-                slideIndex[cluster][row] = slideIndex[cluster][row]+1;                
+                slideIndex[cluster][row] = slideIndex[cluster][row]+1;
             }
         }
     }
@@ -46,12 +46,12 @@ $(document).ready(function() {
         for(i=0; i<lenght;i++ ){
             $(slider).eq(i).addClass('hide');
         }
- 
+
         for(i=slideIndex[cluster][row]; i<(slideIndex[cluster][row]+focus);i++ ){
-            $(slider).eq(i).removeClass('hide'); 
+            $(slider).eq(i).removeClass('hide');
         }
     }
-    
+
     /**
      * Cluster
      */
@@ -67,13 +67,12 @@ $(document).ready(function() {
         var r = parseInt(row.replace(/Row/, ''))-1;
         return r;
     }
-    
-    
+
+
     /************************** Submit Search *********************/
-    
+
     $(document).on("click", ".submitBtn", function(event){
         slideIndex = [[0, 0, 0],[0, 0,0]];
-        alert('submitBtn');
         var actors = removeLastComma($('#actors').val());
         var genres = removeLastComma($('.multiSel').text());
 
@@ -94,7 +93,6 @@ $(document).ready(function() {
              return;
          }
          else{
-             alert('Message None');
              var actorList = covertToArray(actors,'a');
              var genreList = covertToArray(genres,'g');
 
@@ -104,7 +102,6 @@ $(document).ready(function() {
              beforeSend: function(){
                  $('#loading').show();
                  $('#loading').css("visibility", "visible");
-                 alert('Before');
              },
              data : {
                  actorList : actorList,
@@ -131,7 +128,7 @@ $(document).ready(function() {
                  }
              }
             });
-         }     
+         }
      });
 
 
@@ -162,7 +159,7 @@ $(document).ready(function() {
         }
     }
 
-    function getMovies(movies,klaster,row){ 
+    function getMovies(movies,klaster,row){
       $('#TopRated').css("display","none");
       $('#New').css("display","none");
       $('#Cooming').css("display","none");
@@ -191,30 +188,31 @@ $(document).ready(function() {
             else{
                 poster = response.Poster;
             }
-            $('<div></div>')
+            if(poster !== 'undefined'){
+                $('<div></div>')
                 .addClass(''+movieClass).append('<div class="RatedMovie">' +
-                                            '<img src="'+ poster + '" '+ 
+                                            '<img src="'+ poster + '" '+
                                             'alt="' + response.Title + '" ' +
-                                            'class="movieImage">' +  
-                                            '<div id="textBlock">' + 
-                                            '<h4>' + response.Title + '</h4>' + 
-                                            '<h5>Realese: ' + response.Released + '</h5>' + 
+                                            'class="movieImage">' +
+                                            '<div id="textBlock">' +
+                                            '<h4>' + response.Title + '</h4>' +
+                                            '<h5>Realese: ' + response.Released + '</h5>' +
                                             '</div>'+
                                         '</div>'+
                                     '<div class="Content">' +
                                         '<div class="MovieImage">' +
-                                        '<img width="204" height="350" src="'+ poster + '" '+ 
-                                        'alt="' + response.Title + '"> '+ 
+                                        '<img width="204" height="350" src="'+ poster + '" '+
+                                        'alt="' + response.Title + '"> '+
                                         '</div>' +
                                         '<div class="MovieInfos">'+
                                         '<h1 class="MovieTitle">'+ response.Title +
-                                        '</h1>' + 
-                                        '<div id="MovieDur">' + 
-                                        '<span class="pg">G</span>' + 
-                                        '<span class="duration">' + 
-                                        '<i class="fa fa-clock-o"></i>'+ response.Runtime + '</span>' + 
+                                        '</h1>' +
+                                        '<div id="MovieDur">' +
+                                        '<span class="pg">G</span>' +
+                                        '<span class="duration">' +
+                                        '<i class="fa fa-clock-o"></i>'+ response.Runtime + '</span>' +
                                         '</div>'+
-                                        '<ul class="info-list">' + 
+                                        '<ul class="info-list">' +
                                             '<li><label>Actors:</label>' +
                                             '<span>'+response.Actors + '</span></li>'+
                                             '<li><label>Director:</label>' +
@@ -235,11 +233,11 @@ $(document).ready(function() {
                                                   '<ul class="mv-rating-stars">'+
                                                     '<li class="mv-current-rating user-rating" data-point="92%" style="width: 92%;">'+
                                                     '</li>'+
-                                                  '</ul>'+    
+                                                  '</ul>'+
                                                   '<span class="mcount">'+response.imdbVotes+' votes</span>'+
                                                   '<span class="rate">'+response.imdbRating+'</span>'+
                                             '</div>'+
-                                        '</div>'+  
+                                        '</div>'+
                                     '</div>'+
                                     '<div class="clearfix"></div>'+
                                     '<div class="Synopsis" itemprop="description articleBody">'+
@@ -248,6 +246,7 @@ $(document).ready(function() {
                                     '</div>'+
                                 '</div>')
                 .appendTo('.cluster'+klaster+' #Row'+row);
+                }
             });
             }
         var cb = 'cb_cluster'+klaster+row;
@@ -258,8 +257,8 @@ $(document).ready(function() {
         $('.cluster'+klaster+' #Row'+row).append('<label class="cb_text" for="'+cb+'"></label>');
         $('.cluster'+klaster+' #Row'+row).append('<label id="'+lb+'" class="cb_text_label"></label>');
     }
-    
-    function covertToArray(array, string) 
+
+    function covertToArray(array, string)
     {
         var theArray = '';
 
@@ -285,14 +284,14 @@ $(document).ready(function() {
                     }
                 }
             }
-            
+
         }
 
         if(string =='g'){
             theArray = array.split(",");
             for (var i = 0; i < theArray.length; i++) {
                 if(theArray[i]!=="") {
-                  var tmp = theArray[i]; 
+                  var tmp = theArray[i];
                   theArray[i] = tmp;
                 }
             }
@@ -300,14 +299,15 @@ $(document).ready(function() {
 
         if(string =='r'){
             theArray = array.split(", ");
-            for (var i = 0; i < theArray.length; i++) { 
+            //alert(theArray);
+            for (var i = 0; i < theArray.length; i++) {
                 var tmp = theArray[i].substring(0, theArray[i].indexOf('('));
                 tmp = tmp.replace('[','');
                 theArray[i] = tmp;
-                }
             }
+        }
 
-        return unique(theArray);
+        return unique(removeEmptyElements(theArray));
     }
 
     function unique(list) {
@@ -319,6 +319,16 @@ $(document).ready(function() {
     }
 
     function removeLastComma(str) {
-       return str.replace(/,(\s+)?$/, '');   
+       return str.replace(/,(\s+)?$/, '');
     }
-}); 
+
+    function removeEmptyElements(array) {
+        var newArray = [];
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] !== "" && array[i] !== null) {
+                newArray.push(array[i]);
+            }
+        }
+        return newArray;
+    }
+});

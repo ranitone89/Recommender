@@ -9,11 +9,9 @@
     <meta name="keywords" content="example, html, head, meta">
     <link rel="stylesheet" href="css/start.css">
     <link rel="start" href="https://wiki.selfhtml.org/wiki/HTML" title="HTML-Dokumentation">
-    <!--link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"-->
     <link href="css/jquery-ui.css" rel="stylesheet" type="text/css"/>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-    <!--script src="js/libs/jssor.slider-25.0.7.min.js" type="text/javascript"></script-->
     <script src="js/libs/jssor.slider-25.1.0.min.js" type="text/javascript"></script>
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
@@ -26,10 +24,9 @@
     <script src="js/rangeSlider.js"></script>
     <script src="js/lenghtSlider.js"></script>
     <script src="js/db/submitSearch.js"></script>
-    <script src="js/tabButton.js"></script>
     <script src="js/genresBoxes.js"></script>
+    <script src="js/searchTab.js" type="text/javascript"></script>
     <script src="js/db/autocompleter.js" type="text/javascript"></script>
-    <!--script src="js/actorField.js" type="text/javascript"></script-->
     <script src="js/starRating.js" type="text/javascript"></script>
     <script src="js/starSlider.js" type="text/javascript"></script>
     <script src="js/rangeSliders.js" type="text/javascript"></script>
@@ -42,7 +39,6 @@
     <script src="js/movieSearchDetail.js" type="text/javascript"></script>
     <script src="js/titleDetail.js" type="text/javascript"></script>
     <script src="js/submitSurvey.js" type="text/javascript"></script>
-    <!--script src="js/movieSearchSlide.js" type="text/javascript"></script-->
   </head>
     
     
@@ -124,8 +120,8 @@
                     </div>
                 </div>
                 <div class="button-container">
-                    <div class="button-content">
-                        <button class="button" onclick="tabButton()">Search for movies</button>
+                    <div class="button-content open">
+                        <button class="button">Search for movies</button>
                     </div>
                 </div>
                 <!------------------ SEARCH BAR--------------------------------------------------------->                   
@@ -376,7 +372,7 @@
                     </div>
                     <div id="ck-button">
                         <label class="cb_label">
-                           <input type="checkbox" value="1">
+                           <input id="cl1_like" type="checkbox" value="1">
                            <span class="unlike"> <img src="img/unlike.png"/> Unlike</span>
                            <span class="like"> <img src="img/like.png"/> Like</span>
                         </label>
@@ -394,16 +390,28 @@
                     </div>
                     <div id="ck-button">
                         <label class="cb_label">
-                           <input type="checkbox" value="2">
+                           <input id="cl2_like" type="checkbox" value="2">
                            <span class="unlike"> <img src="img/unlike.png"/> Unlike</span>
                            <span class="like"> <img src="img/like.png"/> Like</span>
                         </label>
                      </div>
                 </div>
             </div>
-           <div id="messageSurvey" style="display:none"></div>
+            <div id="messageSurvey" style="display:none"></div>
             <div class="survey" style="display:none">
                 <input type="submit" value="Submit" class="submitSurvey"/>
+            </div>
+           
+            <div id="id02" class="modal" style="display:none">
+                <span class="close" title="Close Modal"><a>×</a></span>
+                <div class="modal-content animate">
+                    <div class="formular-container">
+                        <p>Thank you for taking the time to complete this survey. 
+                            We truly value the information you have provided. 
+                            Your responses will contribute to our analyses of the texts and suggest new lines of approach to the corpus data.
+                        </p> 
+                    </div>
+                </div>
             </div>
             
             <!---------------------------------------------------------------------------------------->

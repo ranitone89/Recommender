@@ -12,7 +12,7 @@ $(document).ready(function() {
     function rangeInputChangeEventHandler(e){
         var value = $(this).val();
         range_star = $(this).parent().children('.range_star');
-        //alert(value);
+
         if (value >= 0 && value<10) {
             for (i = value; i <=10; i++) { 
                 if(i>=value)

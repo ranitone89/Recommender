@@ -1158,6 +1158,77 @@ div#messageSurvey {
     text-align: center;
     margin-left: 210px;
 }
+
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+    display:none;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 600px; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+
+.close a{
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.close a:hover,
+.close a:focus {
+    color: red;
+    cursor: pointer;
+}
+
+/* Clear floats */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.formular-container {
+    height: 250px;
+}
+
+.formular-container p {
+    margin: 20px 20px;
+    font-size: 14px;
+    text-align: left;
+    color: #666;
+}
+
 /**************************Genres*************************/
 
 
@@ -1932,7 +2003,7 @@ div#Row2 {
     background: #666;
     color: white;
     outline: none;
-    z-index: 12;
+    z-index: 1;
 }
 
 .btn:hover{

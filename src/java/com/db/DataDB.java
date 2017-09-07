@@ -173,6 +173,7 @@ public class DataDB {
                 while(rs.next())
                 {
                     String columnValue = rs.getString(2);
+                    System.out.println(""+columnValue);
                     results.add(columnValue);
                 }
                 System.out.println("SUCCESS SEARCH");
