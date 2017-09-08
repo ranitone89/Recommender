@@ -7,11 +7,12 @@ package com.servlets;
 
 import com.db.DataDB;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.movie.Movie;
 /**
  *
  * @author Nemanja Ranitovic
@@ -42,11 +43,32 @@ public class Search extends HttpServlet {
             DataDB dataDao = new DataDB();
             
             String message = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres);
+            ArrayList<Movie> movies = dataDao.getMovies(movieArray(message));
+
+            for(Movie m:movies) {
+                
+                System.out.println("Title: "+m.getTitle() + "\n Actors: " + m.printActors());
+            }
+            
+            System.out.println("Lenght: "+movies.size());
+
+            
             response.getWriter().write(message);
 
         } 
         catch (Exception e) {
             System.err.println(e.getMessage());
         }
+    }
+    
+    private String[] movieArray(String str){
+        String[] temp;
+
+        /* delimiter */
+        String delimiter = ", ";
+        /* given string will be split by the argument delimiter provided. */
+        temp = str.replace("[","").replace("]","").split(delimiter);
+        /* print substrings */
+        return temp;
     }
 }

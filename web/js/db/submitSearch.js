@@ -167,35 +167,44 @@ $(document).ready(function() {
       $('#Result').css("display","block");
       $('.cluster'+klaster+ '#Row'+row).css("display","block");
 
-      var focus = 5;
+      //var focus = 5;
       var movieClass ='';
       for (var i = 0; i < movies.length; i++) {
         var movieNum = 0;
         var poster = "";
+        var title = "";
 
         $.getJSON('http://www.omdbapi.com/?t='+ encodeURI(movies[i])+ '&apikey=dc2f6d3a').then(function(response){
-            if(movieNum<focus){
+            /*if(movieNum<focus){
             movieClass ='Movie';
             }
             else{
                 movieClass ='Movie hide';
-            }
-            movieNum = movieNum+1;
-            /*+ response.Poster +*/
-            if(response.Poster =="N/A"){
+            }*/
+            movieClass = showHideMovie(movieNum);
+            if(response.Poster ==="N/A"){
                 poster = "img/no_poster.png";
             }
             else{
                 poster = response.Poster;
+            }            
+            
+            if(response.Title ==="undefined"){
+                title = "undefined";
             }
-            if(poster !== 'undefined'){
+            else{
+                title = response.Title;
+            }            
+            movieNum = movieNum+1;
+            
+            if(title!==undefined){
                 $('<div></div>')
                 .addClass(''+movieClass).append('<div class="RatedMovie">' +
                                             '<img src="'+ poster + '" '+
-                                            'alt="' + response.Title + '" ' +
+                                            'alt="' + title + '" ' +
                                             'class="movieImage">' +
                                             '<div id="textBlock">' +
-                                            '<h4>' + response.Title + '</h4>' +
+                                            '<h4>' + title + '</h4>' +
                                             '<h5>Realese: ' + response.Released + '</h5>' +
                                             '</div>'+
                                         '</div>'+
@@ -248,7 +257,7 @@ $(document).ready(function() {
                 .appendTo('.cluster'+klaster+' #Row'+row);
                 }
             });
-            }
+        }
         var cb = 'cb_cluster'+klaster+row;
         var lb = 'lb_'+klaster+row;
         $('.cluster'+klaster+' #Row'+row).append('<button class="btn" id="btn_prev">&#10094</button>');
@@ -270,17 +279,13 @@ $(document).ready(function() {
                     if(tmp.length>=3){
                         if(tmp[tmp.length-1]=="Jr."){ //|| tmp[tmp.length-1]=="Sr."
                             theArray[i] = tmp[1] + " " + tmp[tmp.length-1] + ", " + tmp[0]+"%";
-                            alert(theArray[i]);
-                            alert("1");
                         }
                         if(tmp[1]=="De"){
                             theArray[i] = tmp[1]+ " " +tmp[tmp.length-1]+ ", " + tmp[0]+"%";
-                            alert(theArray[i]);
                         }
                     }
                     else{
                         theArray[i] = tmp[tmp.length-1]+ ", " + tmp[0] +"%";
-                        alert(theArray[i]);
                     }
                 }
             }
@@ -330,5 +335,17 @@ $(document).ready(function() {
             }
         }
         return newArray;
+    }
+    
+    function showHideMovie(movieNum) {
+        var movieClass ='';
+        var focus = 5;
+        if(movieNum<focus){
+            movieClass ='Movie';
+        }
+        else{
+            movieClass ='Movie hide';
+        }
+        return movieClass;
     }
 });

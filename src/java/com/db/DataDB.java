@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.List;
+import com.movie.Movie;
 
 public class DataDB {
 	private Connection connection;
@@ -136,7 +137,7 @@ public class DataDB {
         List<String> results = new ArrayList<String>();
         
         try {
-            String sql = "SELECT movies.movieid,array_to_string(array_agg(distinct movies.title),',') AS title "
+            String sql = "SELECT movies.movieid,array_to_string(array_agg(distinct movies.title),',') AS title, array_to_string(array_agg(distinct moviedata.genre),',') AS genres "
                     + "FROM moviedata, movies, actors,ratings, runningtimes "
                     + "WHERE movies.movieid = moviedata.movieid "
                     + "AND movies.movieid = ratings.movieid "
@@ -173,7 +174,6 @@ public class DataDB {
                 while(rs.next())
                 {
                     String columnValue = rs.getString(2);
-                    System.out.println(""+columnValue);
                     results.add(columnValue);
                 }
                 System.out.println("SUCCESS SEARCH");
@@ -189,4 +189,57 @@ public class DataDB {
         }
         return message;//To change body of generated methods, choose Tools | Templates.
     }
+    
+    
+    public ArrayList<Movie> getMovies(String[] movies) {
+        String message = null;
+        PreparedStatement ps = null;
+        String data;
+        ArrayList<Movie> movieList = new ArrayList<Movie>();
+
+        try {
+            
+            String sql = "SELECT movies.movieid,array_to_string(array_agg(distinct movies.title),',') AS title, "
+                    + "array_to_string(array_agg(distinct moviedata.genre),',') AS genres, "
+                    + "array_to_string(array_agg(distinct actors.name ),',') AS actors, "
+                    + "MAX(movie_runningtime(runningtimes.time)), "
+                    + "MAX(movie_year(moviedata.year)), "
+                    + "MAX(ratings.rank::float) "
+                    + "FROM moviedata, movies, actors,ratings, runningtimes "
+                    + "WHERE movies.movieid = moviedata.movieid "
+                    + "AND movies.movieid = ratings.movieid "
+                    + "AND movies.movieid = runningtimes.movieid "
+                    + "AND moviedata.actorid = actors.actorid "
+                    + "AND movies.title LIKE ANY(?) "
+                    + "GROUP BY 1 ";
+           
+            Array listMovies = connection.createArrayOf("text", movies);
+            ps = connection.prepareStatement(sql);
+            ps.setArray(1, listMovies);
+
+            //executing the prepared statement, which returns a ResultSet
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                while(rs.next())
+                {
+                    Movie movie = new Movie(rs.getInt(1), rs.getString(2),rs.getString(3), rs.getString(4),
+                                            rs.getInt(5),rs.getInt(6),rs.getFloat(7));
+                    movieList.add(movie);
+                }
+                System.out.println("SUCCESS SEARCH 2");
+                //message = results.toString();
+            }else{
+                System.out.println("FAILURE SEARCH 2");
+                //message = "FAILURE";
+            }
+        } 
+        catch (Exception e) {
+            //message = "FAILURE";
+            e.printStackTrace();
+        }
+
+        return movieList;
+    }
 }
+
+
