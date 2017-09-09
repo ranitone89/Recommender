@@ -14,7 +14,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>com.servlets.Login</servlet-class>
+        <servlet-class>com.servlets.LoginRequest</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -22,7 +22,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
-        <servlet-class>com.servlets.Register</servlet-class>
+        <servlet-class>com.servlets.RegisterRequest</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
@@ -38,7 +38,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>SearchServlet</servlet-name>
-        <servlet-class>com.servlets.Search</servlet-class>
+        <servlet-class>com.servlets.SearchRequest</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SearchServlet</servlet-name>

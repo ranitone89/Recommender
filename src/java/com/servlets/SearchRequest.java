@@ -13,11 +13,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.movie.Movie;
+import com.movie.Score;
+import com.movie.Search;
 /**
  *
  * @author Nemanja Ranitovic
  */
-public class Search extends HttpServlet {
+public class SearchRequest extends HttpServlet {
     private static final long serialVersionUID = 1L;   
     
     /**
@@ -44,15 +46,10 @@ public class Search extends HttpServlet {
             
             String message = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres);
             ArrayList<Movie> movies = dataDao.getMovies(movieArray(message));
+            System.out.println("Request genres: "+genres.length);
+            Search search = new Search(genres, actors);
+            Score s = new Score(movies,search);
 
-            for(Movie m:movies) {
-                
-                System.out.println("Title: "+m.getTitle() + "\n Actors: " + m.printActors());
-            }
-            
-            System.out.println("Lenght: "+movies.size());
-
-            
             response.getWriter().write(message);
 
         } 

@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Nemanja Ranitovic
  */
-public class Login extends HttpServlet {
+public class LoginRequest extends HttpServlet {
     private static final long serialVersionUID = 1L;   
      
     /**

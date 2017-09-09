@@ -28,6 +28,9 @@ public class Movie {
         this.releaseYear = releaseYear;
         this.movieLenght = movieLenght;
         this.rating = rating;
+        for(int i = 0; i<this.genres.length; i++){
+            System.out.println("Genres "+i+" "+this.genres[i]);
+        }
     }
     
     public String getTitle(){
@@ -49,6 +52,10 @@ public class Movie {
     
     public String[] getGenres(){
         return this.genres;
+    }
+    
+    public String getGenre(int position){
+        return this.genres[position];
     }
     
     private void setGenres(String genres){
@@ -89,20 +96,20 @@ public class Movie {
     
     
     private String[] stringToArray(String str, String mode){
-        String[] temp = new String[6];
+        String[] temp = new String[20];
 
-        if("Actor".equals(mode)){
+        if("Genre".equals(mode)){
             /* delimiter */
-            String delimiter = ", ";
+            String delimiter = ",";
             /* given string will be split by the argument delimiter provided. */
-            temp = str.replaceAll("\\(.*\\)","").split(delimiter);
+            temp = str.split(delimiter);
             /* print substrings */
         }
-        if("Genre".equals(mode)){
+        if("Actor".equals(mode)){
             /* delimiter */
             String delimiter = "(?<=\\G\\d+,\\d+),";
             /* given string will be split by the argument delimiter provided. */
-            temp = str.split(delimiter);
+            temp = str.replaceAll("\\(.*\\)","").split(delimiter);
             /* print substrings */            
         }
         return temp;

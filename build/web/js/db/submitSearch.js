@@ -167,7 +167,7 @@ $(document).ready(function() {
       $('#Result').css("display","block");
       $('.cluster'+klaster+ '#Row'+row).css("display","block");
 
-      //var focus = 5;
+      
       var movieClass ='';
       for (var i = 0; i < movies.length; i++) {
         var movieNum = 0;
@@ -175,26 +175,10 @@ $(document).ready(function() {
         var title = "";
 
         $.getJSON('http://www.omdbapi.com/?t='+ encodeURI(movies[i])+ '&apikey=dc2f6d3a').then(function(response){
-            /*if(movieNum<focus){
-            movieClass ='Movie';
-            }
-            else{
-                movieClass ='Movie hide';
-            }*/
             movieClass = showHideMovie(movieNum);
-            if(response.Poster ==="N/A"){
-                poster = "img/no_poster.png";
-            }
-            else{
-                poster = response.Poster;
-            }            
-            
-            if(response.Title ==="undefined"){
-                title = "undefined";
-            }
-            else{
-                title = response.Title;
-            }            
+            poster = checkPoster(response.Poster);
+            title = checkTitle(response.Title);
+                    
             movieNum = movieNum+1;
             
             if(title!==undefined){
@@ -347,5 +331,29 @@ $(document).ready(function() {
             movieClass ='Movie hide';
         }
         return movieClass;
+    }
+    
+    function checkPoster(moviePoster) {
+        var poster = "";
+        if(moviePoster ==="N/A"){
+            poster = "img/no_poster.png";
+        }
+        else{
+            poster = moviePoster;
+        } 
+        
+        return poster;
+    }
+    
+    function checkTitle(movieTitle) {
+        var title = "";
+        if(movieTitle ==="N/A"){
+            title = "img/no_poster.png";
+        }
+        else{
+            title = movieTitle;
+        } 
+        
+        return title;
     }
 });

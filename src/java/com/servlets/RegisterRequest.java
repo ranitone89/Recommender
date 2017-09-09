@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Nemanja Ranitovic
  */
-public class Register extends HttpServlet {
+public class RegisterRequest extends HttpServlet {
     private static final long serialVersionUID = 1L;   
      
     /**
