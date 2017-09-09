@@ -15,8 +15,8 @@ public class Score {
     
     public Score(ArrayList<Movie> movies, Search search)
     {
-        calcGenreScore(search,movies);
-        //calcActorScore(search,movies);
+        //calcGenreScore(search,movies);
+        calcActorScore(search,movies);
     }
 
     private void calcGenreScore(Search search, ArrayList<Movie> movies) 

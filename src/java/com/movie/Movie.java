@@ -28,9 +28,6 @@ public class Movie {
         this.releaseYear = releaseYear;
         this.movieLenght = movieLenght;
         this.rating = rating;
-        for(int i = 0; i<this.genres.length; i++){
-            System.out.println("Genres "+i+" "+this.genres[i]);
-        }
     }
     
     public String getTitle(){
@@ -107,9 +104,9 @@ public class Movie {
         }
         if("Actor".equals(mode)){
             /* delimiter */
-            String delimiter = "(?<=\\G\\d+,\\d+),";
+            //String delimiter = "(?<=\\G\\d+,\\d+),";
             /* given string will be split by the argument delimiter provided. */
-            temp = str.replaceAll("\\(.*\\)","").split(delimiter);
+            temp = str.split(",(?!\\s+)");
             /* print substrings */            
         }
         return temp;
@@ -133,6 +130,10 @@ public class Movie {
     public String printActors()
     {
         return Arrays.toString(this.actors);
+    }
+    
+     public String getActor(int position) {
+        return this.actors[position]; 
     }
     
 }
