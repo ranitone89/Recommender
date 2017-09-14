@@ -112,13 +112,22 @@ $(document).ready(function() {
                  maxReleased : maxReleased,
                  minStar     : minStar
              },
+             dataType: "text",
              complete: function(){
                  $('#loading').hide();
              },
-             success : function(results){
-                 if(results != null && results != "")
+             success : function(data){
+                 if(data != null && data != "")
                  {
-                     showMessage(results);
+                    var movies = "";
+                    var dbdata=JSON.parse(data);
+                    for (var i = 0; i < dbdata.length; i++) {
+                        movies += dbdata[i].title+", ";
+                        //movies.push(dbdata[i].title)
+                        //alert(dbdata[i].title);
+                    }
+                    showMessage(movies);
+                    alert(movies);
                  }
                  else
                  {
@@ -134,18 +143,18 @@ $(document).ready(function() {
 
     //function to display message to the user
     function showMessage(results){
-        if(results != null){
+        if(results !== null){
             var recommendation = covertToArray(results,'r');
             $('.survey').css('display', 'block');
             $('.title').css('display', 'block');
             $('.methods').css('display', 'block');
             getMovies(recommendation,1,1);
-            getMovies(recommendation,1,2);
+            /*getMovies(recommendation,1,2);
             getMovies(recommendation,1,3);
 
             getMovies(recommendation,2,1);
             getMovies(recommendation,2,2);
-            getMovies(recommendation,2,3);
+            getMovies(recommendation,2,3);*/
 
 
             $('.tab-nav').hide();
@@ -290,9 +299,12 @@ $(document).ready(function() {
             theArray = array.split(", ");
             //alert(theArray);
             for (var i = 0; i < theArray.length; i++) {
-                var tmp = theArray[i].substring(0, theArray[i].indexOf('('));
-                tmp = tmp.replace('[','');
-                theArray[i] = tmp;
+                if(theArray[i]!=="") {
+                    var tmp = theArray[i].substring(0, theArray[i].indexOf('('));
+                    tmp = tmp.replace('[','');
+                    theArray[i] = tmp;
+                    alert(theArray[i]);
+                }
             }
         }
 

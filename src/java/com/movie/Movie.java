@@ -18,17 +18,22 @@ public class Movie {
     private int releaseYear;
     private int movieLenght;
     private float rating;
+    private float[] scores = new float[5];
 
     public Movie(int movieId, String title, String genres, String actors, int movieLenght, int releaseYear, float rating)
     {
         this.movieId = movieId;
         this.title = title;
-        setGenres(genres);
-        setActors(actors);
         this.releaseYear = releaseYear;
         this.movieLenght = movieLenght;
         this.rating = rating;
+        setGenres(genres);
+        setActors(actors);
+        setLenghtScore(movieLenght);
+        setReleaseScore(releaseYear);
+        setRatingScore(rating);
     }
+    
     
     public String getTitle(){
         return this.title;
@@ -132,8 +137,63 @@ public class Movie {
         return Arrays.toString(this.actors);
     }
     
-     public String getActor(int position) {
+    public String getActor(int position) {
         return this.actors[position]; 
     }
     
+    /*Set rating scores*/
+    public void setActorScore(float actorScore){
+        this.scores[0] = actorScore;
+    } 
+    
+    public void setGenreScore(float movieScore){
+        this.scores[1] = movieScore;
+    } 
+    
+    private void setLenghtScore(int movieLenght){
+        this.scores[2] = (float)movieLenght;
+    }
+    
+    private void setReleaseScore(int releaseYear){
+        this.scores[3] = (float)releaseYear;
+    }    
+
+    
+    private void setRatingScore(float rating){
+        this.scores[4] = rating;
+    } 
+
+    /*Get rating scores*/
+    public float getActorScore(){
+        return scores[0];
+    } 
+
+    public float getGenreScore(){
+        return scores[1];
+    } 
+
+    public float getLenghtScore(){
+        return scores[2];
+    }
+    
+    public float getReleaseScore(){
+        return scores[3];
+    }    
+
+    public float getRatingScore(){
+        return scores[4];
+    } 
+
+    public float[] getScores(){
+        return scores;
+    } 
+
+    
+    @Override
+    public String toString(){
+        return "Title: "+this.getTitle()+"\n Actor Score: "+this.getActorScore()+" Genre Score: "+this.getGenreScore()
+                    +" Rating score "+this.getRatingScore()+" Release score: "+this.getReleaseScore()+" Lenght Score: "+this.getLenghtScore();
+    }
+ 
+     
 }

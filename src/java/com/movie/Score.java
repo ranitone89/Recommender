@@ -6,6 +6,7 @@
 package com.movie;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  *
@@ -15,53 +16,51 @@ public class Score {
     
     public Score(ArrayList<Movie> movies, Search search)
     {
-        //calcGenreScore(search,movies);
-        calcActorScore(search,movies);
-    }
+        calcScores(search,movies);
 
-    private void calcGenreScore(Search search, ArrayList<Movie> movies) 
-    {
-        int movieNum = 0;
-        int searchNum = search.getGenres().length;
-        
-        for(Movie m: movies){
-            movieNum = m.getGenres().length;
-            int commonNum = 0;
-            for(int i = 0; i< m.getGenres().length; i++){
-                for(int j= 0; j<search.getGenres().length; j++){
-                    if(m.getGenre(i) == null ? search.getGenre(j) == null : m.getGenre(i).equals(search.getGenre(j))){
-                        commonNum++;
-                    }
-                }
-            }
-            double genreScore = ((double)commonNum) /((double)movieNum+searchNum-commonNum);
-            System.out.println("Title: "+m.getTitle()+" Genres "+m.printGenres()+" Search Genre: "+search.printGenres()+" Score Genre: "+genreScore);
-            System.out.println("SearchNum: "+searchNum+ " MovieNum: "+movieNum + " Common: "+commonNum);
-        } 
-        
-    }
-
-    private void calcActorScore(Search search, ArrayList<Movie> movies) 
-    {
-        int movieNum = 0;
-        int searchNum = search.getActors().length;
-        
-        for(Movie m: movies){
-            movieNum = m.getActors().length;
-            int commonNum = 0;
-            for(int i = 0; i< m.getActors().length; i++){
-                for(int j= 0; j<search.getActors().length; j++){
-                    if(m.getActor(i) == null ? search.getActor(j) == null : m.getActor(i).equals(search.getActor(j))){
-                        commonNum++;
-                    }
-                }
-            }
-            double actorScore = ((double)commonNum) /((double)movieNum+searchNum-commonNum);
-            System.out.println("Title: "+m.getTitle()+"\n Actors "+m.printActor(2)+"\n Search Actor: "+search.printActors()+" Score Actor: "+actorScore);
-            System.out.println("SearchNum: "+searchNum+ " MovieNum: "+movieNum + " Common: "+commonNum);
-        } 
-        
     }
 
     
+    private void calcScores(Search search, ArrayList<Movie> movies)
+    {
+        for(Movie m: movies){
+            calcGenreScore(search, m);
+            calcActorScore(search, m);
+            System.out.println(m.toString());
+        } 
+    }
+    private void calcGenreScore(Search search, Movie movie) 
+    {
+        int movieGenres = movie.getGenres().length;
+        int searchGenres = search.getGenres().length;
+        int commonGenres = 0;
+        
+        for(int i = 0; i< movie.getGenres().length; i++){
+            for(int j= 0; j<search.getGenres().length; j++){
+                if(movie.getGenre(i) == null ? search.getGenre(j) == null : movie.getGenre(i).equals(search.getGenre(j))){
+                    commonGenres++;
+                }
+            }
+        }
+        float genreScore = ((float)commonGenres) /((float)movieGenres+searchGenres-commonGenres); 
+        movie.setGenreScore(genreScore);
+        
+    }
+
+    private void calcActorScore(Search search, Movie movie) 
+    {
+        int movieActors = movie.getActors().length;
+        int searchActors = search.getActors().length;
+        int commonActors = 0;
+        
+        for(int i = 0; i< movie.getActors().length; i++){
+            for(int j= 0; j<search.getActors().length; j++){
+                if(movie.getActor(i) == null ? search.getActor(j) == null : movie.getActor(i).equals(search.getActor(j))){
+                    commonActors++;
+                }
+            }
+        }
+        float actorScore = ((float)commonActors) /((float)movieActors+searchActors-commonActors);    
+        movie.setActorScore(actorScore);
+    }
 }
