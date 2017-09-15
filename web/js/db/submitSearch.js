@@ -112,50 +112,47 @@ $(document).ready(function() {
                  maxReleased : maxReleased,
                  minStar     : minStar
              },
-             dataType: "text",
+             dataType: "json",
              complete: function(){
                  $('#loading').hide();
              },
-             success : function(data){
-                 if(data != null && data != "")
-                 {
-                    var movies = "";
-                    var dbdata=JSON.parse(data);
-                    for (var i = 0; i < dbdata.length; i++) {
-                        movies += dbdata[i].title+", ";
-                        //movies.push(dbdata[i].title)
-                        //alert(dbdata[i].title);
-                    }
-                    showMessage(movies);
-                    alert(movies);
-                 }
-                 else
-                 {
-                     $('#messageSearch').css("display","block");
-                     $('#messageSearch').html("<font color='red'>Please chnage yourparameters </font>");
-                     alert("Some exception occurred! Please try again.");
-                 }
-             }
+             success : function(response){
+                        if(response != null && response != "")
+                        {
+                            var jsonStr = JSON.stringify(response);
+                            var jsonObj = JSON.parse(jsonStr);
+
+                            for(var i = 0; i < jsonObj.length+1; i++){
+                                var movies = "";
+                                var cluster = i+1;
+
+                                for(var j = 0; j<jsonObj[i].movies.length; j++){
+                                    movies += jsonObj[i].movies[j].title+", ";
+                                }
+                                showMessage(movies,cluster);
+                            }
+                        }
+                    else
+                        {
+                            $('#messageSearch').css("display","block");
+                            $('#messageSearch').html("<font color='red'>Please chnage yourparameters </font>");
+                            alert("Some exception occurred! Please try again.");
+                        }
+                }
             });
          }
      });
 
 
     //function to display message to the user
-    function showMessage(results){
-        if(results !== null){
-            var recommendation = covertToArray(results,'r');
+    function showMessage(movies,cluster){
+        if(movies !== null){
+            //var recommendation = covertToArray(movies,'r');
             $('.survey').css('display', 'block');
             $('.title').css('display', 'block');
             $('.methods').css('display', 'block');
-            getMovies(recommendation,1,1);
-            /*getMovies(recommendation,1,2);
-            getMovies(recommendation,1,3);
-
-            getMovies(recommendation,2,1);
-            getMovies(recommendation,2,2);
-            getMovies(recommendation,2,3);*/
-
+            
+            getMovies(covertToArray(movies,'r'),1,cluster);
 
             $('.tab-nav').hide();
             $('.tab-back-nav').show();
@@ -163,7 +160,7 @@ $(document).ready(function() {
             $('.search').hide();
             $('.search-tab-close').hide();
         }
-        else if(results == 'FAILURE'){
+        else if(movies == 'FAILURE'){
             alert('fehler');
         }
     }
@@ -297,13 +294,11 @@ $(document).ready(function() {
 
         if(string =='r'){
             theArray = array.split(", ");
-            //alert(theArray);
             for (var i = 0; i < theArray.length; i++) {
                 if(theArray[i]!=="") {
                     var tmp = theArray[i].substring(0, theArray[i].indexOf('('));
                     tmp = tmp.replace('[','');
                     theArray[i] = tmp;
-                    alert(theArray[i]);
                 }
             }
         }

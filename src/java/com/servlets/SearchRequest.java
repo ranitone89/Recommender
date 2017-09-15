@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.movie.Movie;
+import com.movie.Recommendation;
 import com.movie.Score;
 import com.movie.Search;
 import java.util.Iterator;
@@ -41,8 +42,6 @@ public class SearchRequest extends HttpServlet {
         HttpServletResponse response) throws ServletException, IOException {
         
         try {
-            response.setContentType("application/json");
-            response.setCharacterEncoding("utf-8");
             String minLenght = request.getParameter("minLenght");
             String maxLenght = request.getParameter("maxLenght");
             String minReleased = request.getParameter("minReleased");
@@ -52,17 +51,18 @@ public class SearchRequest extends HttpServlet {
             String minStar = request.getParameter("minStar");  
             DataDB dataDao = new DataDB();
             
-            String message = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres);
-            ArrayList<Movie> movies = dataDao.getMovies(movieArray(message));
+            ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres);
+            //ArrayList<Movie> movies = dataDao.getMovies(movieArray(message));
             
             Search search = new Search(genres, actors);
             Score s = new Score(movies,search);
             ArrayList<PointdDim> points = getPoints(movies);
             FinalClustering clusterings = new FinalClustering();
-            clusterings = Kmeans.kMeansClustering(points, 1, 0, 1);
-            
-            //String bothJson = getClusterElements(clusterings);  
+            clusterings = Kmeans.kMeansClustering(points, 3, 0, 1);
             String json = new Gson().toJson(getClusterElements(clusterings));
+            System.out.println(json);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
 
         } 
@@ -71,22 +71,20 @@ public class SearchRequest extends HttpServlet {
         }
     }
 
-    private ArrayList<Movie> getClusterElements(FinalClustering clusterings) 
+    private ArrayList<Recommendation>getClusterElements(FinalClustering clusterings) throws IOException 
     {
-        ArrayList<Movie> movies = new ArrayList<Movie>();
-        //String bothJson = "[";
+        ArrayList<Recommendation> recommendations = new ArrayList<Recommendation>();
+        
         ArrayList<ArrayList<Cluster>>clusters = clusterings.getClustering();
         for(Cluster cluster : clusters.get(0)) {
-            System.out.println(" "+cluster.getId()+" "+cluster.getClusterPoints()+" Dims: "+cluster.getClusterPoints().size());
-            //ArrayList<Movie> movies = new ArrayList<Movie>();
+            ArrayList<Movie> movies = new ArrayList<Movie>();
             for (PointdDim elem : cluster.getClusterPoints()){
                 movies.add(elem.getMovieDim());
             }
-        //    bothJson += new Gson().toJson(movies)+",";
+            recommendations.add(new Recommendation(cluster.getId(), movies));
         }
-        //bothJson += "]";
-        //System.out.println(bothJson);
-        return movies;
+        
+        return recommendations;
     }    
     
     

@@ -130,25 +130,34 @@ public class DataDB {
     }
     
 
-    public String search(String minLenght, String maxLenght, String minReleased, String maxReleased,String minStar, String[] actors, String[] genres) {
+    public ArrayList<Movie> search(String minLenght, String maxLenght, String minReleased, String maxReleased,String minStar, String[] actors, String[] genres) {
         String message = null;
         PreparedStatement ps = null;
-        String data;
-        List<String> results = new ArrayList<String>();
-        
+        ArrayList<Movie> movieList = new ArrayList<Movie>();
         try {
-            String sql = "SELECT movies.movieid,array_to_string(array_agg(distinct movies.title),',') AS title, array_to_string(array_agg(distinct moviedata.genre),',') AS genres "
-                    + "FROM moviedata, movies, actors,ratings, runningtimes "
-                    + "WHERE movies.movieid = moviedata.movieid "
-                    + "AND movies.movieid = ratings.movieid "
-                    + "AND movies.movieid = runningtimes.movieid "
-                    + "AND moviedata.actorid = actors.actorid "
-                    + "AND actors.name LIKE ANY(?) "
-                    + "AND moviedata.genre = ANY(?) "
-                    + "AND movie_year(moviedata.year) BETWEEN (?) AND (?) "
-                    + "AND movie_runningtime(runningtimes.time) BETWEEN (?) AND (?) "
-                    + "AND ratings.rank::float BETWEEN (?) AND 10 "
-                    + "GROUP BY 1 ";
+            String sql = "SELECT m.movieid,array_to_string(array_agg(distinct md.title),',') AS title, "
+                                + "array_to_string(array_agg(distinct md.genre),',') AS genres, "
+                                + "array_to_string(array_agg(distinct a.name),',') AS actors, "
+                                + "MAX(movie_runningtime(run.time)), "
+                                + "MAX(movie_year(m.year)), "
+                                + "MAX(rank.rank::float) "
+                                + "FROM moviedata md "
+                                + "INNER JOIN runningtimes run ON md.movieid = run.movieid "
+                                + "INNER JOIN ratings rank ON run.movieid = rank.movieid "
+                                + "INNER JOIN genres genre ON rank.movieid = genre.movieid "
+                                + "INNER JOIN movies m ON genre.movieid = m.movieid "
+                                + "LEFT JOIN actors a ON md.actorid = a.actorid "
+                                + "WHERE md.movieid IN ("
+                                + "SELECT mm.movieid FROM moviedata mm "
+                                + "LEFT JOIN actors aa ON mm.actorid = aa.actorid "
+                                + "WHERE aa.name LIKE ANY(?)) "
+                                + "AND movie_runningtime(run.time) BETWEEN (?) AND (?) "
+                                + "AND movie_year(m.year) BETWEEN (?) AND (?) "
+                                + "AND(rank.rank::float BETWEEN (?) AND 10"
+                                + "OR genre.genre = ANY(?)) "
+                                + "AND genre.genre NOT IN('Short','News','Reality-TV') "
+                                + "GROUP BY m.movieid "
+                                + "LIMIT 30";
             
             Array listActors = connection.createArrayOf("text", actors);
             Array listGenres = connection.createArrayOf("text", genres);
@@ -161,61 +170,12 @@ public class DataDB {
 
             //setting the parameters
             ps.setArray(1, listActors);
-            ps.setArray(2, listGenres);
-            ps.setInt(3, minRel);
-            ps.setInt(4, maxRel);
-            ps.setInt(5, minLen);
-            ps.setInt(6, maxLen);
-            ps.setFloat(7, rating);
-
-            //executing the prepared statement, which returns a ResultSet
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                while(rs.next())
-                {
-                    String columnValue = rs.getString(2);
-                    results.add(columnValue);
-                }
-                System.out.println("SUCCESS SEARCH");
-                message = results.toString();
-            }else{
-                System.out.println("FAILURE SEARCH");
-                message = "FAILURE";
-            }
-        } 
-        catch (Exception e) {
-            message = "FAILURE";
-            e.printStackTrace();
-        }
-        return message;//To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
-    public ArrayList<Movie> getMovies(String[] movies) {
-        String message = null;
-        PreparedStatement ps = null;
-        String data;
-        ArrayList<Movie> movieList = new ArrayList<Movie>();
-
-        try {
-            
-            String sql = "SELECT movies.movieid,array_to_string(array_agg(distinct movies.title),',') AS title, "
-                    + "array_to_string(array_agg(distinct moviedata.genre),',') AS genres, "
-                    + "array_to_string(array_agg(distinct actors.name ),',') AS actors, "
-                    + "MAX(movie_runningtime(runningtimes.time)), "
-                    + "MAX(movie_year(moviedata.year)), "
-                    + "MAX(ratings.rank::float) "
-                    + "FROM moviedata, movies, actors,ratings, runningtimes "
-                    + "WHERE movies.movieid = moviedata.movieid "
-                    + "AND movies.movieid = ratings.movieid "
-                    + "AND movies.movieid = runningtimes.movieid "
-                    + "AND moviedata.actorid = actors.actorid "
-                    + "AND movies.title LIKE ANY(?) "
-                    + "GROUP BY 1 ";
-           
-            Array listMovies = connection.createArrayOf("text", movies);
-            ps = connection.prepareStatement(sql);
-            ps.setArray(1, listMovies);
+            ps.setInt(2, minLen);
+            ps.setInt(3, maxLen);            
+            ps.setInt(4, minRel);
+            ps.setInt(5, maxRel);
+            ps.setFloat(6, rating);
+            ps.setArray(7, listGenres);
 
             //executing the prepared statement, which returns a ResultSet
             ResultSet rs = ps.executeQuery();
@@ -225,21 +185,21 @@ public class DataDB {
                     Movie movie = new Movie(rs.getInt(1), rs.getString(2),rs.getString(3), rs.getString(4),
                                             rs.getInt(5),rs.getInt(6),rs.getFloat(7));
                     movieList.add(movie);
+                    //String columnValue = rs.getString(2);
+                    //results.add(columnValue);
                 }
-                System.out.println("SUCCESS SEARCH 2");
-                //message = results.toString();
+                message = "SUCCESS SEARCH";
             }else{
-                System.out.println("FAILURE SEARCH 2");
-                //message = "FAILURE";
+                message = "FAILURE CANNOT SELECT DATA";
             }
         } 
         catch (Exception e) {
-            //message = "FAILURE";
+            message = "FAILURE";
             e.printStackTrace();
         }
-
         return movieList;
     }
+   
 }
 
 
