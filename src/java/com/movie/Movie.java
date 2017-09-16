@@ -191,8 +191,7 @@ public class Movie {
     
     @Override
     public String toString(){
-        return "Title: "+this.getTitle()+"\n Actor Score: "+this.getActorScore()+" Genre Score: "+this.getGenreScore()
-                    +" Rating score "+this.getRatingScore()+" Release score: "+this.getReleaseScore()+" Lenght Score: "+this.getLenghtScore();
+        return "A: "+this.getActorScore()+" G: "+this.getGenreScore()+" L: "+this.getLenghtScore()+" Rel: "+this.getReleaseScore()+" Rank: "+this.getRatingScore();
     }
  
      

@@ -26,8 +26,9 @@ public class Score {
         for(Movie m: movies){
             calcGenreScore(search, m);
             calcActorScore(search, m);
-            System.out.println(m.toString());
+            //System.out.println(m.toString());
         } 
+        System.out.println("com.movie.Score.calcScores()");
     }
     private void calcGenreScore(Search search, Movie movie) 
     {

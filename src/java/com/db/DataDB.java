@@ -185,8 +185,6 @@ public class DataDB {
                     Movie movie = new Movie(rs.getInt(1), rs.getString(2),rs.getString(3), rs.getString(4),
                                             rs.getInt(5),rs.getInt(6),rs.getFloat(7));
                     movieList.add(movie);
-                    //String columnValue = rs.getString(2);
-                    //results.add(columnValue);
                 }
                 message = "SUCCESS SEARCH";
             }else{

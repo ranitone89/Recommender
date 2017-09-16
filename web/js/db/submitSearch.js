@@ -121,16 +121,9 @@ $(document).ready(function() {
                         {
                             var jsonStr = JSON.stringify(response);
                             var jsonObj = JSON.parse(jsonStr);
-
-                            for(var i = 0; i < jsonObj.length+1; i++){
-                                var movies = "";
-                                var cluster = i+1;
-
-                                for(var j = 0; j<jsonObj[i].movies.length; j++){
-                                    movies += jsonObj[i].movies[j].title+", ";
-                                }
-                                showMessage(movies,cluster);
-                            }
+                            getMovies(jsonObj);
+                            alert("Aufruf display Charts");
+                            
                         }
                     else
                         {
@@ -152,7 +145,7 @@ $(document).ready(function() {
             $('.title').css('display', 'block');
             $('.methods').css('display', 'block');
             
-            getMovies(covertToArray(movies,'r'),1,cluster);
+            displayMovies(covertToArray(movies,'r'),1,cluster);
 
             $('.tab-nav').hide();
             $('.tab-back-nav').show();
@@ -165,7 +158,77 @@ $(document).ready(function() {
         }
     }
 
-    function getMovies(movies,klaster,row){
+    function getCharts(dataList,cluster)
+    {
+        var actorLenght = [];
+
+        
+        alert(dataList.length);
+        var score = new Array();
+        for(var i =0; i<dataList.length; i++){
+            var ag = new Array();
+            var gl = new Array();
+            var lr = new Array();
+            var rr = new Array();
+            
+            for(var j =0; j<dataList[i].length; j++){
+                if(j==0){
+                    ag.push({ actor : dataList[i][j], genre: dataList[i][j+1] });
+                }
+                if(j==1){
+                    gl.push({ genre : dataList[i][j], lenght: dataList[i][j+1] });
+                }
+                if(j==2){
+                    lr.push({ lenght : dataList[i][j], release: dataList[i][j+1] });
+                }                
+                if(j==3){
+                    rr.push({ release : dataList[i][j], ranking: dataList[i][j+1] });
+                }
+            }
+            score.push(ag);
+            score.push(gl);
+            score.push(lr);
+            score.push(rr);
+        }
+        alert(JSON.stringify(score));
+    }
+
+    function displaytCharts()
+    {
+        alert("Get Values");
+        for(var i = 0; i < jsonObj.length+1; i++)
+        {
+            var movies = "";
+            var cluster = i+1;
+
+            for(var j = 0; j<jsonObj[i].movies.length; j++){
+                alert (jsonObj[i].movies[j].scores[0]);
+                
+            }
+            
+        } 
+    }
+
+    function getMovies(jsonObj)
+    {
+        var dataList = [];
+        for(var i = 0; i < jsonObj.length+1; i++)
+        {
+            var movies = "";
+            var cluster = i+1;
+            
+            var score = [];
+            for(var j = 0; j<jsonObj[i].movies.length; j++){
+                movies += jsonObj[i].movies[j].title+", ";
+                score.push(jsonObj[i].movies[j].scores);
+            }
+            getCharts(score,i);
+            showMessage(movies,cluster);
+        }
+    }
+
+
+    function displayMovies(movies,klaster,row){
       $('#TopRated').css("display","none");
       $('#New').css("display","none");
       $('#Cooming').css("display","none");
