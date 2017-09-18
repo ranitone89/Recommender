@@ -160,53 +160,92 @@ $(document).ready(function() {
 
     function getCharts(dataList,cluster)
     {
-        var actorLenght = [];
-
+        var ag = new Array();
+        var gl = new Array();
+        var lr = new Array();
+        var rr = new Array();
         
-        alert(dataList.length);
-        var score = new Array();
+        //number of movie objects
         for(var i =0; i<dataList.length; i++){
-            var ag = new Array();
-            var gl = new Array();
-            var lr = new Array();
-            var rr = new Array();
-            
-            for(var j =0; j<dataList[i].length; j++){
+            //number of scores
+            for(var j=0; j<dataList[i].scores.length; j++){
                 if(j==0){
-                    ag.push({ actor : dataList[i][j], genre: dataList[i][j+1] });
+                    ag.push({ x : dataList[i].scores[j], y: dataList[i].scores[j+1], title: dataList[i].title });
                 }
                 if(j==1){
-                    gl.push({ genre : dataList[i][j], lenght: dataList[i][j+1] });
+                    gl.push({ x : dataList[i].scores[j], y: dataList[i].scores[j+1],title: dataList[i].title });
                 }
                 if(j==2){
-                    lr.push({ lenght : dataList[i][j], release: dataList[i][j+1] });
+                    lr.push({ x : dataList[i].scores[j], y: dataList[i].scores[j+1],title: dataList[i].title });
                 }                
                 if(j==3){
-                    rr.push({ release : dataList[i][j], ranking: dataList[i][j+1] });
+                    rr.push({ x : dataList[i].scores[j], y: dataList[i].scores[j+1],title: dataList[i].title });
                 }
             }
-            score.push(ag);
-            score.push(gl);
-            score.push(lr);
-            score.push(rr);
         }
-        alert(JSON.stringify(score));
+        displaytCharts(ag,cluster, "actor","genre","actor_genre");
+        displaytCharts(gl,cluster, "genre","lenght","genre_len");
+        displaytCharts(lr,cluster, "lenght","release year","len_rel");
+        displaytCharts(rr,cluster, "release year","rating","rel_rank");
     }
 
-    function displaytCharts()
+    function displaytCharts(jsonData,cluster, column1,column2,div_name)
     {
-        alert("Get Values");
-        for(var i = 0; i < jsonObj.length+1; i++)
-        {
-            var movies = "";
-            var cluster = i+1;
+        alert("Get CHarts");
 
-            for(var j = 0; j<jsonObj[i].movies.length; j++){
-                alert (jsonObj[i].movies[j].scores[0]);
-                
-            }
-            
-        } 
+        Highcharts.chart(''+div_name, {
+
+            chart: {
+                type: 'scatter',
+                //plotBorderWidth: 1,
+                zoomType: 'xy'
+            },
+
+            legend: {
+                enabled: false
+            },
+
+            title: {
+                text: 'Scores'
+            },
+            credits: false,
+            subtitle: {
+                text: ''+column1+'/'+column2
+            },
+            exporting: {
+                enabled: false
+            },
+            xAxis: {
+                //gridLineWidth: 1,
+                title: {
+                    text: ''+column1
+                },
+                labels: {
+                    format: '{value}'
+                },
+            },
+
+            yAxis: {
+                startOnTick: false,
+                endOnTick: false,
+                title: {
+                    text: ''+column2
+                },
+                labels: {
+                    format: '{value}'
+                },
+                maxPadding: 0.2,
+            },
+
+            tooltip: {
+                //useHTML: true,
+                headerFormat: '<table>',
+                pointFormat: '<b>{point.title}</b><br>'+ ' '+column1+' :{point.x}'+ ' '+column2+' :{point.y}'
+            },
+            series: [{
+                data: jsonData
+            }]
+        });
     }
 
     function getMovies(jsonObj)
@@ -220,8 +259,9 @@ $(document).ready(function() {
             var score = [];
             for(var j = 0; j<jsonObj[i].movies.length; j++){
                 movies += jsonObj[i].movies[j].title+", ";
-                score.push(jsonObj[i].movies[j].scores);
+                score.push({title: jsonObj[i].movies[j].title, scores: jsonObj[i].movies[j].scores});
             }
+            alert(JSON.stringify(score));
             getCharts(score,i);
             showMessage(movies,cluster);
         }
