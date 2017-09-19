@@ -20,24 +20,20 @@ $(document).ready(function() {
 
     $(document).on("click", ".btn_statc", function(event){
         var buttonid = $(this).attr('id');
-        //var slider = $(''+activeStat+' .clstats');
-        var slider = $(''+activeStat).children();
-        //alert($(''+activeStat).children().length);
+        var slider = $(''+activeStat+' .clstats');
         alert(slider.length);
         checkIndexStat(buttonid,slider.length);
         slideStatcs(slider);
    });
    
        function checkIndexStat(id,lenght) {
-        alert("Len "+ lenght);
         if(id==="btn_next_stat"){
             if(statcsIndex>=(lenght-focusStat)){
-                statcsIndex = (lenght-focusStat);
+                statcsIndex = statcsIndex;
             }
             else{
                 statcsIndex = statcsIndex+4;
             }
-            alert(statcsIndex);
         }
         if(id==="btn_prev_stat"){
             if(statcsIndex<=0){
@@ -46,7 +42,6 @@ $(document).ready(function() {
             else{
                 statcsIndex = statcsIndex-4;
             }
-            alert(statcsIndex);
         }
     }
     /**
@@ -87,15 +82,12 @@ $(document).ready(function() {
     }
 
     function slideStatcs(slider) {
-        alert("Slide");
         for(var i=0; i<slider.length;i++ ){
-            $(slider).eq(i).removeClass('clstats');
-            $(slider).eq(i).addClass('clstats_hide');
+            $(slider).eq(i).addClass('hide');
         }
 
         for(var i=statcsIndex; i<(statcsIndex+focusStat);i++ ){
-            $(slider).eq(i).removeClass('clstats_hide');
-            $(slider).eq(i).addClass('clstats');
+            $(slider).eq(i).removeClass('hide');
         }
     }
     /**
@@ -118,7 +110,7 @@ $(document).ready(function() {
         $('.cluster2').css('display','none');
         $('#method2').css('display','none');
         statcsIndex = 0;
-        $('#statistics').show();
+        $('#statistics').css('display', 'block');
         $('#statistics #statcs_cl2').css('display', 'none');
         $('#statistics #statcs_cl3').css('display', 'none');
         $('#statistics #statcs_cl1').show();
@@ -129,7 +121,7 @@ $(document).ready(function() {
         $('.cluster2').css('display','none');
         $('#method2').css('display','none');
         statcsIndex = 0;
-        $('#statistics').show();
+        $('#statistics').css('display', 'block');
         $('#statistics #statcs_cl2').css('display', 'block');
         $('#statistics #statcs_cl1').css('display', 'none');
         $('#statistics #statcs_cl3').css('display', 'none');
@@ -140,7 +132,7 @@ $(document).ready(function() {
         $('.cluster2').css('display','none');
         $('#method2').css('display','none');
         statcsIndex = 0;
-        $('#statistics').show();
+        $('#statistics').css('display', 'block');
         $('#statistics #statcs_cl3').css('display', 'block');
         $('#statistics #statcs_cl1').css('display', 'none');
         $('#statistics #statcs_cl2').css('display', 'none');
@@ -200,9 +192,7 @@ $(document).ready(function() {
                         {
                             var jsonStr = JSON.stringify(response);
                             var jsonObj = JSON.parse(jsonStr);
-                            getMovies(jsonObj);
-                            alert("Aufruf display Charts");
-                            
+                            getMovies(jsonObj);                            
                         }
                     else
                         {
@@ -283,7 +273,8 @@ $(document).ready(function() {
     {   
         var stats = showHideStat(i);
         var axis = label.split(" ");
-        $('#statistics #statcs_cl'+(cluster+1)).append('<div id='+axis[0]+'_'+axis[1]+ '_'+(cluster+1)+ ' class='+stats+' ></div>').addClass();
+        $('#statistics #statcs_cl'+(cluster+1)).append('<div id='+axis[0]+'_'+axis[1]+ '_'+(cluster+1)+ ' ></div>');
+        $('#'+axis[0]+'_'+axis[1]+ '_'+(cluster+1)).addClass(stats);
         Highcharts.chart(''+axis[0]+'_'+axis[1]+ '_'+(cluster+1), {
             chart: {
                 type: 'scatter',
@@ -540,7 +531,7 @@ $(document).ready(function() {
             movieClass ='clstats';
         }
         else{
-            movieClass ='clstats_hide';
+            movieClass ='clstats hide';
         }
         return movieClass;
     }    

@@ -2423,7 +2423,7 @@ footer{
 }
 
 #statistics{
-    /*width: 700px;*/
+    width: 700px;
     float: left;
     border: 1px solid #d8d8d8;
     margin-top: 40px;
@@ -2432,7 +2432,7 @@ footer{
     display: none;
 }
 
-#statistics .clstats_hide{
+#statistics .hide{
     display: none;
 }
 
@@ -2451,11 +2451,11 @@ button#btn_next_stat {
     margin-right: 10px;
 }
 
-.btn_statc{
+.btn_statc {
     border: none;
     border-radius: 10px;
-    background: #666;
-    color: white;
+    background: none;
+    color: #666;
     outline: none;
     z-index: 1;
 }
@@ -2463,8 +2463,8 @@ button#btn_next_stat {
 .btn_statc:hover{
     border: none;
     border-radius: 10px;
-    background: #fe7900;
-    color: white;
+    /*background: #fe7900;*/
+    color: #fe7900;
 }
 
 .statistics-close {
@@ -2475,7 +2475,7 @@ button#btn_next_stat {
 }
 
 
-#statistics,
+/*#statistics,
 #statistics > div {
        width: 700px !important;
-}
+}*/
