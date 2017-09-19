@@ -10,3 +10,14 @@ $(document).ready(function() {
         $('.search-tab-close').hide();
    });
 }); 
+
+$(document).ready(function() {
+    $(document).on("click", ".statistics-close", function(event){
+        $('.cluster2').css('display','block');
+        $('#method2').css('display','block');
+        $('#statistics #statcs_cl2').css('display', 'none');
+        $('#statistics #statcs_cl1').css('display', 'none');
+        $('#statistics #statcs_cl3').css('display', 'none');
+        $('#statistics').css('display', 'none');
+   });
+}); 

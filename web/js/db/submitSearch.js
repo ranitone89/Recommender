@@ -20,27 +20,33 @@ $(document).ready(function() {
 
     $(document).on("click", ".btn_statc", function(event){
         var buttonid = $(this).attr('id');
-        var slider = $(''+activeStat+' .cluster_stats');
+        //var slider = $(''+activeStat+' .clstats');
+        var slider = $(''+activeStat).children();
+        //alert($(''+activeStat).children().length);
+        alert(slider.length);
         checkIndexStat(buttonid,slider.length);
         slideStatcs(slider);
    });
    
-       function checkIndexStat(id,lenght) {  
+       function checkIndexStat(id,lenght) {
+        alert("Len "+ lenght);
         if(id==="btn_next_stat"){
             if(statcsIndex>=(lenght-focusStat)){
                 statcsIndex = (lenght-focusStat);
             }
             else{
-                statcsIndex = statcsIndex+1;
+                statcsIndex = statcsIndex+4;
             }
+            alert(statcsIndex);
         }
         if(id==="btn_prev_stat"){
             if(statcsIndex<=0){
                 statcsIndex = 0;
             }
             else{
-                statcsIndex = statcsIndex-1;
+                statcsIndex = statcsIndex-4;
             }
+            alert(statcsIndex);
         }
     }
     /**
@@ -87,7 +93,7 @@ $(document).ready(function() {
             $(slider).eq(i).addClass('clstats_hide');
         }
 
-        for(i=statcsIndex; i<(statcsIndex+focus);i++ ){
+        for(var i=statcsIndex; i<(statcsIndex+focusStat);i++ ){
             $(slider).eq(i).removeClass('clstats_hide');
             $(slider).eq(i).addClass('clstats');
         }
@@ -111,27 +117,36 @@ $(document).ready(function() {
     $(document).on("click", "#Row1", function(event){
         $('.cluster2').css('display','none');
         $('#method2').css('display','none');
+        statcsIndex = 0;
+        $('#statistics').show();
         $('#statistics #statcs_cl2').css('display', 'none');
         $('#statistics #statcs_cl3').css('display', 'none');
-        $('#statistics #statcs_cl1').css('display', 'block');
+        $('#statistics #statcs_cl1').show();
         activeStat = "#statistics #statcs_cl1";
         $('#id03').css('display', 'block');
     });
     $(document).on("click", "#Row2", function(event){
         $('.cluster2').css('display','none');
         $('#method2').css('display','none');
+        statcsIndex = 0;
+        $('#statistics').show();
         $('#statistics #statcs_cl2').css('display', 'block');
         $('#statistics #statcs_cl1').css('display', 'none');
         $('#statistics #statcs_cl3').css('display', 'none');
         activeStat = '#statistics #statcs_cl2';
+        
     });
     $(document).on("click", "#Row3", function(event){
         $('.cluster2').css('display','none');
         $('#method2').css('display','none');
+        statcsIndex = 0;
+        $('#statistics').show();
         $('#statistics #statcs_cl3').css('display', 'block');
         $('#statistics #statcs_cl1').css('display', 'none');
         $('#statistics #statcs_cl2').css('display', 'none');
+        
         activeStat = '#statistics #statcs_cl3';
+        statcsIndex = 0;
     });
     /************************** Submit Search *********************/
 
@@ -204,7 +219,6 @@ $(document).ready(function() {
     //function to display message to the user
     function showMessage(movies,cluster){
         if(movies !== null){
-            //var recommendation = covertToArray(movies,'r');
             $('.survey').css('display', 'block');
             $('.title').css('display', 'block');
             $('.methods').css('display', 'block');
@@ -268,9 +282,8 @@ $(document).ready(function() {
     function displaytCharts(jsonData,cluster, label,i)
     {   
         var stats = showHideStat(i);
-        alert(stats,i);
         var axis = label.split(" ");
-        $('#statistics #statcs_cl'+(cluster+1)).append('<div id='+axis[0]+'_'+axis[1]+ '_'+(cluster+1)+ ' class='+stats+'></div>').addClass();
+        $('#statistics #statcs_cl'+(cluster+1)).append('<div id='+axis[0]+'_'+axis[1]+ '_'+(cluster+1)+ ' class='+stats+' ></div>').addClass();
         Highcharts.chart(''+axis[0]+'_'+axis[1]+ '_'+(cluster+1), {
             chart: {
                 type: 'scatter',

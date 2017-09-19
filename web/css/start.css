@@ -2419,16 +2419,17 @@ footer{
     margin-left: 10px;
     margin-bottom: 30px;
     margin-top: 30px;
-    display: block;
+    /*display: block;*/
 }
 
 #statistics{
-    width: 700px;
+    /*width: 700px;*/
     float: left;
     border: 1px solid #d8d8d8;
     margin-top: 40px;
     margin-left: 50px;
     height: 819px;
+    display: none;
 }
 
 #statistics .clstats_hide{
@@ -2464,4 +2465,17 @@ button#btn_next_stat {
     border-radius: 10px;
     background: #fe7900;
     color: white;
+}
+
+.statistics-close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+
+#statistics,
+#statistics > div {
+       width: 700px !important;
 }
