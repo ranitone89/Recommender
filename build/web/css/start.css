@@ -1162,7 +1162,7 @@ div#messageSurvey {
 
 /* The Modal (background) */
 .modal {
-    display: none; /* Hidden by default */
+    display: block; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     left: 0;
@@ -1173,7 +1173,6 @@ div#messageSurvey {
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
     padding-top: 60px;
-    display:none;
 }
 
 /* Modal Content/Box */
@@ -1846,6 +1845,19 @@ div#Row2 {
     background-color: #ffeaea;
 }
 
+
+div#Row1:hover {
+    background-color: #e6e6e6;
+}
+
+div#Row3:hover {
+    background-color: #b7ffba;
+}
+
+div#Row2:hover {
+    background-color: #f5c8c8;
+}
+
 .methods {
     margin-top: 40px;
     text-align: center;
@@ -2398,4 +2410,58 @@ footer{
     bottom : 0;
     right : 0;
     top : 0;
+}
+
+.clstats {
+    float: left;
+    height: 300px;
+    width: 300px;
+    margin-left: 10px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    display: block;
+}
+
+#statistics{
+    width: 700px;
+    float: left;
+    border: 1px solid #d8d8d8;
+    margin-top: 40px;
+    margin-left: 50px;
+    height: 819px;
+}
+
+#statistics .clstats_hide{
+    display: none;
+}
+
+button#btn_prev_stat {
+    top: 367px;
+    position: relative;
+    float: left;
+    margin-left: 10px;
+}
+
+
+button#btn_next_stat {
+    top: 367px;
+    position: relative;
+    float: right;
+    margin-right: 10px;
+}
+
+.btn_statc{
+    border: none;
+    border-radius: 10px;
+    background: #666;
+    color: white;
+    outline: none;
+    z-index: 1;
+}
+
+.btn_statc:hover{
+    border: none;
+    border-radius: 10px;
+    background: #fe7900;
+    color: white;
 }

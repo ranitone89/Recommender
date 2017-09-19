@@ -1,13 +1,16 @@
 $(document).ready(function() {
     var slideIndex = [[0, 0, 0],[0, 0,0]];
+    var statcsIndex = 0;
+    var focusStat = 4;
     var focus = 5;
+    var activeStat ='';
 
     $(document).on("click", ".btn", function(event){
         var buttonid = $(this).attr('id');
         var cluster = $(this).parents().eq(1).attr('class');
         var row = $(this).parents().eq(0).attr('id');
         var slider = $('.'+cluster+' #'+row+' .Movie');
-
+        
         var lenght = slider.length;
         cluster = checkCluster(cluster);
         row = checkRow(row);
@@ -15,6 +18,31 @@ $(document).ready(function() {
         slide(slider,lenght,cluster,row);
    });
 
+    $(document).on("click", ".btn_statc", function(event){
+        var buttonid = $(this).attr('id');
+        var slider = $(''+activeStat+' .cluster_stats');
+        checkIndexStat(buttonid,slider.length);
+        slideStatcs(slider);
+   });
+   
+       function checkIndexStat(id,lenght) {  
+        if(id==="btn_next_stat"){
+            if(statcsIndex>=(lenght-focusStat)){
+                statcsIndex = (lenght-focusStat);
+            }
+            else{
+                statcsIndex = statcsIndex+1;
+            }
+        }
+        if(id==="btn_prev_stat"){
+            if(statcsIndex<=0){
+                statcsIndex = 0;
+            }
+            else{
+                statcsIndex = statcsIndex-1;
+            }
+        }
+    }
     /**
      * Check Index
      */
@@ -52,6 +80,18 @@ $(document).ready(function() {
         }
     }
 
+    function slideStatcs(slider) {
+        alert("Slide");
+        for(var i=0; i<slider.length;i++ ){
+            $(slider).eq(i).removeClass('clstats');
+            $(slider).eq(i).addClass('clstats_hide');
+        }
+
+        for(i=statcsIndex; i<(statcsIndex+focus);i++ ){
+            $(slider).eq(i).removeClass('clstats_hide');
+            $(slider).eq(i).addClass('clstats');
+        }
+    }
     /**
      * Cluster
      */
@@ -68,7 +108,31 @@ $(document).ready(function() {
         return r;
     }
 
-
+    $(document).on("click", "#Row1", function(event){
+        $('.cluster2').css('display','none');
+        $('#method2').css('display','none');
+        $('#statistics #statcs_cl2').css('display', 'none');
+        $('#statistics #statcs_cl3').css('display', 'none');
+        $('#statistics #statcs_cl1').css('display', 'block');
+        activeStat = "#statistics #statcs_cl1";
+        $('#id03').css('display', 'block');
+    });
+    $(document).on("click", "#Row2", function(event){
+        $('.cluster2').css('display','none');
+        $('#method2').css('display','none');
+        $('#statistics #statcs_cl2').css('display', 'block');
+        $('#statistics #statcs_cl1').css('display', 'none');
+        $('#statistics #statcs_cl3').css('display', 'none');
+        activeStat = '#statistics #statcs_cl2';
+    });
+    $(document).on("click", "#Row3", function(event){
+        $('.cluster2').css('display','none');
+        $('#method2').css('display','none');
+        $('#statistics #statcs_cl3').css('display', 'block');
+        $('#statistics #statcs_cl1').css('display', 'none');
+        $('#statistics #statcs_cl2').css('display', 'none');
+        activeStat = '#statistics #statcs_cl3';
+    });
     /************************** Submit Search *********************/
 
     $(document).on("click", ".submitBtn", function(event){
@@ -160,44 +224,56 @@ $(document).ready(function() {
 
     function getCharts(dataList,cluster)
     {
-        var ag = new Array();
-        var gl = new Array();
-        var lr = new Array();
-        var rr = new Array();
-        
+        var data = new Array();
+
         //number of movie objects
-        for(var i =0; i<dataList.length; i++){
-            //number of scores
-            for(var j=0; j<dataList[i].scores.length; j++){
-                if(j==0){
-                    ag.push({ x : dataList[i].scores[j], y: dataList[i].scores[j+1], title: dataList[i].title });
-                }
-                if(j==1){
-                    gl.push({ x : dataList[i].scores[j], y: dataList[i].scores[j+1],title: dataList[i].title });
-                }
-                if(j==2){
-                    lr.push({ x : dataList[i].scores[j], y: dataList[i].scores[j+1],title: dataList[i].title });
-                }                
-                if(j==3){
-                    rr.push({ x : dataList[i].scores[j], y: dataList[i].scores[j+1],title: dataList[i].title });
-                }
+        var dataDim = 0;
+        for(var j=0; j<dataList[0].scores.length; j++){
+            for(var z = j+1; z <dataList[0].scores.length; z++ )
+            {   
+                data.push( [] );
+                dataDim = dataDim+1;
             }
         }
-        displaytCharts(ag,cluster, "actor","genre","actor_genre");
-        displaytCharts(gl,cluster, "genre","lenght","genre_len");
-        displaytCharts(lr,cluster, "lenght","release year","len_rel");
-        displaytCharts(rr,cluster, "release year","rating","rel_rank");
+        
+        for(var i =0; i<dataList.length; i++){
+            var dim = 0;
+            for(var j=0; j<dataList[i].scores.length; j++){
+                
+                for(var z = j+1; z <dataList[i].scores.length; z++ ){        
+                    data[dim].push({ x : dataList[i].scores[j], y: dataList[i].scores[z], title: dataList[i].title });
+                    dim = dim+1;
+                }
+                
+            } 
+        }
+        var labels = getStatcsLabel(['actor','genre','lenght','year','rating']);
+        for(var i=0; i<data.length; i++){
+            displaytCharts(data[i],cluster, labels[i],i);
+        }
     }
 
-    function displaytCharts(jsonData,cluster, column1,column2,div_name)
-    {
-        alert("Get CHarts");
 
-        Highcharts.chart(''+div_name, {
-
+    function getStatcsLabel(labels){
+        var label = [];
+        for(var j=0; j<labels.length; j++){
+            for(var z = j+1; z <labels.length; z++ )
+            {   
+                label.push(labels[j]+" "+labels[z]);
+            }
+        }
+        return label;
+    }
+    
+    function displaytCharts(jsonData,cluster, label,i)
+    {   
+        var stats = showHideStat(i);
+        alert(stats,i);
+        var axis = label.split(" ");
+        $('#statistics #statcs_cl'+(cluster+1)).append('<div id='+axis[0]+'_'+axis[1]+ '_'+(cluster+1)+ ' class='+stats+'></div>').addClass();
+        Highcharts.chart(''+axis[0]+'_'+axis[1]+ '_'+(cluster+1), {
             chart: {
                 type: 'scatter',
-                //plotBorderWidth: 1,
                 zoomType: 'xy'
             },
 
@@ -206,11 +282,11 @@ $(document).ready(function() {
             },
 
             title: {
-                text: 'Scores'
+                text: ''
             },
             credits: false,
             subtitle: {
-                text: ''+column1+'/'+column2
+                text: ''+axis[0]+'/'+axis[1]
             },
             exporting: {
                 enabled: false
@@ -218,7 +294,7 @@ $(document).ready(function() {
             xAxis: {
                 //gridLineWidth: 1,
                 title: {
-                    text: ''+column1
+                    text: ''+axis[0]
                 },
                 labels: {
                     format: '{value}'
@@ -229,7 +305,7 @@ $(document).ready(function() {
                 startOnTick: false,
                 endOnTick: false,
                 title: {
-                    text: ''+column2
+                    text: ''+axis[1]
                 },
                 labels: {
                     format: '{value}'
@@ -240,7 +316,7 @@ $(document).ready(function() {
             tooltip: {
                 //useHTML: true,
                 headerFormat: '<table>',
-                pointFormat: '<b>{point.title}</b><br>'+ ' '+column1+' :{point.x}'+ ' '+column2+' :{point.y}'
+                pointFormat: '<b>{point.title}</b><br>'+ ' '+axis[0]+' :{point.x}'+ ' '+axis[1]+' :{point.y}'
             },
             series: [{
                 data: jsonData
@@ -261,7 +337,7 @@ $(document).ready(function() {
                 movies += jsonObj[i].movies[j].title+", ";
                 score.push({title: jsonObj[i].movies[j].title, scores: jsonObj[i].movies[j].scores});
             }
-            alert(JSON.stringify(score));
+            //alert(JSON.stringify(score));
             getCharts(score,i);
             showMessage(movies,cluster);
         }
@@ -442,6 +518,20 @@ $(document).ready(function() {
         }
         return movieClass;
     }
+
+    
+    function showHideStat(movieNum) {
+        var movieClass ='';
+        var focus = 4;
+        if(movieNum<focus){
+            movieClass ='clstats';
+        }
+        else{
+            movieClass ='clstats_hide';
+        }
+        return movieClass;
+    }    
+    
     
     function checkPoster(moviePoster) {
         var poster = "";
