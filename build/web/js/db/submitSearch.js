@@ -4,18 +4,20 @@ $(document).ready(function() {
     var focusStat = 4;
     var focus = 5;
     var activeStat ='';
+    var num = [];
 
+    
     $(document).on("click", ".btn", function(event){
         var buttonid = $(this).attr('id');
-        var cluster = $(this).parents().eq(1).attr('class');
-        var row = $(this).parents().eq(0).attr('id');
-        var slider = $('.'+cluster+' #'+row+' .Movie');
+        var method = $(this).parents().eq(1).attr('class');
+        var cluster = $(this).parents().eq(0).attr('id');
+        var slider = $('.'+method+' #'+cluster+' .Movie');
         
         var lenght = slider.length;
+        method = checkMethod(method);
         cluster = checkCluster(cluster);
-        row = checkRow(row);
-        checkIndex(buttonid,lenght,cluster,row);
-        slide(slider,lenght,cluster,row);
+        checkIndex(buttonid,lenght,method,cluster);
+        slide(slider,lenght,method,cluster);
    });
 
     $(document).on("click", ".btn_statc", function(event){
@@ -26,7 +28,7 @@ $(document).ready(function() {
         slideStatcs(slider);
    });
    
-       function checkIndexStat(id,lenght) {
+    function checkIndexStat(id,lenght) {
         if(id==="btn_next_stat"){
             if(statcsIndex>=(lenght-focusStat)){
                 statcsIndex = statcsIndex;
@@ -47,22 +49,22 @@ $(document).ready(function() {
     /**
      * Check Index
      */
-    function checkIndex(id,lenght,cluster,row) {
+    function checkIndex(id,lenght,method,cluster) {
         if(id=="btn_prev"){
-
-            if(slideIndex[cluster][row]<=0){
-                slideIndex[cluster][row] = 0;
+            if(slideIndex[method][cluster]<=0){
+                slideIndex[method][cluster] = 0;
             }
             else{
-                slideIndex[cluster][row] = slideIndex[cluster][row]-1;
+                slideIndex[method][cluster] = slideIndex[method][cluster]-1;
             }
+            alert(slideIndex[method][cluster]);
         }
         if(id=="btn_next"){
-            if(slideIndex[cluster][row]>=(lenght-focus)){
-                slideIndex[cluster][row] = (lenght-focus);
+            if(slideIndex[method][cluster]>=(lenght-focus)){
+                slideIndex[method][cluster] = (lenght-focus);
             }
             else{
-                slideIndex[cluster][row] = slideIndex[cluster][row]+1;
+                slideIndex[method][cluster] = slideIndex[method][cluster]+1;
             }
         }
     }
@@ -93,16 +95,16 @@ $(document).ready(function() {
     /**
      * Cluster
      */
-    function checkCluster(cluster) {
-        var cluster = parseInt(cluster.replace(/cluster/, ''))-1;
-        return cluster;
+    function checkMethod(method) {
+        var method = parseInt(method.replace(/Method/, ''))-1;
+        return method;
 
     }
      /**
      * Row
      */
-    function checkRow(row) {
-        var r = parseInt(row.replace(/Row/, ''))-1;
+    function checkCluster(cluster) {
+        var r = parseInt(cluster.replace(/Cluster/, ''))-1;
         return r;
     }
 
@@ -207,13 +209,13 @@ $(document).ready(function() {
 
 
     //function to display message to the user
-    function showMessage(movies,cluster){
+    function showMessage(method,cluster,movies){
         if(movies !== null){
             $('.survey').css('display', 'block');
             $('.title').css('display', 'block');
-            $('.methods').css('display', 'block');
+            $('.titles').css('display', 'block');
             
-            displayMovies(covertToArray(movies,'r'),1,cluster);
+            displayMovies(covertToArray(movies,'r'),method,cluster);
 
             $('.tab-nav').hide();
             $('.tab-back-nav').show();
@@ -330,31 +332,33 @@ $(document).ready(function() {
 
     function getMovies(jsonObj)
     {
-        var dataList = [];
-        for(var i = 0; i < jsonObj.length+1; i++)
+        alert(jsonObj.length);
+        for(var mt = 0; mt < jsonObj.length; mt++)
         {
-            var movies = "";
-            var cluster = i+1;
-            
-            var score = [];
-            for(var j = 0; j<jsonObj[i].movies.length; j++){
-                movies += jsonObj[i].movies[j].title+", ";
-                score.push({title: jsonObj[i].movies[j].title, scores: jsonObj[i].movies[j].scores});
+            for(var cl = 0; cl<jsonObj[mt].length; cl++){
+                
+                var movies = "";
+                var cluster= jsonObj[mt][cl].clusterid+1;
+                var method = jsonObj[mt][cl].methodid +1;
+                $('.Method'+method).append('<div id=Cluster'+cluster+' class=Clusters></div>');
+                var score = [];
+                for(var j = 0; j<jsonObj[mt][cl].movies.length; j++){
+                    movies += jsonObj[mt][cl].movies[j].title+", ";
+                    score.push({title: jsonObj[mt][cl].movies[j].title, scores: jsonObj[mt][cl].movies[j].scores});
+                }
+                /*getCharts(score,cluster);*/
+                showMessage(method,cluster,movies);
             }
-            //alert(JSON.stringify(score));
-            getCharts(score,i);
-            showMessage(movies,cluster);
         }
     }
 
-
-    function displayMovies(movies,klaster,row){
+    function displayMovies(movies,method,cluster){
       $('#TopRated').css("display","none");
       $('#New').css("display","none");
       $('#Cooming').css("display","none");
-      $('.cluster'+klaster+' #Row'+row).empty();
+      $('.Method'+method+' #Cluster'+cluster).empty();
       $('#Result').css("display","block");
-      $('.cluster'+klaster+ '#Row'+row).css("display","block");
+      $('.Method'+method+ '#Cluster'+cluster).css("display","block");
 
       
       var movieClass ='';
@@ -427,17 +431,17 @@ $(document).ready(function() {
                                         '<p>'+response.Plot+'</p>'+
                                     '</div>'+
                                 '</div>')
-                .appendTo('.cluster'+klaster+' #Row'+row);
+                .appendTo('.Method'+method+' #Cluster'+cluster);
                 }
             });
         }
-        var cb = 'cb_cluster'+klaster+row;
-        var lb = 'lb_'+klaster+row;
-        $('.cluster'+klaster+' #Row'+row).append('<button class="btn" id="btn_prev">&#10094</button>');
-        $('.cluster'+klaster+' #Row'+row).append('<button class="btn" id="btn_next">&#10095</button>');
-        $('.cluster'+klaster+' #Row'+row).append('<input id="'+cb+'" type="checkbox" class="cb_cluster">');
-        $('.cluster'+klaster+' #Row'+row).append('<label class="cb_text" for="'+cb+'"></label>');
-        $('.cluster'+klaster+' #Row'+row).append('<label id="'+lb+'" class="cb_text_label"></label>');
+        var cb = 'cb_cluster'+method+cluster;
+        var lb = 'lb_'+method+cluster;
+        $('.Method'+method+' #Cluster'+cluster).append('<button class="btn" id="btn_prev">&#10094</button>');
+        $('.Method'+method+' #Cluster'+cluster).append('<button class="btn" id="btn_next">&#10095</button>');
+        $('.Method'+method+' #Cluster'+cluster).append('<input id="'+cb+'" type="checkbox" class="cb_cluster">');
+        $('.Method'+method+' #Cluster'+cluster).append('<label class="cb_text" for="'+cb+'"></label>');
+        $('.Method'+method+' #Cluster'+cluster).append('<label id="'+lb+'" class="cb_text_label"></label>');
     }
 
     function covertToArray(array, string)

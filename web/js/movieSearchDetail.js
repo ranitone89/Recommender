@@ -1,4 +1,6 @@
 
+/*global num */
+
 $(document).ready(function() {
     var movieContent;
     var movies;
@@ -7,22 +9,21 @@ $(document).ready(function() {
     $(document).on("click", ".RatedMovie img", function(event){
         $('.survey').css('display', 'none');
         $('.title').css('display', 'none');
-        $('.methods').css('display', 'none');
-        
+        $('.titles').css('display', 'none');
+
         var $movie = $(this).closest('.Movie');
-        var cluster = $(this).parents().eq(3).attr('class');
-        var row = $(this).parents().eq(2).attr('id');
-        $('.cluster1 #ck-button').css('display','none');
-        $('.cluster2 #ck-button').css('display','none');
-        showMovie(cluster,row);
+        var method = $(this).parents().eq(3).attr('class').match(/\d+/)[0];
+        var cluster = $(this).parents().eq(2).attr('id').match(/\d+/)[0];
+        
+        $('#ck-buttons').css('display','none');
+        showMovie(method,cluster);
         movies = $(".Movie").not($movie);
         movieContent = $(this).closest('.Movie').children('.Content');
-        
         movies.hide();
-        movieContent.show();
-        
+        movieContent.show();  
         ratedMovies = $(this).closest('.Movie').children('.RatedMovie');
         ratedMovies.hide();
+        
         $('.tab-back-nav').hide();
         $('.search-back-nav').show();
    });
@@ -30,28 +31,25 @@ $(document).ready(function() {
     $(document).on("click", ".search-back-nav ", function(event){
         
         $('.title').css('display', 'block');
-        $('.methods').css('display', 'block');
+        $('.titles').css('display', 'block');
         $('.survey').css('display', 'block');
-            
+        $('#ck-buttons').css('display','block');
+        
         movieContent.hide();
-        $(".Movie").show().removeAttr( 'style' );
         ratedMovies.show().removeAttr( 'style' );
-        $(".cluster1").css('margin-left','0');
-        var i;
-        var cluster = ['cluster1','cluster2'];
-        for(i=0; i<cluster.length; i++){
-            $('.'+cluster[i] + ' #ck-button').css('display','block');
-            $('.'+cluster[i]).css('border','1px solid #f1f1f1');
-            $('.'+cluster[i]).show();
-            $('.'+cluster[i]+ ' #Row1').show();
-            $('.'+cluster[i]+ ' #Row2').show();
-            $('.'+cluster[i]+ ' #Row3').show();
-            $('.'+cluster[i]+ ' #Row1').css('width', '621px');
-            $('.'+cluster[i]+ ' #Row1').css('height', '255px');
-            $('.'+cluster[i]+ ' #Row2').css('width', '621px');
-            $('.'+cluster[i]+ ' #Row2').css('height', '255px');
-            $('.'+cluster[i]+ ' #Row3').css('width', '621px');
-            $('.'+cluster[i]+ ' #Row3').css('height', '255px');
+        $(".Movie").show().removeAttr( 'style' );
+        
+        for(var i=1; i<3; i++){
+            $('.Method'+i + ' #ck-button').css('display','block');
+            $('.Method'+i).css('border','1px solid #f1f1f1');
+            $('.Method'+i).show();
+            
+            for(var j=1; j<4; j++){
+                $('.Method'+i+ ' #Cluster'+j).show();
+                $('.Method'+i+ ' #Cluster'+j).css('width', '621px');
+                $('.Method'+i+ ' #Cluster'+j).css('height', '255px');
+                $('.Method'+i).css('margin-left','');
+            }
         }
         $(".btn").show();
         $('.search-back-nav').hide();
@@ -61,52 +59,35 @@ $(document).ready(function() {
     /**
      * Comment
      */
-    function showMovie(cluster,row) {
-        if(cluster =="cluster1"){
-            $(".cluster2").hide();
-            $("."+cluster).css('border','none');
-            $(".cluster1").css('margin-left','130px');
-            if(row=="Row1"){
-                $("."+cluster+" #Row2").hide();
-                $("."+cluster+" #Row3").hide();
-                $("."+cluster+" #Row1").css('width', 'auto');
-                $("."+cluster+" #Row1").css('height', 'auto');
+    function showMovie(method,cluster) {
+
+        for(var m=1; m<3; m++){
+            var mt = ''+m;
+            if(method===mt){
+                $('.Method'+method).css('margin-left','130px');
+                $('.Method'+method).css('border','none');
+                alert("Gleich M");
+                alert(method);
             }
-            if(row=="Row2"){
-                $("."+cluster+" #Row1").hide();
-                $("."+cluster+" #Row3").hide();
-                $("."+cluster+" #Row2").css('width', 'auto');
-                $("."+cluster+" #Row2").css('height', 'auto');
+            if(method!==mt){
+                $('.Method'+mt).hide();
+                alert("UNGleich M");
+                alert(mt);
             }
-            if(row=="Row3"){
-                $("."+cluster+" #Row1").hide();
-                $("."+cluster+" #Row2").hide();
-                $("."+cluster+" #Row3").css('width', 'auto');
-                $("."+cluster+" #Row3").css('height', 'auto');
+            for(var c=1; c<4; c++){
+                var cl = ''+c;
+                if(cluster===cl){
+                    alert("Gleich Cluster");
+                    $('.Method'+method+' #Cluster'+cluster).css('width', 'auto');
+                    $('.Method'+method+' #Cluster'+cluster).css('height', 'auto');                    
+                }
+                if(cluster!==cl){
+                    $('.Method'+method+' #Cluster'+cl).hide();
+                    $('.Method'+method+' #Cluster'+cl).hide();                    
+                }
+                
             }
-        }
-        if(cluster =="cluster2"){
-            $(".cluster1").hide();
-            $("."+cluster).css('border','none');
             
-            if(row=="Row1"){
-                $("."+cluster+" #Row2").hide();
-                $("."+cluster+" #Row3").hide();
-                $("."+cluster+" #Row1").css('width', 'auto');
-                $("."+cluster+" #Row1").css('height', 'auto');
-            }
-            if(row=="Row2"){
-                $("."+cluster+" #Row1").hide();
-                $("."+cluster+" #Row3").hide();
-                $("."+cluster+" #Row2").css('width', 'auto');
-                $("."+cluster+" #Row2").css('height', 'auto');
-            }
-            if(row=="Row3"){
-                $("."+cluster+" #Row1").hide();
-                $("."+cluster+" #Row2").hide();
-                $("."+cluster+" #Row3").css('width', 'auto');
-                $("."+cluster+" #Row3").css('height', 'auto');
-            }
         }
         $(".btn").hide();
     }

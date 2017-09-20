@@ -52,14 +52,23 @@ public class SearchRequest extends HttpServlet {
             DataDB dataDao = new DataDB();
             
             ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres);
-            //ArrayList<Movie> movies = dataDao.getMovies(movieArray(message));
-            
+
             Search search = new Search(genres, actors);
-            Score s = new Score(movies,search);
+            Score s = new Score(movies,search);//calsScores
             ArrayList<PointdDim> points = getPoints(movies);
-            FinalClustering clusterings = new FinalClustering();
-            clusterings = Kmeans.kMeansClustering(points, 3, 0, 1);
-            String json = new Gson().toJson(getClusterElements(clusterings));
+            
+            FinalClustering clusterings1 = new FinalClustering();
+            clusterings1 = Kmeans.kMeansClustering(points, 3, 0, 1);
+            
+            FinalClustering clusterings2 = new FinalClustering();
+            clusterings2 = Kmeans.kMeansClustering(points, 3, 0, 0);
+            
+            ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<>();
+ 
+            recommendations.add(getClusterElements(clusterings1,0));
+            recommendations.add(getClusterElements(clusterings2,1));
+
+            String json = new Gson().toJson(recommendations);
             System.out.println(json);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
@@ -71,7 +80,7 @@ public class SearchRequest extends HttpServlet {
         }
     }
 
-    private ArrayList<Recommendation>getClusterElements(FinalClustering clusterings) throws IOException 
+    private ArrayList<Recommendation>getClusterElements(FinalClustering clusterings, int methodid) throws IOException 
     {
         ArrayList<Recommendation> recommendations = new ArrayList<Recommendation>();
         
@@ -81,7 +90,7 @@ public class SearchRequest extends HttpServlet {
             for (PointdDim elem : cluster.getClusterPoints()){
                 movies.add(elem.getMovieDim());
             }
-            recommendations.add(new Recommendation(cluster.getId(), movies));
+            recommendations.add(new Recommendation(methodid,cluster.getId(), movies));
         }
         
         return recommendations;

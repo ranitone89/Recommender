@@ -9,18 +9,15 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Administrator
+ * @author Nemanja Ranitovic
  */
-public class Recommendation {
-    
-    private int methodid;
+public class Cluster {
     private int clusterid;
     private ArrayList<Movie> movies;
     
-    public Recommendation(int methodid,int clusterid, ArrayList<Movie> movies)
+    public Cluster(int clusterid, ArrayList<Movie> movies)
     {
         this.clusterid = clusterid;
         this.movies = movies;
-        this.methodid = methodid;
     }
 }

@@ -837,60 +837,69 @@ html, body {
 #Result .cb_text {
     display: inline-block;
 }
-#ck-button {
+.ck-button {
     margin:4px;
     color: white;
     background-color:#f44336;
     border-radius:4px;
     border:1px solid #D0D0D0;
     float:left;
-    margin-left: 200px;
+    /*margin-left: 200px;*/
     margin-top: 10px;
 }
 
-#ck-button:hover {
+#ck-right{
+    margin-left: 500px;
+}
+
+#ck-left{
+    margin-left: 200px;
+}
+
+
+.ck-button:hover {
     color: white;
     background-color: #4CAF50;
 }
 
-#ck-button label {
+.ck-button label {
     float:left;
     width: 16em;
 }
 
-#ck-button label span {
+.ck-button label span {
     text-align:center;
     padding:10px 0px;
     display:block;
 }
 
-#ck-button .like{
+.ck-button .like{
     display: none;
 }
 
 
-#ck-button:hover .unlike {display:none;}
-#ck-button:hover .like {display:block;}
+.ck-button:hover .unlike {display:none;}
+.ck-button:hover .like {display:block;}
 
 
-#ck-button label input {
+.ck-button label input {
     position:absolute;
     top:-20px;
 }
 
-#ck-button input:checked + span{
+.ck-button input:checked + span{
     background-color: #4CAF50;
     color:#fff;
 }
-#ck-button input:checked  ~ .like{
+.ck-button input:checked  ~ .like{
     display: block;
     background-color: #4CAF50;
     color:#fff;
 }
-#ck-button input:checked  ~ .unlike{
+.ck-button input:checked  ~ .unlike{
     display: none;
 }
-#ck-button input[type="checkbox"] {
+.ck-button input[type="checkbox"] {
     display: none;
 }
 /********************************************/
@@ -1154,9 +1163,9 @@ div#messageSearch {
     margin: 8px auto;
 }
 div#messageSurvey {
-    width: 1290px;
+    width: 1400px;
     text-align: center;
-    margin-left: 210px;
+    float: left;
 }
 
 
@@ -1795,7 +1804,7 @@ input, button, select, textarea {
   display:none;
 }
 
-#Row1, #Row2, #Row3{
+.Clusters{
     margin-top: 10px;
     margin-left: 10px;
     margin-right: 10px;
@@ -1833,51 +1842,53 @@ input, button, select, textarea {
     margin-top: 10px;
 }
 
-div#Row1 {
+#Cluster1 {
     background-color: #f1f1f1;
 }
 
-div#Row3 {
+#Cluster3 {
     background-color: #d9f5da;
 }
 
-div#Row2 {
+#Cluster2 {
     background-color: #ffeaea;
 }
 
 
-div#Row1:hover {
+#Cluster1:hover {
     background-color: #e6e6e6;
 }
 
-div#Row3:hover {
+#Cluster3:hover {
     background-color: #b7ffba;
 }
 
-div#Row2:hover {
+#Cluster2:hover {
     background-color: #f5c8c8;
 }
 
-.methods {
+.titles {
     margin-top: 40px;
     text-align: center;
+    float: left;
 }
-#method1,#method2 {
+#title1,#title2 {
     float: left;
     text-transform: none;
     color: #666;
     text-transform: uppercase;
 }
 
-#method2 {
+#title2 {
     width: 643px;
     margin-left: 90px;
 }
 
-#method1 {
+#title1 {
     width: 643px;
-    margin-left: 150px;
+    margin-left: 100px;
 }
+
 .main-text {
     text-transform: none;
     color: #666;
@@ -1887,20 +1898,20 @@ div#Row2:hover {
     margin-right: 7px;
 }
 
-.cluster1, .cluster2 {
+.Method1, .Method2 {
     margin-top: 40px;
     width: 643px;
-    height: 819px;
+    /*height: 819px;*/
     float: left;
     border: 1px solid #d8d8d8;
 }
 
-.cluster1 .Movie {
+.Method1 .Movie {
     /*display: inline-block;*/
     margin-left: 3px;
 }
 
-.cluster1 .RatedMovie{
+.Method1 .RatedMovie{
   margin-top:2%;
   margin-bottom: 13%;
   margin-left:1%;
@@ -1911,16 +1922,16 @@ div#Row2:hover {
   font-size: 10px;
 }
 
-.cluster2 {
+.Method2 {
     margin-left: 90px;
 }
 
-.cluster2 .Movie {
+.Method2 .Movie {
     /*display: inline-block;*/
     margin-left: 3px;
 }
 
-.cluster2 .RatedMovie{
+.Method2 .RatedMovie{
   margin-top:2%;
   margin-bottom: 13%;
   margin-left:1%;
@@ -1940,6 +1951,11 @@ div#Row2:hover {
   float:left;  
 }
 
+.survey {
+    float: left;
+    width: 1400px;
+}
+
 .survey input[type=submit]:hover {
     background-color: #ee7d13;
     margin: 60px 45px;
@@ -1956,7 +1972,7 @@ div#Row2:hover {
     border-radius: 4px;
     cursor: pointer;
     position: relative;
-    right: 41%;
+    right: 450px;
     float: right;
 }
 
