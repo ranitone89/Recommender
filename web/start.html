@@ -36,9 +36,6 @@
     <script src="js/movieDetail.js" type="text/javascript"></script>
     <script src="js/loadMovies.js" type="text/javascript"></script>
     <script src="js/initStar.js" type="text/javascript"></script>
-    <script src="js/movieSearchDetail.js" type="text/javascript">
-        
-    </script>
     <script src="js/titleDetail.js" type="text/javascript"></script>
     <script src="js/submitSurvey.js" type="text/javascript"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -366,11 +363,18 @@
                 <h4 id="title2">Method two</h4>
             </div>
             <div id="Result">
-                <div class="Method1">
-                    </div>
-                <div class="Method2">
-                    </div>
-                
+                <div class="Method1"></div>
+                <div class="Statistic1">
+                    <button class="btn_statc" id="btn_prev_stat">&#10094</button>
+                    <button class="btn_statc" id="btn_next_stat">&#10095</button>
+                    <span class="statistics-close">×</span>
+                </div>
+                <div class="Statistic2">
+                    <button class="btn_statc" id="btn_prev_stat">&#10094</button>
+                    <button class="btn_statc" id="btn_next_stat">&#10095</button>
+                    <span class="statistics-close">×</span>
+                </div>
+                <div class="Method2"></div>                
                 <div id="ck-buttons">
                     <div class="ck-button" id="ck-left">
                             <label class="cb_label">
@@ -388,14 +392,18 @@
                          </div>
                     </div>
                 </div>
-                <div id="statistics">
+                <!--div id="Statistics">
+                    <div class="Statistic1"></div>
+                    
+                    <div class="Statistic2"></div>
+                    
                     <button class="btn_statc" id="btn_prev_stat">&#10094</button>
                     <button class="btn_statc" id="btn_next_stat">&#10095</button>
                     <span class="statistics-close">×</span>
                     <div id="statcs_cl1" style="display:none"></div>
                     <div id="statcs_cl2" style="display:none"></div>
                     <div id="statcs_cl3" style="display:none"></div>
-                </div>
+                </div-->
             </div>
             <div id="messageSurvey" style="display:none"></div>
             <div class="survey" style="display:none">

@@ -837,6 +837,13 @@ html, body {
 #Result .cb_text {
     display: inline-block;
 }
+
+#ck-buttons {
+    width: 1200px;
+    float: left;
+    margin: 0 auto;
+}
+
 .ck-button {
     margin:4px;
     color: white;
@@ -1881,7 +1888,7 @@ input, button, select, textarea {
 
 #title2 {
     width: 643px;
-    margin-left: 90px;
+    margin-left: 70px;
 }
 
 #title1 {
@@ -1923,7 +1930,7 @@ input, button, select, textarea {
 }
 
 .Method2 {
-    margin-left: 90px;
+    margin-left: 50px;
 }
 
 .Method2 .Movie {
@@ -2428,6 +2435,7 @@ footer{
     top : 0;
 }
 
+
 .clstats {
     float: left;
     height: 300px;
@@ -2438,17 +2446,21 @@ footer{
     /*display: block;*/
 }
 
-#statistics{
+.Statistic1,.Statistic2{
     width: 700px;
     float: left;
     border: 1px solid #d8d8d8;
     margin-top: 40px;
-    margin-left: 50px;
+    /*margin-left: 50px;*/
     height: 819px;
     display: none;
 }
 
-#statistics .hide{
+.Statistic1 {
+    margin-left: 50px;
+}
+
+.Statics .hide{
     display: none;
 }
 
@@ -2490,6 +2502,14 @@ button#btn_next_stat {
     font-weight: bold;
 }
 
+.statistics-close:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.Statics {
+    display: none;
+}
 
 /*#statistics,
 #statistics > div {

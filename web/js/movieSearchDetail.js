@@ -1,6 +1,3 @@
-
-/*global num */
-
 $(document).ready(function() {
     var movieContent;
     var movies;
@@ -14,7 +11,7 @@ $(document).ready(function() {
         var $movie = $(this).closest('.Movie');
         var method = $(this).parents().eq(3).attr('class').match(/\d+/)[0];
         var cluster = $(this).parents().eq(2).attr('id').match(/\d+/)[0];
-        
+        alert("Detail Num lenght: "+num.lenght);
         $('#ck-buttons').css('display','none');
         showMovie(method,cluster);
         movies = $(".Movie").not($movie);
@@ -39,16 +36,18 @@ $(document).ready(function() {
         ratedMovies.show().removeAttr( 'style' );
         $(".Movie").show().removeAttr( 'style' );
         
-        for(var i=1; i<3; i++){
-            $('.Method'+i + ' #ck-button').css('display','block');
-            $('.Method'+i).css('border','1px solid #f1f1f1');
-            $('.Method'+i).show();
+        alert("Detail: "+num.length+1);
+        for(var method=1; method<num.length+1; method++){
+            $('.Method'+method + ' #ck-button').css('display','block');
+            $('.Method'+method).css('border','1px solid #f1f1f1');
+            $('.Method'+method).show();
             
-            for(var j=1; j<4; j++){
-                $('.Method'+i+ ' #Cluster'+j).show();
-                $('.Method'+i+ ' #Cluster'+j).css('width', '621px');
-                $('.Method'+i+ ' #Cluster'+j).css('height', '255px');
-                $('.Method'+i).css('margin-left','');
+            alert("Cl: "+num[method]);
+            for(var cluster=1; cluster<[method]+1; cluster++){
+                $('.Method'+method+ ' #Cluster'+cluster).show();
+                $('.Method'+method+ ' #Cluster'+cluster).css('width', '621px');
+                $('.Method'+method+ ' #Cluster'+cluster).css('height', '255px');
+                $('.Method'+method).css('margin-left','');
             }
         }
         $(".btn").show();
@@ -61,7 +60,7 @@ $(document).ready(function() {
      */
     function showMovie(method,cluster) {
 
-        for(var m=1; m<3; m++){
+        for(var m=1; m<num.length+1; m++){
             var mt = ''+m;
             if(method===mt){
                 $('.Method'+method).css('margin-left','130px');
@@ -74,7 +73,7 @@ $(document).ready(function() {
                 alert("UNGleich M");
                 alert(mt);
             }
-            for(var c=1; c<4; c++){
+            for(var c=1; c<num[m]+1; c++){
                 var cl = ''+c;
                 if(cluster===cl){
                     alert("Gleich Cluster");
