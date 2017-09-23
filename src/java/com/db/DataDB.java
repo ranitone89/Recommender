@@ -155,9 +155,9 @@ public class DataDB {
                                 + "AND movie_year(m.year) BETWEEN (?) AND (?) "
                                 + "AND(rank.rank::float BETWEEN (?) AND 10"
                                 + "OR genre.genre = ANY(?)) "
-                                + "AND genre.genre NOT IN('Short','News','Reality-TV') "
+                                + "AND m.title NOT IN('{%GALA%, %AWARDS%,%BRAVO%,%FITNESS%}') "
                                 + "GROUP BY m.movieid "
-                                + "LIMIT 30";
+                                + "LIMIT 40";
             
             Array listActors = connection.createArrayOf("text", actors);
             Array listGenres = connection.createArrayOf("text", genres);

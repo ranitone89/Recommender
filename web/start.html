@@ -134,15 +134,14 @@
                         <div class="row">
                             <div class="item">
                                  <label>Actor</label>
-                                 <!--input type="text" name="search" placeholder="Enter the actor's name..." class="input" id="search"-->
                                  <textarea rows="1" contentEditable="true" placeholder="Enter the actor's name..." class="input" id="actors"></textarea>
                            </div>
                            <div class="item">
                                <label for="fader">Year of Release</label>
                                <div class="range" id="released">
-                                    <input class="min" name="range_1" list="tickmarks" type="range" min="1945" max="2017" value="1945" />
-                                    <input class="max" name="range_1" list="tickmarks" type="range" min="1945" max="2017" value="2017" />
-                                    <span class="range_min light left">1945</span>
+                                    <input class="min" name="range_1" list="tickmarks" type="range" min="1970" max="2017" value="1970" />
+                                    <input class="max" name="range_1" list="tickmarks" type="range" min="1970" max="2017" value="2017" />
+                                    <span class="range_min light left">1970</span>
                                     <span class="range_max light right">2017</span>
                                 </div>
                             </div>
@@ -201,10 +200,6 @@
                                                     <li>
                                                         <input type="checkbox" value="Fantasy" class="cb" id="Fantasy"/>
                                                         <label for="Fantasy">Fantasy</label>
-                                                    </li>
-                                                    <li>
-                                                        <input type="checkbox" value="Film-Noir" class="cb" id="Film-Noir"/>
-                                                        <label for="Film-Noir">Film-Noir</label>
                                                     </li>
                                                     <li>
                                                         <input type="checkbox" value="History" class="cb" id="History"/>
@@ -358,9 +353,11 @@
             </div>
            
              
-            <div class="titles" style="display: none;">
-                <h4 id="title1">Method one</h4>
-                <h4 id="title2">Method two</h4>
+            <div class="Titles" style="display: none;">
+                <h4 id="tMethod1" class="tMethods">Method one</h4>
+                <h4 id="tStat1" class="tStatistisc">Statistics for the first method</h4>
+                <h4 id="tStat2" class="tStatistisc">Statistics for the second method</h4>
+                <h4 id="tMethod2" class="tMethods">Method two</h4>
             </div>
             <div id="Result">
                 <div class="Method1"></div>
@@ -392,18 +389,6 @@
                          </div>
                     </div>
                 </div>
-                <!--div id="Statistics">
-                    <div class="Statistic1"></div>
-                    
-                    <div class="Statistic2"></div>
-                    
-                    <button class="btn_statc" id="btn_prev_stat">&#10094</button>
-                    <button class="btn_statc" id="btn_next_stat">&#10095</button>
-                    <span class="statistics-close">×</span>
-                    <div id="statcs_cl1" style="display:none"></div>
-                    <div id="statcs_cl2" style="display:none"></div>
-                    <div id="statcs_cl3" style="display:none"></div>
-                </div-->
             </div>
             <div id="messageSurvey" style="display:none"></div>
             <div class="survey" style="display:none">

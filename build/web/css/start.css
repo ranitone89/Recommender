@@ -1874,24 +1874,32 @@ input, button, select, textarea {
     background-color: #f5c8c8;
 }
 
-.titles {
+.Titles {
     margin-top: 40px;
     text-align: center;
     float: left;
 }
-#title1,#title2 {
+.tMethods {
     float: left;
     text-transform: none;
     color: #666;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
 }
 
-#title2 {
+.tStatistisc{
+    float: left;
+    text-transform: none;
+    color: #666;
+    /*text-transform: uppercase;*/
+    display: none;
+}
+
+#tMethod2,#tStat1 {
     width: 643px;
     margin-left: 70px;
 }
 
-#title1 {
+#tMethod1, #tStat2 {
     width: 643px;
     margin-left: 100px;
 }
@@ -2034,18 +2042,17 @@ input, button, select, textarea {
 
 .btn{
     border: none;
-    border-radius: 10px;
-    background: #666;
-    color: white;
+    background: none;
+    color: #666;
     outline: none;
     z-index: 1;
-}
-
+    height: 20px;
+    width: 20px;
+}    
+    
 .btn:hover{
     border: none;
-    border-radius: 10px;
-    background: #fe7900;
-    color: white;
+    color: #fe7900;
 }
 
 #btn_next {
@@ -2441,6 +2448,7 @@ footer{
     height: 300px;
     width: 300px;
     margin-left: 10px;
+    /*margin-right: 35px;*/
     margin-bottom: 30px;
     margin-top: 30px;
     /*display: block;*/
@@ -2511,7 +2519,27 @@ button#btn_next_stat {
     display: none;
 }
 
-/*#statistics,
-#statistics > div {
-       width: 700px !important;
-}*/
+#Result .btnStatistics {
+    display: inline-block;
+    margin: 5px;
+    float: right;
+    top: 225px;
+    margin-right: -121px;
+}
+
+#Result input[type=submit] {
+    width: 65px;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 6px 8px;
+    border-radius: inherit;
+    border: 1px solid lightgray;
+    background-color: #fff;
+    color: #666;
+    outline: none;
+}
+
+#Result input[type=submit]:hover{
+    background-color: #666;
+    color: white;
+}

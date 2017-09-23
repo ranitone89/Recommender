@@ -42,7 +42,6 @@ $(document).ready(function() {
             $('.Method'+method).css('border','1px solid #f1f1f1');
             $('.Method'+method).show();
             
-            alert("Cl: "+num[method]);
             for(var cluster=1; cluster<[method]+1; cluster++){
                 $('.Method'+method+ ' #Cluster'+cluster).show();
                 $('.Method'+method+ ' #Cluster'+cluster).css('width', '621px');

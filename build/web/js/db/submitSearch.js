@@ -5,22 +5,24 @@ $(document).ready(function() {
     var activeStat ='';
     var movieContent;
     var movies;
+    var movie;
     var ratedMovies;
     var num = [];
     var slideIndex = new Array();
     var statcsIndex  = 0;
-    
-    
+    var statistic = 0;
+
     $(document).on("click", ".RatedMovie img", function(event){
         $('.survey').css('display', 'none');
         $('.title').css('display', 'none');
-        $('.titles').css('display', 'none');
+        $('.Titles').css('display', 'none');
 
         var $movie = $(this).closest('.Movie');
         var method = $(this).parents().eq(3).attr('class').match(/\d+/)[0];
         var cluster = $(this).parents().eq(2).attr('id').match(/\d+/)[0];
         $('#ck-buttons').css('display','none');
         showMovie(method,cluster);
+        movie = $(this).closest('.Movie');
         movies = $(".Movie").not($movie);
         movieContent = $(this).closest('.Movie').children('.Content');
         movies.hide();
@@ -30,24 +32,77 @@ $(document).ready(function() {
         
         $('.tab-back-nav').hide();
         $('.search-back-nav').show();
+        
+        var method = checkMethod($(movie).parents().eq(1).attr('class'))+1;
+        checkStatistics(method);
+        $('.Statistic'+method).css('display','none');
+        
    });
    
     $(document).on("click", ".search-back-nav ", function(event){
         $('.title').css('display', 'block');
-        $('.titles').css('display', 'block');
+        $('.Titles').css('display', 'block');
         $('.survey').css('display', 'block');
         $('#ck-buttons').css('display','block');
-        
+
+        statisticsShow();
         movieContent.hide();
         ratedMovies.show().removeAttr( 'style' );
         $(".Movie").show().removeAttr( 'style' );
-        
+        showAfterCheck(statistic);
+        $(".btn").show();
+        $('.search-back-nav').hide();
+        $('.tab-back-nav').show();
+   });
+
+    /*
+     * 
+     * @returns {undefined}
+     */
+    function statisticsShow() {
+        if(statistic !==0){
+            $('.Statistic'+statistic).css('display','block');
+        }
+    }
+    
+    /* @
+     * @param {type} method
+     * @returns {undefined}
+     */
+    function checkStatistics(method) {
+        if($('.Statistic'+method).css('display') == 'block'){
+            statistic = method;
+        }
+        else{
+            statistic = 0;
+        }
+    }
+    
+    /*
+     * 
+     * @returns {undefined}
+     */
+    function showAfterCheck(statistic){
+        if(statistic !==0){
+            showAfterDetailStat(statistic);
+        }
+        else{
+            showAfterDetail();
+        }
+    }    
+    /**
+     * 
+     * @param {type} method
+     * @param {type} cluster
+     * @returns {undefined}
+     */
+    function showAfterDetail(){
         for(var method=0; method<num.length; method++){
             var m = method + 1;
             $('.Method'+m + ' #ck-button').css('display','block');
             $('.Method'+m).css('border','1px solid #f1f1f1');
             $('.Method'+m).show();
-        
+
             for(var cluster=0; cluster<num[method]; cluster++){
                 var c = cluster +1; 
                 $('.Method'+m+ ' #Cluster'+c).show();
@@ -56,13 +111,41 @@ $(document).ready(function() {
                 $('.Method'+m).css('margin-left','');
             }
         }
-        $(".btn").show();
-        $('.search-back-nav').hide();
-        $('.tab-back-nav').show();
-   });
-   
+    }
+
     /**
-     * Comment
+     * 
+     * @param {type} method
+     * @param {type} cluster
+     * @returns {undefined}
+     */
+    function showAfterDetailStat(statistic){
+        for(var method=0; method<num.length; method++){
+            var mt = method + 1;
+            if(statistic===mt){
+                $('.Method'+statistic + ' #ck-button').css('display','block');
+                $('.Method'+statistic).css('border','1px solid #f1f1f1');
+                $('.Method'+statistic).show();            }
+            if(statistic!==mt){
+                $('.Method'+mt).hide();
+            }
+        
+            for(var cluster=0; cluster<num[method]; cluster++){
+                var c = cluster +1; 
+                $('.Method'+statistic+ ' #Cluster'+c).show();
+                $('.Method'+statistic+ ' #Cluster'+c).css('width', '621px');
+                $('.Method'+statistic+ ' #Cluster'+c).css('height', '255px');
+                $('.Method'+statistic).css('margin-left','');
+            }
+        }
+    }
+    
+    
+    /*
+     * 
+     * @param {type} method
+     * @param {type} cluster
+     * @returns {undefined}
      */
     function showMovie(method,cluster) {
         for(var m=0; m<num.length; m++){
@@ -112,6 +195,12 @@ $(document).ready(function() {
         slideStatcs(slider);
    });
    
+   /*
+    * 
+    * @param {type} id
+    * @param {type} lenght
+    * @returns {undefined}
+    */
     function checkIndexStat(id,lenght) {
         if(id==="btn_next_stat"){
             if(statcsIndex>=(lenght-focusStat)){
@@ -130,8 +219,14 @@ $(document).ready(function() {
             }
         }
     }
-    /**
-     * Check Index
+    
+    /*
+     * 
+     * @param {type} id
+     * @param {type} lenght
+     * @param {type} method
+     * @param {type} cluster
+     * @returns {undefined}
      */
     function checkIndex(id,lenght,method,cluster) {
         if(id=="btn_prev"){
@@ -151,8 +246,14 @@ $(document).ready(function() {
             }
         }
     }
-    /**
-     * Slide movies in intervall
+    
+    /*
+     * 
+     * @param {type} slider
+     * @param {type} lenght
+     * @param {type} cluster
+     * @param {type} row
+     * @returns {undefined}
      */
     function slide(slider,lenght,cluster,row) {
         var i;
@@ -175,38 +276,46 @@ $(document).ready(function() {
             $(slider).eq(i).removeClass('hide');
         }
     }
-    /**
-     * Cluster
+    
+    /*
+     * 
+     * @param {type} method
+     * @returns {Number}
      */
     function checkMethod(method) {
         var method = parseInt(method.replace(/Method/, ''))-1;
         return method;
 
     }
-     /**
-     * Row
-     */
+    
+     /*
+      * 
+      * @param {type} cluster
+      * @returns {Number}
+      */
     function checkCluster(cluster) {
         var r = parseInt(cluster.replace(/Cluster/, ''))-1;
         return r;
     }
 
-    $(document).on("click", ".Clusters", function(event){
+    $(document).on("click", ".btnStatistics", function(event){
 
-        var method = checkMethod($(this).parents().eq(0).attr('class'))+1;
-        var cluster = checkCluster($(this).attr('id'))+1;
+        var method = checkMethod($(this).parents().eq(1).attr('class'))+1;
+        var cluster = checkCluster($(this).parents().eq(0).attr('id'))+1;
         statcsIndex = 0;
-        
+
         for(var m=0; m<num.length; m++){
             var mt = m+1;
             if(method===mt){
                 $('.Statistic'+method).css('display', 'block');
-                alert("Method1");
+                $('#tMethod'+method).css('display', 'block');
+                $('#tStat'+method).css('display', 'block');
             }
             if(method!==mt){
-                alert("Method2");
                 $('.Method'+mt).css('display', 'none');
                 $('.Statistic'+mt).css('display', 'none');
+                $('#tMethod'+mt).css('display', 'none');
+                $('#tStat'+mt).css('display', 'none');
             }
             for(var c=0; c<num[m]; c++){
                 var cl = c+1;
@@ -228,19 +337,8 @@ $(document).ready(function() {
             var mt = m+1;
             $('.Method'+mt).css('display', 'block');
             $('.Statistic'+mt).css('display', 'none');
-            
-            /*for(var c=0; c<num[m]; c++){
-                var cl = c+1;
-                if(cluster===cl){
-                    $('.Statistic'+method+' #statCl'+cluster).css('display', 'block');
-                    activeStat = '.Statistic'+method+' #statCl'+cluster;                    
-                }
-                if(cluster!==cl){
-                    $('.Statistic'+method+' #statCl'+cl).css('display', 'none');
-                }
-                
-            }*/
-            
+            $('#tMethod'+mt).css('display', 'block');
+            $('#tStat'+mt).css('display', 'none');
         }
         activeStat = 0;
     });
@@ -270,7 +368,8 @@ $(document).ready(function() {
          else{
              var actorList = covertToArray(actors,'a');
              var genreList = covertToArray(genres,'g');
-
+             delDivContent();
+             
              $.ajax({
              url : "SearchServlet",
              type : "GET",
@@ -311,12 +410,29 @@ $(document).ready(function() {
      });
 
 
-    //function to display message to the user
+    /*
+     * 
+     * @returns {undefined}
+     */
+    function delDivContent(){
+        $('.Method1').empty();
+        $('.Method2').empty();
+        $('.Statistics1').empty();
+        $('.Statistics2').empty();
+    }
+
+    /*
+     * 
+     * @param {type} method
+     * @param {type} cluster
+     * @param {type} movies
+     * @returns {undefined}
+     */
     function showMessage(method,cluster,movies){
         if(movies !== null){
             $('.survey').css('display', 'block');
             $('.title').css('display', 'block');
-            $('.titles').css('display', 'block');
+            $('.Titles').css('display', 'block');
             
             displayMovies(covertToArray(movies,'r'),method,cluster);
 
@@ -331,6 +447,13 @@ $(document).ready(function() {
         }
     }
 
+    /*
+     * 
+     * @param {type} dataList
+     * @param {type} method
+     * @param {type} cluster
+     * @returns {undefined}
+     */
     function getCharts(dataList,method,cluster)
     {
         var data = new Array();
@@ -363,7 +486,11 @@ $(document).ready(function() {
         }
     }
 
-
+    /*
+     * 
+     * @param {type} labels
+     * @returns {Array}
+     */
     function getStatcsLabel(labels){
         var label = [];
         for(var j=0; j<labels.length; j++){
@@ -376,6 +503,15 @@ $(document).ready(function() {
         return label;
     }
     
+    /*
+     * 
+     * @param {type} jsonData
+     * @param {type} method
+     * @param {type} cluster
+     * @param {type} label
+     * @param {type} i
+     * @returns {undefined}
+     */
     function displaytCharts(jsonData,method,cluster, label,i)
     {   
         var stats = showHideStat(i);
@@ -399,7 +535,7 @@ $(document).ready(function() {
             },
             credits: false,
             subtitle: {
-                text: ''+axis[0]+'/'+axis[1]
+                text: '<br>'+axis[0]+'/'+axis[1]+'</br>'
             },
             exporting: {
                 enabled: false
@@ -437,7 +573,11 @@ $(document).ready(function() {
         });
     }
 
-    
+    /*
+     * 
+     * @param {type} jsonObj
+     * @returns {undefined}
+     */
     function getData(jsonObj)
     {
         /********************* Get Movies **********************/
@@ -478,6 +618,11 @@ $(document).ready(function() {
         initIndex(num);
     }
     
+    /**
+     * 
+     * @param {type} num
+     * @returns {undefined}
+     */
     function initIndex(num) {
         for(var i=0;i<num.length;i++) {
             slideIndex[i]=new Array();
@@ -487,6 +632,13 @@ $(document).ready(function() {
         }
     }
     
+    /**
+     * 
+     * @param {type} movies
+     * @param {type} method
+     * @param {type} cluster
+     * @returns {undefined}
+     */
     function displayMovies(movies,method,cluster){
       $('#TopRated').css("display","none");
       $('#New').css("display","none");
@@ -571,13 +723,21 @@ $(document).ready(function() {
         }
         var cb = 'cb_cluster'+method+cluster;
         var lb = 'lb_'+method+cluster;
+        var bt = 'bt_'+cluster;
         $('.Method'+method+' #Cluster'+cluster).append('<button class="btn" id="btn_prev">&#10094</button>');
         $('.Method'+method+' #Cluster'+cluster).append('<button class="btn" id="btn_next">&#10095</button>');
         $('.Method'+method+' #Cluster'+cluster).append('<input id="'+cb+'" type="checkbox" class="cb_cluster">');
         $('.Method'+method+' #Cluster'+cluster).append('<label class="cb_text" for="'+cb+'"></label>');
         $('.Method'+method+' #Cluster'+cluster).append('<label id="'+lb+'" class="cb_text_label"></label>');
+        $('.Method'+method+' #Cluster'+cluster).append('<input type="submit" id="'+bt+'" class="btnStatistics" value="Statistics">');
     }
 
+    /**
+     * 
+     * @param {type} array
+     * @param {type} string
+     * @returns {Array}
+     */
     function covertToArray(array, string)
     {
         var theArray = '';
@@ -627,6 +787,11 @@ $(document).ready(function() {
         return unique(removeEmptyElements(theArray));
     }
 
+    /**
+     * 
+     * @param {type} list
+     * @returns {Array}
+     */
     function unique(list) {
       var result = [];
       $.each(list, function(i, e) {
@@ -635,10 +800,20 @@ $(document).ready(function() {
       return result;
     }
 
+    /**
+     * 
+     * @param {type} str
+     * @returns {unresolved}
+     */
     function removeLastComma(str) {
        return str.replace(/,(\s+)?$/, '');
     }
 
+    /**
+     * 
+     * @param {type} array
+     * @returns {Array}
+     */
     function removeEmptyElements(array) {
         var newArray = [];
         for (var i = 0; i < array.length; i++) {
@@ -649,6 +824,11 @@ $(document).ready(function() {
         return newArray;
     }
     
+    /**
+     * 
+     * @param {type} movieNum
+     * @returns {String}
+     */
     function showHideMovie(movieNum) {
         var movieClass ='';
         var focus = 5;
@@ -661,7 +841,11 @@ $(document).ready(function() {
         return movieClass;
     }
 
-    
+    /**
+     * 
+     * @param {type} movieNum
+     * @returns {String}
+     */
     function showHideStat(movieNum) {
         var movieClass ='';
         var focus = 4;
@@ -674,7 +858,11 @@ $(document).ready(function() {
         return movieClass;
     }    
     
-    
+    /**
+     * 
+     * @param {type} moviePoster
+     * @returns {String}
+     */
     function checkPoster(moviePoster) {
         var poster = "";
         if(moviePoster ==="N/A"){
@@ -687,6 +875,11 @@ $(document).ready(function() {
         return poster;
     }
     
+    /**
+     * 
+     * @param {type} movieTitle
+     * @returns {String}
+     */
     function checkTitle(movieTitle) {
         var title = "";
         if(movieTitle ==="N/A"){
