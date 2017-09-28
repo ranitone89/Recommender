@@ -58,7 +58,7 @@ public class SearchRequest extends HttpServlet {
             ArrayList<PointdDim> points = getPoints(movies);
             
             FinalClustering clusterings1 = new FinalClustering();
-            clusterings1 = Kmeans.kMeansClustering(points, 4, 0, 1);
+            clusterings1 = Kmeans.kMeansClustering(points, 3, 0, 1);
             
             FinalClustering clusterings2 = new FinalClustering();
             clusterings2 = Kmeans.kMeansClustering(points, 3, 0, 0);

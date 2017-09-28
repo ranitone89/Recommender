@@ -155,7 +155,8 @@ public class DataDB {
                                 + "AND movie_year(m.year) BETWEEN (?) AND (?) "
                                 + "AND(rank.rank::float BETWEEN (?) AND 10"
                                 + "OR genre.genre = ANY(?)) "
-                                + "AND m.title NOT IN('{%GALA%, %AWARDS%,%BRAVO%,%FITNESS%}') "
+                                + "AND md.title NOT LIKE '%(TV)' "
+                                + "AND genre.genre NOT LIKE '%Documentary' "
                                 + "GROUP BY m.movieid "
                                 + "LIMIT 40";
             

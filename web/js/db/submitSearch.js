@@ -568,7 +568,8 @@ $(document).ready(function() {
                 pointFormat: '<b>{point.title}</b><br>'+ ' '+axis[0]+' :{point.x}'+ ' '+axis[1]+' :{point.y}'
             },
             series: [{
-                data: jsonData
+                    color: 'rgb(230,230,230)',
+                    data: jsonData
             }]
         });
     }
