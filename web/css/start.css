@@ -2468,7 +2468,11 @@ footer{
     margin-left: 50px;
 }
 
-.Statics .hide{
+.Statistic1 .hide{
+    display: none;
+}
+
+.Statistic2 .hide{
     display: none;
 }
 

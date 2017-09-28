@@ -190,7 +190,8 @@ $(document).ready(function() {
 
     $(document).on("click", ".btn_statc", function(event){
         var buttonid = $(this).attr('id');
-        var slider = $(''+activeStat+' .clstats');
+        var method = $(this).parents().eq(0).attr('class');
+        var slider = $('.'+method+' .clstats');
         checkIndexStat(buttonid,slider.length);
         slideStatcs(slider);
    });
@@ -454,7 +455,7 @@ $(document).ready(function() {
      * @param {type} cluster
      * @returns {undefined}
      */
-    function getCharts(dataList,method,cluster)
+    function getCharts(dataList,method)
     {
         var data = new Array();
 
@@ -473,7 +474,7 @@ $(document).ready(function() {
             for(var j=0; j<dataList[i].scores.length; j++){
                 
                 for(var z = j+1; z <dataList[i].scores.length; z++ ){        
-                    data[dim].push({ x : dataList[i].scores[j], y: dataList[i].scores[z], title: dataList[i].title });
+                    data[dim].push({ x : dataList[i].scores[j], y: dataList[i].scores[z], title: dataList[i].title, color:dataList[i].color});
                     dim = dim+1;
                 }
                 
@@ -482,7 +483,7 @@ $(document).ready(function() {
         var labels = getStatcsLabel(['actor','genre','lenght','year','rating']);
 
         for(var i=0; i<data.length; i++){
-            displaytCharts(data[i],method,cluster,labels[i],i);
+            displaytCharts(data[i],method,labels[i],i);
         }
     }
 
@@ -512,15 +513,15 @@ $(document).ready(function() {
      * @param {type} i
      * @returns {undefined}
      */
-    function displaytCharts(jsonData,method,cluster, label,i)
+    function displaytCharts(jsonData,method,label,i)
     {   
         var stats = showHideStat(i);
         var axis = label.split(" ");
 
-        $('#Result .Statistic'+method+' #statCl'+cluster).append('<div id='+axis[0]+'_'+axis[1]+ '_'+method+cluster+' ></div>');
-        $('#Result .Statistic'+method+' #statCl'+cluster+' #'+axis[0]+'_'+axis[1]+ '_'+method+cluster).addClass(stats);
+        $('#Result .Statistic'+method).append('<div id='+axis[0]+'_'+axis[1]+ '_'+method+' ></div>');
+        $('#Result .Statistic'+method+' #'+axis[0]+'_'+axis[1]+ '_'+method).addClass(stats);
 
-        Highcharts.chart(''+axis[0]+'_'+axis[1]+ '_'+method+cluster,{
+        Highcharts.chart(''+axis[0]+'_'+axis[1]+ '_'+method,{
             chart: {
                 type: 'scatter',
                 zoomType: 'xy'
@@ -568,7 +569,6 @@ $(document).ready(function() {
                 pointFormat: '<b>{point.title}</b><br>'+ ' '+axis[0]+' :{point.x}'+ ' '+axis[1]+' :{point.y}'
             },
             series: [{
-                    color: 'rgb(230,230,230)',
                     data: jsonData
             }]
         });
@@ -591,7 +591,7 @@ $(document).ready(function() {
                 var cluster= jsonObj[mt][cl].clusterid+1;
                 var method = jsonObj[mt][cl].methodid +1;
                 $('.Method'+method).append('<div id=Cluster'+cluster+' class=Clusters></div>');
-                $('.Statistic'+method).append('<div id=statCl'+cluster+' class=Statics></div>');
+                /*$('.Statistic'+method).append('<div id=statCl'+cluster+' class=Statics></div>');*/
                 
                 for(var j = 0; j<jsonObj[mt][cl].movies.length; j++){
                     movies += jsonObj[mt][cl].movies[j].title+", ";
@@ -604,21 +604,24 @@ $(document).ready(function() {
 
         for(var mt = 0; mt < jsonObj.length; mt++)
         {
+            var score = [];
             for(var cl = 0; cl<jsonObj[mt].length; cl++){
-                
                 var cluster= jsonObj[mt][cl].clusterid+1;
                 var method = jsonObj[mt][cl].methodid +1;
-
-                var score = [];
+                
                 for(var j = 0; j<jsonObj[mt][cl].movies.length; j++){
-                    score.push({title: jsonObj[mt][cl].movies[j].title, scores: jsonObj[mt][cl].movies[j].scores});
+                    score.push({title: jsonObj[mt][cl].movies[j].title, scores: jsonObj[mt][cl].movies[j].scores, color: setColor(method, cluster)});
                 }
-                getCharts(score,method,cluster);
             }
+            getCharts(score,method);
         }        
         initIndex(num);
     }
     
+    function setColor(method, cluster){
+        var color =  $('.Method'+method+' #Cluster'+cluster).css('background-color');
+        return color;
+    }
     /**
      * 
      * @param {type} num
