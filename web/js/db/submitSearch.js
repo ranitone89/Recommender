@@ -173,7 +173,12 @@ $(document).ready(function() {
         }
         $(".btn").hide();
     }
-    
+
+    $(document).on("mouseover",".RatedMovie", function(event){
+        var text = $(this).closest('.Movie').find('.MovieTitle').text();
+        alert(text);
+    });
+       
     
     $(document).on("click", ".btn", function(event){
         var buttonid = $(this).attr('id');
