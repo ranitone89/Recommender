@@ -587,14 +587,16 @@ $(document).ready(function() {
                     states: {
                         hover: {
                             enabled: true,
-                            lineColor: 'rgb(100,100,100)'
+                            lineColor: 'rgb(100,100,100)',
+                            pointFormat: '<b>{point.title}</b><br>'+ ' '+axis[0]+' :{point.x}'+ ' '+axis[1]+' :{point.y}'
                         }
                     }
                 },
                 states: {
                     hover: {
                         marker: {
-                            enabled: false
+                            enabled: false,
+                            pointFormat: '<b>{point.title}</b><br>'+ ' '+axis[0]+' :{point.x}'+ ' '+axis[1]+' :{point.y}'
                         }
                     }
                 }
