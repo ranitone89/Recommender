@@ -2185,7 +2185,7 @@ h5{
 .Content .MovieInfos ul.info-list li span {
     color: #666;
     font-size: 15px;
-    /*width: 490px;*/
+    width: 490px;
     display: inline-block;
 }
 

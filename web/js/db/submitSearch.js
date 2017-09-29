@@ -11,7 +11,8 @@ $(document).ready(function() {
     var slideIndex = new Array();
     var statcsIndex  = 0;
     var statistic = 0;
-    var charts = {};
+    var charts = new Array();
+
 
     $(document).on("click", ".RatedMovie img", function(event){
         $('.survey').css('display', 'none');
@@ -177,18 +178,19 @@ $(document).ready(function() {
 
     $(document).on("mouseover",".RatedMovie", function(event){
         var text = $(this).closest('.Movie').find('.MovieTitle').text().trim();
-        //alert("-" + $(this).closest('.Movie').find('.MovieTitle').text() + "-");
-        var myData = charts[0].series[0].data;
+        var method = $(this).parents().eq(2).attr('class').match(/\d+/)[0]-1;
+        var myData = charts[method][0].series[0].data;
+        
         for(var j = 0; j<10; j++){
             for ( var i = 0; i < myData.length; i++ )
             {
-              var tmp = myData[i].title.substring(0, myData[i].title.indexOf('('));
-               if(text==$.trim(tmp)){
-                charts[j].series[0].data[i].setState('hover');
-              }
-              else{
-                  charts[j].series[0].data[i].setState('');
-              }
+                var tmp = myData[i].title.substring(0, myData[i].title.indexOf('('));
+                if(text==$.trim(tmp)){
+                    charts[method][j].series[0].data[i].setState('hover');
+                }
+                else{
+                    charts[method][j].series[0].data[i].setState('');
+                }
             } 
         }
     });
@@ -502,7 +504,9 @@ $(document).ready(function() {
         var labels = getStatcsLabel(['actor','genre','lenght','year','rating']);
 
         for(var i=0; i<data.length; i++){
+            
             displaytCharts(data[i],method,labels[i],i);
+            
         }
     }
 
@@ -536,12 +540,12 @@ $(document).ready(function() {
     {   
         var stats = showHideStat(i);
         var axis = label.split(" ");
-        
+
 
         $('#Result .Statistic'+method).append('<div id='+axis[0]+'_'+axis[1]+ '_'+method+' ></div>');
         $('#Result .Statistic'+method+' #'+axis[0]+'_'+axis[1]+ '_'+method).addClass(stats);
 
-        charts[i] = Highcharts.chart(''+axis[0]+'_'+axis[1]+ '_'+method,{
+        charts[method-1][i] = Highcharts.chart(''+axis[0]+'_'+axis[1]+ '_'+method,{
             chart: {
                 type: 'scatter',
                 zoomType: 'xy'
@@ -589,16 +593,14 @@ $(document).ready(function() {
                     states: {
                         hover: {
                             enabled: true,
-                            lineColor: 'rgb(100,100,100)',
-                            pointFormat: '<b>{point.title}</b><br>'+ ' '+axis[0]+' :{point.x}'+ ' '+axis[1]+' :{point.y}'
+                            lineColor: 'rgb(100,100,100)'
                         }
                     }
                 },
                 states: {
                     hover: {
                         marker: {
-                            enabled: false,
-                            pointFormat: '<b>{point.title}</b><br>'+ ' '+axis[0]+' :{point.x}'+ ' '+axis[1]+' :{point.y}'
+                            enabled: true
                         }
                     }
                 }
@@ -623,10 +625,11 @@ $(document).ready(function() {
      */
     function getData(jsonObj)
     {
-        /********************* Get Movies **********************/
         for(var mt = 0; mt < jsonObj.length; mt++)
         {
+            charts[mt] = new Array();
             num.push(jsonObj[mt].length);
+            
             for(var cl = 0; cl<jsonObj[mt].length; cl++){
                 
                 var movies = "";
