@@ -179,16 +179,18 @@ $(document).ready(function() {
         var text = $(this).closest('.Movie').find('.MovieTitle').text().trim();
         //alert("-" + $(this).closest('.Movie').find('.MovieTitle').text() + "-");
         var myData = charts[0].series[0].data;
-        for ( var i = 0; i < myData.length; i++ )
-        {
-          var tmp = myData[i].title.substring(0, myData[i].title.indexOf('('));
-           if(text==$.trim(tmp)){
-            charts[0].series[0].data[i].setState('hover');
-          }
-          else{
-              charts[0].series[0].data[i].setState('');
-          }
-        }        
+        for(var j = 0; j<10; j++){
+            for ( var i = 0; i < myData.length; i++ )
+            {
+              var tmp = myData[i].title.substring(0, myData[i].title.indexOf('('));
+               if(text==$.trim(tmp)){
+                charts[j].series[0].data[i].setState('hover');
+              }
+              else{
+                  charts[j].series[0].data[i].setState('');
+              }
+            } 
+        }
     });
        
     
