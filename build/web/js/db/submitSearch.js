@@ -600,17 +600,22 @@ $(document).ready(function() {
                 states: {
                     hover: {
                         marker: {
-                            enabled: true
+                            enabled: true,
                         }
                     }
+                },
+                tooltip: {
+                    //useHTML: true,
+                    headerFormat: '<table>',
+                    pointFormat: '<b>{point.title}</b><br>'+ ' '+axis[0]+' :{point.x}'+ ' '+axis[1]+' :{point.y}'
                 }
-            },
-            
-            tooltip: {
-                //useHTML: true,
-                headerFormat: '<table>',
-                pointFormat: '<b>{point.title}</b><br>'+ ' '+axis[0]+' :{point.x}'+ ' '+axis[1]+' :{point.y}'
             }
+            
+                /*tooltip: {
+                    //useHTML: true,
+                    headerFormat: '<table>',
+                    pointFormat: '<b>{point.title}</b><br>'+ ' '+axis[0]+' :{point.x}'+ ' '+axis[1]+' :{point.y}'
+                }*/
             },
             series: [{
                     data: jsonData
@@ -665,8 +670,14 @@ $(document).ready(function() {
     
     function setColor(method, cluster){
         var color =  $('.Method'+method+' #Cluster'+cluster).css('background-color');
-        return color;
+        return shadeRGBColor(color, -0.05);
     }
+    
+    function shadeRGBColor(color, percent) {
+        var f=color.split(","),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=parseInt(f[0].slice(4)),G=parseInt(f[1]),B=parseInt(f[2]);
+        return "rgb("+(Math.round((t-R)*p)+R)+","+(Math.round((t-G)*p)+G)+","+(Math.round((t-B)*p)+B)+")";
+    }
+    
     /**
      * 
      * @param {type} num
@@ -939,5 +950,26 @@ $(document).ready(function() {
         } 
         
         return title;
+    }
+    
+    function shadeColor(color, percent) {
+
+        var R = parseInt(color.substring(1,3),16);
+        var G = parseInt(color.substring(3,5),16);
+        var B = parseInt(color.substring(5,7),16);
+
+        R = parseInt(R * (100 + percent) / 100);
+        G = parseInt(G * (100 + percent) / 100);
+        B = parseInt(B * (100 + percent) / 100);
+
+        R = (R<255)?R:255;  
+        G = (G<255)?G:255;  
+        B = (B<255)?B:255;  
+
+        var RR = ((R.toString(16).length==1)?"0"+R.toString(16):R.toString(16));
+        var GG = ((G.toString(16).length==1)?"0"+G.toString(16):G.toString(16));
+        var BB = ((B.toString(16).length==1)?"0"+B.toString(16):B.toString(16));
+
+        return "#"+RR+GG+BB;
     }
 });
