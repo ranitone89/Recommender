@@ -11,6 +11,7 @@ $(document).ready(function() {
     var slideIndex = new Array();
     var statcsIndex  = 0;
     var statistic = 0;
+    var charts = {};
 
     $(document).on("click", ".RatedMovie img", function(event){
         $('.survey').css('display', 'none');
@@ -175,8 +176,19 @@ $(document).ready(function() {
     }
 
     $(document).on("mouseover",".RatedMovie", function(event){
-        var text = $(this).closest('.Movie').find('.MovieTitle').text();
-        alert(text);
+        var text = $(this).closest('.Movie').find('.MovieTitle').text().trim();
+        //alert("-" + $(this).closest('.Movie').find('.MovieTitle').text() + "-");
+        var myData = charts[0].series[0].data;
+        for ( var i = 0; i < myData.length; i++ )
+        {
+          var tmp = myData[i].title.substring(0, myData[i].title.indexOf('('));
+           if(text==$.trim(tmp)){
+            charts[0].series[0].data[i].setState('hover');
+          }
+          else{
+              charts[0].series[0].data[i].setState('');
+          }
+        }        
     });
        
     
@@ -522,11 +534,12 @@ $(document).ready(function() {
     {   
         var stats = showHideStat(i);
         var axis = label.split(" ");
+        
 
         $('#Result .Statistic'+method).append('<div id='+axis[0]+'_'+axis[1]+ '_'+method+' ></div>');
         $('#Result .Statistic'+method+' #'+axis[0]+'_'+axis[1]+ '_'+method).addClass(stats);
 
-        Highcharts.chart(''+axis[0]+'_'+axis[1]+ '_'+method,{
+        charts[i] = Highcharts.chart(''+axis[0]+'_'+axis[1]+ '_'+method,{
             chart: {
                 type: 'scatter',
                 zoomType: 'xy'
@@ -567,11 +580,31 @@ $(document).ready(function() {
                 },
                 maxPadding: 0.2,
             },
-
+            plotOptions: {
+            scatter: {
+                marker: {
+                    radius: 5,
+                    states: {
+                        hover: {
+                            enabled: true,
+                            lineColor: 'rgb(100,100,100)'
+                        }
+                    }
+                },
+                states: {
+                    hover: {
+                        marker: {
+                            enabled: false
+                        }
+                    }
+                }
+            },
+            
             tooltip: {
                 //useHTML: true,
                 headerFormat: '<table>',
                 pointFormat: '<b>{point.title}</b><br>'+ ' '+axis[0]+' :{point.x}'+ ' '+axis[1]+' :{point.y}'
+            }
             },
             series: [{
                     data: jsonData
