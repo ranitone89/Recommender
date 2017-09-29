@@ -678,6 +678,7 @@ $(document).ready(function() {
         return "rgb("+(Math.round((t-R)*p)+R)+","+(Math.round((t-G)*p)+G)+","+(Math.round((t-B)*p)+B)+")";
     }
     
+    
     /**
      * 
      * @param {type} num
