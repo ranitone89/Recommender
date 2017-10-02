@@ -18,7 +18,7 @@ $(document).ready(function() {
     $(document).on("click", ".RatedMovie img", function(event){
         $('.survey').css('display', 'none');
         $('.title').css('display', 'none');
-        $('.Titles').css('display', 'none');
+        //$('.Titles').css('display', 'none');
 
         var $movie = $(this).closest('.Movie');
         var method = $(this).parents().eq(3).attr('class').match(/\d+/)[0];
@@ -39,14 +39,16 @@ $(document).ready(function() {
         var method = checkMethod($(movie).parents().eq(1).attr('class'))+1;
         checkStatistics(method);
         $('.Statistic'+method).css('display','none');
+        $('.btnStatistics').css('display','none');
         
    });
    
     $(document).on("click", ".search-back-nav ", function(event){
         $('.title').css('display', 'block');
-        $('.Titles').css('display', 'block');
+        //$('.Titles').css('display', 'block');
         $('.survey').css('display', 'block');
         $('#ck-buttons').css('display','block');
+        $('.btnStatistics').css('display','block');
 
         statisticsShow();
         movieContent.hide();
@@ -179,6 +181,7 @@ $(document).ready(function() {
 
     $(document).on("mouseover",".RatedMovie", function(event){
         var text = $(this).closest('.Movie').find('.MovieTitle').text().trim();
+
         var method = $(this).parents().eq(2).attr('class').match(/\d+/)[0]-1;
         var myData = charts[method][0].series[0].data;
         
@@ -186,8 +189,14 @@ $(document).ready(function() {
             for ( var i = 0; i < myData.length; i++ )
             {
                 var tmp = myData[i].title.substring(0, myData[i].title.indexOf('('));
+                
+                if(tmp.toString().indexOf('"')=== 0){
+                    tmp = tmp.match(/\"(.*?)\"/)[1];
+                }
+                
                 if(text==$.trim(tmp)){
                     charts[method][j].series[0].data[i].setState('hover');
+                    
                 }
                 else{
                     charts[method][j].series[0].data[i].setState('');
@@ -322,9 +331,7 @@ $(document).ready(function() {
     }
 
     $(document).on("click", ".btnStatistics", function(event){
-
-        var method = checkMethod($(this).parents().eq(1).attr('class'))+1;
-        var cluster = checkCluster($(this).parents().eq(0).attr('id'))+1;
+        var method = checkMethod($(this).parents().eq(0).attr('class'))+1;
         statcsIndex = 0;
         
         for(var m=0; m<num.length; m++){
@@ -340,20 +347,7 @@ $(document).ready(function() {
                 $('.Statistic'+mt).css('display', 'none');
                 $('#tMethod'+mt).css('display', 'none');
                 $('#tStat'+mt).css('display', 'none');
-            }
-
-            for(var c=0; c<num[m]; c++){
-                var cl = c+1;
-                if(cluster===cl){
-                    $('.Statistic'+method+' #statCl'+cluster).css('display', 'block');
-                    activeStat = '.Statistic'+method+' #statCl'+cluster;                    
-                }
-                if(cluster!==cl){
-                    $('.Statistic'+method+' #statCl'+cl).css('display', 'none');
-                }
-                
-            }
-            
+            }            
         }
        
     });
@@ -475,7 +469,7 @@ $(document).ready(function() {
         if(movies !== null){
             $('.survey').css('display', 'block');
             $('.title').css('display', 'block');
-            $('.Titles').css('display', 'block');
+            //$('.Titles').css('display', 'block');
             
             displayMovies(covertToArray(movies,'r'),method,cluster);
 
@@ -804,13 +798,20 @@ $(document).ready(function() {
         }
         var cb = 'cb_cluster'+method+cluster;
         var lb = 'lb_'+method+cluster;
-        var bt = 'bt_'+cluster;
+        var bt = 'bt_'+method;
+        
+        if (!$('.Method'+method+' .btnStatistics').length)
+        {    
+            $('.Method'+method).append('<input type="submit" id="'+bt+'" class="btnStatistics" value="Statistics">');
+        }
+
+        
         $('.Method'+method+' #Cluster'+cluster).append('<button class="btn" id="btn_prev">&#10094</button>');
         $('.Method'+method+' #Cluster'+cluster).append('<button class="btn" id="btn_next">&#10095</button>');
         $('.Method'+method+' #Cluster'+cluster).append('<input id="'+cb+'" type="checkbox" class="cb_cluster">');
         $('.Method'+method+' #Cluster'+cluster).append('<label class="cb_text" for="'+cb+'"></label>');
         $('.Method'+method+' #Cluster'+cluster).append('<label id="'+lb+'" class="cb_text_label"></label>');
-        $('.Method'+method+' #Cluster'+cluster).append('<input type="submit" id="'+bt+'" class="btnStatistics" value="Statistics">');
+       
     }
 
     /**
