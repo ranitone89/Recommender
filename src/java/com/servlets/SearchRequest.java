@@ -48,7 +48,10 @@ public class SearchRequest extends HttpServlet {
             String maxReleased = request.getParameter("maxReleased"); 
             String actors[] = request.getParameterValues("actorList[]");
             String genres[] = request.getParameterValues("genreList[]");  
-            String minStar = request.getParameter("minStar");  
+            String minStar = request.getParameter("minStar");
+            String method1[] = request.getParameterValues("method1[]"); 
+            String method2[] = request.getParameterValues("method2[]");
+
             DataDB dataDao = new DataDB();
             
             ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres);
@@ -58,10 +61,13 @@ public class SearchRequest extends HttpServlet {
             ArrayList<PointdDim> points = getPoints(movies);
             
             FinalClustering clusterings1 = new FinalClustering();
-            clusterings1 = Kmeans.kMeansClustering(points, 3, 0, 1);
+            //int k, int distance, int sort
+            clusterings1 = Kmeans.kMeansClustering(points, Integer.parseInt(method1[0]), 
+                    Integer.parseInt(method1[1]), Integer.parseInt(method1[2]));
             
             FinalClustering clusterings2 = new FinalClustering();
-            clusterings2 = Kmeans.kMeansClustering(points, 3, 0, 0);
+            clusterings2 = Kmeans.kMeansClustering(points, Integer.parseInt(method2[0]), 
+                    Integer.parseInt(method2[1]), Integer.parseInt(method2[2]));
             
             ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<>();
  

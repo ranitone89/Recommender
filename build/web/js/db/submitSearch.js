@@ -7,11 +7,13 @@ $(document).ready(function() {
     var movie;
     var ratedMovies;
     var num = [];
-    var slideIndex = new Array();
+    var slideIndex = [[],[]];
     var statcsIndex  = 0;
     var statistic = 0;
     var charts = new Array();
     var numStats;
+    var method1Parameter = [];
+    var method2Parameter = [];
 
 
     $(document).on("click", ".RatedMovie img", function(event){
@@ -171,7 +173,6 @@ $(document).ready(function() {
                     $('.Method'+method+' #Cluster'+cl).hide();
                     $('.Method'+method+' #Cluster'+cl).hide();                    
                 }
-                
             }
             
         }
@@ -267,6 +268,8 @@ $(document).ready(function() {
             else{
                 slideIndex[method][cluster] = slideIndex[method][cluster]-1;
             }
+            alert(slideIndex[method][cluster]);
+            alert(slideIndex);
         }
         if(id=="btn_next"){
             if(slideIndex[method][cluster]>=(lenght-focus)){
@@ -275,6 +278,8 @@ $(document).ready(function() {
             else{
                 slideIndex[method][cluster] = slideIndex[method][cluster]+1;
             }
+            alert(slideIndex);
+            alert(slideIndex[method][cluster]);
         }
     }
     
@@ -369,7 +374,6 @@ $(document).ready(function() {
     $(document).on("click", ".submitBtn", function(event){
         var actors = removeLastComma($('#actors').val());
         var genres = removeLastComma($('.multiSel').text());
-
         var maxReleased = $('#released .range_max').text();
         var minReleased = $('#released .range_min').text();
         var maxLenght = $('#lenght .range_max').text();
@@ -390,7 +394,8 @@ $(document).ready(function() {
              var actorList = covertToArray(actors,'a');
              var genreList = covertToArray(genres,'g');
              delDivContent();
-             
+             alert(method1Parameter);
+             alert(method2Parameter);
              $.ajax({
              url : "SearchServlet",
              type : "GET",
@@ -405,7 +410,10 @@ $(document).ready(function() {
                  minLenght : minLenght,
                  minReleased : minReleased,
                  maxReleased : maxReleased,
-                 minStar     : minStar
+                 minStar     : minStar,
+                 method1    : method1Parameter,
+                 method2    : method2Parameter
+                 
              },
              dataType: "json",
              complete: function(){
@@ -660,6 +668,8 @@ $(document).ready(function() {
                     movies += jsonObj[mt][cl].movies[j].title+", ";
                 }
                 showMessage(method,cluster,movies);
+                //initIndex(method,cluster);
+                slideIndex[mt][cl] = 0;
             }
         }
         
@@ -678,7 +688,7 @@ $(document).ready(function() {
             }
             getCharts(score,method);
         }        
-        initIndex(num);
+        //initIndex(num);
     }
     
     function setColor(method, cluster){
@@ -699,11 +709,12 @@ $(document).ready(function() {
      */
     function initIndex(num) {
         for(var i=0;i<num.length;i++) {
-            slideIndex[i]=new Array();
+            //slideIndex[i]=new Array();
             for(var j=0;j<num[i];j++) {
                 slideIndex[i][j] = 0;
             } 
         }
+        alert(slideIndex);
     }
     
     /**
@@ -797,7 +808,7 @@ $(document).ready(function() {
         var cb = 'cb_cluster'+method+cluster;
         var lb = 'lb_'+cluster;
         var bt = 'bt_'+method;
-        
+
         if (!$('.Method'+method+' .btnStatistics').length)
         {    
             $('.Method'+method).append('<input type="submit" id="'+bt+'" class="btnStatistics" value="Statistics">');
@@ -1055,4 +1066,22 @@ $(document).ready(function() {
        $('#id02').css("display","none");
        $('.tab-back-nav').trigger('click');
    });
+   
+   $(document).on("click", ".search-tab-cluster", function(event){
+       $('#id01').css("display","block");
+       $('.tab-back-nav').trigger('click');
+   });
+   
+
+   $(document).on("click", ".clusterbtn", function(event){
+       method1Parameter[0] = $( ".method-1 #nCluster" ).val();
+       method1Parameter[1] = $( ".method-1 #distance" ).val();
+       method1Parameter[2] = $( ".method-1 #sorting" ).val();
+
+       method2Parameter[0] = $( ".method-2 #nCluster" ).val();
+       method2Parameter[1] = $( ".method-2 #distance" ).val();
+       method2Parameter[2] = $( ".method-2 #sorting" ).val();
+   });
+      
+   $( "#myselect" ).val();
 });
