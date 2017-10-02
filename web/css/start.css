@@ -1821,7 +1821,7 @@ input, button, select, textarea {
     overflow: hidden;
     position: relative;
     border: 1px solid #d8d8d8;
-    z-index: 4;
+    z-index: 1;
 }
 
 .title .question_icon{
@@ -2541,7 +2541,7 @@ button#btn_next_stat {
     color: #666;
     outline: none;
     position: relative;
-    z-index: 4;
+    z-index: 1;
 }
 
 #Result input[type=submit]:hover{

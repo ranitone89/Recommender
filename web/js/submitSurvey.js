@@ -1,6 +1,9 @@
-$(document).ready(function() {
+/*$(document).ready(function() {
     $(document).on("click", ".submitSurvey", function(event){
-        if($('#cb_cluster11').is(':checked')==true && $('#cb_cluster21').is(':checked')==true ){
+        
+        
+        
+        /*if($('#cb_cluster11').is(':checked')==true && $('#cb_cluster21').is(':checked')==true ){
             $('#messageSurvey').css("display","block");
             $('#messageSurvey').html("<font color='red'>You can only choose one group of recommendations in the first row </font>");
             $('#lb_11').text("Select only one of these");
@@ -81,4 +84,4 @@ $(document).ready(function() {
        $('#id02').css("display","none");
        $('.tab-back-nav').trigger('click');
    });
-}); 
+}); */

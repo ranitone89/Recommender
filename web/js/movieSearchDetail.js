@@ -64,18 +64,13 @@ $(document).ready(function() {
             if(method===mt){
                 $('.Method'+method).css('margin-left','130px');
                 $('.Method'+method).css('border','none');
-                alert("Gleich M");
-                alert(method);
             }
             if(method!==mt){
                 $('.Method'+mt).hide();
-                alert("UNGleich M");
-                alert(mt);
             }
             for(var c=1; c<num[m]+1; c++){
                 var cl = ''+c;
                 if(cluster===cl){
-                    alert("Gleich Cluster");
                     $('.Method'+method+' #Cluster'+cluster).css('width', 'auto');
                     $('.Method'+method+' #Cluster'+cluster).css('height', 'auto');                    
                 }

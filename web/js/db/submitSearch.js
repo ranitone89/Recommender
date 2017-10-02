@@ -2,7 +2,6 @@ $(document).ready(function() {
     
     var focusStat = 4;
     var focus = 5;
-    var activeStat ='';
     var movieContent;
     var movies;
     var movie;
@@ -732,9 +731,7 @@ $(document).ready(function() {
             movieClass = showHideMovie(movieNum);
             poster = checkPoster(response.Poster);
             title = checkTitle(response.Title);
-                    
-            movieNum = movieNum+1;
-            
+
             if(title!==undefined){
                 $('<div></div>')
                 .addClass(''+movieClass).append('<div class="RatedMovie">' +
@@ -794,10 +791,11 @@ $(document).ready(function() {
                                 '</div>')
                 .appendTo('.Method'+method+' #Cluster'+cluster);
                 }
+            movieNum = movieNum+1;    
             });
         }
         var cb = 'cb_cluster'+method+cluster;
-        var lb = 'lb_'+method+cluster;
+        var lb = 'lb_'+cluster;
         var bt = 'bt_'+method;
         
         if (!$('.Method'+method+' .btnStatistics').length)
@@ -994,4 +992,67 @@ $(document).ready(function() {
 
         return "#"+RR+GG+BB;
     }
+    
+    $(document).on("click", ".submitSurvey", function(event){
+        var m = 1;
+        
+        for(var cluster=0; cluster<num[m]; cluster++){
+            var c = cluster +1; 
+            if($('.Method'+m+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==true && $('.Method'+(m+1)+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==true){
+                $('#messageSurvey').css("display","block");
+                $('#messageSurvey').html("<font color='red'>You can only choose one group of recommendations in this row </font>");
+                $('#Cluster'+c + ' #lb_'+c).text("Select only one of these");
+                return;
+            }
+            if($('.Method'+m+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==false && $('.Method'+(m+1)+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==false){
+                $('#messageSurvey').css("display","block");
+                $('#messageSurvey').html("<font color='red'>Select at least one recommendation group in this row </font>")
+                $('#Cluster'+c + ' #lb_'+c).text("Please Select one of these");
+                return;
+            }
+            else{
+                $('#messageSurvey').css("display","none");
+                $('#Cluster'+c +' #lb_'+c).text("");
+            }
+        }
+        
+        if($('#cl1_like').is(':checked')==true && $('#cl2_like').is(':checked')==true ){
+           $('#messageSurvey').css("display","block");
+           $('#messageSurvey').html("<font color='red'>Please select just one method</font>");
+           return;
+        }           
+        if($('#cl1_like').is(':checked')==false && $('#cl2_like').is(':checked')==false ){
+           $('#messageSurvey').css("display","block");
+           $('#messageSurvey').html("<font color='red'>Select one method</font>");
+           return;
+        } 
+        else{
+            $('#messageSurvey').css("display","none");
+            $('#Cluster'+c +' #lb_'+c).text("");
+            $('#id02').css("display","block");
+        }
+
+    });
+    
+    /**
+     * 
+     * @param {type} moviePoster
+     * @returns {String}
+     */
+    function checkPoster(moviePoster) {
+        var poster = "";
+        if(moviePoster ==="N/A"){
+            poster = "img/no_poster.png";
+        }
+        else{
+            poster = moviePoster;
+        } 
+        
+        return poster;
+    }    
+   
+   $(document).on("click", "#id02", function(event){
+       $('#id02').css("display","none");
+       $('.tab-back-nav').trigger('click');
+   });
 });
