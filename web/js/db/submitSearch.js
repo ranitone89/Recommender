@@ -12,6 +12,7 @@ $(document).ready(function() {
     var statcsIndex  = 0;
     var statistic = 0;
     var charts = new Array();
+    var numStats;
 
 
     $(document).on("click", ".RatedMovie img", function(event){
@@ -325,13 +326,14 @@ $(document).ready(function() {
         var method = checkMethod($(this).parents().eq(1).attr('class'))+1;
         var cluster = checkCluster($(this).parents().eq(0).attr('id'))+1;
         statcsIndex = 0;
-
+        
         for(var m=0; m<num.length; m++){
             var mt = m+1;
             if(method===mt){
                 $('.Statistic'+method).css('display', 'block');
                 $('#tMethod'+method).css('display', 'block');
                 $('#tStat'+method).css('display', 'block');
+                
             }
             if(method!==mt){
                 $('.Method'+mt).css('display', 'none');
@@ -339,6 +341,7 @@ $(document).ready(function() {
                 $('#tMethod'+mt).css('display', 'none');
                 $('#tStat'+mt).css('display', 'none');
             }
+
             for(var c=0; c<num[m]; c++){
                 var cl = c+1;
                 if(cluster===cl){
@@ -355,14 +358,17 @@ $(document).ready(function() {
        
     });
     $(document).on("click", ".statistics-close", function(event){
+        var activeStatic = $(this).parents().eq(0).attr('class');
+        
         for(var m=0; m<num.length; m++){
             var mt = m+1;
             $('.Method'+mt).css('display', 'block');
             $('.Statistic'+mt).css('display', 'none');
             $('#tMethod'+mt).css('display', 'block');
             $('#tStat'+mt).css('display', 'none');
+            
         }
-        activeStat = 0;
+        resetStats(activeStatic);
     });
 
     /************************** Submit Search *********************/
@@ -445,6 +451,21 @@ $(document).ready(function() {
 
     /*
      * 
+     * @returns {undefined}
+     */
+    function resetStats(statistic){
+        var slider = $('.'+statistic+' .clstats');
+        for(var i=0; i<slider.length;i++ ){
+            $(slider).eq(i).addClass('hide');
+        }
+
+        for(var i=0; i<focusStat;i++ ){
+            $(slider).eq(i).removeClass('hide');
+        }
+    }
+
+    /*
+     * 
      * @param {type} method
      * @param {type} cluster
      * @param {type} movies
@@ -502,7 +523,8 @@ $(document).ready(function() {
             } 
         }
         var labels = getStatcsLabel(['actor','genre','lenght','year','rating']);
-
+        numStats = data.length;
+        
         for(var i=0; i<data.length; i++){
             
             displaytCharts(data[i],method,labels[i],i);
@@ -523,7 +545,6 @@ $(document).ready(function() {
                 label.push(labels[j]+" "+labels[z]);
             }
         }
-        
         return label;
     }
     
@@ -641,7 +662,6 @@ $(document).ready(function() {
                 var cluster= jsonObj[mt][cl].clusterid+1;
                 var method = jsonObj[mt][cl].methodid +1;
                 $('.Method'+method).append('<div id=Cluster'+cluster+' class=Clusters></div>');
-                /*$('.Statistic'+method).append('<div id=statCl'+cluster+' class=Statics></div>');*/
                 
                 for(var j = 0; j<jsonObj[mt][cl].movies.length; j++){
                     movies += jsonObj[mt][cl].movies[j].title+", ";
