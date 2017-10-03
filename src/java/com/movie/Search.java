@@ -18,7 +18,6 @@ public class Search {
     
     public Search(String []genres, String []actors){
         this.genres = genres;
-        System.out.println("Seargh len: "+this.genres.length);
         setActors(actors);        
     }
     

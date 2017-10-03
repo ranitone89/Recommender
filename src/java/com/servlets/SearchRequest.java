@@ -21,6 +21,7 @@ import com.movie.Movie;
 import com.movie.Recommendation;
 import com.movie.Score;
 import com.movie.Search;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -62,12 +63,16 @@ public class SearchRequest extends HttpServlet {
             
             FinalClustering clusterings1 = new FinalClustering();
             //int k, int distance, int sort
-            clusterings1 = Kmeans.kMeansClustering(points, Integer.parseInt(method1[0]), 
-                    Integer.parseInt(method1[1]), Integer.parseInt(method1[2]));
+            ArrayList<Integer> parameters1 = getParameters(method1);
+            ArrayList<Integer> parameters2 = getParameters(method2);
+            
+            
+            clusterings1 = Kmeans.kMeansClustering(points, parameters1.get(0), 
+                    parameters1.get(1), parameters1.get(2));
             
             FinalClustering clusterings2 = new FinalClustering();
-            clusterings2 = Kmeans.kMeansClustering(points, Integer.parseInt(method2[0]), 
-                    Integer.parseInt(method2[1]), Integer.parseInt(method2[2]));
+            clusterings2 = Kmeans.kMeansClustering(points, parameters2.get(0), 
+                    parameters2.get(1), parameters2.get(2));
             
             ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<>();
  
@@ -75,7 +80,7 @@ public class SearchRequest extends HttpServlet {
             recommendations.add(getClusterElements(clusterings2,1));
 
             String json = new Gson().toJson(recommendations);
-            System.out.println(json);
+            //System.out.println(json);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
@@ -86,6 +91,31 @@ public class SearchRequest extends HttpServlet {
         }
     }
 
+    /**
+     * Filters parameter from String, prove if parameters are equals zero
+     * @param parameters
+     * @return 
+     */
+    private ArrayList<Integer> getParameters(String[] parameters)
+    {
+        ArrayList<Integer> temp = new ArrayList<Integer>();
+        
+        List<Integer> defaultPar = Arrays.asList(3, 0, 1);
+        
+        if(parameters != null){
+            for(int i =0; i<parameters.length; i++){
+                temp.add(i, Integer.parseInt(parameters[i]));
+            }
+        }
+        else{
+            for(int i =0; i<defaultPar.size(); i++){
+                temp.add(i, defaultPar.get(i));
+                System.out.println(defaultPar.get(i));
+            }
+        }   
+        return temp;
+    }        
+    
     private ArrayList<Recommendation>getClusterElements(FinalClustering clusterings, int methodid) throws IOException 
     {
         ArrayList<Recommendation> recommendations = new ArrayList<Recommendation>();

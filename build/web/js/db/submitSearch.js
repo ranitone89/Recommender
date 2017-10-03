@@ -14,6 +14,7 @@ $(document).ready(function() {
     var numStats;
     var method1Parameter = [];
     var method2Parameter = [];
+    var divColors = ['#666','#f1f1f1','#d9f5da','#ffeaea','#fae9be','#c0fef1','#ffd6b3','#d4e3ff','#eafec0'];
 
 
     $(document).on("click", ".RatedMovie img", function(event){
@@ -292,12 +293,10 @@ $(document).ready(function() {
      * @returns {undefined}
      */
     function slide(slider,lenght,cluster,row) {
-        var i;
-
-        for(i=0; i<lenght;i++ ){
+        for(var i=0; i<lenght;i++ ){
             $(slider).eq(i).addClass('hide');
         }
-
+        alert(focus);
         for(i=slideIndex[cluster][row]; i<(slideIndex[cluster][row]+focus);i++ ){
             $(slider).eq(i).removeClass('hide');
         }
@@ -394,8 +393,7 @@ $(document).ready(function() {
              var actorList = covertToArray(actors,'a');
              var genreList = covertToArray(genres,'g');
              delDivContent();
-             alert(method1Parameter);
-             alert(method2Parameter);
+
              $.ajax({
              url : "SearchServlet",
              type : "GET",
@@ -717,6 +715,16 @@ $(document).ready(function() {
         alert(slideIndex);
     }
     
+    /*
+     * 
+     * @param {type} movies
+     * @param {type} method
+     * @param {type} cluster
+     * @returns {String} 
+     */
+    function getDivColor(cluster){
+        return divColors[cluster];
+    }
     /**
      * 
      * @param {type} movies
@@ -730,7 +738,10 @@ $(document).ready(function() {
       $('#Cooming').css("display","none");
       $('.Method'+method+' #Cluster'+cluster).empty();
       $('#Result').css("display","block");
-      $('.Method'+method+ '#Cluster'+cluster).css("display","block");
+
+      $('.Method'+method+ ' #Cluster'+cluster).css("background-color",""+getDivColor(cluster));
+      $('.Method'+method+ ' #Cluster'+cluster).css("display","block");
+      
 
       var movieClass ='';
       for (var i = 0; i < movies.length; i++) {
@@ -922,7 +933,6 @@ $(document).ready(function() {
      */
     function showHideMovie(movieNum) {
         var movieClass ='';
-        var focus = 5;
         if(movieNum<focus){
             movieClass ='Movie';
         }
@@ -939,8 +949,7 @@ $(document).ready(function() {
      */
     function showHideStat(movieNum) {
         var movieClass ='';
-        var focus = 4;
-        if(movieNum<focus){
+        if(movieNum<focusStat){
             movieClass ='clstats';
         }
         else{

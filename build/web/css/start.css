@@ -1851,6 +1851,7 @@ input, button, select, textarea {
     position: relative;
     border: 1px solid #d8d8d8;
     z-index: 1;
+    /*opacity: 0.85;*/
 }
 
 .title .question_icon{
@@ -1877,6 +1878,9 @@ input, button, select, textarea {
     margin-top: 10px;
 }
 
+/*:hover {
+    opacity: 1;
+}
 #Cluster1 {
     background-color: #f1f1f1;
 }
@@ -1900,7 +1904,7 @@ input, button, select, textarea {
 
 #Cluster2:hover {
     background-color: #f5c8c8;
-}
+}*/
 
 .Titles {
     margin-top: 40px;
@@ -1944,7 +1948,7 @@ input, button, select, textarea {
 .Method1, .Method2 {
     margin-top: 40px;
     width: 643px;
-    /*height: 819px;*/
+    height: 813px;
     float: left;
     border: 1px solid #d8d8d8;
 }
@@ -2556,7 +2560,7 @@ button#btn_next_stat {
     margin: 5px;
     float: right;
     margin-right: 10px;
-    margin-top: -261px;
+    margin-top: -257px;
 }
 
 #Result input[type=submit] {
