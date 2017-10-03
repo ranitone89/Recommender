@@ -14,7 +14,7 @@ $(document).ready(function() {
     var numStats;
     var method1Parameter = [];
     var method2Parameter = [];
-    var divColors = ['#666','#f1f1f1','#d9f5da','#ffeaea','#fae9be','#c0fef1','#ffd6b3','#d4e3ff','#eafec0'];
+    var divColors = ['#666','#f1f1f1','#d9f5da','#ffeaea','#c0fef1','#ffd6b3','#fae9be','#d4e3ff','#eafec0'];
 
 
     $(document).on("click", ".RatedMovie img", function(event){
