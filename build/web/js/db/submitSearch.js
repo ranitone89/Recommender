@@ -20,11 +20,12 @@ $(document).ready(function() {
     $(document).on("click", ".RatedMovie img", function(event){
         $('.survey').css('display', 'none');
         $('.title').css('display', 'none');
-        //$('.Titles').css('display', 'none');
-
+  
         var $movie = $(this).closest('.Movie');
         var method = $(this).parents().eq(3).attr('class').match(/\d+/)[0];
         var cluster = $(this).parents().eq(2).attr('id').match(/\d+/)[0];
+        resizeMethod(method, 865);
+        
         $('#ck-buttons').css('display','none');
         showMovie(method,cluster);
         movie = $(this).closest('.Movie');
@@ -51,9 +52,14 @@ $(document).ready(function() {
         $('.survey').css('display', 'block');
         $('#ck-buttons').css('display','block');
         $('.btnStatistics').css('display','block');
-
+        $('.Method1').css("width","643");
+        $('.Method2').css("width","643");
+        
         statisticsShow();
         movieContent.hide();
+        var method = $(movieContent).parents().eq(3).attr('class');
+        resizeMethod(method, 643);
+        
         ratedMovies.show().removeAttr( 'style' );
         $(".Movie").show().removeAttr( 'style' );
         showAfterCheck(statistic);
@@ -62,6 +68,14 @@ $(document).ready(function() {
         $('.tab-back-nav').show();
    });
 
+
+    /*
+     * 
+     * @returns {undefined}
+     */
+    function resizeMethod(method, width) {
+        $('.Method'+method).css('width',''+width);
+    }
     /*
      * 
      * @returns {undefined}
@@ -269,18 +283,20 @@ $(document).ready(function() {
             else{
                 slideIndex[method][cluster] = slideIndex[method][cluster]-1;
             }
-            alert(slideIndex[method][cluster]);
-            alert(slideIndex);
+            alert("Prev: "+slideIndex);
         }
         if(id=="btn_next"){
-            if(slideIndex[method][cluster]>=(lenght-focus)){
-                slideIndex[method][cluster] = (lenght-focus);
+            if(lenght>focus){
+                if(slideIndex[method][cluster]>=(lenght-focus)){
+                    slideIndex[method][cluster] = (lenght-focus);
+                }
+                else{
+                    slideIndex[method][cluster] = slideIndex[method][cluster]+1;
+                }
             }
             else{
-                slideIndex[method][cluster] = slideIndex[method][cluster]+1;
+                slideIndex[method][cluster] = 0;
             }
-            alert(slideIndex);
-            alert(slideIndex[method][cluster]);
         }
     }
     
@@ -296,7 +312,6 @@ $(document).ready(function() {
         for(var i=0; i<lenght;i++ ){
             $(slider).eq(i).addClass('hide');
         }
-        alert(focus);
         for(i=slideIndex[cluster][row]; i<(slideIndex[cluster][row]+focus);i++ ){
             $(slider).eq(i).removeClass('hide');
         }
@@ -670,7 +685,7 @@ $(document).ready(function() {
                 slideIndex[mt][cl] = 0;
             }
         }
-        
+        alert("Idex init: "+slideIndex);
         /********************* Statistics **********************/
 
         for(var mt = 0; mt < jsonObj.length; mt++)
@@ -750,11 +765,12 @@ $(document).ready(function() {
         var title = "";
 
         $.getJSON('http://www.omdbapi.com/?t='+ encodeURI(movies[i])+ '&apikey=dc2f6d3a').then(function(response){
-            movieClass = showHideMovie(movieNum);
+
             poster = checkPoster(response.Poster);
             title = checkTitle(response.Title);
-
+            alert("T: "+title+" MN: "+i);
             if(title!==undefined){
+                movieClass = showHideMovie(movieNum);
                 $('<div></div>')
                 .addClass(''+movieClass).append('<div class="RatedMovie">' +
                                             '<img src="'+ poster + '" '+
@@ -812,8 +828,9 @@ $(document).ready(function() {
                                     '</div>'+
                                 '</div>')
                 .appendTo('.Method'+method+' #Cluster'+cluster);
+                movieNum = movieNum+1; 
                 }
-            movieNum = movieNum+1;    
+               
             });
         }
         var cb = 'cb_cluster'+method+cluster;
@@ -939,6 +956,7 @@ $(document).ready(function() {
         else{
             movieClass ='Movie hide';
         }
+        alert("F: "+focus);
         return movieClass;
     }
 
@@ -983,7 +1001,7 @@ $(document).ready(function() {
     function checkTitle(movieTitle) {
         var title = "";
         if(movieTitle ==="N/A"){
-            title = "img/no_poster.png";
+            title = "Unknown";
         }
         else{
             title = movieTitle;

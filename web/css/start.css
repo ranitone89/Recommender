@@ -897,7 +897,7 @@ html, body {
 
 .ck-button label {
     float:left;
-    width: 16em;
+    width: 200px;
 }
 
 .ck-button label span {
@@ -928,6 +928,7 @@ html, body {
     display: block;
     background-color: #4CAF50;
     color:#fff;
+    border-radius: 3px;
 }
 .ck-button input:checked  ~ .unlike{
     display: none;
@@ -2390,6 +2391,7 @@ p {
     display: block;
     margin-top: 2%;
     /*float:left;  */ 
+    width: 650px;
 }
 
 .Content .Synopsis p{
@@ -2493,7 +2495,7 @@ footer{
     border: 1px solid #d8d8d8;
     margin-top: 40px;
     /*margin-left: 50px;*/
-    height: 819px;
+    height: 812px;
     display: none;
 }
 
