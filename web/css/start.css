@@ -2626,3 +2626,10 @@ button#btn_next_stat {
 .formular-container h4 {
     text-transform: initial;
 }
+
+ .fixed {    
+    position: fixed;     
+    top: 20px;    
+    /*margin-left: 720px;  
+    background-color: #0f0 ! important;*/
+} 

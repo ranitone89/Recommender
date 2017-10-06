@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    
     var focusStat = 4;
     var focus = 5;
     var movieContent;
@@ -15,8 +14,33 @@ $(document).ready(function() {
     var method1Parameter = [];
     var method2Parameter = [];
     var divColors = ['#666','#f1f1f1','#d9f5da','#ffeaea','#c0fef1','#ffd6b3','#fae9be','#d4e3ff','#eafec0'];
+    var activeStatistic = 0;
 
-
+    $(document).scroll(function(e) {
+        
+        var header = $(".Statistic"+activeStatistic);
+        if(activeStatistic!==0){
+            var elTop = $('.Method'+activeStatistic).offset().top;
+            var elBottom = $('.Method'+activeStatistic).offset().top + $('.Method'+activeStatistic).height();
+            if($(this).scrollTop() >= elTop && $(this).scrollTop() <= elBottom)  {
+                if(activeStatistic===1){
+                    $(".Statistic"+activeStatistic).css({position: "fixed", "top" : "0", "margin-left":"695px"});
+                }
+                if(activeStatistic===2){
+                   header.css({position: "fixed", "top" : "0", "margin-right":"0px"});
+                   $(".Method"+activeStatistic).css({"float":"right"});
+                }
+            } else {
+                if(activeStatistic===1){
+                   header.css({position:"relative","margin-left":"50px"});
+                }
+                if(activeStatistic===2){
+                    header.css({position:"relative","margin-left":"0px"});
+                }
+            }
+        }
+    });
+    
     $(document).on("click", ".RatedMovie img", function(event){
         $('.survey').css('display', 'none');
         $('.title').css('display', 'none');
@@ -283,7 +307,6 @@ $(document).ready(function() {
             else{
                 slideIndex[method][cluster] = slideIndex[method][cluster]-1;
             }
-            alert("Prev: "+slideIndex);
         }
         if(id=="btn_next"){
             if(lenght>focus){
@@ -350,6 +373,7 @@ $(document).ready(function() {
 
     $(document).on("click", ".btnStatistics", function(event){
         var method = checkMethod($(this).parents().eq(0).attr('class'))+1;
+        activeStatistic = method;
         statcsIndex = 0;
         
         for(var m=0; m<num.length; m++){
@@ -371,7 +395,7 @@ $(document).ready(function() {
     });
     $(document).on("click", ".statistics-close", function(event){
         var activeStatic = $(this).parents().eq(0).attr('class');
-        
+        activeStatistic = 0;
         for(var m=0; m<num.length; m++){
             var mt = m+1;
             $('.Method'+mt).css('display', 'block');
@@ -685,7 +709,6 @@ $(document).ready(function() {
                 slideIndex[mt][cl] = 0;
             }
         }
-        alert("Idex init: "+slideIndex);
         /********************* Statistics **********************/
 
         for(var mt = 0; mt < jsonObj.length; mt++)
@@ -727,7 +750,6 @@ $(document).ready(function() {
                 slideIndex[i][j] = 0;
             } 
         }
-        alert(slideIndex);
     }
     
     /*
@@ -768,7 +790,6 @@ $(document).ready(function() {
 
             poster = checkPoster(response.Poster);
             title = checkTitle(response.Title);
-            alert("T: "+title+" MN: "+i);
             if(title!==undefined){
                 movieClass = showHideMovie(movieNum);
                 $('<div></div>')
@@ -956,7 +977,6 @@ $(document).ready(function() {
         else{
             movieClass ='Movie hide';
         }
-        alert("F: "+focus);
         return movieClass;
     }
 
