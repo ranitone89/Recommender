@@ -27,6 +27,7 @@ $(document).ready(function() {
                     dataType : "json",
                     success : function(data) {
                           response(data);
+                          alert(data);
                     }
              });
           },

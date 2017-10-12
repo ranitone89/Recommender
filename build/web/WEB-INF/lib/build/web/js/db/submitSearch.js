@@ -24,18 +24,20 @@ $(document).ready(function() {
             var elBottom = $('.Method'+activeStatistic).offset().top + $('.Method'+activeStatistic).height();
             if($(this).scrollTop() >= elTop && $(this).scrollTop() <= elBottom)  {
                 if(activeStatistic===1){
-                    $(".Statistic"+activeStatistic).css({position: "fixed", "top" : "0", "margin-left":"695px"});
+                    $(".Statistic"+activeStatistic).css({position: "fixed", "top" : "0", "margin-left":"694px"});
                 }
                 if(activeStatistic===2){
-                   header.css({position: "fixed", "top" : "0", "margin-right":"0px"});
-                   $(".Method"+activeStatistic).css({"float":"right"});
+                   header.css({position: "fixed", "top" : "0"});
+                   $(".Method"+activeStatistic).css({"float":"right","margin-right":"2px","margin-left":""});
                 }
             } else {
                 if(activeStatistic===1){
                    header.css({position:"relative","margin-left":"50px"});
+                   $(".Method"+activeStatistic).css({"float":"left"});
                 }
                 if(activeStatistic===2){
                     header.css({position:"relative","margin-left":"0px"});
+                    $(".Method"+activeStatistic).css({"float":"left", "margin-left":"50px","margin-right":""});
                 }
             }
         }
@@ -375,7 +377,7 @@ $(document).ready(function() {
         var method = checkMethod($(this).parents().eq(0).attr('class'))+1;
         activeStatistic = method;
         statcsIndex = 0;
-        
+        $('.ck-button').css('display', 'none');
         for(var m=0; m<num.length; m++){
             var mt = m+1;
             if(method===mt){
@@ -396,10 +398,17 @@ $(document).ready(function() {
     $(document).on("click", ".statistics-close", function(event){
         var activeStatic = $(this).parents().eq(0).attr('class');
         activeStatistic = 0;
+        $('.ck-button').css('display', 'block');
         for(var m=0; m<num.length; m++){
             var mt = m+1;
             $('.Method'+mt).css('display', 'block');
+            /*$('.Method'+mt).css('float', '');
+            $('.Method'+mt).css('margin-left', '');*/
+            
             $('.Statistic'+mt).css('display', 'none');
+            $('.Statistic'+mt).css('position', '');
+            $('.Statistic'+mt).css('margin-left', '');
+            $('.Statistic'+mt).css('top', '');
             $('#tMethod'+mt).css('display', 'block');
             $('#tStat'+mt).css('display', 'none');
             

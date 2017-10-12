@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/libs/jquery-1.11.3.min.js" ></script>
+        <script src="js/sliderMovies.js"></script>
+        <script src="js/db/loginForm.js" type="text/javascript"></script>
+        <script src="js/db/login.js" type="text/javascript"></script>
+        <script src="js/db/register.js" type="text/javascript"></script>
+        <script src="js/db/registerForm.js" type="text/javascript"></script>
+        <script src="js/db/username.js" type="text/javascript"></script>
+        <script src="js/db/submit.js" type="text/javascript"></script>
+        <link rel="shortcut icon" href="">
+        <link rel="stylesheet" href="css/index.css">
+    </head>
+
+  <body class="home_page">
+    <!-- Hier kommt der eigentliche Inhalt der Seite. -->
+    <div id="page" class="site">
+        <!-----------------------------HEADER------------------------------------------------------>
+        <header id="masthead" class="site-header header-default">
+            <div class="container">
+                <div class="inner">
+                    <div class="header-left">
+                        <div id="site-logo">
+                            <a href="https://www.informatik.uni-augsburg.de/">
+                                <img class="logo" src="img/logo_neg.png" alt="Logo">
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="header-right">
+                        <ul class="main-nav">
+                            <li class="nav-element_right">Sign Up</li>
+                            <li class="nav-element">Register</li>
+                        </ul>
+                    </div>         
+                </div>
+            </div>
+            <div id="header-shadow"></div>
+            
+        </header>
+        <!-----------------------------Main------------------------------------------------------>
+        <div id="main">
+            <div id="content" class="site-content">
+                                <div class="sllider-carousel">
+                                    <div class="slider">       
+                                    </div>
+                            </div>
+        
+        <!-------------------------------- Start Login -------------------------------------------> 
+        <div id="id01" class="modal">
+              <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal"><a href="index.html">×</a></span>
+              <div class="modal-content">
+                    <div class="formular-container">
+                        <label><b>User Name</b></label>
+                        <input type="text" name="username" id="username"/></br>
+                        <label><b>Password</b></label> 
+                        <input type="password" name="password" id="password"/></br>
+                        <div class="clearfix">
+                            <button type="button" class="cancelbtn" onclick="document.getElementById('id01').style.display='none'">Cancel</button>
+                            <button name="login" class="signupbtn" id="login">Login</button>
+                        </div>
+                        <p>
+                            Not yet a member? <span class="login_span" onclick="document.getElementById('id02').style.display='block'">Register</span>
+                        </p>
+                        <div id="messageDiv" style="display:none;"></div>                
+                    </div>
+                </div>
+            </div>
+            
+        <!--------------------------------- End Login ------------------------------------>        
+                
+        <!---------------------------- Start Registration ---------------------------------------->
+        
+        <div id="id02" class="modal" style="display:none">
+              <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">×</span>
+              <div class="modal-content animate">
+                <div class="formular-container">
+                  <label><b>User Name</b></label>
+                  <input type="text" name="username" id="username_reg">
+                  
+                  <label><b>Email</b></label>
+                  <input type="text" name="email" id="email_reg">
+                  
+                  <label><b>Password</b></label>
+                  <input type="password" name="password_1" id="password_1_reg">
+                  
+                  <label><b>Confirm password</b></label>
+                  <input type="password" name="password_2" id="password_2_reg">
+                  
+                  <div class="clearfix">
+                      <button type="button" class="cancelbtn" onclick="document.getElementById('id02').style.display='none'">Cancel</button>
+                      <button name="login" class="signupbtn" id="register">Register</button>
+                  </div>
+                  
+                 <p onclick="document.getElementById('id02').style.display='none'">
+                    Already a member?  <span class="login_span" onclick="document.getElementById('id01').style.display='block'">Sign in</span>
+                </p>
+                
+                <div id="messageRegistration" style="display:none;"></div>  
+                </div>
+              </div>
+            </div>
+        
+        <!---------------------------- End Registration ------------------------------------------>
+        
+        
+          <div id="id03" class="modal" style="display:none">
+              <div class="modal-content animate">
+                
+                <div class="formular-container">
+                    
+                   <h2>Chose you favorite genres..</h2>
+                   
+                   <div class="genre">
+                        <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Action"><span>Action</span>
+                            </label>
+                        </div>
+                       
+                        <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Animation"><span>Animation</span>
+                            </label>
+                        </div>
+                       
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Adventure"><span>Adventure</span>
+                            </label>
+                        </div>
+                       
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Biography"><span>Biography</span>
+                            </label>
+                        </div> 
+                       
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Crime"><span>Crime</span>
+                            </label>
+                        </div>
+                        <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Comedy"><span>Comedy</span>
+                            </label>
+                        </div>
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Documentary"><span>Documentary</span>
+                            </label>
+                        </div>
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Drama"><span>Drama</span>
+                            </label>
+                        </div>
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Family"><span>Family</span>
+                            </label>
+                        </div>
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Fantasy"><span>Fantasy</span>
+                            </label>
+                        </div>
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Film-Noir"><span>Film-Noir</span>
+                            </label>
+                        </div>
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="History"><span>History</span>
+                            </label>
+                        </div>
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Horror"><span>Horror</span>
+                            </label>
+                        </div>
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Music"><span>Music</span>
+                            </label>
+                        </div>
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Musical"><span>Musical</span>
+                            </label>
+                        </div>
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Mystery"><span>Mystery</span>
+                            </label>
+                        </div>
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Romance"><span>Romance</span>
+                            </label>
+                        </div>
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="SciFi"><span>SciFi</span>
+                            </label>
+                        </div>
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Sport"><span>Sport</span>
+                            </label>
+                        </div>
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Thrillers"><span>Thrillers</span>
+                            </label>
+                        </div>
+                        
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="War"><span>War</span>
+                            </label>
+                        </div>
+                       <div id="ck-button">
+                            <label>
+                                <input type="checkbox" value="Western"><span>Western</span>
+                            </label>
+                        </div>
+                   </div>
+                  <div class="clearfix">
+                    <button type="button" class="sendbtn" id="submit">Submit</button>
+                  </div>
+                   <div id="messageQuastionaire" style="display:none;"></div>  
+              </div>
+            </div>
+     <!---------------------------------------------------------------------------------------->
+         </div>
+       <!--/div-->
+       </div>
+       
+       <footer>FOOTER
+         <div class="copyright-footer">
+           <div class="copyright">
+                    <div class="copyright-text">
+                        ©copyright 2016 University of Augsburg
+                    </div>
+                    <div class="copyright-menu">
+                        <ul class="menu">
+                              <li class="menu-item">
+                                <a href="#">Privacy Policy</a>
+                              </li>
+                              <li class="menu-item">
+                                <a href="#">Terms of us</a>
+                              </li>
+                              <li class="menu-item">
+                                <a href="#">Site Map</a>
+                             </li>
+                        </ul>
+                    </div>
+             </div>
+       </div>
+       </footer>
+    </div>  
+  </body>
+</html>

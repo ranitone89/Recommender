@@ -897,16 +897,21 @@ $(document).ready(function() {
                 if (theArray[i].length > 0) {
                     var tmp = theArray[i].split(" ");
                     if(tmp.length>=3){
-                        if(tmp[tmp.length-1]=="Jr."){ //|| tmp[tmp.length-1]=="Sr."
+                        if(tmp[tmp.length-1]=="Jr." || tmp[tmp.length-1]=="Sr."){
                             theArray[i] = tmp[1] + " " + tmp[tmp.length-1] + ", " + tmp[0]+"%";
                         }
                         if(tmp[1]=="De"){
                             theArray[i] = tmp[1]+ " " +tmp[tmp.length-1]+ ", " + tmp[0]+"%";
                         }
+                        if(tmp[1].indexOf(".")> -1){
+                            theArray[i] = tmp[tmp.length-1]+ ", " + tmp[0]+ " "+tmp[1] +"%";
+                        }
                     }
                     else{
                         theArray[i] = tmp[tmp.length-1]+ ", " + tmp[0] +"%";
                     }
+                    
+                    alert(theArray[i]);
                 }
             }
 
