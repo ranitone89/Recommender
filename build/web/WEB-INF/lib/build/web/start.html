@@ -1,0 +1,523 @@
+<!DOCTYPE HTML>
+
+<html lang="de-DE">
+
+  <head>
+    <title>Eine noch fast leere Seite</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Beispiel-Seite mit exemplarischem Inhalt im Head-Element">
+    <meta name="keywords" content="example, html, head, meta">
+    <link rel="stylesheet" href="css/start.css">
+    <link rel="start" href="https://wiki.selfhtml.org/wiki/HTML" title="HTML-Dokumentation">
+    <link href="css/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="js/libs/jssor.slider-25.1.0.min.js" type="text/javascript"></script>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/content_slider.js"></script>
+    <script src="js/activeTab.js"></script>
+    <script src="js/backTab.js"></script>
+    <script src="js/ratedMovies.js"></script>
+    <script src="js/newMovies.js"></script>
+    <script src="js/comingMovies.js"></script>
+    <script src="js/rangeSlider.js"></script>
+    <script src="js/lenghtSlider.js"></script>
+    <script src="js/db/submitSearch.js"></script>
+    <script src="js/genresBoxes.js"></script>
+    <script src="js/searchTab.js" type="text/javascript"></script>
+    <script src="js/db/autocompleter.js" type="text/javascript"></script>
+    <script src="js/starRating.js" type="text/javascript"></script>
+    <script src="js/starSlider.js" type="text/javascript"></script>
+    <script src="js/rangeSliders.js" type="text/javascript"></script>
+    <script src="js/genresField.js" type="text/javascript"></script>
+    <script src="js/tabNavigation.js" type="text/javascript"></script>
+    <script src="js/closeSearch.js" type="text/javascript"></script>
+    <script src="js/movieDetail.js" type="text/javascript"></script>
+    <script src="js/loadMovies.js" type="text/javascript"></script>
+    <script src="js/initStar.js" type="text/javascript"></script>
+    <script src="js/titleDetail.js" type="text/javascript"></script>
+    <script src="js/submitSurvey.js" type="text/javascript"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  </head>
+    
+    
+  <body class="home_page">
+    <div id="page" class="site">
+        <!-----------------------------HEADER------------------------------------------------------>
+        <header id="masthead" class="site-header header-default">
+            <div class="container">
+                <div class="inner">
+                    <div class="header-left">
+                        <div id="site-logo">
+                            <a href="https://www.informatik.uni-augsburg.de/">
+                                <img class="logo" src="img/logo_neg.png" alt="Logo">
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="header-right">
+                        <ul class="main-nav">
+                            <li class="nav-element_right">Welcome</li>
+                            <li class="nav-element"><a href="index.html">Log out</a></li>
+                        </ul>
+                    </div>         
+                </div>
+            </div>
+            <div id="header-shadow"></div>
+        </header>
+        <!-----------------------------Main------------------------------------------------------>
+        <div id="main">
+            <div id="content" class="site-content">
+                <div id="slider">
+                    <!-- Loading Screen -->
+                    <div data-u="loading" class="loading-screen">
+                        <!--img src="img/double-tail-spin.svg" /-->
+                    </div>
+                    <div data-u="slides">
+                        <div>
+                            <img data-u="image" src="img/img_22.jpg" />
+                            <div id ="img_title">THE GIRL ON THE TRAIN</div>
+                            <div id ="img_text">Build your slider with anything, includes image, content, text, html, photo, picture</div>
+                        </div>
+                        <div>
+                            <img data-u="image" src="img/img_23.jpg"/>
+                            <div id ="img_title">SAUSAGE PARTY</div>
+                            <div id ="img_text">Build your slider with anything, includes image, content, text, html, photo, picture</div>
+                        </div>
+                        <div>
+                            <img data-u="image" src="img/img_24.jpg" />
+                            <div id ="img_title">FREE STATE OF JONES</div>
+                            <div id ="img_text">Build your slider with anything, includes image, content, text, html, photo, picture</div>
+                        </div>  
+                        
+                        <div>
+                            <img data-u="image" src="img/img_25.jpg" />
+                            <div id ="img_title">ICE AGE</div>
+                            <div id ="img_text">Build your slider with anything, includes image, content, text, html, photo, picture</div>
+                        </div>    
+                    </div>
+                    
+                    <!-- Bullet Navigator -->
+                    <div data-u="navigator" class="bullet_navigator">
+                        <div data-u="prototype" class="i">
+                            <svg viewbox="0 0 50 50">
+                                <circle class="b" cx="25" cy="25" r="25"></circle>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- Arrow Navigator -->
+                    <div data-u="arrowleft" class="arrow_navigator" data-autocenter="2" data-scale="0.75" data-scale-left="0.75" >
+                        <img src="img/arrow-left.png" 
+                        onmouseover="this.src='img/arrow-left-hover.png'"
+                        onmouseout="this.src='img/arrow-left.png'"/>
+                    </div>
+                    <div data-u="arrowright" class="arrow_navigator" data-autocenter="2" data-scale="0.75" data-scale-right="0.75">
+                        <img src="img/arrow-right.png" 
+                        onmouseover="this.src='img/arrow-right-hover.png'"
+                        onmouseout="this.src='img/arrow-right.png'"/>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <div class="button-content closee">
+                        <button class="button">Search for movies</button>
+                    </div>
+                </div>
+                <!------------------ SEARCH BAR--------------------------------------------------------->                   
+                <div class="search">
+                    <div class="tab">
+                    <div class="search-tab">
+                        <span class="search-tab-close">&times;</span>
+                        <span class="search-tab-cluster">&#8801;</span>
+                        <div class="row">
+                            <div class="item">
+                                 <label>Actor</label>
+                                 <textarea rows="1" contentEditable="true" placeholder="Enter the actor's name..." class="input" id="actors"></textarea>
+                           </div>
+                           <div class="item">
+                               <label for="fader">Year of Release</label>
+                               <div class="range" id="released">
+                                    <input class="min" name="range_1" list="tickmarks" type="range" min="1970" max="2017" value="1970" />
+                                    <input class="max" name="range_1" list="tickmarks" type="range" min="1970" max="2017" value="2017" />
+                                    <span class="range_min light left">1970</span>
+                                    <span class="range_max light right">2017</span>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="row"> 
+                            <div class="item">
+				<label>Genres</label>
+                                    <dl class="dropdown"> 
+                                        <dt>
+                                        <a>
+                                          <span class="hida"><img src="img/caret-down.png" alt=""/> Select</span>                     
+                                          <p class="multiSel"></p>  
+                                        </a>
+                                        </dt>
+                                      
+                                        <dd>
+                                            <div class="mutliSelect">
+                                                <ul id="ul">
+                                                    <li>
+                                                        <input type="checkbox" value="Action"    class="cb" id="Action"/>
+                                                        <label for="Action">Action</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" value="Animation" class="cb" id="Animation"/>
+                                                        <label for="Animation">Animation</label>
+                                                        </li>
+                                                    <li>
+                                                        <input type="checkbox" value="Adventure" class="cb" id="Adventure"/>
+                                                        <label for="Adventure">Adventure</label>
+                                                        </li>
+                                                    <li>
+                                                        <input type="checkbox" value="Biography" class="cb" id="Biography"/>
+                                                        <label for="Biography">Biography</label>
+                                                        </li>
+                                                    <li>
+                                                        <input type="checkbox" value="Comedy" class="cb" id="Comedy"/>
+                                                        <label for="Comedy">Comedy</label>
+                                                   </li>
+                                                    <li>
+                                                        <input type="checkbox" value="Crime" class="cb" id="Crime"/>
+                                                        <label for="Crime">Crime</label>
+                                                    </li>
+                                                    
+                                                    <li>
+                                                        <input type="checkbox" value="Documentary" class="cb" id="Documentary"/>
+                                                        <label for="Documentary">Documentary</label>    
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" value="Drama" class="cb" id="Drama"/>
+                                                        <label for="Drama">Drama</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" value="Family" class="cb" id="Family"/>
+                                                        <label for="Family">Family</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" value="Fantasy" class="cb" id="Fantasy"/>
+                                                        <label for="Fantasy">Fantasy</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" value="History" class="cb" id="History"/>
+                                                        <label for="History">History</label>
+                                                    </li>    
+                                                    <li>
+                                                        <input type="checkbox" value="Horror" class="cb" id="Horror"/>
+                                                        <label for="Horror">Horror</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" value="Music" class="cb" id="Music"/>
+                                                        <label for="Music">Music</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" value="Musical" class="cb" id="Musical"/>
+                                                        <label for="Musical">Musical</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" value="Mystery" class="cb" id="Mystery"/>
+                                                        <label for="Mystery">Mystery</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" value="Romance" class="cb" id="Romance"/>
+                                                        <label for="Romance">Romance</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" value="Sci-Fi" class="cb" id="Sci-Fi"/>
+                                                        <label for="Sci-Fi">Sci-Fi</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" value="Sport" class="cb" id="Sport"/>
+                                                        <label for="Sport">Sport</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" value="Thriller" class="cb" id="Thriller"/>
+                                                        <label for="Thriller">Thriller</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" value="War" class="cb" id="War"/>
+                                                        <label for="War">War</label>
+                                                    </li>
+                                                    <li>
+                                                        <input type="checkbox" value="Western" class="cb" id="Western"/>
+                                                        <label for="Western">Western</label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </dd>
+                                    </dl>
+                            </div>				
+                           <div class="item">
+                               <label class="lenlabel" for="l">Lenght in Minutes</label>
+                               <div class="range" id="lenght">
+                                    <input class="min" name="range_2" type="range" min="0" max="240" step="15" value="0" />
+                                    <input class="max" name="range_2" type="range" min="0" max="240" step="15" value="240" />
+                                    <span class="range_min light left">0</span>
+                                    <span class="range_max light right">240</span>
+                               </div>
+                           </div>
+                        </div>
+                    
+                       <div class="row"> 
+                           <div class="item">
+                                <label class="lenlabel">Rating</label>
+                                  <div class="rating">
+                                    <input type="radio" id="star0" name="rating" value="0" /><label class="zero" for="star0" title="0">0 star</label>
+                                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1">1 star</label>
+                                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2">2 stars</label>
+                                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3">3 stars</label>
+                                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4">4 stars</label>
+                                    <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5">5 stars</label>
+                                    <input type="radio" id="star6" name="rating" value="6" /><label for="star6" title="6">6 stars</label>
+                                    <input type="radio" id="star7" name="rating" value="7" /><label for="star7" title="7">7 stars</label>
+                                    <input type="radio" id="star8" name="rating" value="8" /><label for="star8" title="8">8 stars</label>
+                                    <input type="radio" id="star9" name="rating" value="9" /><label for="star9" title="9">9 stars</label>
+                                    <input type="radio" id="star10" name="rating" value="10" /><label for="star10" title="10">10 stars</label>
+                                </div>
+                           </div>
+                           
+                            <div class="item">
+                                <div class="range" id="star">
+                                    <input class="min" name="range_3" type="range" min="0" max="9" value="0" />
+                                    <span class="from">from</span>
+                                    <span class="range_star">0</span>
+                                    <span class="right">to 10</span>
+                                </div>
+                           </div>         
+                    </div>
+                    <div class="row"> 
+                        <div class="item">
+                            <input type="submit" value="Search" class="submitBtn"/>
+                        </div>
+                    </div>
+                </div>         
+              </div>
+              <div id="messageSearch" style="display:none;"></div>
+              <div id="loading">
+                  <p>It's loading…</p>
+              </div>
+            </div>
+            <!--------------------------- TAB NAVIGATION ---------------------------------------------->
+            <div class="tab-nav">
+                <ul>
+                    <li class="tablinks" onclick="openTab(event, 'TopRated')" id="default">
+                        <a>Top Rated</a>
+                    </li>
+                    <li class="tablinks" onclick="openTab(event, 'New')">
+                        <a>New Movies</a>
+                    </li>
+                    <li class="tablinks" onclick="openTab(event, 'Cooming')">
+                        <a>Coming soon</a>
+                    </li>
+                </ul>
+             </div>
+            
+            <!------------------------------- TAB BACK --------------------------------------------->
+
+            <div class="recom-text">
+                <h3 class="text"> Recommendation for you </h3>
+            </div>
+            <div class="search-back-nav">
+                <img class="default" src="img/back-left.png"> 
+                <img class="hover" src="img/arrow-left-hover.png">
+                <h4 class="backLink"> Back to results</h4>
+                <div style="clear: both;"></div>
+           </div>
+            <div class="tab-back-nav">
+                <img class="default" src="img/back-left.png"> 
+                <img class="hover" src="img/arrow-left-hover.png"> 
+                <h4 class="backLink"> Back to start</h4>
+                <div style="clear: both;"></div>
+           </div>
+           <!--------------------------------- TAB CONTENT ------------------------------------------>
+            <div id="TopRated" class="tabcontent">
+            </div>
+
+            <div id="New" class="tabcontent">
+            </div>
+
+            <div id="Cooming" class="tabcontent" >
+            </div>
+            <div class="title" style="display: none;">
+                <h4 class="main-text">In this section you need to select the group of recommendations that response better to you - choose between methode 1 and methode 2.</h4>
+                <img class="question_icon more" src="img/add_default.png">
+                <img class="question_icon_hover more" src="img/add.png">
+                <span class="more_details" style="display:none">
+                In order to make better recommendations for you, you need to choose between two methods. In order to do that you need to select for each row one recommendation that you perfer.
+                The rows between you should choose have allways the same color and contains a group of movies that we recommend to you.And the end you need to choose method that in your opinion matches your personal tastes.
+      
+                </span>
+            </div>
+           
+             
+            <div class="Titles" style="display: none;">
+                <h4 id="tMethod1" class="tMethods">Method one</h4>
+                <h4 id="tStat1" class="tStatistisc">Statistics for the first method</h4>
+                <h4 id="tStat2" class="tStatistisc">Statistics for the second method</h4>
+                <h4 id="tMethod2" class="tMethods">Method two</h4>
+            </div>
+            <div id="Result">
+                <div class="Method1"></div>
+                <div class="Statistic1">
+                    <button class="btn_statc" id="btn_prev_stat">&#10094</button>
+                    <button class="btn_statc" id="btn_next_stat">&#10095</button>
+                    <span class="statistics-close">×</span>
+                </div>
+                <div class="Statistic2">
+                    <button class="btn_statc" id="btn_prev_stat">&#10094</button>
+                    <button class="btn_statc" id="btn_next_stat">&#10095</button>
+                    <span class="statistics-close">×</span>
+                </div>
+                <div class="Method2"></div>                
+                <div id="ck-buttons">
+                    <div class="ck-button" id="ck-left">
+                            <label class="cb_label">
+                               <input id="cl1_like" type="checkbox" value="1">
+                               <span class="unlike"> <img src="img/unlike.png"/> Unlike</span>
+                               <span class="like"> <img src="img/like.png"/> Like</span>
+                            </label>
+                         </div>
+                        <div class="ck-button" id="ck-right">
+                            <label class="cb_label">
+                               <input id="cl2_like" type="checkbox" value="2">
+                               <span class="unlike"> <img src="img/unlike.png"/> Unlike</span>
+                               <span class="like"> <img src="img/like.png"/> Like</span>
+                            </label>
+                         </div>
+                    </div>
+                </div>
+            </div>
+            <div id="messageSurvey" style="display:none"></div>
+            <div class="survey" style="display:none">
+                <input type="submit" value="Submit" class="submitSurvey"/>
+            </div>
+           
+            <div id="id02" class="modal" style="display:none">
+                <span class="close" title="Close Modal"><a>×</a></span>
+                <div class="modal-content animate">
+                    <div class="formular-container">
+                        <p>Thank you for taking the time to complete this survey. 
+                            We truly value the information you have provided. 
+                            Your responses will contribute to our analyses of the texts and suggest new lines of approach to the corpus data.
+                        </p> 
+                    </div>
+                </div>
+            </div>
+
+            <div id="id01" class="modal" style="display:none">
+              <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">×</span>
+              <div class="modal-content">
+                    <div class="formular-container">
+                        <h4>This option gives you chance to compare two methods with different parameters. 
+                           In this section you can chose between different number of clusters, distance metrix and sorting options.
+                        </h4> 
+                    </div>
+                  <div class="method-1">
+                    <label>Method 1</label>  
+                        <div class="row-1">
+                        <label>Number of Clusters</label>
+                        <select id="nCluster" name="Number of Clusters">
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                        </select>
+                    </div>
+                    
+                    <div class="row-2">  
+                        <label>Distance</label>
+                        <select id="distance" name="Distance">
+                          <option value="0">Euclidean</option>
+                          <option value="1">Canberra</option>
+                          <option value="2">Bray Curtis</option>
+                          <option value="3">Manhattan</option>
+                        </select>
+                    </div>
+                      
+                    <div class="row-3">  
+                        <label>Sorting</label>
+                        <select id="sorting" name="Sorting">
+                          <option value="0">simple initializiation of centroids</option>
+                          <option value="1">k-means++</option>
+                        </select>
+                    </div>
+                </div>
+                  
+                  <div class="method-2">
+                  <label>Method 2</label>    
+                    <div class="row-1">
+                        <label>Number of Clusters</label>
+                        <select id="nCluster" name="Number of Clusters">
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                        </select>
+                    </div>
+                    
+                    <div class="row-2">  
+                        <label>Distance</label>
+                        <select id="distance" name="Distance">
+                          <option value="0">Euclidean</option>
+                          <option value="1">Canberra</option>
+                          <option value="2">Bray Curtis</option>
+                          <option value="3">Manhattan</option>
+                        </select>
+                    </div>
+                      
+                    <div class="row-3">  
+                        <label>Sorting</label>
+                        <select id="sorting" name="Sorting">
+                          <option value="0">simple initializiation of centroids</option>
+                          <option value="1">k-means++</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="clearfix">
+                    <button name="login" class="clusterbtn" id="register" onclick="document.getElementById('id01').style.display='none'">Confirm</button>
+                </div>
+            </div>
+        </div>
+                    
+            <!-- Display charts-->
+            
+            <!---------------------------------------------------------------------------------------->
+         </div>
+       </div>
+       
+       <footer>
+         <div class="copyright-footer">
+           <div class="copyright">
+                    <div class="copyright-text">
+                        ©copyright 2016 University of Augsburg
+                    </div>
+                    <div class="copyright-menu">
+                        <ul class="menu">
+                              <li class="menu-item">
+                                <a href="#">Privacy Policy</a>
+                              </li>
+                              <li class="menu-item">
+                                <a href="#">Terms of us</a>
+                              </li>
+                              <li class="menu-item">
+                                <a href="#">Site Map</a>
+                             </li>
+                        </ul>
+                    </div>
+             </div>
+       </div>    
+       </footer>
+    </div>
+  </body>
+
+</html>
