@@ -472,7 +472,7 @@ $(document).ready(function() {
                         {
                             var jsonStr = JSON.stringify(response);
                             var jsonObj = JSON.parse(jsonStr);
-                            getData(jsonObj);
+                            sortData(jsonObj);
 
                         }
                     else
@@ -734,8 +734,24 @@ $(document).ready(function() {
                 }
             }
             getCharts(score,method);
-        }        
-        //initIndex(num);
+        }     
+    }
+    
+    /**
+     * 
+     * @param {type} jsonObj
+     * @returns {undefined}
+     */
+    function sortData(jsonObj)
+    {
+        for(var mt = 0; mt < jsonObj.length; mt++){
+            for(var cl = 0; cl<jsonObj[mt].length; cl++){
+                jsonObj[mt]=jsonObj[mt].sort(function(a, b) {
+                    return (a.clusterid > b.clusterid) ? 1 : ((a.clusterid < b.clusterid) ? -1 : 0);
+                });
+            }   
+        }
+        getData(jsonObj);
     }
     
     function setColor(method, cluster){
@@ -1137,13 +1153,15 @@ $(document).ready(function() {
    
 
    $(document).on("click", ".clusterbtn", function(event){
-       method1Parameter[0] = $( ".method-1 #nCluster" ).val();
-       method1Parameter[1] = $( ".method-1 #distance" ).val();
-       method1Parameter[2] = $( ".method-1 #sorting" ).val();
+       method1Parameter[0] = $( ".method-1 #nAlg" ).val();
+       method1Parameter[1] = $( ".method-1 #nCluster" ).val();
+       method1Parameter[2] = $( ".method-1 #distance" ).val();
+       method1Parameter[3] = $( ".method-1 #sorting" ).val();
 
-       method2Parameter[0] = $( ".method-2 #nCluster" ).val();
-       method2Parameter[1] = $( ".method-2 #distance" ).val();
-       method2Parameter[2] = $( ".method-2 #sorting" ).val();
+       method2Parameter[0] = $( ".method-2 #nAlg" ).val();
+       method2Parameter[1] = $( ".method-2 #nCluster" ).val();
+       method2Parameter[2] = $( ".method-2 #distance" ).val();
+       method2Parameter[3] = $( ".method-2 #sorting" ).val();
    });
       
    $( "#myselect" ).val();

@@ -17,15 +17,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.movie.Movie;
-import com.movie.Recommendation;
-import com.movie.Score;
-import com.movie.Search;
+import com.recommender.Movie;
+import com.recommender.Recommendation;
+import com.recommender.Score;
+import com.recommender.Search;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 /**
@@ -65,16 +66,14 @@ public class SearchRequest extends HttpServlet {
             ArrayList<PointdDim> points = getPoints(movies);
             
             //int k, int distance, int sort
-            ArrayList<Integer> firstMethParam = getParameters(method1);
-            ArrayList<Integer> secondMethParam = getParameters(method2);
+            ArrayList<Integer> firstMethParam = getParameters(method1,0);
+            ArrayList<Integer> secondMethParam = getParameters(method2,1);
             
             FinalClustering fistMethod = new FinalClustering();
-            fistMethod = Kmeans.kMeansClustering(points, firstMethParam.get(0), 
-                    firstMethParam.get(1), firstMethParam.get(2));
+            fistMethod = getMethod(points,firstMethParam);
             
             FinalClustering secondMethod = new FinalClustering();
-            secondMethod = Kmeans.kMeansClustering(points, secondMethParam.get(0), 
-                    secondMethParam.get(1), secondMethParam.get(2));
+            secondMethod = getMethod(points,secondMethParam);
             
             ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<>();
             
@@ -98,16 +97,36 @@ public class SearchRequest extends HttpServlet {
         }
     }
 
+    /** 
+     */
+    private FinalClustering getMethod(ArrayList<PointdDim> points,  ArrayList<Integer> methParam)
+    {
+        FinalClustering method = null;
+        System.out.println("Parameter 0: "+methParam.get(0).intValue());
+        if(methParam.get(0).compareTo(0)<=0){
+            System.out.println("Cluster");
+            method = Kmeans.kMeansClustering(points, methParam.get(1), 
+                        methParam.get(2), methParam.get(3));
+            }
+        if(methParam.get(0).compareTo(0)>0){
+            System.out.println("Borda");
+            method = Kmeans.kMeansClusteringBorda(points, methParam.get(1), 
+                        methParam.get(3));
+            }
+        return method;
+    }     
+    
+    
     /**
      * Filters parameter from String, prove if parameters are equals zero
      * @param parameters
      * @return 
      */
-    private ArrayList<Integer> getParameters(String[] parameters)
+    private ArrayList<Integer> getParameters(String[] parameters, int method)
     {
         ArrayList<Integer> temp = new ArrayList<Integer>();
         
-        List<Integer> defaultPar = Arrays.asList(3, 0, 1);
+        List<Integer> defaultPar = Arrays.asList(method, 3, 0, 1);
         
         if(parameters != null){
             for(int i =0; i<parameters.length; i++){
@@ -188,7 +207,7 @@ public class SearchRequest extends HttpServlet {
             }
             System.out.println("#################################");
         }
-        System.out.println(row+":"+column);
+        System.out.println(column+":"+row);
         hmap.put(column, row);
         usedRows.add(row);
         usedColumns.add(column);

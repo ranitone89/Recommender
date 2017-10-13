@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.List;
-import com.movie.Movie;
+import com.recommender.Movie;
 
 public class DataDB {
 	private Connection connection;

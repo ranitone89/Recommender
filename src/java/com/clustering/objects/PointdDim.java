@@ -1,6 +1,6 @@
 package com.clustering.objects;
 
-import com.movie.Movie;
+import com.recommender.Movie;
 
 /**
  * 

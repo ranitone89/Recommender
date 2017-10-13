@@ -2610,9 +2610,9 @@ button#btn_next_stat {
     background-color: whitesmoke;
 }
 
-.row-1, .row-2, .row-3 {
-    width: 130px;
-    margin-left: 36px;
+.row-1, .row-2, .row-3, .row-4 {
+    width: 105px;
+    margin-left: 12px;
     margin-right: 30px;
     margin-top: 40px;
     float: left;
