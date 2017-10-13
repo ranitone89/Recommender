@@ -22,9 +22,12 @@ import com.movie.Recommendation;
 import com.movie.Score;
 import com.movie.Search;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 /**
  *
  * @author Nemanja Ranitovic
@@ -65,26 +68,26 @@ public class SearchRequest extends HttpServlet {
             ArrayList<Integer> firstMethParam = getParameters(method1);
             ArrayList<Integer> secondMethParam = getParameters(method2);
             
-            FinalClustering fistCluster = new FinalClustering();
-            fistCluster = Kmeans.kMeansClustering(points, firstMethParam.get(0), 
+            FinalClustering fistMethod = new FinalClustering();
+            fistMethod = Kmeans.kMeansClustering(points, firstMethParam.get(0), 
                     firstMethParam.get(1), firstMethParam.get(2));
             
-            FinalClustering secondCluster = new FinalClustering();
-            secondCluster = Kmeans.kMeansClustering(points, secondMethParam.get(0), 
+            FinalClustering secondMethod = new FinalClustering();
+            secondMethod = Kmeans.kMeansClustering(points, secondMethParam.get(0), 
                     secondMethParam.get(1), secondMethParam.get(2));
             
             ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<>();
             
-            ArrayList<Recommendation> firstRecommendation = getClusterElements(fistCluster,0);
-            ArrayList<Recommendation> secondRecommendation = getClusterElements(secondCluster,1);
+            ArrayList<Recommendation> firstRecommendation = getMethodElements(fistMethod,0);
+            ArrayList<Recommendation> secondRecommendation = getMethodElements(secondMethod,1);
             
             sortCluster(firstRecommendation, secondRecommendation);
             
-            recommendations.add(getClusterElements(fistCluster,0));
-            recommendations.add(getClusterElements(secondCluster,1));
+            recommendations.add(firstRecommendation);
+            recommendations.add(secondRecommendation);
 
             String json = new Gson().toJson(recommendations);
-
+            System.out.println(json);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
@@ -120,47 +123,78 @@ public class SearchRequest extends HttpServlet {
         return temp;
     }        
 
-    private void sortCluster(ArrayList<Recommendation> firstCluster, ArrayList<Recommendation> secondCluster) throws IOException 
+    /**
+     * 
+     * @param firstCluster
+     * @param secondCluster
+     * @throws IOException 
+     */
+    private void sortCluster(ArrayList<Recommendation> firstMethod, ArrayList<Recommendation> secondMethod) throws IOException 
     {
-        float[ ][ ] scores = new float[firstCluster.size()][secondCluster.size()];
- 
-        for(Recommendation cl1:firstCluster ){
-            for(Recommendation cl2:secondCluster ){
-                //System.out.println("############################");
+        float[ ][ ] scores = new float[firstMethod.size()][secondMethod.size()];
+        
+        HashMap <Integer, Integer> hmap = new HashMap<Integer, Integer>();
+        HashSet <Integer> usedRows = new HashSet<Integer>();
+        HashSet <Integer> usedColumns = new HashSet<Integer>();
+        
+        for(Recommendation cl1:firstMethod ){
+            for(Recommendation cl2:secondMethod ){
                 scores[cl1.getClusterId()][cl2.getClusterId()] = compareClusters(cl1, cl2);
                 
             }
         }
-
-        //float max = Float.MIN_VALUE;
-        float max = Float.MIN_VALUE;
-        float[ ][ ] res = new float[firstCluster.size()][secondCluster.size()];
-        int remove_row = firstCluster.size()+1;
-        int remove_column = firstCluster.size()+1;
-        
-        for(int i=0; i<scores.length; i++){
-           if ( i == remove_row)
-                continue;
-           
-            for(int j=0; j<scores[i].length; j++){
-                if ( j == remove_column){
-                    continue;
-                }
-                else{
-                    System.out.print(scores[i][j]);
-                    if(scores[i][j] >= max)
-                    {
-                        max = Math.max(max, scores[i][j]);
-                        remove_row = i;
-                        remove_column = j;
-                        System.out.print("Max: "+max);
-                    }
-                }
-            }
-            System.out.println("##############################");
-        }
+        getClusterPair(scores,usedRows,usedColumns,hmap);
+        setClusterIds(secondMethod, hmap);
     }  
 
+    public static void setClusterIds(ArrayList<Recommendation> secondMethod, HashMap hmap){
+        
+        for(Recommendation cluster: secondMethod){
+            int tempId= (int) hmap.get(cluster.getClusterId());
+            cluster.setClusterId(tempId);
+        }
+        /*Delete in order to remove error*/
+        for (Object row: hmap.keySet()){
+            System.out.println(row + " " + hmap.get(row));  
+        }
+    }
+    
+    public static void getClusterPair(float[][] scores, Set usedRows, Set usedColumns, HashMap hmap){
+        for(int i =0; i<scores.length; i++){
+            System.out.println("Max: "+getMaxValue(scores,usedRows,usedColumns,hmap));
+        }
+    }
+    
+    
+    public static float getMaxValue(float[][] numbers, Set usedRows, Set usedColumns, HashMap hmap) {
+        float maxValue = 0f;
+        int row = Integer.MIN_VALUE;
+        int column = Integer.MIN_VALUE;
+        
+        System.out.println("#################################");
+        for (int j = 0; j < numbers.length; j++) {
+            for (int i = 0; i < numbers[j].length; i++) {
+                System.out.println(numbers[i][j]);
+                if ( usedRows.contains(i) || usedColumns.contains(j)){
+                   
+                continue;
+                }
+                if (numbers[j][i] >= maxValue) {
+                    maxValue = numbers[j][i];
+                    row = i;
+                    column = j;
+                }
+                
+            }
+            System.out.println("#################################");
+        }
+        System.out.println(row+":"+column);
+        hmap.put(column, row);
+        usedRows.add(row);
+        usedColumns.add(column);
+        return maxValue;
+    }
+    
     private float compareClusters(Recommendation firstCluster, Recommendation secondCluster) throws IOException 
     {
         int numMoviesCl1 = firstCluster.getMovies().size(); //movieGenres
@@ -180,7 +214,7 @@ public class SearchRequest extends HttpServlet {
     }     
     
     
-    private ArrayList<Recommendation>getClusterElements(FinalClustering clusterings, int methodid) throws IOException 
+    private ArrayList<Recommendation>getMethodElements(FinalClustering clusterings, int methodid) throws IOException 
     {
         ArrayList<Recommendation> recommendations = new ArrayList<Recommendation>();
         

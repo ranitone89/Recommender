@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Administrator
+ * @author Nemanja Ranitovic
  */
 public class Recommendation {
     
@@ -30,5 +30,9 @@ public class Recommendation {
 
     public int getClusterId(){
         return clusterid;
+    }
+    
+    public void setClusterId(int clusterid){
+        this.clusterid = clusterid;
     }
 }
