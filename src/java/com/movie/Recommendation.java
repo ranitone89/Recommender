@@ -23,4 +23,12 @@ public class Recommendation {
         this.movies = movies;
         this.methodid = methodid;
     }
+    
+    public ArrayList<Movie> getMovies(){
+        return movies;
+    }
+
+    public int getClusterId(){
+        return clusterid;
+    }
 }

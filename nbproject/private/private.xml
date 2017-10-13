@@ -5,12 +5,11 @@
         <group>
             <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/servlets/SearchRequest.java</file>
             <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/movie/Search.java</file>
-            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/start.html</file>
             <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/movie/Score.java</file>
-            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/css/start.css</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/db/DataDB.java</file>
             <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/js/db/submitSearch.js</file>
-            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/clustering/kmeans/Kmeans.java</file>
-            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/index.html</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/movie/Recommendation.java</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/clustering/objects/FinalClustering.java</file>
         </group>
     </open-files>
 </project-private>

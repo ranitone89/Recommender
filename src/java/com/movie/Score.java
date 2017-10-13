@@ -37,7 +37,7 @@ public class Score {
         
         for(int i = 0; i< movie.getGenres().length; i++){
             for(int j= 0; j<search.getGenres().length; j++){
-                if(movie.getGenre(i) == null ? search.getGenre(j) == null : movie.getGenre(i).equals(search.getGenre(j))){
+                if(movie.getGenre(i) == null ? search.getGenre(j) == null : movie.getGenre(i).contains(search.getGenre(j))){
                     commonGenres++;
                 }
             }
@@ -55,7 +55,7 @@ public class Score {
         
         for(int i = 0; i< movie.getActors().length; i++){
             for(int j= 0; j<search.getActors().length; j++){
-                if(movie.getActor(i) == null ? search.getActor(j) == null : movie.getActor(i).equals(search.getActor(j))){
+                if(movie.getActor(i) == null ? search.getActor(j) == null : movie.getActor(i).contains(search.getActor(j))){
                     commonActors++;
                 }
             }

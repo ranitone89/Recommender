@@ -378,6 +378,7 @@ $(document).ready(function() {
         activeStatistic = method;
         statcsIndex = 0;
         $('.ck-button').css('display', 'none');
+        $('.survey').css('display', 'none');
         for(var m=0; m<num.length; m++){
             var mt = m+1;
             if(method===mt){
@@ -399,6 +400,7 @@ $(document).ready(function() {
         var activeStatic = $(this).parents().eq(0).attr('class');
         activeStatistic = 0;
         $('.ck-button').css('display', 'block');
+        $('.survey').css('display', 'block');
         for(var m=0; m<num.length; m++){
             var mt = m+1;
             $('.Method'+mt).css('display', 'block');
