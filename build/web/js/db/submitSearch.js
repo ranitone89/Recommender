@@ -276,8 +276,10 @@ $(document).ready(function() {
     */
     function checkIndexStat(id,lenght) {
         if(id==="btn_next_stat"){
-            if(statcsIndex>=(lenght-focusStat)){
+            if(statcsIndex>=(lenght-focusStat) || statcsIndex>=8){
                 statcsIndex = statcsIndex;
+                alert("Limit: "+statcsIndex);
+
             }
             else{
                 statcsIndex = statcsIndex+4;
