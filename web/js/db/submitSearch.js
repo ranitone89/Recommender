@@ -421,6 +421,11 @@ $(document).ready(function() {
     /************************** Submit Search *********************/
 
     $(document).on("click", ".submitBtn", function(event){
+        /*$('.Statistic1').css("display","none");
+        $('.Statistic2').css("display","none");*/
+        
+        $('.statistics-close').trigger('click');
+        
         var actors = removeLastComma($('#actors').val());
         var genres = removeLastComma($('.multiSel').text());
         var maxReleased = $('#released .range_max').text();
@@ -440,6 +445,7 @@ $(document).ready(function() {
              return;
          }
          else{
+             $('#messageSearch').css("display","none");
              var actorList = covertToArray(actors,'a');
              var genreList = covertToArray(genres,'g');
              delDivContent();
