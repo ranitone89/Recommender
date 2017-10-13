@@ -282,6 +282,7 @@ $(document).ready(function() {
             else{
                 statcsIndex = statcsIndex+4;
             }
+            alert(statcsIndex);
         }
         if(id==="btn_prev_stat"){
             if(statcsIndex<=0){
@@ -290,6 +291,7 @@ $(document).ready(function() {
             else{
                 statcsIndex = statcsIndex-4;
             }
+            alert(statcsIndex);
         }
     }
     
@@ -425,6 +427,8 @@ $(document).ready(function() {
         $('.Statistic2').css("display","none");*/
         
         $('.statistics-close').trigger('click');
+        activeStatistic = 0;
+        statcsIndex = 0;
         
         var actors = removeLastComma($('#actors').val());
         var genres = removeLastComma($('.multiSel').text());
