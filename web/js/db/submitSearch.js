@@ -13,8 +13,10 @@ $(document).ready(function() {
     var numStats;
     var method1Parameter = [];
     var method2Parameter = [];
+    var mode;
     var divColors = ['#666','#f1f1f1','#d9f5da','#ffeaea','#c0fef1','#ffd6b3','#fae9be','#d4e3ff','#eafec0'];
     var activeStatistic = 0;
+    var numEval = 0;
 
     $(document).scroll(function(e) {
         
@@ -425,9 +427,6 @@ $(document).ready(function() {
     /************************** Submit Search *********************/
 
     $(document).on("click", ".submitBtn", function(event){
-        /*$('.Statistic1').css("display","none");
-        $('.Statistic2').css("display","none");*/
-        
         $('.statistics-close').trigger('click');
         activeStatistic = 0;
         statcsIndex = 0;
@@ -439,7 +438,11 @@ $(document).ready(function() {
         var maxLenght = $('#lenght .range_max').text();
         var minLenght = $('#lenght .range_min').text();
         var minStar = $('#star .range_star').text();
-
+        
+            
+         if(mode == 1){
+             alert(1);
+         }
          if(actors == ""){
              $('#messageSearch').css("display","block");
              $('#messageSearch').html("<font color='red'>Insert at least the Name of one Actor </font>")
@@ -1174,6 +1177,10 @@ $(document).ready(function() {
        method2Parameter[1] = $( ".method-2 #nCluster" ).val();
        method2Parameter[2] = $( ".method-2 #distance" ).val();
        method2Parameter[3] = $( ".method-2 #sorting" ).val();
+       
+       mode = $( ".mode #nMode" ).val();
+       
+       alert(mode);
    });
       
    $( "#myselect" ).val();
