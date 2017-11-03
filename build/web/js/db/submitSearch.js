@@ -17,6 +17,7 @@ $(document).ready(function() {
     var divColors = ['#666','#f1f1f1','#d9f5da','#ffeaea','#c0fef1','#ffd6b3','#fae9be','#d4e3ff','#eafec0'];
     var activeStatistic = 0;
     var numEval = 0;
+    $( ".mode #nMode" ).val(1);
 
     $(document).scroll(function(e) {
         
@@ -1168,20 +1169,35 @@ $(document).ready(function() {
    
 
    $(document).on("click", ".clusterbtn", function(event){
-       method1Parameter[0] = $( ".method-1 #nAlg" ).val();
-       method1Parameter[1] = $( ".method-1 #nCluster" ).val();
-       method1Parameter[2] = $( ".method-1 #distance" ).val();
-       method1Parameter[3] = $( ".method-1 #sorting" ).val();
-
-       method2Parameter[0] = $( ".method-2 #nAlg" ).val();
-       method2Parameter[1] = $( ".method-2 #nCluster" ).val();
-       method2Parameter[2] = $( ".method-2 #distance" ).val();
-       method2Parameter[3] = $( ".method-2 #sorting" ).val();
        
        mode = $( ".mode #nMode" ).val();
        
-       alert(mode);
+       if(mode == 0){
+            method1Parameter[0] = $( ".method-1 #nAlg" ).val();
+            method1Parameter[1] = $( ".method-1 #nCluster" ).val();
+            method1Parameter[2] = $( ".method-1 #distance" ).val();
+            method1Parameter[3] = $( ".method-1 #sorting" ).val();
+
+            method2Parameter[0] = $( ".method-2 #nAlg" ).val();
+            method2Parameter[1] = $( ".method-2 #nCluster" ).val();
+            method2Parameter[2] = $( ".method-2 #distance" ).val();
+            method2Parameter[3] = $( ".method-2 #sorting" ).val();
+       }       
    });
+   
+   /* Get the value of mode
+    * 
+    */
+    $('#nMode').change(function(){
+        if($(this).val() == 1){
+            $('.method-1').css('display', 'none');
+            $('.method-2').css('display', 'none');
+        }
+        else{
+            $('.method-1').css('display', 'block');
+            $('.method-2').css('display', 'block');            
+        }
+    });
       
    $( "#myselect" ).val();
 });

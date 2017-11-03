@@ -1200,6 +1200,7 @@ div#messageSurvey {
     width: 1400px;
     text-align: center;
     float: left;
+    display: none;
 }
 
 
@@ -2003,6 +2004,7 @@ input, button, select, textarea {
 .survey {
     float: left;
     width: 1400px;
+    display: none;
 }
 
 .survey input[type=submit]:hover {
@@ -2608,6 +2610,7 @@ button#btn_next_stat {
     height: 135px;
     width: 650px;
     background-color: whitesmoke;
+    display: none;
 }
 
 .row-1, .row-2, .row-3, .row-4 {
