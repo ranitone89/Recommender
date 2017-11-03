@@ -435,7 +435,7 @@ html, body {
 	}
 }
 
-.clusterbtn{
+.clusterbtn, .sv_complete_btn{
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -458,8 +458,15 @@ html, body {
     background-color: #fe7900;
 }
 
+.sv_complete_btn:active{
+    color: white;
+    background-color: #fe7900; 
+}
 
-
+.sv_complete_btn:active{
+    color: white;
+    background-color: #fe7900; 
+}
 
 .signupbtn{
     color: white;
@@ -2657,4 +2664,20 @@ button#btn_next_stat {
 .mode label {
     float: right;
     margin-right: 27px;
+}
+
+.btn-green {
+  background-color: #1ab394;
+  color: #fff;
+  border-radius: 3px;
+}
+.btn-green:hover, .btn-green:focus {
+    background-color: #18a689;
+    color: #fff;
+}
+.panel-footer {
+    padding: 0 15px;
+    border:none;
+    text-align: right;
+    background-color: #fff;
 }

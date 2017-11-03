@@ -16,6 +16,7 @@ $(document).ready(function() {
     var mode;
     var divColors = ['#666','#f1f1f1','#d9f5da','#ffeaea','#c0fef1','#ffd6b3','#fae9be','#d4e3ff','#eafec0'];
     var activeStatistic = 0;
+    var surveryInfor = false;
     var numEval = 0;
     $( ".mode #nMode" ).val(1);
 
@@ -428,7 +429,9 @@ $(document).ready(function() {
     /************************** Submit Search *********************/
 
     $(document).on("click", ".submitBtn", function(event){
-        $('.statistics-close').trigger('click');
+        $('.statistics-close').trigger('click');       
+        mode = $( ".mode #nMode" ).val();
+        
         activeStatistic = 0;
         statcsIndex = 0;
         
@@ -441,9 +444,6 @@ $(document).ready(function() {
         var minStar = $('#star .range_star').text();
         
             
-         if(mode == 1){
-             alert(1);
-         }
          if(actors == ""){
              $('#messageSearch').css("display","block");
              $('#messageSearch').html("<font color='red'>Insert at least the Name of one Actor </font>")
@@ -454,12 +454,49 @@ $(document).ready(function() {
              $('#messageSearch').html("<font color='red'>Select at least one Genre </font>")
              return;
          }
+         
+         if(mode == 1 && surveryInfor==false){
+             alert(1);
+             $('#id02').css("display","block");
+                window.survey = new Survey.Model({ 
+                    title: "Software developer survey.",
+                    pages: [
+                        { title: "What operating system do you use?",
+                            questions: [
+                                {type:"checkbox", name:"opSystem", title: "OS", hasOther: true, isRequired: true, 
+                                    choices:["Windows", "Linux", "Macintosh OSX"]}
+                            ]  
+                        },
+                        {   title: "What language(s) are you currently using?",
+                            questions: [
+                            {type:"checkbox", name:"langs",title:"Plese select from the list",
+                                 colCount: 4, isRequired: true,
+                                choices:["Javascript", "Java", "Python", "CSS", "PHP", "Ruby", "C++", "C", 
+                                    "Shell", "C#", "Objective-C", "R", "VimL", "Go", "Perl", "CoffeeScript", 
+                                    "TeX", "Swift", "Scala", "Emacs List", "Haskell", "Lua", "Clojure", 
+                                    "Matlab", "Arduino", "Makefile", "Groovy", "Puppet", "Rust", "PowerShell"]
+                            }
+                        ]},        
+                        { title: "Please enter your name and e-mail",
+                            questions: [ 
+                            {type: "text", name: "name", title: "Name:"}, 
+                            {type: "text", name: "email", title: "Your e-mail"}]
+                        }]
+                });
+
+            $("#surveyElement").Survey({ 
+                model: survey 
+            });
+            return;
+         }
          else{
              $('#messageSearch').css("display","none");
              var actorList = covertToArray(actors,'a');
              var genreList = covertToArray(genres,'g');
+             $('#id02').css("display","none");
              delDivContent();
-
+             surveryInfor==false;
+             
              $.ajax({
              url : "SearchServlet",
              type : "GET",
@@ -1135,7 +1172,6 @@ $(document).ready(function() {
         else{
             $('#messageSurvey').css("display","none");
             $('#Cluster'+c +' #lb_'+c).text("");
-            $('#id02').css("display","block");
         }
 
     });
@@ -1157,9 +1193,11 @@ $(document).ready(function() {
         return poster;
     }    
    
-   $(document).on("click", "#id02", function(event){
-       $('#id02').css("display","none");
-       $('.tab-back-nav').trigger('click');
+   $(document).on("click", ".sv_complete_btn", function(event){
+       alert("CLose");
+       alert($(this).val());
+       /*$('#id02').css("display","none");*/
+       //$('.tab-back-nav').trigger('click');
    });
    
    $(document).on("click", ".search-tab-cluster", function(event){
@@ -1192,12 +1230,19 @@ $(document).ready(function() {
         if($(this).val() == 1){
             $('.method-1').css('display', 'none');
             $('.method-2').css('display', 'none');
+            surveryInfor = false;
         }
         else{
             $('.method-1').css('display', 'block');
             $('.method-2').css('display', 'block');            
         }
     });
+
+    $(document).on("click", ".surveyclose ", function(event){
+        surveryInfor = true;
+        $('.submitBtn').trigger('click');
+    });    
+    
       
    $( "#myselect" ).val();
 });

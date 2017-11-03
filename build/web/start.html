@@ -41,6 +41,10 @@
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link href="https://surveyjs.azureedge.net/0.12.36/survey.css" type="text/css" rel="stylesheet" />
+    <script src="https://surveyjs.azureedge.net/0.12.36/survey.jquery.min.js"></script>
+    
   </head>
     
     
@@ -397,7 +401,7 @@
             </div>
            
             <div id="id02" class="modal" style="display:none">
-                <span class="close" title="Close Modal"><a>×</a></span>
+                <!--span class="close" title="Close Modal"><a>×</a></span-->
                 <div class="modal-content animate">
                     <div class="formular-container">
                         <p>Thank you for taking the time to complete this survey. 
@@ -405,11 +409,15 @@
                             Your responses will contribute to our analyses of the texts and suggest new lines of approach to the corpus data.
                         </p> 
                     </div>
+                    <div id="surveyElement"></div>
+                    <!--div class="clearfix">
+                        <button name="close" class="surveyclose" id="surveyclose">Close</button>
+                    </div-->
                 </div>
             </div>
 
             <div id="id01" class="modal" style="display:none">
-              <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">×</span>
+              <!--span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">×</span-->
               <div class="modal-content">
                     <div class="formular-container">
                         <h4>This option gives you chance to compare two methods with different parameters. 
