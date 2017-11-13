@@ -12,7 +12,6 @@ $(document).ready(function() {
         }
 
         function extractLast( term ) {
-            alert(term);
           return split( term ).pop();
         }
         

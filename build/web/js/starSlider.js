@@ -7,7 +7,8 @@
 $(document).ready(function() {
     var url = $(location).attr('href');
     var username = url.split("=")[1];
-    $('.nav-element_right').text('Welcome '+username);
+    /*$('.nav-element_right').text('Welcome '+username);*/
+    $('.nav-element_right').text(username);
     
     function rangeInputChangeEventHandler(e){
         var value = $(this).val();
