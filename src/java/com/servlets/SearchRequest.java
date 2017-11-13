@@ -57,7 +57,7 @@ public class SearchRequest extends HttpServlet {
             String method1[] = request.getParameterValues("method1[]"); 
             String method2[] = request.getParameterValues("method2[]");
 
-            DataDB dataDao = new DataDB();
+            DataDB dataDao = new DataDB("JMDB");
             
             ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres);
 

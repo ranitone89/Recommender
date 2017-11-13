@@ -7,16 +7,16 @@
 
 $(document).ready(function() {
      $(function() {
-        
         function split( val ) {
           return val.split( /,\s*/ );
         }
 
         function extractLast( term ) {
+            alert(term);
           return split( term ).pop();
         }
         
-        $("#actors").autocomplete({     
+        $("#actors").autocomplete({
             source : function(request, response) {
                $.ajax({
                     url : "SearchController",

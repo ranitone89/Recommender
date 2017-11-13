@@ -11,14 +11,20 @@ import com.recommender.Movie;
 
 public class DataDB {
 	private Connection connection;
-	public DataDB() throws Exception {
-		connection = DBConnection.getConnection();
+	public DataDB(String DB) throws Exception {
+            if(DB =="JMDB"){
+                connection = DBConnection.getJMDBConnection();
+            }
+            if(DB=="DB"){
+              connection = DBConnection.getDBConnection();  
+            }            
 	}
 
-	public ArrayList<String> getFrameWork(String frameWork) {
-		ArrayList<String> list = new ArrayList<String>();
+	public ArrayList<String> getFrameWork(String frameWork) throws Exception {
+                ArrayList<String> list = new ArrayList<String>();
 		PreparedStatement ps = null;
-		String data;
+                System.out.println("Autooooo");
+                String data;
 		try {
                     String sql = "SELECT name FROM top_actors WHERE name LIKE ?";
                     ps = connection.prepareStatement(sql);
@@ -34,13 +40,13 @@ public class DataDB {
 		return list;
 	}
         
-        public String doLogin(String username, String password){
+        public String doLogin(String username, String password) throws Exception{
             System.out.println("DRIN");
             String message = null;
             PreparedStatement ps = null;
             String data;
             try {
-                String sql = "SELECT name,password FROM test_users WHERE name = ? AND password = ?";
+                String sql = "SELECT name,password FROM users WHERE name = ? AND password = ?";
                 ps = connection.prepareStatement(sql);
                 
                 //setting the parameters
@@ -63,13 +69,13 @@ public class DataDB {
             return message;
         }     
 
-    public String checkUsername(String username) {
+    public String checkUsername(String username) throws Exception {
             System.out.println("DRIN");
             String message = null;
             PreparedStatement ps = null;
             String data;
             try {
-                String sql = "SELECT name FROM test_users WHERE name = ?";
+                String sql = "SELECT name FROM users WHERE name = ?";
                 ps = connection.prepareStatement(sql);
                 
                 //setting the parameters
@@ -92,13 +98,12 @@ public class DataDB {
             return message;
     }
 
-    public String doRegistration(String username,String email,String password, String[] genres) {
-        
+    public String doRegistration(String username,String email,String password, String[] genres) throws Exception {
         String message = null;
         PreparedStatement ps = null;
         boolean action = false;
         try {
-            String sql = "INSERT INTO test_users"
+            String sql = "INSERT INTO users"
 		+ "(name, email, password, genres) VALUES"
 		+ "(?,?,?,?)";
             
@@ -130,7 +135,7 @@ public class DataDB {
     }
     
 
-    public ArrayList<Movie> search(String minLenght, String maxLenght, String minReleased, String maxReleased,String minStar, String[] actors, String[] genres) {
+    public ArrayList<Movie> search(String minLenght, String maxLenght, String minReleased, String maxReleased,String minStar, String[] actors, String[] genres) throws Exception {
         String message = null;
         PreparedStatement ps = null;
         ArrayList<Movie> movieList = new ArrayList<Movie>();

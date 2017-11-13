@@ -39,7 +39,7 @@ public class RegisterRequest extends HttpServlet {
             String password = request.getParameter("password");
             String email = request.getParameter("email");
             String genres[] = request.getParameterValues("genres[]");
-            DataDB dataDao = new DataDB();
+            DataDB dataDao = new DataDB("DB");
             String message = dataDao.doRegistration(username, email, password,genres);
             response.getWriter().write(message);
         } 

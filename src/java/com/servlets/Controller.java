@@ -28,13 +28,12 @@ public class Controller extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request,
                 HttpServletResponse response) throws ServletException, IOException {
-
                 response.setContentType("application/json");
                 try {
                         String term = request.getParameter("term");
-                        System.out.println("Data from ajax call " + term);
+                        System.out.println("Autooooo");
 
-                        DataDB dataDao = new DataDB();
+                        DataDB dataDao = new DataDB("JMDB");
                         ArrayList<String> list = dataDao.getFrameWork(term);
 
                         String searchList = new Gson().toJson(list);
