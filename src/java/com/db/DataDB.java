@@ -98,14 +98,14 @@ public class DataDB {
             return message;
     }
 
-    public String doRegistration(String username,String email,String password, String[] genres) throws Exception {
+    public String doRegistration(String username,String email,String password, String[] genres, String[] actors) throws Exception {
         String message = null;
         PreparedStatement ps = null;
         boolean action = false;
         try {
             String sql = "INSERT INTO users"
-		+ "(name, email, password, genres) VALUES"
-		+ "(?,?,?,?)";
+		+ "(name, email, password, genres, actors) VALUES"
+		+ "(?,?,?,?,?)";
             
             
             ps = connection.prepareStatement(sql);
@@ -115,6 +115,7 @@ public class DataDB {
             ps.setString(2, email);
             ps.setString(3, password);
             ps.setArray(4, connection.createArrayOf("text", genres));
+            ps.setArray(5, connection.createArrayOf("text", actors));
             int count = ps.executeUpdate();
             action = (count > 0);
             

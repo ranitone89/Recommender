@@ -39,8 +39,13 @@ public class RegisterRequest extends HttpServlet {
             String password = request.getParameter("password");
             String email = request.getParameter("email");
             String genres[] = request.getParameterValues("genres[]");
+            String actors[] = request.getParameterValues("actors[]");
+            
+            for(int i=0; i<actors.length; i++){
+                System.out.println(actors[i]);
+            }
             DataDB dataDao = new DataDB("DB");
-            String message = dataDao.doRegistration(username, email, password,genres);
+            String message = dataDao.doRegistration(username, email, password,genres, actors);
             response.getWriter().write(message);
         } 
         catch (Exception e) {

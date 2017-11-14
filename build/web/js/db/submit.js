@@ -41,7 +41,9 @@ $(document).ready(function(){
     $("#submit2").on('click', function(){
         var actors = removeLastComma($('#favoriteActors').val());
         actorList = covertToArray(actors,'a');
-
+        alert(typeof(actorList));
+        /*alert(actors);*/
+        alert(typeof(genres));
         if(actorList.length==0){
              $('#messageQuastionaireActor').css("display","block");
              $('#messageQuastionaireActor').html("<font color='red'>Insert at least the Name of one Actor </font>")
@@ -56,7 +58,8 @@ $(document).ready(function(){
                     username : username,
                     password : password_1,
                     email    : email,
-                    genres   : genres
+                    genres   : genres,
+                    actors   : actorList
                 },
                 success : function(results){
                     if(results != null && results != ""){
