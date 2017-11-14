@@ -481,7 +481,7 @@ input[type=text], input[type=password] {
     min-height: 500px;
 }
 
-.formular-container h2, .formular-container-genre h2, .formular-container-actor h2r{
+.formular-container h2, .formular-container-genre h2, .formular-container-actor h2{
     margin-bottom: 25px;
     text-align: center;
 }
@@ -559,7 +559,7 @@ textarea#favoriteActors{
     width: 40%;
     color: #666;
     resize: none;
-    margin: 14px 0;
+    margin: 75px 100px;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -575,6 +575,9 @@ textarea#favoriteActors{
 }
 
 
+button#submit2 {
+    margin-top: 200px;
+}
 
 /* Change styles for cancel button and signup button on extra small screens */
 @media screen and (max-width: 300px) {
