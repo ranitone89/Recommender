@@ -1133,6 +1133,11 @@ span.range_star {
 
 
 /************************RANGE SLIDER END***************************/
+
+.methLabels {
+    float: right;
+}
+
 input[type=text] {
     text-overflow: ellipsis;
     background-image: url(img/searchicon_1.png);

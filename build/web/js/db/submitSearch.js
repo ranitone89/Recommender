@@ -19,7 +19,8 @@ $(document).ready(function() {
     var surveryInfor = false;
     var numEval = 0;
     $( ".mode #nMode" ).val(1);
-
+    $(".alg").val(1);
+    
     $(document).scroll(function(e) {
         
         var header = $(".Statistic"+activeStatistic);
@@ -1223,6 +1224,24 @@ $(document).ready(function() {
        }       
    });
    
+    /* Change design is value is Borda
+    * 
+    */
+    $('.alg').change(function(){
+        var parent = $(this).parents().eq(1).attr('class');
+        
+        if($(this).val() == 0){
+          $('.'+parent+' .row-3').css("display","none");
+          $('.'+parent+' .row-4').css("display","none");
+        }
+        if($(this).val() == 1){
+          $('.'+parent+' .row-3').css("display","block");
+          $('.'+parent+' .row-4').css("display","block");
+        }
+    });   
+    
+    
+    
    /* Get the value of mode
     * 
     */
@@ -1243,6 +1262,5 @@ $(document).ready(function() {
         $('.submitBtn').trigger('click');
     });    
     
-      
    $( "#myselect" ).val();
 });
