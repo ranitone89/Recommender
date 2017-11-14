@@ -470,13 +470,18 @@ input[type=text], input[type=password] {
 }
 
 /* Add padding to container elements */
-.formular-container {
+.formular-container-actor {
+    display: none;
+}
+
+.formular-container, .formular-container-genre, .formular-container-actor{
     padding: 16px;
     padding: 16px;
     width: 670px;
+    min-height: 500px;
 }
 
-.formular-container h2{
+.formular-container h2, .formular-container-genre h2, .formular-container-actor h2r{
     margin-bottom: 25px;
     text-align: center;
 }
@@ -549,6 +554,27 @@ input[type=text], input[type=password] {
     clear: both;
     display: table;
 }
+
+textarea#favoriteActors{
+    width: 40%;
+    color: #666;
+    resize: none;
+    margin: 14px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 13px 19px 12px 10px;
+    font-size: 13px;
+    background-color: white;
+    text-decoration: none;
+    vertical-align: middle;
+    font-family: 'Nunito', sans-serif;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+
 
 /* Change styles for cancel button and signup button on extra small screens */
 @media screen and (max-width: 300px) {
