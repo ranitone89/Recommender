@@ -13,6 +13,7 @@ public class DataDB {
 	private Connection connection;
 	public DataDB(String DB) throws Exception {
             if(DB =="JMDB"){
+                System.out.println("JMDB");
                 connection = DBConnection.getJMDBConnection();
             }
             if(DB=="DB"){
@@ -137,6 +138,7 @@ public class DataDB {
     
 
     public ArrayList<Movie> search(String minLenght, String maxLenght, String minReleased, String maxReleased,String minStar, String[] actors, String[] genres) throws Exception {
+        System.out.println("Searchhhhhhhhh!!!!!!!!!!!!!!");
         String message = null;
         PreparedStatement ps = null;
         ArrayList<Movie> movieList = new ArrayList<Movie>();

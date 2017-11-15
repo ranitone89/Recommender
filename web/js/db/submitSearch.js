@@ -460,12 +460,11 @@ $(document).ready(function() {
              alert(1);
              $('#id02').css("display","block");
                 window.survey = new Survey.Model({ 
-                    title: "Software developer survey.",
                     pages: [
-                        { title: "What operating system do you use?",
+                        { title: "Nutzen Sie derzeit einen Musikstreaming-Dienst?",
                             questions: [
                                 {type:"checkbox", name:"opSystem", title: "OS", hasOther: true, isRequired: true, 
-                                    choices:["Windows", "Linux", "Macintosh OSX"]}
+                                    choices:["Ich nutze derzeit keinen Musikstreaming-Dienst", "Ich nutze einen kostenlosen Musikstreaming-Dienst", "Ich nutze ein kostenpflichtiges Abonnement"]}
                             ]  
                         },
                         {   title: "What language(s) are you currently using?",

@@ -435,7 +435,7 @@ html, body {
 	}
 }
 
-.clusterbtn, .sv_complete_btn{
+/*.clusterbtn, .sv_complete_btn{
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -446,6 +446,19 @@ html, body {
     background-color: #4CAF50;
     margin-left: 258px;
     margin-top: 55px;
+}*/
+.clusterbtn, .sv_complete_btn {
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 16%;
+    padding: 6px 20px;
+    background-color: #4CAF50;
+    /* margin-left: 258px; */
+    /* margin-top: 55px; */
+    float: left;
 }
 
 .clusterbtn:active{
@@ -1214,6 +1227,74 @@ div#messageSurvey {
     float: left;
     display: none;
 }
+
+/***************************/
+
+h4.sv_p_title {
+    text-transform: inherit;
+    margin-left: 0;
+}
+
+div#surveyElement {
+    margin-left: 68px;
+    margin-top: 130px;
+}
+
+input.sv_prev_btn {
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 18%;
+    padding: 6px 20px;
+    background-color: #9e9e9e;
+    /* margin-left: 258px; */
+    /* margin-top: 55px; */
+    float: left;
+}
+
+input.sv_next_btn {
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 16%;
+    padding: 6px 20px;
+    background-color: #4CAF50;
+    /* margin-left: 258px; */
+    /* margin-top: 55px; */
+    float: left;
+}
+
+button#surveyclose {
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 10%;
+    padding: 6px 20px;
+    background-color: #FF5722;
+    /* margin-left: 258px; */
+    /* margin-top: 55px; */
+    float: left;
+}
+
+.sv_q_title {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 10px;
+}
+
+.sv_row {
+    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    width: 60%;
+    margin-left: 0;
+}
+/***************************/
 
 
 /* The Modal (background) */

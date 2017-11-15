@@ -3,10 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Administrator/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/servlets/RegisterRequest.java</file>
-            <file>file:/C:/Users/Administrator/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/db/DataDB.java</file>
-            <file>file:/C:/Users/Administrator/Documents/NetBeansProjects/Recommender/Recommender/web/css/index.css</file>
-            <file>file:/C:/Users/Administrator/Documents/NetBeansProjects/Recommender/Recommender/web/js/db/submit.js</file>
+            <file>file:/C:/Users/Administrator/Documents/NetBeansProjects/Recommender/Recommender/web/start.html</file>
+            <file>file:/C:/Users/Administrator/Documents/NetBeansProjects/Recommender/Recommender/web/js/db/registerForm.js</file>
+            <file>file:/C:/Users/Administrator/Documents/NetBeansProjects/Recommender/Recommender/web/js/db/submitSearch.js</file>
+            <file>file:/C:/Users/Administrator/Documents/NetBeansProjects/Recommender/Recommender/web/css/start.css</file>
         </group>
     </open-files>
 </project-private>
