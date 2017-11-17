@@ -37,7 +37,7 @@ public class LoginRequest extends HttpServlet {
         try {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
-            DataDB dataDao = new DataDB("DB");
+            DataDB dataDao = new DataDB();
             
             System.out.println("Data from ajax call "+username);
             System.out.println("Data from ajax call "+password);

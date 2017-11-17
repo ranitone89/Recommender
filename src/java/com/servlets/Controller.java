@@ -33,7 +33,7 @@ public class Controller extends HttpServlet {
                         String term = request.getParameter("term");
                         System.out.println("Autooooo");
 
-                        DataDB dataDao = new DataDB("DB");
+                        DataDB dataDao = new DataDB();
                         ArrayList<String> list = dataDao.getFrameWork(term);
 
                         String searchList = new Gson().toJson(list);

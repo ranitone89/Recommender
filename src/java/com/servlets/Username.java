@@ -37,7 +37,7 @@ public class Username extends HttpServlet {
         try {
             String username = request.getParameter("username");
             System.out.println("Check Name "+username);
-            DataDB dataDao = new DataDB("DB");
+            DataDB dataDao = new DataDB();
             
             System.out.println("Check Name  "+username);
             String message = dataDao.checkUsername(username);

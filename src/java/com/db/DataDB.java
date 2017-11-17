@@ -11,14 +11,9 @@ import com.recommender.Movie;
 
 public class DataDB {
 	private Connection connection;
-	public DataDB(String DB) throws Exception {
-            if(DB =="JMDB"){
-                System.out.println("JMDB");
-                connection = DBConnection.getJMDBConnection();
-            }
-            if(DB=="DB"){
-              connection = DBConnection.getDBConnection();  
-            }            
+	public DataDB() throws Exception {
+            connection = DBConnection.getDBConnection();  
+           
 	}
 
 	public ArrayList<String> getFrameWork(String frameWork) throws Exception {
@@ -174,7 +169,7 @@ public class DataDB {
             int minRel = Integer.parseInt(minReleased);
             int maxRel = Integer.parseInt(maxReleased);
             int minLen = Integer.parseInt(minLenght);
-            int maxLen = Integer.parseInt(maxLenght);            
+            int maxLen = Integer.parseInt(maxLenght);          
             ps = connection.prepareStatement(sql);
 
             //setting the parameters
@@ -194,6 +189,7 @@ public class DataDB {
                     Movie movie = new Movie(rs.getInt(1), rs.getString(2),rs.getString(3), rs.getString(4),
                                             rs.getInt(5),rs.getInt(6),rs.getFloat(7));
                     movieList.add(movie);
+
                 }
                 message = "SUCCESS SEARCH";
             }else{

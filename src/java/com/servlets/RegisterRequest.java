@@ -44,7 +44,7 @@ public class RegisterRequest extends HttpServlet {
             for(int i=0; i<actors.length; i++){
                 System.out.println(actors[i]);
             }
-            DataDB dataDao = new DataDB("DB");
+            DataDB dataDao = new DataDB();
             String message = dataDao.doRegistration(username, email, password,genres, actors);
             response.getWriter().write(message);
         } 
