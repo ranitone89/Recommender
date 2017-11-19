@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    var evalNum = 1;
     var focusStat = 4;
     var focus = 5;
     var movieContent;
@@ -17,7 +18,7 @@ $(document).ready(function() {
     var divColors = ['#666','#f1f1f1','#d9f5da','#ffeaea','#c0fef1','#ffd6b3','#fae9be','#d4e3ff','#eafec0'];
     var activeStatistic = 0;
     var surveryInfor = false;
-    var numEval = 0;
+
     $( ".mode #nMode" ).val(1);
     $(".alg").val(1);
     
@@ -495,14 +496,15 @@ $(document).ready(function() {
              var genreList = covertToArray(genres,'g');
              $('#id02').css("display","none");
              delDivContent();
+             alert("Mode: "+mode);
              surveryInfor==false;
              
              $.ajax({
              url : "SearchServlet",
              type : "GET",
              beforeSend: function(){
-                 $('#loading').show();
-                 $('#loading').css("visibility", "visible");
+                 $('#loading').css("display","block");
+                 /*$('#loading').css("visibility", "visible");*/
              },
              data : {
                  actorList : actorList,
@@ -518,7 +520,7 @@ $(document).ready(function() {
              },
              dataType: "json",
              complete: function(){
-                 $('#loading').hide();
+                 $('#loading').css("display","none");
              },
              success : function(response){
                         if(response != null && response != "")
@@ -586,6 +588,7 @@ $(document).ready(function() {
             $('.recom-text').show();
             $('.search').hide();
             $('.search-tab-close').hide();
+            $('.submitSurvey').css('display', 'block');
         }
         else if(movies == 'FAILURE'){
             alert('fehler');
@@ -1172,6 +1175,8 @@ $(document).ready(function() {
         else{
             $('#messageSurvey').css("display","none");
             $('#Cluster'+c +' #lb_'+c).text("");
+            checkEvalNum();
+
         }
 
     });
@@ -1209,19 +1214,9 @@ $(document).ready(function() {
    $(document).on("click", ".clusterbtn", function(event){
        
        mode = $( ".mode #nMode" ).val();
-       
-       if(mode == 0){
-            method1Parameter[0] = $( ".method-1 #nAlg" ).val();
-            method1Parameter[1] = $( ".method-1 #nCluster" ).val();
-            method1Parameter[2] = $( ".method-1 #distance" ).val();
-            method1Parameter[3] = $( ".method-1 #sorting" ).val();
-
-            method2Parameter[0] = $( ".method-2 #nAlg" ).val();
-            method2Parameter[1] = $( ".method-2 #nCluster" ).val();
-            method2Parameter[2] = $( ".method-2 #distance" ).val();
-            method2Parameter[3] = $( ".method-2 #sorting" ).val();
-       }       
+       checkMode(mode);
    });
+   
    
     /* Change design is value is Borda
     * 
@@ -1241,7 +1236,7 @@ $(document).ready(function() {
     
     
     
-   /* Get the value of mode
+   /* Change Dispay element depending on mode
     * 
     */
     $('#nMode').change(function(){
@@ -1262,4 +1257,67 @@ $(document).ready(function() {
     });    
     
    $( "#myselect" ).val();
+   
+       /**
+     * 
+     * @param {type} moviePoster
+     * @returns {String}
+     */
+    function checkMode(mode) {
+       if(mode == 0){
+            alert("Test");
+            method1Parameter[0] = $( ".method-1 #nAlg" ).val();
+            method1Parameter[1] = $( ".method-1 #nCluster" ).val();
+            method1Parameter[2] = $( ".method-1 #distance" ).val();
+            method1Parameter[3] = $( ".method-1 #sorting" ).val();
+
+            method2Parameter[0] = $( ".method-2 #nAlg" ).val();
+            method2Parameter[1] = $( ".method-2 #nCluster" ).val();
+            method2Parameter[2] = $( ".method-2 #distance" ).val();
+            method2Parameter[3] = $( ".method-2 #sorting" ).val();
+       }
+        if(mode === 1){
+            if(evalNum<3){
+               /*alert("Eval");
+               evalNum = evalNum+1;*/
+                alert("Check Eval");
+            }
+            
+            /*method1Parameter[0] = $( ".method-1 #nAlg" ).val();
+            method1Parameter[1] = $( ".method-1 #nCluster" ).val();
+            method1Parameter[2] = $( ".method-1 #distance" ).val();
+            method1Parameter[3] = $( ".method-1 #sorting" ).val();
+
+            method2Parameter[0] = $( ".method-2 #nAlg" ).val();
+            method2Parameter[1] = $( ".method-2 #nCluster" ).val();
+            method2Parameter[2] = $( ".method-2 #distance" ).val();
+            method2Parameter[3] = $( ".method-2 #sorting" ).val();
+       */
+            }  
+    }
+    
+    function checkEvalNum(){
+        alert(evalNum);
+        if(evalNum<2){
+            evalNum = evalNum+1;
+            $('.submitBtn').trigger('click');
+        }
+        else{
+            hideMovies();
+            evalNum = 1;
+        }
+    }
+    
+   function hideMovies(){
+      $('.tab-nav').css("display","block");
+      $('.tab-back-nav').css("display","none");
+      $('.recom-text').css("display","none");
+      $('.search-tab-close').css("display","none");;
+      $('#TopRated').css("display","block");
+      $('#Result').css("display","none");
+      $('.title').css("display","none");
+      $('.submitSurvey').css("display","none");
+      $('.search').css("display","block");
+      
+   }
 });
