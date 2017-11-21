@@ -1308,6 +1308,7 @@ $(document).ready(function() {
         }
     }
     
+   // Hide recommendation 
    function hideMovies(){
       $('.tab-nav').css("display","block");
       $('.tab-back-nav').css("display","none");
@@ -1318,6 +1319,7 @@ $(document).ready(function() {
       $('.title').css("display","none");
       $('.submitSurvey').css("display","none");
       $('.search').css("display","block");
+      
       
    }
 });
