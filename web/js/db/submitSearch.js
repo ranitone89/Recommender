@@ -1292,12 +1292,14 @@ $(document).ready(function() {
         if(evalNum<2){
             evalNum = evalNum+1;
             $('.submitBtn').trigger('click');
+            resetSurvey();
         }
         else{
             hideMovies();
             evalNum = 1;
             resetSearchPram();
         }
+        resetSurvey();
     }
     
    // Hide recommendation 
@@ -1399,7 +1401,6 @@ $(document).ready(function() {
        resetRankingParam();
        resetLenghtParam();
        resetReleasedParam();
-       resetSurvey()
    }
    
    function resetGenreParam(){
@@ -1456,9 +1457,8 @@ $(document).ready(function() {
    }
    
    function resetSurvey(){
-       $('.ck-button span.like').css('display', 'none');
-       $('.ck-button span.unlike').css('display', 'block');
-       $('#cl1_like').click();
-       $('#cl2_like').click();
+       $('input#cl1_like').attr('checked', false);
+       $('input#cl2_like').attr('checked', false);
+       alert("Reset");
    }
 });
