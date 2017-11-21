@@ -1393,8 +1393,72 @@ $(document).ready(function() {
    }
    
    function resetSearchPram(){
+       alert('Reset All Parameter');
+       resetGenreParam();
+       resetActorParam();
+       resetRankingParam();
+       resetLenghtParam();
+       resetReleasedParam();
+       resetSurvey()
+   }
+   
+   function resetGenreParam(){
+        $('.mutliSelect input:checked').each(function() {
+            $(this).attr('checked', false);
+        });
+        $('.multiSel span').remove();
+        $('.dropdown').css('padding','12 20 5 10');
+        $('.hida').css('display', 'block');
+        $('.dropdown dt a').css('min-height','');
+   }
+   
+   function resetActorParam(){
+       $('#actors').val("");
+       $('#actors').css('padding','13 19 12 10');
+       $('#actors').css('height','');
+   }
+
+   function resetLenghtParam(){   
+       $('#lenght input.min').val(0);
+       $('#lenght .range_min').text(0);
+       $('#lenght input.min').css('background-image',
+        '-webkit-gradient(linear, left top, right top, '
+        + 'color-stop(' + 0 + ', #ee7d13),'
+        + 'color-stop(' + 0 + ', #ee7d13),'
+        + 'color-stop(' + 1 + ', #ee7d13),'
+        + 'color-stop(' + 0 + ', #ee7d13)'
+        + ')'
+        );
+   }
+   
+   function resetReleasedParam(){   
+       $('#released input.min').val(1970);
+       $('#released .range_min').text(1970);
+       $('#released input.min').css('background-image',
+        '-webkit-gradient(linear, left top, right top, '
+        + 'color-stop(' + 0 + ', #ee7d13),'
+        + 'color-stop(' + 0 + ', #ee7d13),'
+        + 'color-stop(' + 1 + ', #ee7d13),'
+        + 'color-stop(' + 0 + ', #ee7d13)'
+        + ')'
+        );
+   }
+   function resetRankingParam(){
        $('#star1').prop('checked', true);
-       $('.input ui-autocomplete-input').value = "";
-       $('.multiSel span').remove();
+       $('#star .range_star').text(0);
+       $('#star input.min').val(0);
+       $('#star input.min').css('background-image',
+        '-webkit-gradient(linear, left top, right top, '
+        + 'color-stop(' + 0 + ', #ee7d13), '
+        + 'color-stop(' + 1 + ', #ee7d13)'
+        + ')'
+        );
+   }
+   
+   function resetSurvey(){
+       $('.ck-button span.like').css('display', 'none');
+       $('.ck-button span.unlike').css('display', 'block');
+       $('#cl1_like').click();
+       $('#cl2_like').click();
    }
 });
