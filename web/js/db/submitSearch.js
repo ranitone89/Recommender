@@ -19,9 +19,13 @@ $(document).ready(function() {
     var activeStatistic = 0;
     var surveryInfor = false;
 
-    $( ".mode #nMode" ).val(1);
-    $(".alg").val(1);
+    //setMode(1);
+    //setAlgorithmus(1);
+    initTestMode();
     
+    /*
+     * Statistics move on scroll
+     */
     $(document).scroll(function(e) {
         
         var header = $(".Statistic"+activeStatistic);
@@ -432,7 +436,7 @@ $(document).ready(function() {
 
     $(document).on("click", ".submitBtn", function(event){
         $('.statistics-close').trigger('click');       
-        mode = $( ".mode #nMode" ).val();
+        mode = getMode(); /*$( ".mode #nMode" ).val();*/
         
         activeStatistic = 0;
         statcsIndex = 0;
@@ -503,8 +507,8 @@ $(document).ready(function() {
              url : "SearchServlet",
              type : "GET",
              beforeSend: function(){
-                 $('#loading').css("display","block");
-                 /*$('#loading').css("visibility", "visible");*/
+                 showLoading();
+                 hideResult();
              },
              data : {
                  actorList : actorList,
@@ -520,7 +524,8 @@ $(document).ready(function() {
              },
              dataType: "json",
              complete: function(){
-                 $('#loading').css("display","none");
+                    hideLoading();
+                    showResult();
              },
              success : function(response){
                         if(response != null && response != "")
@@ -1212,8 +1217,7 @@ $(document).ready(function() {
    
 
    $(document).on("click", ".clusterbtn", function(event){
-       
-       mode = $( ".mode #nMode" ).val();
+       mode = getMode();
        checkMode(mode);
    });
    
@@ -1225,12 +1229,10 @@ $(document).ready(function() {
         var parent = $(this).parents().eq(1).attr('class');
         
         if($(this).val() == 0){
-          $('.'+parent+' .row-3').css("display","none");
-          $('.'+parent+' .row-4').css("display","none");
+            hideBordaDivs(parent);
         }
         if($(this).val() == 1){
-          $('.'+parent+' .row-3').css("display","block");
-          $('.'+parent+' .row-4').css("display","block");
+            showBordaDivs(parent);
         }
     });   
     
@@ -1241,13 +1243,11 @@ $(document).ready(function() {
     */
     $('#nMode').change(function(){
         if($(this).val() == 1){
-            $('.method-1').css('display', 'none');
-            $('.method-2').css('display', 'none');
+            hideTestMethods();
             surveryInfor = false;
         }
         else{
-            $('.method-1').css('display', 'block');
-            $('.method-2').css('display', 'block');            
+            showTestMethods();
         }
     });
 
@@ -1256,8 +1256,6 @@ $(document).ready(function() {
         $('.submitBtn').trigger('click');
     });    
     
-   $( "#myselect" ).val();
-   
        /**
      * 
      * @param {type} moviePoster
@@ -1266,17 +1264,10 @@ $(document).ready(function() {
     function checkMode(mode) {
        if(mode == 0){
             alert("Test");
-            method1Parameter[0] = $( ".method-1 #nAlg" ).val();
-            method1Parameter[1] = $( ".method-1 #nCluster" ).val();
-            method1Parameter[2] = $( ".method-1 #distance" ).val();
-            method1Parameter[3] = $( ".method-1 #sorting" ).val();
-
-            method2Parameter[0] = $( ".method-2 #nAlg" ).val();
-            method2Parameter[1] = $( ".method-2 #nCluster" ).val();
-            method2Parameter[2] = $( ".method-2 #distance" ).val();
-            method2Parameter[3] = $( ".method-2 #sorting" ).val();
+            getTestPrametar();
        }
-        if(mode === 1){
+        if(mode == 1){
+            alert("Check Eval")
             if(evalNum<3){
                /*alert("Eval");
                evalNum = evalNum+1;*/
@@ -1305,6 +1296,7 @@ $(document).ready(function() {
         else{
             hideMovies();
             evalNum = 1;
+            resetSearchPram();
         }
     }
     
@@ -1318,8 +1310,91 @@ $(document).ready(function() {
       $('#Result').css("display","none");
       $('.title').css("display","none");
       $('.submitSurvey').css("display","none");
-      $('.search').css("display","block");
-      
-      
+      $('.search').css("display","block");    
+   }
+   
+   function hideResult(){
+      $('#Result').css("display","none");
+      $('.title').css("display","none");
+      $('.survey').css("display","none");
+      $('.recom-text').css("display","none");
+      $('.tab-back-nav').css("display","none");
+   }
+   function showResult(){
+        $('#Result').css("display","block");
+        $('.title').css("display","block");
+        $('.survey').css("display","block");
+        $('.recom-text').css("display","block");
+        $('.tab-back-nav').css("display","block");
+   }
+   
+   function hideLoading(){
+      $('#loading').css("display","none");
+   }
+   function showLoading(){
+        $('#loading').css("display","block");
+   }
+   
+   function hideBordaDivs(div){
+       alert("Hide");
+          $('.'+div+' .row-3').css("display","none");
+          $('.'+div+' .row-4').css("display","none");
+   }
+   function showBordaDivs(div){
+       alert("Show");
+          $('.'+div+' .row-3').css("display","block");
+          $('.'+div+' .row-4').css("display","block");
+   }   
+    
+   
+   function getTestPrametar(){
+        method1Parameter[0] = $( ".method-1 #nAlg" ).val();
+        method1Parameter[1] = $( ".method-1 #nCluster" ).val();
+        method1Parameter[2] = $( ".method-1 #distance" ).val();
+        method1Parameter[3] = $( ".method-1 #sorting" ).val();
+
+        method2Parameter[0] = $( ".method-2 #nAlg" ).val();
+        method2Parameter[1] = $( ".method-2 #nCluster" ).val();
+        method2Parameter[2] = $( ".method-2 #distance" ).val();
+        method2Parameter[3] = $( ".method-2 #sorting" ).val();
+   }
+   
+   function showTestMethods(){
+        $('.method-1').css('display', 'block');
+        $('.method-2').css('display', 'block'); 
+   }
+   
+   function hideTestMethods(){
+        $('.method-1').css('display', 'none');
+        $('.method-2').css('display', 'none');       
+   }
+   
+   function getMode(){
+       var mode = $( ".mode #nMode" ).val();
+       return mode;
+   }
+   
+   function setMode(value){
+       $( ".mode #nMode" ).val(value);
+   }
+
+   function getAlgorithmus(){
+       var alg = $(".alg").val();
+       return alg;
+   }
+   
+   function setAlgorithmus(value){
+       $(".alg").val(value);
+   }
+   
+   function initTestMode(){
+        setMode(1);
+        setAlgorithmus(1); 
+   }
+   
+   function resetSearchPram(){
+       $('#star1').prop('checked', true);
+       $('.input ui-autocomplete-input').value = "";
+       $('.multiSel span').remove();
    }
 });
