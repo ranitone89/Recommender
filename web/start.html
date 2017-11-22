@@ -299,6 +299,10 @@
                         <div class="item">
                             <input type="submit" value="Search" class="submitBtn"/>
                         </div>
+                        <div class="info">
+                            <img class="information_icon more" src="img/info_default.png">
+                            <img class="information_icon_hover more" src="img/info_1.png">
+                        </div>
                     </div>
                 </div>         
               </div>
@@ -410,7 +414,24 @@
             <div class="survey" style="display:none">
                 <input type="submit" value="Submit" class="submitSurvey"/>
             </div>
-           
+
+            <div id="id03" class="modal" style="display:none">
+                <div class="modal-content animate">
+                    <div class="formular-container">
+                        <h3>Scenario</h3>
+                        <div class="explanationBox">
+                        </div>
+                    </div>
+                    <div class="explanationInfo">
+                        <p>In the case that you need to see the information to scenario again just press
+                        <img src="img/info_default.png"> icon in the lower right corner.</p>
+                    </div>
+                    <div class="clearfix">
+                        <button name="close" class="explainClose" id="explainClose">Ok</button>
+                    </div>
+                </div>
+            </div>            
+            
             <div id="id02" class="modal" style="display:none">
                 <!--span class="close" title="Close Modal"><a>×</a></span-->
                 <div class="modal-content animate">
@@ -429,7 +450,6 @@
             </div>
 
             <div id="id01" class="modal" style="display:none">
-              <!--span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">×</span-->
               <div class="modal-content">
                     <div class="formular-container">
                         <h4>This option gives you chance to compare two methods with different parameters. 

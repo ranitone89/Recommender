@@ -1,5 +1,6 @@
 $(document).ready(function() {
     var evalNum = 1;
+    var scenarioNum = 0;
     var focusStat = 4;
     var focus = 5;
     var movieContent;
@@ -19,8 +20,6 @@ $(document).ready(function() {
     var activeStatistic = 0;
     var surveryInfor = false;
 
-    //setMode(1);
-    //setAlgorithmus(1);
     initTestMode();
     
     /*
@@ -462,7 +461,6 @@ $(document).ready(function() {
          }
          
          if(mode == 1 && surveryInfor==false){
-             alert(1);
              $('#id02').css("display","block");
                 window.survey = new Survey.Model({ 
                     pages: [
@@ -500,7 +498,6 @@ $(document).ready(function() {
              var genreList = covertToArray(genres,'g');
              $('#id02').css("display","none");
              delDivContent();
-             alert("Mode: "+mode);
              surveryInfor==false;
              
              $.ajax({
@@ -1219,12 +1216,13 @@ $(document).ready(function() {
 
    $(document).on("click", ".clusterbtn", function(event){
        mode = getMode();
-       alert(chechScenarios());
        if(chechScenarios()){
            $('#id01').css("display","block");
        }
        else{
-          document.getElementById('default').click(); 
+          document.getElementById('default').click();
+          //removeScenarioMessage();
+          crateScenarioMessage();
           checkMode(mode);
        }
    });
@@ -1252,10 +1250,12 @@ $(document).ready(function() {
     $('#nMode').change(function(){
         if($(this).val() == 1){
             hideTestMethods();
+            showEvalMode();
             surveryInfor = false;
         }
         else{
             showTestMethods();
+            hideEvalMode();
         }
     });
 
@@ -1287,17 +1287,19 @@ $(document).ready(function() {
      */
     function checkMode(mode) {
        if(mode == 0){
-            alert("Test");
             getTestPrametar();
        }
         if(mode == 1){
-            alert("Check Eval")
-            if(evalNum<3){
-               /*alert("Eval");
-               evalNum = evalNum+1;*/
-                alert("Check Eval");
-            }
-            
+            crateScenarioMessage();
+            $('#id03').css("display","block");
+            displayScenarioMessage(scenarioNum);
+            /*if(scenarioNum < getNumberScenario()){
+                displayScenarioMessage(scenarioNum);
+                if(evalNum<3){
+                   evalNum = evalNum+1;
+                }
+                scenarioNum = scenarioNum+1;
+            }*/
             /*method1Parameter[0] = $( ".method-1 #nAlg" ).val();
             method1Parameter[1] = $( ".method-1 #nCluster" ).val();
             method1Parameter[2] = $( ".method-1 #distance" ).val();
@@ -1308,25 +1310,41 @@ $(document).ready(function() {
             method2Parameter[2] = $( ".method-2 #distance" ).val();
             method2Parameter[3] = $( ".method-2 #sorting" ).val();
        */
-            }  
+        }  
     }
     
+    
+    /*************IF evail ist finisched*/
     function checkEvalNum(){
-        alert(evalNum);
-        if(evalNum<2){
-            evalNum = evalNum+1;
-            $('.submitBtn').trigger('click');
-            getSurveyVaues();
-            resetSurvey();
+        //first scenario allready shown
+        alert("Scenario: "+scenarioNum);
+
+        if(scenarioNum < getNumberScenario()){
+            if(evalNum < 2){
+                evalNum = evalNum+1;
+                $('.submitBtn').trigger('click');
+                getSurveyVaues();
+                resetSurvey();
+            }
+            else{
+                hideMovies();
+                evalNum = 1;
+                getSurveyVaues();
+                resetSurvey();
+                resetSearchPram();
+                alert("Display Scenario: "+scenarioNum);
+                displayScenarioMessage(scenarioNum+1);
+                scenarioNum = scenarioNum+1;
+            }
+            
         }
         else{
-            hideMovies();
-            evalNum = 1;
-            getSurveyVaues();
-            resetSurvey();
+            hideScenarioMessages();
+            removeScenarioMessage();
+            closeScenarioMessages();
             resetSearchPram();
+            scenarioNum = 0;
         }
-        //resetSurvey();
     }
     
    // Hide recommendation 
@@ -1365,12 +1383,10 @@ $(document).ready(function() {
    }
    
    function hideBordaDivs(div){
-       alert("Hide");
           $('.'+div+' .row-3').css("display","none");
           $('.'+div+' .row-4').css("display","none");
    }
    function showBordaDivs(div){
-       alert("Show");
           $('.'+div+' .row-3').css("display","block");
           $('.'+div+' .row-4').css("display","block");
    }   
@@ -1386,6 +1402,20 @@ $(document).ready(function() {
         method2Parameter[1] = $( ".method-2 #nCluster" ).val();
         method2Parameter[2] = $( ".method-2 #distance" ).val();
         method2Parameter[3] = $( ".method-2 #sorting" ).val();
+   }
+
+   function showEvalMode(){
+        $('.evalTab').css('display', 'block');
+        $('#EvalScenario').css('display', 'block');
+        $('#EvalMethod').css('display', 'none');       
+        $('#messageEval').css('display', 'none');
+   }
+   
+   function hideEvalMode(){
+        $('.evalTab').css('display', 'none');
+        $('#EvalScenario').css('display', 'none');
+        $('#EvalMethod').css('display', 'none');       
+        $('#messageEval').css('display', 'none');
    }
    
    function showTestMethods(){
@@ -1449,6 +1479,8 @@ $(document).ready(function() {
    function resetLenghtParam(){   
        $('#lenght input.min').val(0);
        $('#lenght .range_min').text(0);
+       $('#lenght input.max').val(240);
+       $('#lenght .range_max').text(240);
        $('#lenght input.min').css('background-image',
         '-webkit-gradient(linear, left top, right top, '
         + 'color-stop(' + 0 + ', #ee7d13),'
@@ -1461,7 +1493,9 @@ $(document).ready(function() {
    
    function resetReleasedParam(){   
        $('#released input.min').val(1970);
+       $('#released input.max').val(2017);
        $('#released .range_min').text(1970);
+       $('#released .range_max').text(2017);
        $('#released input.min').css('background-image',
         '-webkit-gradient(linear, left top, right top, '
         + 'color-stop(' + 0 + ', #ee7d13),'
@@ -1497,13 +1531,57 @@ $(document).ready(function() {
        var method = 0;
        
        if($('#cl1_like').is(':checked')==true){
-           alert('Like 1');
            method = 1;
        }
        if($('#cl2_like').is(':checked')==true){
-           alert('Like 2');
            method = 2;
        }
        return method;
    }
+   
+   /**Create explanations for every scenario**/
+   function crateScenarioMessage(){
+       removeScenarioMessage();
+       $('.optionBox input').each(function(){
+            $('.explanationBox').append('<div class="explanation"><p>'+$(this).val()+'</p></span></div>');
+        });
+    }
+
+    /**Remove all explanations**/
+   function removeScenarioMessage(){
+        $('.explanationBox').empty();
+   }
+   
+   function getNumberScenario(){
+       return $('.optionBox input').length;
+   }
+   
+   function displayScenarioMessage(messageAt){
+           hideScenarioMessages();
+           $('.explanationBox .explanation').eq(messageAt).addClass('showScenario');
+           $('#id03').css("display","block");
+   }
+   function hideScenarioMessages(){
+        for(var i=0; i<getNumberScenario();i++ ){
+            $('.explanationBox .explanation').eq(i).removeClass('showScenario');
+        }
+   }
+   
+   function closeScenarioMessages(){
+       $('#id03').css("display","none");
+   }
+   
+   function openScenarioMessages(){
+       $('#id03').css("display","none");
+   }
+   
+    $(document).on("click", ".explainClose", function(event){
+       closeScenarioMessages();
+       hideScenarioMessages();
+   });
+    
+    $(document).on("click", ".information_icon", function(event){
+        displayScenarioMessage(scenarioNum);
+   });
+
 });

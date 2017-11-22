@@ -1321,7 +1321,7 @@ button#surveyclose {
     margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
     border: 1px solid #888;
     width: 800px;
-    height: 800px;
+    min-height: 800px;
 }
 
 /* The Close Button (x) */
@@ -2846,4 +2846,79 @@ div.tab button.active {
 .block .remove {
     margin-left: 5px;
 }
+
+.explanationBox .explanation{
+    display: none;
+}
+
+.explanationBox .showScenario{
+    display: block;
+}
+
+
+button#explainClose {
+    color: white;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 10%;
+    padding: 6px 15px;
+    background-color: #4CAF50;
+    margin-left: 43%;
+    margin-top: 114px;
+    float: left;
+}
+
+button#explainClose:hover{
+    color: white;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 10%;
+    padding: 6px 15px;
+    background-color: #d8d8d8;
+    margin-left: 43%;
+    margin-top: 114px;
+    float: left;
+}
+
+#id03 .modal-content{
+    min-height: 200px;
+    width: 600px;
+}
+
+#id03 h3{
+    margin-left: 18px;
+}
 /******************END**********************************/
+
+.info .information_icon{
+    margin-top: 18px;
+    display: inherit;
+}
+
+.info .information_icon_hover{
+    margin-top: 18px;
+    display:none;
+}
+
+.info:hover img.question_icon_hover {
+    display: inherit;
+}
+
+.info:hover img.question_icon {
+    display: none;
+}
+
+.explanationInfo {
+    margin-left: 50px;
+    margin-top: 81px;
+}
+
+.explanationInfo p {
+    margin: 20px 20px;
+    font-size: 14px;
+    text-align: left;
+    color: #666;
+}
+/*********************************************************/
