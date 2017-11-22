@@ -456,8 +456,8 @@ html, body {
     width: 16%;
     padding: 6px 20px;
     background-color: #4CAF50;
-    /* margin-left: 258px; */
-    /* margin-top: 55px; */
+    margin-left: 258px;
+    margin-top: 55px;
     float: left;
 }
 
@@ -2770,3 +2770,80 @@ button#btn_next_stat {
     text-align: right;
     background-color: #fff;
 }
+
+/*********************************************/
+/* Style the tab */
+div.evalTab {
+    overflow: hidden;
+    margin-left: 72px;
+    margin-top: 50px;
+    border: 1px solid #d8d8d8;
+    width: 650px;
+    background-color: whitesmoke;
+}
+/* Style the buttons inside the tab */
+div.evalTab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+div.evalTab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+    width: 626px;
+    margin-left: 72px;
+}
+
+#messageEval {
+    margin-top: 40px;
+    text-align: center;
+    float: left;
+    border-bottom: 3px solid #fe7900;
+    overflow: hidden;
+    margin-left: 72px;
+    width: 650px;
+}
+
+/********************Scenarios****************************/
+.block {
+    display: block;
+}
+.block input {
+    width: 50%;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+.block span {
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.block .add {
+    margin-left: 20%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.block .remove {
+    margin-left: 5px;
+}
+/******************END**********************************/

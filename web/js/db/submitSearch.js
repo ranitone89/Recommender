@@ -1212,12 +1212,21 @@ $(document).ready(function() {
    $(document).on("click", ".search-tab-cluster", function(event){
        $('#id01').css("display","block");
        $('.tab-back-nav').trigger('click');
+       //$('#defaultEval').trigger('click');
+       document.getElementById('defaultEval').click();
    });
    
 
    $(document).on("click", ".clusterbtn", function(event){
        mode = getMode();
-       checkMode(mode);
+       alert(chechScenarios());
+       if(chechScenarios()){
+           $('#id01').css("display","block");
+       }
+       else{
+          document.getElementById('default').click(); 
+          checkMode(mode);
+       }
    });
    
    
@@ -1255,6 +1264,22 @@ $(document).ready(function() {
         $('.submitBtn').trigger('click');
     });    
     
+    
+    function chechScenarios(){
+        var scenariosError = false;
+        
+        $('#messageEval').css("display","none");
+        $('.optionBox input').each(function(){
+            if ($(this).val() == "")
+            {
+               $('#messageEval').css("display","block");
+               $('#messageEval').html("<font color='red'>One of scenarios if empty </font>");
+               scenariosError = true;
+            }
+        });
+        
+        return scenariosError;
+    }
        /**
      * 
      * @param {type} moviePoster

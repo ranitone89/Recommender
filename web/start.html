@@ -38,6 +38,8 @@
     <script src="js/initStar.js" type="text/javascript"></script>
     <script src="js/titleDetail.js" type="text/javascript"></script>
     <script src="js/submitSurvey.js" type="text/javascript"></script>
+    <script src="js/eval.js" type="text/javascript"></script>
+    
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -441,6 +443,37 @@
                           <option value="1">Evaluation</option>
                         </select>
                     </div>
+                  <div class="evalTab">
+                    <button class="tablinks" onclick="openEval(event, 'EvalScenario')" id="defaultEval">Scenarios</button>
+                    <button class="tablinks" onclick="openEval(event, 'EvalMethod')">Methods</button>
+                  </div>
+                  
+                    <div id="EvalScenario" class="tabcontent">
+                        <p>In this section you can define different kid of scenarios that will be evaluated.
+                           For this purpose please enter the description for each scenario</p>
+                        <div class="optionBox">
+                            <div class="block">
+                                <input type="text" placeholder="Type some description" value="Please search for the clasic movies of 70s, 80s, 90s"/> <span class="remove">Delete</span>
+                            </div>
+                            <div class="block">
+                                <input type="text" placeholder="Type some description" value="Please search for new action and comedy movies from 2000 util thoday"/> <span class="remove">Delete</span>
+                            </div>
+                            <div class="block">
+                                <input type="text" placeholder="Type some description" value="Please search for action, crime and thriler movies between 1990 and 2000"/> <span class="remove">Delete</span>
+                            </div>
+                            <div class="block">
+                                <span class="add">Add</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="EvalMethod" class="tabcontent">
+                      <h3>Paris</h3>
+                      <p>Paris is the capital of France.</p> 
+                    </div>
+
+                  <div id="messageEval" style="display:none"></div>
+                  
                   <div class="method-1">
                     <label class="methLabels">Method 1</label> 
                     <div class="row-1">

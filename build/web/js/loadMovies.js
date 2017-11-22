@@ -9,4 +9,5 @@ $(document).ready(function() {
     getNewMovies();
     getCoomingMovies();
     document.getElementById('default').click();
+    //document.getElementById('defaultEval').click();
 });
