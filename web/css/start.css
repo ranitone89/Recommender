@@ -900,8 +900,12 @@ html, body {
     margin-top: 10px;
 }
 
+#ck-center {
+    margin-left: 155px;
+}
+
 #ck-right{
-    margin-left: 500px;
+    margin-left: 160px;
 }
 
 #ck-left{

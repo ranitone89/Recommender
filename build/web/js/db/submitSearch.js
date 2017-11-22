@@ -1167,12 +1167,12 @@ $(document).ready(function() {
             }
         }
         
-        if($('#cl1_like').is(':checked')==true && $('#cl2_like').is(':checked')==true ){
+        if($('#cl0_like').is(':checked')==true && $('#cl1_like').is(':checked')==true && $('#cl2_like').is(':checked')==true ){
            $('#messageSurvey').css("display","block");
            $('#messageSurvey').html("<font color='red'>Please select just one method</font>");
            return;
         }           
-        if($('#cl1_like').is(':checked')==false && $('#cl2_like').is(':checked')==false ){
+        if($('#cl0_like').is(':checked')==false && $('#cl1_like').is(':checked')==false && $('#cl2_like').is(':checked')==false ){
            $('#messageSurvey').css("display","block");
            $('#messageSurvey').html("<font color='red'>Select one method</font>");
            return;
@@ -1181,7 +1181,6 @@ $(document).ready(function() {
             $('#messageSurvey').css("display","none");
             $('#Cluster'+c +' #lb_'+c).text("");
             checkEvalNum();
-
         }
 
     });
@@ -1292,14 +1291,17 @@ $(document).ready(function() {
         if(evalNum<2){
             evalNum = evalNum+1;
             $('.submitBtn').trigger('click');
+            getSurveyVaues();
             resetSurvey();
         }
         else{
             hideMovies();
             evalNum = 1;
+            getSurveyVaues();
+            resetSurvey();
             resetSearchPram();
         }
-        resetSurvey();
+        //resetSurvey();
     }
     
    // Hide recommendation 
@@ -1457,8 +1459,26 @@ $(document).ready(function() {
    }
    
    function resetSurvey(){
+       $('input#cl0_like').attr('checked', false);
        $('input#cl1_like').attr('checked', false);
        $('input#cl2_like').attr('checked', false);
-       alert("Reset");
+   }
+   
+    function getSurveyVaues(){    
+        alert("Method: "+getSurveyMethod());
+    }
+   
+   function getSurveyMethod(){
+       var method = 0;
+       
+       if($('#cl1_like').is(':checked')==true){
+           alert('Like 1');
+           method = 1;
+       }
+       if($('#cl2_like').is(':checked')==true){
+           alert('Like 2');
+           method = 2;
+       }
+       return method;
    }
 });
