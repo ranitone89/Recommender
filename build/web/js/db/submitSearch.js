@@ -15,6 +15,7 @@ $(document).ready(function() {
     var numStats;
     var method1Parameter = [];
     var method2Parameter = [];
+    var evalParameter = [[],[]]; 
     var mode;
     var divColors = ['#666','#f1f1f1','#d9f5da','#ffeaea','#c0fef1','#ffd6b3','#fae9be','#d4e3ff','#eafec0'];
     var activeStatistic = 0;
@@ -417,9 +418,6 @@ $(document).ready(function() {
         for(var m=0; m<num.length; m++){
             var mt = m+1;
             $('.Method'+mt).css('display', 'block');
-            /*$('.Method'+mt).css('float', '');
-            $('.Method'+mt).css('margin-left', '');*/
-            
             $('.Statistic'+mt).css('display', 'none');
             $('.Statistic'+mt).css('position', '');
             $('.Statistic'+mt).css('margin-left', '');
@@ -435,7 +433,9 @@ $(document).ready(function() {
 
     $(document).on("click", ".submitBtn", function(event){
         $('.statistics-close').trigger('click');       
-        mode = getMode(); /*$( ".mode #nMode" ).val();*/
+        mode = getMode();
+
+        getParameterMode(mode);
         
         activeStatistic = 0;
         statcsIndex = 0;
@@ -1177,7 +1177,7 @@ $(document).ready(function() {
         else{
             $('#messageSurvey').css("display","none");
             $('#Cluster'+c +' #lb_'+c).text("");
-            checkEvalNum();
+            checkEvalNum(mode);
         }
 
     });
@@ -1286,45 +1286,70 @@ $(document).ready(function() {
      * @returns {String}
      */
     function checkMode(mode) {
-       if(mode == 0){
+       /*Doppelt aufgerufen-->Besser*/
+        if(mode == 0){
             getTestPrametar();
        }
         if(mode == 1){
             crateScenarioMessage();
             $('#id03').css("display","block");
             displayScenarioMessage(scenarioNum);
+            createEvalPrametar();
+        }  
+    }
+    
+    function getParameterMode(mode) {
+       if(mode == 0){
+            getTestPrametar();
+            alert('Test Mode');
+            alert(evalNum);
+            alert(method1Parameter);
+            alert(method2Parameter);
+       }
+        if(mode == 1){
+            getEvalPrametar(evalNum);
+            alert('Eval Mode');
+            alert(evalNum);
+            alert(method1Parameter);
+            alert(method2Parameter);
         }  
     }
     
     
     /*************IF evail ist finisched*/
-    function checkEvalNum(){
+    function checkEvalNum(mode){
         //first scenario allready shown
-        alert("Scenario: "+scenarioNum);
+        if(mode == 1){
+            if(scenarioNum < getNumberScenario()){
+                if(evalNum < getNumberComparations()){
+                    evalNum = evalNum+1;
+                    $('.submitBtn').trigger('click');
+                    getSurveyVaues();
+                    resetSurvey();
+                }
+                else{
+                    hideMovies();
+                    evalNum = 1;
+                    getSurveyVaues();
+                    resetSurvey();
+                    resetSearchPram();
+                    displayScenarioMessage(scenarioNum+1);
+                    scenarioNum = scenarioNum+1;
+                }
 
-        if(scenarioNum < getNumberScenario()){
-            if(evalNum < 2){
-                evalNum = evalNum+1;
-                $('.submitBtn').trigger('click');
-                getSurveyVaues();
-                resetSurvey();
             }
             else{
-                hideMovies();
-                evalNum = 1;
-                getSurveyVaues();
-                resetSurvey();
+                hideScenarioMessages();
+                removeScenarioMessage();
+                closeScenarioMessages();
                 resetSearchPram();
-                alert("Display Scenario: "+scenarioNum);
-                displayScenarioMessage(scenarioNum+1);
-                scenarioNum = scenarioNum+1;
+                scenarioNum = 0;
             }
-            
         }
-        else{
-            hideScenarioMessages();
-            removeScenarioMessage();
-            closeScenarioMessages();
+        
+        if(mode == 0){
+            hideResult();
+            showMovies();
             resetSearchPram();
             scenarioNum = 0;
         }
@@ -1342,7 +1367,18 @@ $(document).ready(function() {
       $('.submitSurvey').css("display","none");
       $('.search').css("display","block");    
    }
-   
+
+   function showMovies(){
+      $('.tab-nav').css("display","block");
+      $('.tab-back-nav').css("display","none");
+      $('.recom-text').css("display","none");
+      $('.search-tab-close').css("display","block");;
+      $('#TopRated').css("display","block");
+      $('#Result').css("display","none");
+      $('.title').css("display","none");
+      $('.submitSurvey').css("display","block");
+      $('.search').css("display","block");    
+   }
    function hideResult(){
       $('#Result').css("display","none");
       $('.title').css("display","none");
@@ -1386,6 +1422,20 @@ $(document).ready(function() {
         method2Parameter[2] = $( ".method-2 #distance" ).val();
         method2Parameter[3] = $( ".method-2 #sorting" ).val();
    }
+   
+   function getEvalPrametar(comparationAt){
+       
+        method1Parameter[0] = $('#evalCom'+comparationAt+' #evalMeth1 .evalAlg').val();
+        method1Parameter[1] = $('#evalCom'+comparationAt+' #evalMeth1 .evalCluster').val();
+        method1Parameter[2] = $('#evalCom'+comparationAt+' #evalMeth1 .evalDistance').val();
+        method1Parameter[3] = $('#evalCom'+comparationAt+' #evalMeth1 .evalSorting').val();
+        
+        method2Parameter[0] = $('#evalCom'+comparationAt+' #evalMeth2 .evalAlg').val();
+        method2Parameter[1] = $('#evalCom'+comparationAt+' #evalMeth2 .evalCluster').val();
+        method2Parameter[2] = $('#evalCom'+comparationAt+' #evalMeth2 .evalDistance').val();
+        method2Parameter[3] = $('#evalCom'+comparationAt+' #evalMeth2 .evalSorting').val();
+
+   }   
 
    function showEvalMode(){
         $('.evalTab').css('display', 'block');
@@ -1539,7 +1589,12 @@ $(document).ready(function() {
    function getNumberScenario(){
        return $('.optionBox input').length;
    }
-   
+
+   function getNumberComparations(){
+       return $('#nComparation').val();
+   }    
+    
+    
    function displayScenarioMessage(messageAt){
            hideScenarioMessages();
            $('.explanationBox .explanation').eq(messageAt).addClass('showScenario');
