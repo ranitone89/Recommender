@@ -38,7 +38,7 @@
     <script src="js/initStar.js" type="text/javascript"></script>
     <script src="js/titleDetail.js" type="text/javascript"></script>
     <script src="js/submitSurvey.js" type="text/javascript"></script>
-    <script src="js/eval.js" type="text/javascript"></script>
+    <script src="js/evalMode.js" type="text/javascript"></script>
     
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
@@ -488,9 +488,100 @@
                     </div>
 
                     <div id="EvalMethod" class="tabcontent">
-                      <h3>Paris</h3>
-                      <p>Paris is the capital of France.</p> 
+                      <p>In this section you can define the number of comparations/ methods that should be evaluated. For this purpose please select the number of methods and each method parameter.</p>
+                       <div class="comparation">
+                        <label>Select number of comparations</label>
+                        <select id="nComparation" name="Select number of comparations">
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                        </select>
+                        </div>
+                      
+                      <div class="evalSlider">
+                        <label class="compLabels">Comparation</label>
+                      <!--div class="evalComparation active">
+                        <div class="evalMethods" id="evalMeth1">
+                          <div class="rowEval">
+                              <select class="evalAlg" name="Algorithm">
+                                  <option value="0">Borda</option>
+                                  <option value="1">Cluster</option>
+                              </select>
+                          </div>
+                          <div class="rowEval">
+                              <select class="evalCluster" name="Number of Clusters">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  <option value="6">6</option>
+                                  <option value="7">7</option>
+                              </select>
+                          </div>
+
+                          <div class="rowEval">  
+                              <select class="evalDistance" name="Distance">
+                                <option value="0">Euclidean</option>
+                                <option value="1">Canberra</option>
+                                <option value="2">Bray Curtis</option>
+                                <option value="3">Manhattan</option>
+                              </select>
+                          </div>
+
+                          <div class="rowEval">  
+                              <select class="evalSorting" name="Sorting">
+                                <option value="0">simple initializiation of centroids</option>
+                                <option value="1">k-means++</option>
+                              </select>
+                          </div>
+                      </div>
+                        <div class="evalMethods" id="evalMeth2">
+                          <div class="rowEval">
+                              <select class="evalAlg" name="Algorithm">
+                                  <option value="0">Borda</option>
+                                  <option value="1">Cluster</option>
+                              </select>
+                          </div>
+                          <div class="rowEval">
+                              <select class="evalCluster" name="Number of Clusters">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  <option value="6">6</option>
+                                  <option value="7">7</option>
+                              </select>
+                          </div>
+
+                          <div class="rowEval">  
+                              <select class="evalDistance" name="Distance">
+                                <option value="0">Euclidean</option>
+                                <option value="1">Canberra</option>
+                                <option value="2">Bray Curtis</option>
+                                <option value="3">Manhattan</option>
+                              </select>
+                          </div>
+
+                          <div class="rowEval">  
+                              <select class="evalSorting" name="Sorting">
+                                <option value="0">simple initializiation of centroids</option>
+                                <option value="1">k-means++</option>
+                              </select>
+                          </div>
+                      </div>
+                    </div-->
                     </div>
+                    <div class="evalButtons"> 
+                    <button class="eval_statc" id="btn_prev_eval">&#10094</button>
+                    <button class="eval_statc" id="btn_next_eval">&#10095</button>
+                    </div>
+                </div>
 
                   <div id="messageEval" style="display:none"></div>
                   

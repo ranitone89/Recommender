@@ -20,7 +20,7 @@ $(document).ready(function() {
     var activeStatistic = 0;
     var surveryInfor = false;
 
-    initTestMode();
+    initMode();
     
     /*
      * Statistics move on scroll
@@ -1293,23 +1293,6 @@ $(document).ready(function() {
             crateScenarioMessage();
             $('#id03').css("display","block");
             displayScenarioMessage(scenarioNum);
-            /*if(scenarioNum < getNumberScenario()){
-                displayScenarioMessage(scenarioNum);
-                if(evalNum<3){
-                   evalNum = evalNum+1;
-                }
-                scenarioNum = scenarioNum+1;
-            }*/
-            /*method1Parameter[0] = $( ".method-1 #nAlg" ).val();
-            method1Parameter[1] = $( ".method-1 #nCluster" ).val();
-            method1Parameter[2] = $( ".method-1 #distance" ).val();
-            method1Parameter[3] = $( ".method-1 #sorting" ).val();
-
-            method2Parameter[0] = $( ".method-2 #nAlg" ).val();
-            method2Parameter[1] = $( ".method-2 #nCluster" ).val();
-            method2Parameter[2] = $( ".method-2 #distance" ).val();
-            method2Parameter[3] = $( ".method-2 #sorting" ).val();
-       */
         }  
     }
     
@@ -1446,10 +1429,11 @@ $(document).ready(function() {
        $(".alg").val(value);
    }
    
-   function initTestMode(){
+   function initMode(){
         setMode(1);
         setAlgorithmus(1); 
    }
+   
    
    function resetSearchPram(){
        alert('Reset All Parameter');

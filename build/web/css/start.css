@@ -456,7 +456,7 @@ html, body {
     width: 16%;
     padding: 6px 20px;
     background-color: #4CAF50;
-    margin-left: 258px;
+    margin-left: 40%;
     margin-top: 55px;
     float: left;
 }
@@ -1151,7 +1151,7 @@ span.range_star {
 /************************RANGE SLIDER END***************************/
 
 .methLabels {
-    float: right;
+    float: left;
 }
 
 input[type=text] {
@@ -1164,7 +1164,7 @@ input[type=text] {
     overflow: hidden;
 }
 
-input[type=text], select {
+.method-1 input[type=text], .method-1 select {
     width: 100%;
     margin: 14px 0;
     display: inline-block;
@@ -1178,6 +1178,22 @@ input[type=text], select {
     vertical-align: middle;
     font-family: 'Nunito', sans-serif;
     margin-bottom: 30px;
+}
+
+.method-2 input[type=text], .method-2 select {
+    width: 100%;
+    margin: 14px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 10px 20px 14px 10px;
+    font-size: 13px;
+    background-color: white;
+    text-decoration: none;
+    vertical-align: middle;
+    font-family: 'Nunito', sans-serif;
+   margin-bottom: 30px;
 }
 
 textarea#actors {
@@ -2750,6 +2766,21 @@ button#btn_next_stat {
     float: left;
 }
 
+.mode input[type=text], .mode select{
+    width: 100%;
+    margin: 2px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 10px 20px 14px 10px;
+    font-size: 13px;
+    background-color: white;
+    text-decoration: none;
+    vertical-align: middle;
+    font-family: 'Nunito', sans-serif;
+}
+
 .mode label {
     float: right;
     margin-right: 27px;
@@ -2816,21 +2847,37 @@ div.tab button.active {
     margin-top: 40px;
     text-align: center;
     float: left;
-    border-bottom: 3px solid #fe7900;
     overflow: hidden;
     margin-left: 72px;
     width: 650px;
 }
 
 /********************Scenarios****************************/
+
+.block input[type=text], .block select{
+    width: 50%;
+    margin: 2px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 10px 20px 14px 10px;
+    font-size: 13px;
+    background-color: white;
+    text-decoration: none;
+    vertical-align: middle;
+    font-family: 'Nunito', sans-serif;
+    margin-bottom: 5px;
+}
+
 .block {
     display: block;
 }
-.block input {
+/*.block input {
     width: 50%;
     display: inline-block;
     margin-bottom: 5px;
-}
+}*/
 .block span {
     display: inline-block;
     cursor: pointer;
@@ -2921,4 +2968,80 @@ button#explainClose:hover{
     text-align: left;
     color: #666;
 }
+
+.information_icon more:hover{
+    opacity: 0.9;
+}
 /*********************************************************/
+
+.evalSlider {
+    margin-top: 50px;
+    margin-right: 40px;
+    margin-bottom: 15px;
+}
+
+.evalComparation {
+    height: 180px;
+    border: 1px solid #ccc;
+    background-color: #d8d8d8;
+}
+
+.evalMethods {
+    width: 200px;
+    float: left;
+    margin-left: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.evalComparation input[type=text], .evalComparation select{
+    width: 100%;
+    margin: 1px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 9px 20px 10px 10px;
+    font-size: 13px;
+    background-color: white;
+    text-decoration: none;
+    vertical-align: middle;
+    font-family: 'Nunito', sans-serif;
+}
+
+.compLabels {
+    float: left;
+    margin-top: -36px;
+}
+
+.evalButtons {
+    margin-left: 250px;
+    margin-bottom: 20px;
+}
+
+.comparation {
+    margin-top: 40px;
+}
+
+.comparation input[type=text], .comparation select{
+    width: 40px;
+    /*margin: 2px 0;*/
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 2px 2px 2px 2px;
+    font-size: 13px;
+    background-color: white;
+    text-decoration: none;
+    vertical-align: middle;
+    font-family: 'Nunito', sans-serif;
+    margin-left: 10px;
+}
+
+.evalComparation.active {
+    display: block;
+}
+.evalComparation{
+    display: none;
+}
