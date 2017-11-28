@@ -368,6 +368,7 @@ html, body {
 .header-right {
     float:right;
     margin-top: 55px;
+    display: none;
 }
 
 
@@ -813,6 +814,19 @@ footer{
     font-size: 15px;
 }*/
 /***********************************************************/
+#id05 button {
+    color: white;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 10%;
+    padding: 6px 15px;
+    background-color: #4CAF50;
+    margin-left: 43%;
+    margin-top: 114px;
+    float: left;
+}
+
 button#infoClose {
     color: white;
     margin: 8px 0;

@@ -17,6 +17,7 @@ and open the template in the editor.
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
         <script src="js/sliderMovies.js"></script>
+        <script src="js/ipAdresse.js"></script>
         <script src="js/db/loginForm.js" type="text/javascript"></script>
         <script src="js/db/login.js" type="text/javascript"></script>
         <script src="js/db/register.js" type="text/javascript"></script>
@@ -249,10 +250,22 @@ and open the template in the editor.
                   </div>
                    <div id="messageQuastionaire" style="display:none;"></div>  
               </div>
+                  
+                <div class="formular-container-actor">
+                    <h2>Please enter the name of your favorite actors..</h2>
+                       <div class="item">
+                            <textarea rows="1" contentEditable="true" placeholder="Enter the actor's name..." class="input" id="favoriteActors"></textarea>
+                       </div>
+                    <div class="clearfix">
+                        <button type="button" class="sendbtn" id="submit2">Submit</button>
+                    </div>
+                   
+                    <div id="messageQuastionaireActor" style="display:none;"></div>  
+                </div>    
             </div>
             </div>
 
-            <div id="id04" class="modal" style="display:block">
+            <div id="id04" class="modal" style="display:none">
                 <div class="modal-content animate">
                     <div class="formular-container-info">
                         <h3 class="infoTitel">Umfrage zu Empfehlungssystemen</h3>
@@ -273,23 +286,30 @@ and open the template in the editor.
                             Nemanja Ranitovic
                         </p>    
                     </div>
+                  
                     <div class="clearfix">
                         <button name="infoClose" onclick="document.getElementById('id04').style.display='none'" class="infoClose" id="infoClose">Ok</button>
                     </div>
                 </div>
-            </div>  
-                  
-                <div class="formular-container-actor">
-                    <h2>Please enter the name of your favorite actors..</h2>
-                       <div class="item">
-                            <textarea rows="1" contentEditable="true" placeholder="Enter the actor's name..." class="input" id="favoriteActors"></textarea>
-                       </div>
+            </div>
+        
+            <div id="id05" class="modal" style="display:none">
+                <div class="modal-content animate">
+                    <div class="formular-container-info">
+                        <h3 class="infoTitel">Umfrage zu Empfehlungssystemen</h3>
+                        <p>Liebe Teilnehmerin, lieber Teilnehmer,<br><br>zunächst vielen Dank für die Bereitschaft, an der folgenden Evaluation teilzunehmen.<br><br>
+                            vielen Dank für Ihre Interesse nochmal an der Evaluation teilzunehmen, allerdings haben Sie schon an der Evaluation teilgenommen. 
+                            <br><br>
+
+                            Vielen Dank für Ihre Unterstützung bei meiner Masterarbeit, <br>
+                            Nemanja Ranitovic
+                        </p>    
+                    </div>                    
                     <div class="clearfix">
-                        <button type="button" class="sendbtn" id="submit2">Submit</button>
+                        <button name="infoClose" onclick="document.getElementById('id05').style.display='none'">Ok</button>
                     </div>
-                   
-                    <div id="messageQuastionaireActor" style="display:none;"></div>  
-                </div>    
+                </div>
+            </div>         
             </div>
      <!---------------------------------------------------------------------------------------->
          </div>

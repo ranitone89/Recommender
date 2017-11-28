@@ -1,27 +1,46 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*$(document).ready(function(){
-    
-    var username = "";
-    var email = "";
-    var password_1 = "";
-    var password_2 = "";
+$(document).ready(function() {
+    var ip;
     var genres = [];
     var actorList = [];
+    $.get('http://jsonip.com', function (res) {
+        ip = res.ip;
+        chechIpAdresse();
+    });
+    
+    function chechIpAdresse(){
+        alert("Check");
+        alert('IP Address is: ' + ip);
+        //$('#id03').css("display","block");
+        $.ajax({
+                url : "IpServlet",
+                type : "GET",
+                data : {
+                    ip : ip
+                },
+                success : function(response){
+                    if(response != null && response != ""){
+                        checkMessage(response);
+                    }
+                }
+        });
+        
+    }
+    
+    function checkMessage(response){
+        if(response == 'USER EXIST'){
+            $('#id05').css("display","block");
+        }else if(response == 'NEW USER'){
+            $('#id04').css("display","block");
+        }
+    }
+    
+    $(document).on("click", "#id04 #infoClose", function(event){
+        $('#id03').css("display","block");
+    });
+    
     
     $("#submit1").on('click', function(){
-        alert("Submit1");
         var checked = $(".genre input:checked").length > 3;
-        
-        username = $("#username_reg").val();
-        email = $("#email_reg").val();
-        password_1 = $("#password_1_reg").val();
-        password_2 = $("#password_2_reg").val();
-        
 
         if (!checked){
             $('#messageQuastionaire').css("display","block");
@@ -41,7 +60,7 @@
     $("#submit2").on('click', function(){
         var actors = removeLastComma($('#favoriteActors').val());
         actorList = covertToArray(actors,'a');
-        alert(actors);
+        /*alert(actors);*/
         if(actorList.length==0){
              $('#messageQuastionaireActor').css("display","block");
              $('#messageQuastionaireActor').html("<font color='red'>Insert at least the Name of one Actor </font>")
@@ -53,9 +72,7 @@
                 url : "RegisterServlet",
                 type : "GET",
                 data : {
-                    username : username,
-                    password : password_1,
-                    email    : email,
+                    ip       : ip,
                     genres   : genres,
                     actors   : actorList
                 },
@@ -89,7 +106,7 @@
      * @param {type} string
      * @returns {Array}
      */
-    /*function covertToArray(array, string)
+    function covertToArray(array, string)
     {
         var theArray = '';
 
@@ -146,7 +163,7 @@
      * @param {type} list
      * @returns {Array}
      */
-    /*function unique(list) {
+    function unique(list) {
       var result = [];
       $.each(list, function(i, e) {
         if ($.inArray(e, result) == -1) result.push(e);
@@ -159,7 +176,7 @@
      * @param {type} str
      * @returns {unresolved}
      */
-    /*function removeLastComma(str) {
+    function removeLastComma(str) {
        return str.replace(/,(\s+)?$/, '');
     }
 
@@ -168,7 +185,7 @@
      * @param {type} array
      * @returns {Array}
      */
-    /*function removeEmptyElements(array) {
+    function removeEmptyElements(array) {
         var newArray = [];
         for (var i = 0; i < array.length; i++) {
             if (array[i] !== "" && array[i] !== null) {
@@ -180,5 +197,5 @@
     
     
     
-});*/
+});
 

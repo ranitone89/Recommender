@@ -44,4 +44,13 @@
         <servlet-name>SearchServlet</servlet-name>
         <url-pattern>/SearchServlet</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>IpServlet</servlet-name>
+        <servlet-class>com.servlets.IpServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>IpServlet</servlet-name>
+        <url-pattern>/IpServlet</url-pattern>
+    </servlet-mapping>
 </web-app>

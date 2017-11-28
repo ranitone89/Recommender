@@ -811,6 +811,7 @@ html, body {
 .header-right {
     float:right;
     margin-top: 55px;
+    display: none;
 }
 
 

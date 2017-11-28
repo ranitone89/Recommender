@@ -5,22 +5,19 @@
  */
 package com.servlets;
 
-/**
- *
- * @author Nemanja Ranitovic
- */
 import com.db.DataDB;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
- 
+
+
 /**
  *
  * @author Nemanja Ranitovic
  */
-public class RegisterRequest extends HttpServlet {
+public class IpServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;   
      
     /**
@@ -30,26 +27,15 @@ public class RegisterRequest extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    @Override
-    protected void doGet(HttpServletRequest request,
+        @Override
+        protected void doGet(HttpServletRequest request,
                 HttpServletResponse response) throws ServletException, IOException {
         
         try {
-            /*String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            String email = request.getParameter("email");*/
             String ip = request.getParameter("ip");
-            String genres[] = request.getParameterValues("genres[]");
-            String actors[] = request.getParameterValues("actors[]");
-            
-            for(int i=0; i<actors.length; i++){
-                System.out.println(actors[i]);
-            }
             DataDB dataDao = new DataDB();
-            String message = dataDao.doRegistrationTest(ip,genres, actors);
+            String message = dataDao.checkIpAdress(ip);
             response.getWriter().write(message);
-            
-            
         } 
         catch (Exception e) {
             System.err.println(e.getMessage());

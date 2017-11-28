@@ -64,6 +64,34 @@ public class DataDB {
             }
             return message;
         }     
+        
+        public String checkIpAdress(String ip) throws Exception{
+            System.out.println("DRIN");
+            String message = null;
+            PreparedStatement ps = null;
+            String data;
+            try {
+                String sql = "SELECT usersid FROM test_users WHERE ip = ?";
+                ps = connection.prepareStatement(sql);
+                
+                //setting the parameters
+                ps.setString(1, ip);
+                
+                //executing the prepared statement, which returns a ResultSet
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()){
+                    message = "USER EXIST";
+                    System.out.println(message);
+                }else{
+                    message = "NEW USER";
+                    System.out.println(message);
+                }
+            } catch (Exception e) {
+                message = "FAILURE";
+                e.printStackTrace();
+            }
+            return message;
+        }
 
     public String checkUsername(String username) throws Exception {
             System.out.println("DRIN");
@@ -112,6 +140,41 @@ public class DataDB {
             ps.setString(3, password);
             ps.setArray(4, connection.createArrayOf("text", genres));
             ps.setArray(5, connection.createArrayOf("text", actors));
+            int count = ps.executeUpdate();
+            action = (count > 0);
+            
+            // was executeUpdate succes
+            if(action){
+                System.out.println("SUCCESS");
+                message = "SUCCESS";
+            }else{
+                System.out.println("FAILURE INSERT");
+                message = "FAILURE";
+            }
+        } 
+        catch (Exception e) {
+            message = "FAILURE";
+            e.printStackTrace();
+        }
+        return message;
+    }    
+    
+    public String doRegistrationTest(String ip,String[] genres, String[] actors) throws Exception {
+        String message = null;
+        PreparedStatement ps = null;
+        boolean action = false;
+        try {
+            String sql = "INSERT INTO test_users"
+		+ "(ip, genres, actors) VALUES"
+		+ "(?,?,?)";
+            
+            
+            ps = connection.prepareStatement(sql);
+            
+            //setting the parameters
+            ps.setString(1, ip);
+            ps.setArray(2, connection.createArrayOf("text", genres));
+            ps.setArray(3, connection.createArrayOf("text", actors));
             int count = ps.executeUpdate();
             action = (count > 0);
             

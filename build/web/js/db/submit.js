@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-$(document).ready(function(){
+/*$(document).ready(function(){
     
     var username = "";
     var email = "";
@@ -14,6 +14,7 @@ $(document).ready(function(){
     var actorList = [];
     
     $("#submit1").on('click', function(){
+        alert("Submit1");
         var checked = $(".genre input:checked").length > 3;
         
         username = $("#username_reg").val();
@@ -40,7 +41,7 @@ $(document).ready(function(){
     $("#submit2").on('click', function(){
         var actors = removeLastComma($('#favoriteActors').val());
         actorList = covertToArray(actors,'a');
-        /*alert(actors);*/
+        alert(actors);
         if(actorList.length==0){
              $('#messageQuastionaireActor').css("display","block");
              $('#messageQuastionaireActor').html("<font color='red'>Insert at least the Name of one Actor </font>")
@@ -88,7 +89,7 @@ $(document).ready(function(){
      * @param {type} string
      * @returns {Array}
      */
-    function covertToArray(array, string)
+    /*function covertToArray(array, string)
     {
         var theArray = '';
 
@@ -145,7 +146,7 @@ $(document).ready(function(){
      * @param {type} list
      * @returns {Array}
      */
-    function unique(list) {
+    /*function unique(list) {
       var result = [];
       $.each(list, function(i, e) {
         if ($.inArray(e, result) == -1) result.push(e);
@@ -158,7 +159,7 @@ $(document).ready(function(){
      * @param {type} str
      * @returns {unresolved}
      */
-    function removeLastComma(str) {
+    /*function removeLastComma(str) {
        return str.replace(/,(\s+)?$/, '');
     }
 
@@ -167,7 +168,7 @@ $(document).ready(function(){
      * @param {type} array
      * @returns {Array}
      */
-    function removeEmptyElements(array) {
+    /*function removeEmptyElements(array) {
         var newArray = [];
         for (var i = 0; i < array.length; i++) {
             if (array[i] !== "" && array[i] !== null) {
@@ -179,5 +180,5 @@ $(document).ready(function(){
     
     
     
-});
+});*/
 
