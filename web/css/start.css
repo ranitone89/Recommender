@@ -1407,7 +1407,7 @@ button#surveyclose {
 }
 
 .formular-container p {
-    margin: 20px 20px;
+    margin: 35px 20px;
     font-size: 14px;
     text-align: left;
     color: #666;
@@ -1871,6 +1871,7 @@ label.lenlabel {
     text-transform: uppercase;
     color: #ee7d13;
     font-weight: bold;
+    float: left;
 }
 
 /*.recom-text:hover h3{
@@ -3109,4 +3110,14 @@ button#infoClose:hover{
 
 button#infoClose a {
     text-decoration: none;
+}
+
+.formular-container-genre h3 {
+    margin-left: 119px;
+}
+
+img.information_eval_icon {
+    float: left;
+    margin-top: 105px;
+    margin-left: 9px;
 }

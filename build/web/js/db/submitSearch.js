@@ -1410,10 +1410,11 @@ $(document).ready(function() {
    function showResult(){
         bindSearchButtons();
         $('#Result').css("display","block");
-        $('.title').css("display","block");
+        $('.title').css("display","none");
         $('.survey').css("display","block");
         $('.recom-text').css("display","block");
         $('.tab-back-nav').css("display","none");
+        showEvalInfo(scenarioNum);
    }
    
    function hideLoading(){
@@ -1610,7 +1611,7 @@ $(document).ready(function() {
    
     function setScenarioText(value){
         var textNum = value+1;
-        var text = "Scenario: "+textNum +" of "+getNumberScenario();
+        var text = "Szenario: "+textNum +" von "+getNumberScenario();
        $('.scenLabels').text(text);
     }
     
@@ -1656,6 +1657,9 @@ $(document).ready(function() {
         $(".nav-element").trigger('click');
    });    
    
+    $(document).on("click", ".information_eval_icon", function(event){
+        $('#id06').css("display","block");
+    });
 
     function initWelcomeScreen(){
         if(getMode()==1){
@@ -1680,6 +1684,12 @@ $(document).ready(function() {
     function unbindSearchButtons(){
         $('.button-container .closee').removeClass("active");
         $('.button-container .open').removeClass("active"); 
+    }
+    
+    function showEvalInfo(position){
+        if(position==0){
+            $('#id06').css("display","block");
+        }
     }
     // sv_complete_btn
 });

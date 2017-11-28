@@ -44,7 +44,7 @@ $(document).ready(function() {
 
         if (!checked){
             $('#messageQuastionaire').css("display","block");
-            $('#messageQuastionaire').html("<font color='red'>You need to select at leaast 4 genres </font>");
+            $('#messageQuastionaire').html("<font color='red'>Wählen Sie bitte mindestens vier Genre</font>");
             return;
         }
         else{
@@ -63,7 +63,7 @@ $(document).ready(function() {
         /*alert(actors);*/
         if(actorList.length==0){
              $('#messageQuastionaireActor').css("display","block");
-             $('#messageQuastionaireActor').html("<font color='red'>Insert at least the Name of one Actor </font>")
+             $('#messageQuastionaireActor').html("<font color='red'>Geben Sie bitte zumindest einen Namen </font>")
              return;
          }
         
