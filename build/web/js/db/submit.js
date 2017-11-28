@@ -41,7 +41,6 @@ $(document).ready(function(){
         var actors = removeLastComma($('#favoriteActors').val());
         actorList = covertToArray(actors,'a');
         /*alert(actors);*/
-        alert(typeof(genres));
         if(actorList.length==0){
              $('#messageQuastionaireActor').css("display","block");
              $('#messageQuastionaireActor').html("<font color='red'>Insert at least the Name of one Actor </font>")

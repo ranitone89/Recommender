@@ -1,6 +1,6 @@
 $(document).ready(function() {
     var evalNum = 1;
-    var scenarioNum = 1;
+    var scenarioNum = 0;
     var focusStat = 4;
     var focus = 5;
     var movieContent;
@@ -102,7 +102,7 @@ $(document).ready(function() {
         showAfterCheck(statistic);
         $(".btn").show();
         $('.search-back-nav').hide();
-        $('.tab-back-nav').show();
+        $('.tab-back-nav').hide();
    });
 
 
@@ -994,8 +994,6 @@ $(document).ready(function() {
                     else{
                         theArray[i] = tmp[tmp.length-1]+ ", " + tmp[0] +"%";
                     }
-                    
-                    alert(theArray[i]);
                 }
             }
 
@@ -1154,12 +1152,12 @@ $(document).ready(function() {
         
         for(var cluster=0; cluster<num[m]; cluster++){
             var c = cluster +1; 
-            if($('.Method'+m+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==true && $('.Method'+(m+1)+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==true){
+            /*if($('.Method'+m+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==true && $('.Method'+(m+1)+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==true){
                 $('#messageSurvey').css("display","block");
                 $('#messageSurvey').html("<font color='red'>You can only choose one group of recommendations in this row </font>");
                 $('#Cluster'+c + ' #lb_'+c).text("Select only one of these");
                 return;
-            }
+            }*/
             if($('.Method'+m+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==false && $('.Method'+(m+1)+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==false){
                 $('#messageSurvey').css("display","block");
                 $('#messageSurvey').html("<font color='red'>Select at least one recommendation group in this row </font>")
@@ -1208,7 +1206,6 @@ $(document).ready(function() {
     }    
    
    $(document).on("click", ".sv_complete_btn", function(event){
-       alert("Index: "+surveyIndex);
        if($(this).val()=='Complete' && surveyIndex>1){
            $('#id02').css("display","none");
            surveyIndex  = 0;
@@ -1325,7 +1322,7 @@ $(document).ready(function() {
     function checkEvalNum(mode){
         //first scenario allready shown
         if(mode == 1){
-            if(scenarioNum < getNumberScenario()){
+            if(scenarioNum < getNumberScenario()-1){
                 if(evalNum < getNumberComparations()){
                     evalNum = evalNum+1;
                     $('.submitBtn').trigger('click');
@@ -1338,16 +1335,16 @@ $(document).ready(function() {
                     evalNum = 1;
                     resetSurvey();
                     resetSearchPram();
-                    alert("Szenario: "+scenarioNum);
-                    displayScenarioMessage(scenarioNum);
                     scenarioNum = scenarioNum+1;
+                    setScenarioText(scenarioNum);
+                    unbindSearchButtons();
+                    displayScenarioMessage(scenarioNum);
+                    
                 }
                 
             }
             else{                
                 if(evalNum < getNumberComparations()){
-                    alert("Num Comparations: "+getNumberComparations());
-                    alert("Curent Comparation: "+evalNum);
                     evalNum = evalNum+1;
                     $('.submitBtn').trigger('click');
                     getSurveyVaues();
@@ -1363,7 +1360,9 @@ $(document).ready(function() {
                     removeScenarioMessage();
                     closeScenarioMessages();
                     showGoodbye();
-                    scenarioNum = 1;
+                    scenarioNum = 0;
+                    setScenarioText(scenarioNum);
+                    surveryInfor=false;
                 }
             }
         }
@@ -1409,11 +1408,12 @@ $(document).ready(function() {
       $('.tab-back-nav').css("display","none");
    }
    function showResult(){
+        bindSearchButtons();
         $('#Result').css("display","block");
         $('.title').css("display","block");
         $('.survey').css("display","block");
         $('.recom-text').css("display","block");
-        $('.tab-back-nav').css("display","block");
+        $('.tab-back-nav').css("display","none");
    }
    
    function hideLoading(){
@@ -1502,6 +1502,7 @@ $(document).ready(function() {
    }
    
    function initMode(){
+        setScenarioText(scenarioNum);
         setMode(1);
         setAlgorithmus(1); 
    }
@@ -1562,8 +1563,8 @@ $(document).ready(function() {
    }
    function resetRankingParam(){
        $('#star1').prop('checked', true);
-       $('#star .range_star').text(0);
-       $('#star input.min').val(0);
+       $('#star .range_star').text(60);
+       $('#star input.min').val(60);
        $('#star input.min').css('background-image',
         '-webkit-gradient(linear, left top, right top, '
         + 'color-stop(' + 0 + ', #ee7d13), '
@@ -1607,6 +1608,12 @@ $(document).ready(function() {
         $('.explanationBox').empty();
    }
    
+    function setScenarioText(value){
+        var textNum = value+1;
+        var text = "Scenario: "+textNum +" of "+getNumberScenario();
+       $('.scenLabels').text(text);
+    }
+    
    function getNumberScenario(){
        return $('.optionBox input').length;
    }
@@ -1617,7 +1624,7 @@ $(document).ready(function() {
     
     
    function displayScenarioMessage(messageAt){
-           var position = messageAt-1;
+           var position = messageAt;
            hideScenarioMessages();
            $('.explanationBox .explanation').eq(position).addClass('showScenario');
            $('#id03').css("display","block");
@@ -1645,6 +1652,11 @@ $(document).ready(function() {
         displayScenarioMessage(scenarioNum);
    });
 
+    $(document).on("click", "#id05 #infoClose", function(event){
+        $(".nav-element").trigger('click');
+   });    
+   
+
     function initWelcomeScreen(){
         if(getMode()==1){
             $('#id04').css("display","block");
@@ -1661,5 +1673,13 @@ $(document).ready(function() {
         $('#id05').css("display","none");
     }
     
+    function bindSearchButtons(){
+        $('.button-container .closee').addClass("active");
+        $('.button-container .open').addClass("active");         
+    }
+    function unbindSearchButtons(){
+        $('.button-container .closee').removeClass("active");
+        $('.button-container .open').removeClass("active"); 
+    }
     // sv_complete_btn
 });

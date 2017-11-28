@@ -210,6 +210,7 @@ $(document).ready(function() {
     function getNumCom(){
         return $( ".comparation #nComparation" ).val();
     }
+    
     /**/
 });
 

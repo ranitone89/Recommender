@@ -81,6 +81,7 @@
                     <!-- Loading Screen -->
                     <div data-u="loading" class="loading-screen">
                         <!--img src="img/double-tail-spin.svg" /-->
+
                     </div>
                     <div data-u="slides">
                         <div>
@@ -260,9 +261,9 @@
                            <div class="item">
                                <label class="lenlabel" for="l">Lenght in Minutes</label>
                                <div class="range" id="lenght">
-                                    <input class="min" name="range_2" type="range" min="0" max="240" step="15" value="0" />
+                                    <input class="min" name="range_2" type="range" min="60" max="240" step="15" value="60" />
                                     <input class="max" name="range_2" type="range" min="0" max="240" step="15" value="240" />
-                                    <span class="range_min light left">0</span>
+                                    <span class="range_min light left">60</span>
                                     <span class="range_max light right">240</span>
                                </div>
                            </div>
@@ -309,7 +310,7 @@
               <div id="messageSearch" style="display:none;"></div>
             </div>
             <div id="loading">
-                  <p>It's loading…</p>
+                  <!--p>It's loading…</p-->
             </div>
             <!--------------------------- TAB NAVIGATION ---------------------------------------------->
             <div class="tab-nav">
@@ -419,25 +420,14 @@
                 <div class="modal-content animate">
                     <div class="formular-container">
                         <h3 class="infoTitel">Umfrage zu Empfehlungssystemen</h3>
-                        <p>Liebe Teilnehmerin, lieber Teilnehmer,<br><br>zunächst vielen Dank für die Bereitschaft, an der folgenden Evaluation teilzunehmen.<br><br>
-                            Mein Name ist Nemanja Ranitovic und ich untersuche 
-                            im Rahmen meiner Masterarbeit im Studiengang "Informatik und Informationswirtschaft" an der Universität Augsburg Faktoren, die die Zahlungsbereitschaft von Personen für die Nutzung von Musikstreaming-Diensten beeinflussen.
+                        <p>Liebe Teilnehmerin, lieber Teilnehmer,
+                            <br><br>vielen lieben Dank für die rege Teilnahme an der Evaluation.<br><br>
                             <br><br>
-                            Die Umfrage wird nicht mehr als 15 Minuten Ihrer Zeit in Anspruch nehmen und erfordert keine besonderen Vorkenntnisse. 
-                            Sowohl Nutzer von Musikstreaming-Diensten als auch Personen, die keinen solchen Dienst nutzen, sind zur Teilnahme eingeladen.
-                            <br><br>
-                            Nur vollständig beantwortete Fragebögen können ausgewertet werden. Bitte lesen Sie alle Instruktionen aufmerksam durch und beantworten Sie alle Fragen gewissenhaft, auch wenn Sie das Gefühl haben, dass sich bestimmte Fragen ähnlich sind oder sich wiederholen.
-                            <br><br>
-                            Alle Daten werden ausschließlich zu wissenschaftlichen Zwecken erhoben und ausgewertet und nicht an Dritte weitergegeben. 
-                            Die Auswertung erfolgt aggregiert, Rückschlüsse auf Antworten einzelner Teilnehmer sind nicht möglich.
-                            <br><br>
-                       
-                            Vielen Dank für Ihre Unterstützung bei meiner Masterarbeit, <br>
-                            Nemanja Ranitovic
                         </p>    
                     </div>
                     <div class="clearfix">
-                        <button name="infoClose" onclick="document.getElementById('id05').style.display='none'" class="infoClose" id="infoClose">Ok</button>
+                        <button name="infoClose" onclick="document.getElementById('id05').style.display='none'" class="infoClose" id="infoClose">
+                            <a href="index.html">Ok</a></button>
                     </div>
                 </div>
             </div>
@@ -472,7 +462,7 @@
             <div id="id03" class="modal" style="display:none">
                 <div class="modal-content animate">
                     <div class="formular-container">
-                        <h3>Scenario</h3>
+                        <h3 class="scenLabels">Scenario</h3>
                         <div class="explanationBox">
                         </div>
                     </div>

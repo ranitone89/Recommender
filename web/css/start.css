@@ -3101,3 +3101,11 @@ button#infoClose:hover{
 .evalComparation{
     display: none;
 }
+
+#id05 .modal-content {
+    min-height: 200px;
+}
+
+button#infoClose a {
+    text-decoration: none;
+}
