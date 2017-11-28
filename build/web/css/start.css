@@ -447,7 +447,8 @@ html, body {
     margin-left: 258px;
     margin-top: 55px;
 }*/
-.clusterbtn, .sv_complete_btn {
+
+.sv_complete_btn {
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -456,9 +457,26 @@ html, body {
     width: 16%;
     padding: 6px 20px;
     background-color: #4CAF50;
-    margin-left: 40%;
-    margin-top: 55px;
     float: left;
+    margin-top: 55px;
+    margin-bottom: 55px;
+}
+
+.clusterbtn {
+    color: white;
+    padding: 14px 20px;
+    /*margin: 8px 0;*/
+    border: none;
+    cursor: pointer;
+    width: 16%;
+    padding: 6px 20px;
+    background-color: #4CAF50;
+    /*margin-left: 40%;
+    margin-top: 55px;*/
+    float: left;
+    margin-top: 55px;
+    margin-bottom: 55px;
+    margin-left: 40%;
 }
 
 .clusterbtn:active{
@@ -1271,6 +1289,8 @@ input.sv_prev_btn {
     /* margin-left: 258px; */
     /* margin-top: 55px; */
     float: left;
+    margin-top: 55px;
+    margin-bottom: 55px;
 }
 
 input.sv_next_btn {
@@ -1285,6 +1305,8 @@ input.sv_next_btn {
     /* margin-left: 258px; */
     /* margin-top: 55px; */
     float: left;
+    margin-top: 55px;
+    margin-bottom: 55px;
 }
 
 button#surveyclose {
@@ -1299,6 +1321,7 @@ button#surveyclose {
     /* margin-left: 258px; */
     /* margin-top: 55px; */
     float: left;
+    display: none;
 }
 
 .sv_q_title {
@@ -1337,7 +1360,7 @@ button#surveyclose {
     margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
     border: 1px solid #888;
     width: 800px;
-    min-height: 800px;
+    min-height: 600px;
 }
 
 /* The Close Button (x) */
@@ -1378,6 +1401,8 @@ button#surveyclose {
     height: 50px;
     margin-left: 50px;
     margin-right: 50px;
+    width: auto;
+    height: auto;
 }
 
 .formular-container p {
@@ -2834,7 +2859,7 @@ div.tab button.active {
 }
 
 /* Style the tab content */
-.tabcontent {
+.evalcontent {
     display: none;
     padding: 6px 12px;
     border: 1px solid #ccc;
@@ -2928,6 +2953,37 @@ button#explainClose:hover{
     margin-top: 114px;
     float: left;
 }
+
+button#infoClose {
+    color: white;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 10%;
+    padding: 6px 15px;
+    background-color: #4CAF50;
+    margin-left: 43%;
+    margin-top: 114px;
+    float: left;
+}
+
+button#infoClose:hover{
+    color: white;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 10%;
+    padding: 6px 15px;
+    background-color: #d8d8d8;
+    margin-left: 43%;
+    margin-top: 114px;
+    float: left;
+}
+
+.infoTitel{
+    margin-left: 18px;
+}
+
 
 #id03 .modal-content{
     min-height: 200px;

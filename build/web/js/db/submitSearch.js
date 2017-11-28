@@ -1,6 +1,6 @@
 $(document).ready(function() {
     var evalNum = 1;
-    var scenarioNum = 0;
+    var scenarioNum = 1;
     var focusStat = 4;
     var focus = 5;
     var movieContent;
@@ -20,9 +20,10 @@ $(document).ready(function() {
     var divColors = ['#666','#f1f1f1','#d9f5da','#ffeaea','#c0fef1','#ffd6b3','#fae9be','#d4e3ff','#eafec0'];
     var activeStatistic = 0;
     var surveryInfor = false;
-
+    var surveyIndex = 1;
     initMode();
-    
+    initWelcomeScreen();
+    //showGoodbye();
     /*
      * Statistics move on scroll
      */
@@ -288,13 +289,10 @@ $(document).ready(function() {
         if(id==="btn_next_stat"){
             if(statcsIndex>=(lenght-focusStat) || statcsIndex>=8){
                 statcsIndex = statcsIndex;
-                alert("Limit: "+statcsIndex);
-
             }
             else{
                 statcsIndex = statcsIndex+4;
             }
-            alert(statcsIndex);
         }
         if(id==="btn_prev_stat"){
             if(statcsIndex<=0){
@@ -303,7 +301,6 @@ $(document).ready(function() {
             else{
                 statcsIndex = statcsIndex-4;
             }
-            alert(statcsIndex);
         }
     }
     
@@ -464,26 +461,37 @@ $(document).ready(function() {
              $('#id02').css("display","block");
                 window.survey = new Survey.Model({ 
                     pages: [
-                        { title: "Nutzen Sie derzeit einen Musikstreaming-Dienst?",
+                        { title: "Demographische Daten",
                             questions: [
-                                {type:"checkbox", name:"opSystem", title: "OS", hasOther: true, isRequired: true, 
-                                    choices:["Ich nutze derzeit keinen Musikstreaming-Dienst", "Ich nutze einen kostenlosen Musikstreaming-Dienst", "Ich nutze ein kostenpflichtiges Abonnement"]}
-                            ]  
-                        },
-                        {   title: "What language(s) are you currently using?",
-                            questions: [
-                            {type:"checkbox", name:"langs",title:"Plese select from the list",
+                                {type:"checkbox", name:"geschlecht", title: "Geschlecht:", hasOther: false, isRequired: true, 
+                                    choices:["weiblich", "männlich"]},
+                                
+                                {type:"checkbox", name:"alter",title:"Alter: ",
                                  colCount: 4, isRequired: true,
-                                choices:["Javascript", "Java", "Python", "CSS", "PHP", "Ruby", "C++", "C", 
-                                    "Shell", "C#", "Objective-C", "R", "VimL", "Go", "Perl", "CoffeeScript", 
-                                    "TeX", "Swift", "Scala", "Emacs List", "Haskell", "Lua", "Clojure", 
-                                    "Matlab", "Arduino", "Makefile", "Groovy", "Puppet", "Rust", "PowerShell"]
-                            }
-                        ]},        
-                        { title: "Please enter your name and e-mail",
-                            questions: [ 
-                            {type: "text", name: "name", title: "Name:"}, 
-                            {type: "text", name: "email", title: "Your e-mail"}]
+                                 choices:["18-24", "25-34", "35-44", "45-59", "60-69", "70 und älter"]},
+                             
+                                {type:"checkbox", name:"beschäftigung", title: "Sind Sie berufstätig?", hasOther: false, isRequired: true, 
+                                choices:["ja", "nein"]}
+                            ],                           
+                        },
+                        { title: "Allgemeine Nutzungsfragen",
+                            questions: [
+                                {type:"checkbox", name:"filme", title: "Wie häufig nutzen Sie Videoinhalte wie z.B Filme und Serien?", hasOther: false, isRequired: true, 
+                                    choices:["Täglich oder fast täglich", "Mindestens einmal pro Woche", "Mindestens einmal im Monat", 
+                                        "Seltener", "Nie", "Weiß nicht"]},
+                                
+                                {type:"checkbox", name:"plattformen", title:"Wenn Sie Filme und Serien nutzen, welche Plattformen verwenden Sie hierfür?", hasOther: true, isRequired: true,
+                                 choices:["Video-Streaming-Dienste", 
+                                     "TV-Sendern","Kostenlose Portale für Filme und Serien (z.B. kinox.to, Streamcloud, movie8k.to)"]},
+                             
+                            ],                           
+                        },
+                        { title: "Zufriedenheit",
+                            questions: [
+                                {type:"checkbox", name:"zufriedenheit", title: "Wie zufrieden sind Sie mit Ihrem Video-Streaming-Dienst insgesamt:", hasOther: false, isRequired: true, 
+                                    choices:["Sehr zufrieden", "Eher zufrieden", "Teils teils", 
+                                        "Weniger zufrieden", "Überhaupt nicht zufrieden", "Weiß nicht"]},
+                            ],                           
                         }]
                 });
 
@@ -1200,9 +1208,14 @@ $(document).ready(function() {
     }    
    
    $(document).on("click", ".sv_complete_btn", function(event){
-       alert("CLose");
-       alert($(this).val());
-       /*$('#id02').css("display","none");*/
+       alert("Index: "+surveyIndex);
+       if($(this).val()=='Complete' && surveyIndex>1){
+           $('#id02').css("display","none");
+           surveyIndex  = 0;
+           surveryInfor = true;
+           $('.submitBtn').trigger('click');
+       }
+       surveyIndex = surveyIndex +1;
        //$('.tab-back-nav').trigger('click');
    });
    
@@ -1301,17 +1314,9 @@ $(document).ready(function() {
     function getParameterMode(mode) {
        if(mode == 0){
             getTestPrametar();
-            alert('Test Mode');
-            alert(evalNum);
-            alert(method1Parameter);
-            alert(method2Parameter);
        }
         if(mode == 1){
             getEvalPrametar(evalNum);
-            alert('Eval Mode');
-            alert(evalNum);
-            alert(method1Parameter);
-            alert(method2Parameter);
         }  
     }
     
@@ -1329,27 +1334,44 @@ $(document).ready(function() {
                 }
                 else{
                     hideMovies();
-                    evalNum = 1;
                     getSurveyVaues();
+                    evalNum = 1;
                     resetSurvey();
                     resetSearchPram();
-                    displayScenarioMessage(scenarioNum+1);
+                    alert("Szenario: "+scenarioNum);
+                    displayScenarioMessage(scenarioNum);
                     scenarioNum = scenarioNum+1;
                 }
-
+                
             }
-            else{
-                hideScenarioMessages();
-                removeScenarioMessage();
-                closeScenarioMessages();
-                resetSearchPram();
-                scenarioNum = 0;
+            else{                
+                if(evalNum < getNumberComparations()){
+                    alert("Num Comparations: "+getNumberComparations());
+                    alert("Curent Comparation: "+evalNum);
+                    evalNum = evalNum+1;
+                    $('.submitBtn').trigger('click');
+                    getSurveyVaues();
+                    resetSurvey();
+                }
+                else{
+                    hideMovies();
+                    getSurveyVaues();
+                    evalNum = 1;
+                    resetSurvey();
+                    resetSearchPram();
+                    hideScenarioMessages();
+                    removeScenarioMessage();
+                    closeScenarioMessages();
+                    showGoodbye();
+                    scenarioNum = 1;
+                }
             }
         }
         
         if(mode == 0){
             hideResult();
             showMovies();
+            hideGoodbye();
             resetSearchPram();
             scenarioNum = 0;
         }
@@ -1486,7 +1508,6 @@ $(document).ready(function() {
    
    
    function resetSearchPram(){
-       alert('Reset All Parameter');
        resetGenreParam();
        resetActorParam();
        resetRankingParam();
@@ -1596,8 +1617,9 @@ $(document).ready(function() {
     
     
    function displayScenarioMessage(messageAt){
+           var position = messageAt-1;
            hideScenarioMessages();
-           $('.explanationBox .explanation').eq(messageAt).addClass('showScenario');
+           $('.explanationBox .explanation').eq(position).addClass('showScenario');
            $('#id03').css("display","block");
    }
    function hideScenarioMessages(){
@@ -1623,4 +1645,21 @@ $(document).ready(function() {
         displayScenarioMessage(scenarioNum);
    });
 
+    function initWelcomeScreen(){
+        if(getMode()==1){
+            $('#id04').css("display","block");
+        }
+        else{
+            $('#id04').css("display","none");
+        }
+    }
+    
+    function showGoodbye(){
+        $('#id05').css("display","block");
+    }
+    function hideGoodbye(){
+        $('#id05').css("display","none");
+    }
+    
+    // sv_complete_btn
 });

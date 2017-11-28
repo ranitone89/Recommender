@@ -478,7 +478,7 @@ input[type=text], input[type=password] {
     padding: 16px;
     padding: 16px;
     width: 670px;
-    min-height: 500px;
+    /*min-height: 500px;*/
 }
 
 .formular-container h2, .formular-container-genre h2, .formular-container-actor h2{
@@ -813,3 +813,47 @@ footer{
     font-size: 15px;
 }*/
 /***********************************************************/
+button#infoClose {
+    color: white;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 10%;
+    padding: 6px 15px;
+    background-color: #4CAF50;
+    margin-left: 43%;
+    margin-top: 114px;
+    float: left;
+}
+
+button#infoClose:hover{
+    color: white;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 10%;
+    padding: 6px 15px;
+    background-color: #d8d8d8;
+    margin-left: 43%;
+    margin-top: 114px;
+    float: left;
+}
+
+.formular-container-info {
+    height: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
+    width: auto;
+    height: auto;
+}
+
+.formular-container-info p {
+    margin: 20px 20px;
+    font-size: 14px;
+    text-align: left;
+    color: #666;
+}
+
+.infoTitel{
+    margin-left: 18px;
+}

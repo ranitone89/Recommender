@@ -414,7 +414,61 @@
             <div class="survey" style="display:none">
                 <input type="submit" value="Submit" class="submitSurvey"/>
             </div>
-
+            
+            <div id="id05" class="modal" style="display:none">
+                <div class="modal-content animate">
+                    <div class="formular-container">
+                        <h3 class="infoTitel">Umfrage zu Empfehlungssystemen</h3>
+                        <p>Liebe Teilnehmerin, lieber Teilnehmer,<br><br>zunächst vielen Dank für die Bereitschaft, an der folgenden Evaluation teilzunehmen.<br><br>
+                            Mein Name ist Nemanja Ranitovic und ich untersuche 
+                            im Rahmen meiner Masterarbeit im Studiengang "Informatik und Informationswirtschaft" an der Universität Augsburg Faktoren, die die Zahlungsbereitschaft von Personen für die Nutzung von Musikstreaming-Diensten beeinflussen.
+                            <br><br>
+                            Die Umfrage wird nicht mehr als 15 Minuten Ihrer Zeit in Anspruch nehmen und erfordert keine besonderen Vorkenntnisse. 
+                            Sowohl Nutzer von Musikstreaming-Diensten als auch Personen, die keinen solchen Dienst nutzen, sind zur Teilnahme eingeladen.
+                            <br><br>
+                            Nur vollständig beantwortete Fragebögen können ausgewertet werden. Bitte lesen Sie alle Instruktionen aufmerksam durch und beantworten Sie alle Fragen gewissenhaft, auch wenn Sie das Gefühl haben, dass sich bestimmte Fragen ähnlich sind oder sich wiederholen.
+                            <br><br>
+                            Alle Daten werden ausschließlich zu wissenschaftlichen Zwecken erhoben und ausgewertet und nicht an Dritte weitergegeben. 
+                            Die Auswertung erfolgt aggregiert, Rückschlüsse auf Antworten einzelner Teilnehmer sind nicht möglich.
+                            <br><br>
+                       
+                            Vielen Dank für Ihre Unterstützung bei meiner Masterarbeit, <br>
+                            Nemanja Ranitovic
+                        </p>    
+                    </div>
+                    <div class="clearfix">
+                        <button name="infoClose" onclick="document.getElementById('id05').style.display='none'" class="infoClose" id="infoClose">Ok</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="id04" class="modal" style="display:none">
+                <div class="modal-content animate">
+                    <div class="formular-container">
+                        <h3 class="infoTitel">Umfrage zu Empfehlungssystemen</h3>
+                        <p>Liebe Teilnehmerin, lieber Teilnehmer,<br><br>zunächst vielen Dank für die Bereitschaft, an der folgenden Evaluation teilzunehmen.<br><br>
+                            Mein Name ist Nemanja Ranitovic und ich untersuche 
+                            im Rahmen meiner Masterarbeit im Studiengang "Informatik und Informationswirtschaft" an der Universität Augsburg Faktoren, die die Zahlungsbereitschaft von Personen für die Nutzung von Musikstreaming-Diensten beeinflussen.
+                            <br><br>
+                            Die Umfrage wird nicht mehr als 15 Minuten Ihrer Zeit in Anspruch nehmen und erfordert keine besonderen Vorkenntnisse. 
+                            Sowohl Nutzer von Musikstreaming-Diensten als auch Personen, die keinen solchen Dienst nutzen, sind zur Teilnahme eingeladen.
+                            <br><br>
+                            Nur vollständig beantwortete Fragebögen können ausgewertet werden. Bitte lesen Sie alle Instruktionen aufmerksam durch und beantworten Sie alle Fragen gewissenhaft, auch wenn Sie das Gefühl haben, dass sich bestimmte Fragen ähnlich sind oder sich wiederholen.
+                            <br><br>
+                            Alle Daten werden ausschließlich zu wissenschaftlichen Zwecken erhoben und ausgewertet und nicht an Dritte weitergegeben. 
+                            Die Auswertung erfolgt aggregiert, Rückschlüsse auf Antworten einzelner Teilnehmer sind nicht möglich.
+                            <br><br>
+                       
+                            Vielen Dank für Ihre Unterstützung bei meiner Masterarbeit, <br>
+                            Nemanja Ranitovic
+                        </p>    
+                    </div>
+                    <div class="clearfix">
+                        <button name="infoClose" onclick="document.getElementById('id04').style.display='none'" class="infoClose" id="infoClose">Ok</button>
+                    </div>
+                </div>
+            </div>  
+            
             <div id="id03" class="modal" style="display:none">
                 <div class="modal-content animate">
                     <div class="formular-container">
@@ -436,10 +490,10 @@
                 <!--span class="close" title="Close Modal"><a>×</a></span-->
                 <div class="modal-content animate">
                     <div class="formular-container">
-                        <p>Thank you for taking the time to complete this survey. 
+                        <!--p>Thank you for taking the time to complete this survey. 
                             We truly value the information you have provided. 
                             Your responses will contribute to our analyses of the texts and suggest new lines of approach to the corpus data.
-                        </p> 
+                        </p--> 
                     </div>
 
                     <div id="surveyElement"></div>
@@ -468,7 +522,7 @@
                     <button class="tablinks" onclick="openEval(event, 'EvalMethod')">Methods</button>
                   </div>
                   
-                    <div id="EvalScenario" class="tabcontent">
+                    <div id="EvalScenario" class="evalcontent">
                         <p>In this section you can define different kid of scenarios that will be evaluated.
                            For this purpose please enter the description for each scenario</p>
                         <div class="optionBox">
@@ -487,7 +541,7 @@
                         </div>
                     </div>
 
-                    <div id="EvalMethod" class="tabcontent">
+                    <div id="EvalMethod" class="evalcontent">
                       <p>In this section you can define the number of comparations/ methods that should be evaluated. For this purpose please select the number of methods and each method parameter.</p>
                        <div class="comparation">
                         <label>Select number of comparations</label>

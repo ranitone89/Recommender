@@ -32,7 +32,6 @@ $(document).ready(function(){
                 genres.push($(this).val());
                 
             });
-            alert(genres);
             $('.formular-container-genre').css("display","none");
             $('.formular-container-actor').css("display","block");
         }
@@ -41,7 +40,6 @@ $(document).ready(function(){
     $("#submit2").on('click', function(){
         var actors = removeLastComma($('#favoriteActors').val());
         actorList = covertToArray(actors,'a');
-        alert(typeof(actorList));
         /*alert(actors);*/
         alert(typeof(genres));
         if(actorList.length==0){
