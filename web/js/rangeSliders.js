@@ -15,7 +15,9 @@ $(document).ready(function() {
             maxVal = parseInt($(maxBtn).val()),
             origin = $(this).context.className;            
             var parent = $(this).parent().attr('id');
-
+            alert(minVal);
+            alert($(this).attr('min'));
+            
         if(origin === 'min' && minVal > maxVal-1){
             $(minBtn).val(maxVal-1);
         }

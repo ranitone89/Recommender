@@ -430,7 +430,13 @@ $(document).ready(function() {
     /************************** Submit Search *********************/
 
     $(document).on("click", ".submitBtn", function(event){
-        $('.statistics-close').trigger('click');       
+        setActorParam('Johnny Depp');
+        setLenghtParam(60, 120);
+        setReleasedParam(1980,2000);
+        setRankingParam(2);
+        setGenreParam(['Comedy','Action']);
+        
+        /*$('.statistics-close').trigger('click');       
         mode = getMode();
 
         getParameterMode(mode);
@@ -551,7 +557,7 @@ $(document).ready(function() {
                         }
                 }
             });
-         }
+         }*/
      });
 
 
@@ -1526,6 +1532,20 @@ $(document).ready(function() {
        resetLenghtParam();
        resetReleasedParam();
    }
+
+   function setGenreParam(genre){
+        alert("Set Genre");
+        resetGenreParam();
+        
+        $('.mutliSelect input[type="checkbox"]').each(function() {
+            for(var i =0; i<genre.length; i++){
+                if($(this).val()==genre[i]){
+                    $(this).trigger('click');
+                } 
+            }
+        });
+        //$('.mutliSelect input[type="checkbox"]').trigger('click');
+   }
    
    function resetGenreParam(){
         $('.mutliSelect input:checked').each(function() {
@@ -1537,12 +1557,69 @@ $(document).ready(function() {
         $('.dropdown dt a').css('min-height','');
    }
    
+   /*
+    * Names muss String that contains  actor names as Johny Depp, Kevin Spacey
+    * @returns {undefined}
+    **/
+   function setActorParam(names){
+       $('#actors').val(names);
+   }
    function resetActorParam(){
        $('#actors').val("");
        $('#actors').css('padding','13 19 12 10');
        $('#actors').css('height','');
    }
-
+   
+   function setReleasedParam(min, max){
+       if(min>=1970 && max<=2017){
+           $('#released input.min').val(min);
+           $('#released input.max').val(max);
+           $('#released .range_min').text(min);
+           $('#released .range_max').text(max); 
+           $('#released input.min').trigger('change');
+       }
+   }
+   
+   function setLenghtParam(min, max){
+       if(min>=60 && max<=240){
+            $('#lenght input.min').val(min);
+            $('#lenght .range_min').text(min);
+            $('#lenght input.max').val(max);
+            $('#lenght .range_max').text(max);
+            $('#lenght input.min').trigger('change');
+            var maxVal = $('#lenght input.min').attr('max');
+            var minVal = $('#lenght input.min').attr('min');
+            var startval = (min - minVal) / (maxVal - minVal);
+            var endval = (max - minVal) / (maxVal - minVal);
+            alert(startval);
+            alert(endval);
+            
+            $('#lenght input.min').css('background-image',
+            '-webkit-gradient(linear, left top, right top, '
+            + 'color-stop(' + startval + ', #c5c5c5),'
+            + 'color-stop(' + startval + ', #ee7d13),'
+            + 'color-stop(' + endval + ', #ee7d13),'
+            + 'color-stop(' + endval + ', #c5c5c5)'
+            + ')'
+            );
+        }
+   }
+   
+   function setRankingParam(rating){
+       $('#star'+rating).prop('checked', true);
+       $('#star .range_star').text(rating);
+       $('#star input.min').val(rating);
+       
+       var val = (rating - $('#star input[type="range"]').attr('min')) / ($('#star input[type="range"]').attr('max') - $('#star input[type="range"]').attr('min'));
+            
+        $('#star input[type="range"]').val(""+rating);
+        $('#star .min').css('background-image',
+        '-webkit-gradient(linear, left top, right top, '
+        + 'color-stop(' + val + ', #C5C5C5), '
+        + 'color-stop(' + val + ', #ee7d13)'
+        + ')');
+       
+   }   
    function resetLenghtParam(){   
        $('#lenght input.min').val(60);
        $('#lenght .range_min').text(60);
