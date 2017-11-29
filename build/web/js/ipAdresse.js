@@ -7,9 +7,13 @@ $(document).ready(function() {
         chechIpAdresse();
     });
     
+    /*function getIpAdresse(){
+        $.get('http://jsonip.com', function (res) {
+            ip = res.ip;
+            chechIpAdresse();
+        });        
+    }*/
     function chechIpAdresse(){
-        alert("Check");
-        alert('IP Address is: ' + ip);
         //$('#id03').css("display","block");
         $.ajax({
                 url : "IpServlet",

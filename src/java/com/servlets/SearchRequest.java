@@ -60,37 +60,40 @@ public class SearchRequest extends HttpServlet {
             DataDB dataDao = new DataDB();
             
             ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres);
-
-            Search search = new Search(genres, actors);
-            Score s = new Score(movies,search);
-            ArrayList<PointdDim> points = getPoints(movies);
-            
-            //int k, int distance, int sort
-            ArrayList<Integer> firstMethParam = getParameters(method1,0);
-            ArrayList<Integer> secondMethParam = getParameters(method2,1);
-            
-            FinalClustering fistMethod = new FinalClustering();
-            fistMethod = getMethod(points,firstMethParam);
-            
-            FinalClustering secondMethod = new FinalClustering();
-            secondMethod = getMethod(points,secondMethParam);
-            
+            System.out.println("############Movies: "+movies.size());
             ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<>();
             
-            ArrayList<Recommendation> firstRecommendation = getMethodElements(fistMethod,0);
-            ArrayList<Recommendation> secondRecommendation = getMethodElements(secondMethod,1);
-            
-            sortCluster(firstRecommendation, secondRecommendation);
-            
-            recommendations.add(firstRecommendation);
-            recommendations.add(secondRecommendation);
+            if(movies.size()>10){
+                Search search = new Search(genres, actors);
+                Score s = new Score(movies,search);
+                ArrayList<PointdDim> points = getPoints(movies);
 
-            String json = new Gson().toJson(recommendations);
-            System.out.println(json);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(json);
+                //int k, int distance, int sort
+                ArrayList<Integer> firstMethParam = getParameters(method1,0);
+                ArrayList<Integer> secondMethParam = getParameters(method2,1);
 
+                FinalClustering fistMethod = new FinalClustering();
+                fistMethod = getMethod(points,firstMethParam);
+
+                FinalClustering secondMethod = new FinalClustering();
+                secondMethod = getMethod(points,secondMethParam);
+
+                //ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<>();
+
+                ArrayList<Recommendation> firstRecommendation = getMethodElements(fistMethod,0);
+                ArrayList<Recommendation> secondRecommendation = getMethodElements(secondMethod,1);
+
+                sortCluster(firstRecommendation, secondRecommendation);
+
+                recommendations.add(firstRecommendation);
+                recommendations.add(secondRecommendation);
+
+            }
+                String json = new Gson().toJson(recommendations);
+                System.out.println(json);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(json);
         } 
         catch (Exception e) {
             System.err.println(e.getMessage());

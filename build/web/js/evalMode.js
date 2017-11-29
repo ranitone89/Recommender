@@ -190,7 +190,7 @@ $(document).ready(function() {
 
    
     function setLabelText(value){
-        var text = "Comparasion: "+value +" of "+getNumCom();
+        var text = "Vergleich: "+value +" von "+getNumCom();
        $('.compLabels').text(text);
     }
 

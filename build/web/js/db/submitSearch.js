@@ -15,7 +15,8 @@ $(document).ready(function() {
     var numStats;
     var method1Parameter = [];
     var method2Parameter = [];
-    var evalParameter = [[],[]]; 
+    var evalShowInfos = true;
+    var errorevalShowInfos = false;
     var mode;
     var divColors = ['#666','#f1f1f1','#d9f5da','#ffeaea','#c0fef1','#ffd6b3','#fae9be','#d4e3ff','#eafec0'];
     var activeStatistic = 0;
@@ -448,12 +449,12 @@ $(document).ready(function() {
             
          if(actors == ""){
              $('#messageSearch').css("display","block");
-             $('#messageSearch').html("<font color='red'>Insert at least the Name of one Actor </font>")
+             $('#messageSearch').html("<font color='red'>Geben Sie bitte mindestens einen Namen ein. </font>")
              return;
          }
          if(genres == ""){
              $('#messageSearch').css("display","block");
-             $('#messageSearch').html("<font color='red'>Select at least one Genre </font>")
+             $('#messageSearch').html("<font color='red'>Wählen Sie bitte mindestens ein Genre </font>")
              return;
          }
          
@@ -535,6 +536,7 @@ $(document).ready(function() {
              success : function(response){
                         if(response != null && response != "")
                         {
+                            errorevalShowInfos = false;
                             var jsonStr = JSON.stringify(response);
                             var jsonObj = JSON.parse(jsonStr);
                             sortData(jsonObj);
@@ -542,8 +544,9 @@ $(document).ready(function() {
                         }
                     else
                         {
+                            errorevalShowInfos = true;
                             $('#messageSearch').css("display","block");
-                            $('#messageSearch').html("<font color='red'>Please chnage yourparameters </font>");
+                            $('#messageSearch').html("<font color='red'>Die angegebene Parameter sind zu spezifisch. </font>");
                             alert("Some exception occurred! Please try again.");
                         }
                 }
@@ -953,7 +956,7 @@ $(document).ready(function() {
 
         if (!$('.Method'+method+' .btnStatistics').length)
         {    
-            $('.Method'+method).append('<input type="submit" id="'+bt+'" class="btnStatistics" value="Statistics">');
+            $('.Method'+method).append('<input type="submit" id="'+bt+'" class="btnStatistics" value="Statistiken">');
         }
 
         
@@ -1148,6 +1151,7 @@ $(document).ready(function() {
     }
     
     $(document).on("click", ".submitSurvey", function(event){
+        
         var m = 1;
         
         for(var cluster=0; cluster<num[m]; cluster++){
@@ -1160,8 +1164,8 @@ $(document).ready(function() {
             }*/
             if($('.Method'+m+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==false && $('.Method'+(m+1)+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==false){
                 $('#messageSurvey').css("display","block");
-                $('#messageSurvey').html("<font color='red'>Select at least one recommendation group in this row </font>")
-                $('#Cluster'+c + ' #lb_'+c).text("Please Select one of these");
+                $('#messageSurvey').html("<font color='red'>Wählen Sie bitte mindestens eine der gleichfarbigen Filmgruppen </font>")
+                $('#Cluster'+c + ' #lb_'+c).text("Bitte auswählen");
                 return;
             }
             else{
@@ -1172,12 +1176,12 @@ $(document).ready(function() {
         
         if($('#cl0_like').is(':checked')==true && $('#cl1_like').is(':checked')==true && $('#cl2_like').is(':checked')==true ){
            $('#messageSurvey').css("display","block");
-           $('#messageSurvey').html("<font color='red'>Please select just one method</font>");
+           $('#messageSurvey').html("<font color='red'>Sie können nur eine der Möglichkeiten auswählen</font>");
            return;
         }           
         if($('#cl0_like').is(':checked')==false && $('#cl1_like').is(':checked')==false && $('#cl2_like').is(':checked')==false ){
            $('#messageSurvey').css("display","block");
-           $('#messageSurvey').html("<font color='red'>Select one method</font>");
+           $('#messageSurvey').html("<font color='red'>Wählen Sie mindestens eine Option</font>");
            return;
         } 
         else{
@@ -1365,6 +1369,8 @@ $(document).ready(function() {
                     surveryInfor=false;
                 }
             }
+            evalShowInfos = false;
+            errorevalShowInfos = false;
         }
         
         if(mode == 0){
@@ -1373,6 +1379,8 @@ $(document).ready(function() {
             hideGoodbye();
             resetSearchPram();
             scenarioNum = 0;
+            evalShowInfos = false;
+            errorevalShowInfos = false;
         }
     }
     
@@ -1409,12 +1417,14 @@ $(document).ready(function() {
    }
    function showResult(){
         bindSearchButtons();
-        $('#Result').css("display","block");
-        $('.title').css("display","none");
-        $('.survey').css("display","block");
-        $('.recom-text').css("display","block");
-        $('.tab-back-nav').css("display","none");
-        showEvalInfo(scenarioNum);
+        if(errorevalShowInfos==false){
+            $('#Result').css("display","block");
+            $('.title').css("display","none");
+            $('.survey').css("display","block");
+            $('.recom-text').css("display","block");
+            $('.tab-back-nav').css("display","none");       
+        }
+        showEvalInfo(evalShowInfos,errorevalShowInfos);
    }
    
    function hideLoading(){
@@ -1534,8 +1544,8 @@ $(document).ready(function() {
    }
 
    function resetLenghtParam(){   
-       $('#lenght input.min').val(0);
-       $('#lenght .range_min').text(0);
+       $('#lenght input.min').val(60);
+       $('#lenght .range_min').text(60);
        $('#lenght input.max').val(240);
        $('#lenght .range_max').text(240);
        $('#lenght input.min').css('background-image',
@@ -1564,8 +1574,8 @@ $(document).ready(function() {
    }
    function resetRankingParam(){
        $('#star1').prop('checked', true);
-       $('#star .range_star').text(60);
-       $('#star input.min').val(60);
+       $('#star .range_star').text(0);
+       $('#star input.min').val(0);
        $('#star input.min').css('background-image',
         '-webkit-gradient(linear, left top, right top, '
         + 'color-stop(' + 0 + ', #ee7d13), '
@@ -1686,9 +1696,10 @@ $(document).ready(function() {
         $('.button-container .open').removeClass("active"); 
     }
     
-    function showEvalInfo(position){
-        if(position==0){
+    function showEvalInfo(message,error){
+        if(message==true && error==false){
             $('#id06').css("display","block");
+            //evalShowInfos = false;
         }
     }
     // sv_complete_btn
