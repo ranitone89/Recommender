@@ -2,9 +2,8 @@ $(document).ready(function() {
     var ip;
     var genres = [];
     var actorList = [];
-    alert("IPPPPP1");
+
     $.getJSON("http://jsonip.com/?callback=?", function (data) {
-        alert("IPPPPP2");
         ip = data.ip;
         chechIpAdresse();
         
