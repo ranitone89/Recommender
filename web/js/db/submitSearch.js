@@ -15,6 +15,7 @@ $(document).ready(function() {
     var numStats;
     var method1Parameter = [];
     var method2Parameter = [];
+    var scenarios = [];
     var evalShowInfos = true;
     var errorevalShowInfos = false;
     var mode;
@@ -1241,7 +1242,7 @@ $(document).ready(function() {
        }
        else{
           document.getElementById('default').click();
-          //removeScenarioMessage();
+          getScenarios();
           crateScenarioMessage();
           checkMode(mode);
        }
@@ -1262,6 +1263,22 @@ $(document).ready(function() {
         }
     });   
     
+    $("#copyBtn").click(function(){
+        var selected = $("#nScenarios").val();
+        var textVallue = $("#output").val();
+        var word = selected+', ';
+        
+        if(selected>0){
+            if (textVallue.indexOf(word)==-1)
+            {
+                $("#output").append(selected+", ");
+            }
+        }
+    });
+    
+    $("#deleteBtn").click(function(){;
+        $('#output').html('');
+    });
     
     
    /* Change Dispay element depending on mode
@@ -1284,21 +1301,48 @@ $(document).ready(function() {
         $('.submitBtn').trigger('click');
     });    
     
+    /*$('#nScenarios').change(function(){
+
+        var selected = $(this).val();
+
+        if(selected>0){
+           $("#output").append(" " + selected); 
+        }
+
+        if(scenarios.length<=0){
+            scenarios.push(optionSelected);
+        }
+        else{
+            for(var i = 0; i<scenarios.length; i++){
+                if(optionSelected==scenarios[i]){
+                    scenarios.splice(scenarios.indexOf(optionSelected), 1);
+                }
+                else{
+                    scenarios[i] = optionSelected;
+                }
+            }
+        }
+        printScenarios();
+    });*/
+    
+
     
     function chechScenarios(){
-        var scenariosError = false;
-        
+        var error = false;
         $('#messageEval').css("display","none");
-        $('.optionBox input').each(function(){
-            if ($(this).val() == "")
+            if (getScenarioLenght()<3)
             {
                $('#messageEval').css("display","block");
-               $('#messageEval').html("<font color='red'>One of scenarios if empty </font>");
-               scenariosError = true;
+               $('#messageEval').html("<font color='red'>Wählen Sie bitte mind drei Szenarien </font>");
+               error = true;
             }
-        });
-        
-        return scenariosError;
+            else{
+                $('#messageEval').css("display","none");
+                error = false;
+            }
+            
+            return error;
+    
     }
        /**
      * 
@@ -1534,7 +1578,6 @@ $(document).ready(function() {
    }
 
    function setGenreParam(genre){
-        alert("Set Genre");
         resetGenreParam();
         
         $('.mutliSelect input[type="checkbox"]').each(function() {
@@ -1591,8 +1634,6 @@ $(document).ready(function() {
             var minVal = $('#lenght input.min').attr('min');
             var startval = (min - minVal) / (maxVal - minVal);
             var endval = (max - minVal) / (maxVal - minVal);
-            alert(startval);
-            alert(endval);
             
             $('#lenght input.min').css('background-image',
             '-webkit-gradient(linear, left top, right top, '
@@ -1686,9 +1727,9 @@ $(document).ready(function() {
    /**Create explanations for every scenario**/
    function crateScenarioMessage(){
        removeScenarioMessage();
-       $('.optionBox input').each(function(){
-            $('.explanationBox').append('<div class="explanation"><p>'+$(this).val()+'</p></span></div>');
-        });
+       for(var i=0; i<scenarios.length; i++){
+           $('.explanationBox').append('<div class="explanation"><p>'+$('#desc'+scenarios[i]).val()+'</p></span></div>');
+        }
     }
 
     /**Remove all explanations**/
@@ -1777,6 +1818,24 @@ $(document).ready(function() {
         if(message==true && error==false){
             $('#id06').css("display","block");
             //evalShowInfos = false;
+        }
+    }
+
+   
+   
+    function getScenarioLenght(){
+        var temp = $('#output').val().split(', ');
+        return temp.length-1;
+    }
+   
+    function getScenarios(){
+        scenarios = [];
+        var temp = $('#output').val().split(', ');
+        
+        for(var i=0; i<temp.length; i++){
+            if(temp[i]!=''){
+                scenarios[i] = temp[i];
+            }
         }
     }
     // sv_complete_btn

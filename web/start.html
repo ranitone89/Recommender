@@ -39,6 +39,7 @@
     <script src="js/titleDetail.js" type="text/javascript"></script>
     <script src="js/submitSurvey.js" type="text/javascript"></script>
     <script src="js/evalMode.js" type="text/javascript"></script>
+    <script src="js/db/scenarios.js"></script>
     
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
@@ -527,6 +528,14 @@
                         <p>Definieren Sie bitte die Szenarien,die bei der Evaluation verwedet werden sollen.
                         </p>
                         <div class="optionBox">
+                            <select id="nScenarios" name="Wählen Sie bitte Szenarien">
+                                <option value="0">--</option>
+                            </select>
+                            <input id="copyBtn" type="button" value="add" />
+                            <textarea id="output" rows="1" class="input" contentEditable="true"></textarea>
+                            <input id="deleteBtn" type="button" value="delete" />
+                        </div>
+                        <!--div class="optionBox">
                             <div class="block">
                                 <input type="text" placeholder="Type some description" value="Suchen Sie nach den Filmen der 70er,80er und 90er, indem Sie auf dem Zahlenstrahl den Zeitraum zwischen den Jahren 1970 und 1990 einstellen. Alle weiteren Angaben wie Genre,Schauspieler,Rating und Länge können individuell bestimmt werden."/> <span class="remove">Delete</span>
                             </div>
@@ -539,7 +548,7 @@
                             <div class="block">
                                 <span class="add">Add</span>
                             </div>
-                        </div>
+                        </div-->
                     </div>
 
                     <div id="EvalMethod" class="evalcontent">

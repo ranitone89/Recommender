@@ -8,6 +8,7 @@ import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.List;
 import com.recommender.Movie;
+import com.recommender.Scenario;
 
 public class DataDB {
 	private Connection connection;
@@ -121,7 +122,28 @@ public class DataDB {
             }
             return message;
     }
+    
+    public ArrayList<Scenario> getScenarios() throws Exception{
+        ArrayList<Scenario> scenarios = new ArrayList<Scenario>();
+        PreparedStatement ps = null;
+        try {
+            String sql = "SELECT * FROM scenarios";
+            ps = connection.prepareStatement(sql);
 
+            //executing the prepared statement, which returns a ResultSet
+            ResultSet rs = ps.executeQuery();
+            while(rs.next())
+            {
+                Scenario s = new Scenario(rs.getInt("id"),rs.getString("description"));
+                scenarios.add(s);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return scenarios;
+    }     
+    
     public String doRegistration(String username,String email,String password, String[] genres, String[] actors) throws Exception {
         String message = null;
         PreparedStatement ps = null;

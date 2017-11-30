@@ -60,7 +60,6 @@ public class SearchRequest extends HttpServlet {
             DataDB dataDao = new DataDB();
             
             ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres);
-            System.out.println("############Movies: "+movies.size());
             ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<>();
             
             if(movies.size()>10){

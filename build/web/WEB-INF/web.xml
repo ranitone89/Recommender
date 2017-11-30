@@ -53,4 +53,12 @@
         <servlet-name>IpServlet</servlet-name>
         <url-pattern>/IpServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ScenarioRequest</servlet-name>
+        <servlet-class>com.servlets.ScenarioRequest</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ScenarioRequest</servlet-name>
+        <url-pattern>/ScenarioRequest</url-pattern>
+    </servlet-mapping>
 </web-app>

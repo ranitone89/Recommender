@@ -3130,3 +3130,70 @@ img.information_eval_icon {
     min-height: 400px;
     width: 800px;
 }
+
+/*.optionBox {
+    display: none;
+}*/
+
+#nScenarios {
+    width: 110px;
+    height: 30px;
+    margin-left: 12px;
+    margin-right: 30px;
+    margin-top: 40px;
+    float: left;
+}
+
+textarea#output {
+    width: 30%;
+    color: #666;
+    resize: none;
+    margin: 14px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 13px 19px 12px 10px;
+    font-size: 13px;
+    background-color: white;
+    text-decoration: none;
+    vertical-align: middle;
+    font-family: 'Nunito', sans-serif;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+select#nScenarios {
+    width: 20%;
+    height: 40px;
+    margin: 20px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 4px 14px 3px 20px;
+    font-size: 13px;
+    background-color: white;
+    text-decoration: none;
+    vertical-align: middle;
+    font-family: 'Nunito', sans-serif;
+    margin-right: 60px;
+}
+
+input#copyBtn, input#deleteBtn{
+    color: #000;
+    border: none;
+    cursor: pointer;
+    width: 10%;
+    padding: 6px 11px;
+    background-color: lightgray;
+}
+
+input#copyBtn:hover, input#deleteBtn:hover{
+    color: #fff;
+    background-color: #ee7d13;
+}
+
+.descriptions {
+    display: none;
+}
