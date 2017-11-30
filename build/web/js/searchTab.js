@@ -25,6 +25,21 @@ $(document).ready(function() {
    
    $(document).on("click", ".search-tab-close", function(event){
         $('.button-container .open').trigger("click");
+        $('.clusterbtn').css("display","block");
    });
-     
+   $(document).on("click","#newBtn", function(event){
+        $('#defineBtn').css("display","block"); 
+        $('.clusterbtn').css("display","none");
+        $('.search-tab-eval').css("display","block");
+   });
+   
+   $(document).on("click","#defineBtn", function(event){
+        $('.clusterbtn').css("display","block");
+        $('.search-tab-eval').css("display","none");
+        $('#defineBtn').css("display","none"); 
+   });
+
+    $(document).on("click",".search-tab-eval-close", function(event){
+        $('.search-tab-eval').css("display","none");
+   });
 }); 

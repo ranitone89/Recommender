@@ -1,2 +1,2 @@
 ﻿DELETE FROM test_users
-WHERE ip='137.250.129.180';
+WHERE ip='137.250.169.109';

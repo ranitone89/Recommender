@@ -462,7 +462,7 @@ html, body {
     margin-bottom: 55px;
 }
 
-.clusterbtn {
+.clusterbtn, input#defineBtn {
     color: white;
     padding: 14px 20px;
     /*margin: 8px 0;*/
@@ -479,12 +479,12 @@ html, body {
     margin-left: 40%;
 }
 
-.clusterbtn:active{
+.clusterbtn:active, input#defineBtn:active{
     color: white;
     background-color: #fe7900;
 }
 
-.clusterbtn:hover{
+.clusterbtn:hover, input#defineBtn:hover{
     color: white;
     background-color: #fe7900;
 }
@@ -2783,7 +2783,7 @@ button#btn_next_stat {
     margin-top: 50px;
     border: 1px solid #d8d8d8;
     height: 135px;
-    width: 650px;
+    width: 734px;
     background-color: whitesmoke;
 }
 
@@ -2838,7 +2838,7 @@ div.evalTab {
     margin-left: 72px;
     margin-top: 50px;
     border: 1px solid #d8d8d8;
-    width: 650px;
+    width: 734px;
     background-color: whitesmoke;
 }
 /* Style the buttons inside the tab */
@@ -2868,7 +2868,7 @@ div.tab button.active {
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
-    width: 626px;
+    width: 710px;
     margin-left: 72px;
 }
 
@@ -3189,11 +3189,103 @@ input#copyBtn, input#deleteBtn{
     background-color: lightgray;
 }
 
-input#copyBtn:hover, input#deleteBtn:hover{
+input#copyBtn:hover, input#deleteBtn:hover,input#newBtn:hover{
     color: #fff;
     background-color: #ee7d13;
 }
 
 .descriptions {
     display: none;
+}
+
+input#newBtn{
+    color: #000;
+    border: none;
+    cursor: pointer;
+    width: 140px;
+    padding: 7px 10px;
+    background-color: lightgray;
+    margin-top: 22px;
+}
+
+.search-tab-eval{
+    margin-top: 40px;
+    display: none;
+    min-height: 200px;
+}
+
+.search-tab-eval .row {
+    float: left;
+    width: 200px;
+    margin-right: 20px;
+}
+
+#id01 .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto;
+    border: 1px solid #888;
+    width: 900px;
+    min-height: 600px;
+}
+#id01 input[type="range"] {
+    -webkit-appearance: none;
+    height: 6px;
+    width: 200px;
+    background-image: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    color-stop(0.0, #c5c5c5),
+    color-stop(0.0, #ee7d13)
+    );
+}
+
+#id01 .rating {
+    float: left;
+    width: 200px;
+    margin-top: 26px;
+}
+
+.search-tab-eval .rating label{
+    float: left;
+    width: 1em;
+    padding: 0 .1em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 100%;
+    line-height: 1.2;
+    color: #9d9d9d;
+}
+#id01 .range .right {
+    position: relative;
+    float: right;
+    margin-right: 24px;
+}
+
+#id01 #star {
+    margin-top: 75px;
+}
+#id01 .search-tab-eval-close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#id01 .dropdown dd ul {
+    background-color: #fff;
+    color: #666;
+    display: none;
+    left: 0px;
+    padding: 2px 15px 2px 5px;
+    position: absolute;
+    top: 2px;
+    width: 210px;
+    list-style: none;
+    height: 100px;
+    overflow: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    z-index: 2;
 }
