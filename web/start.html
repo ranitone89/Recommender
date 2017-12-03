@@ -15,6 +15,7 @@
     <script src="js/libs/jssor.slider-25.1.0.min.js" type="text/javascript"></script>
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <!--script src="js/sliderStartMovies.js"></script-->
     <script type="text/javascript" src="js/content_slider.js"></script>
     <script src="js/activeTab.js"></script>
     <script src="js/backTab.js"></script>
@@ -66,10 +67,11 @@
                     </div>
                     
                     <div class="header-right">
-                        <ul class="main-nav">
+                        <!--ul class="main-nav">
                             <li class="nav-element_right"></li>
                             <li class="nav-element"><a href="index.html">Log out</a></li>
-                        </ul>
+                        </ul-->
+                        <span class="search-tab-cluster">&#8801;</span>
                     </div>         
                 </div>
             </div>
@@ -84,7 +86,7 @@
                         <!--img src="img/double-tail-spin.svg" /-->
 
                     </div>
-                    <div data-u="slides">
+                    <div data-u="slides" class="slides">
                         <div>
                             <img data-u="image" src="img/img_22.jpg" />
                             <div id ="img_title">THE GIRL ON THE TRAIN</div>
@@ -129,9 +131,14 @@
                         onmouseout="this.src='img/arrow-right.png'"/>
                     </div>
                 </div>
-                <div class="button-container">
+                <div class="button-container" id="testSearch">
                     <div class="button-content closee">
                         <button class="button">Filmsuche</button>
+                    </div>
+                </div>
+                <div class="button-container" id="evalSearch">
+                    <div class="button-content">
+                        <button class="button">Teil nehmen</button>
                     </div>
                 </div>
                 <!------------------ SEARCH BAR--------------------------------------------------------->                   
@@ -139,7 +146,8 @@
                     <div class="tab">
                     <div class="search-tab">
                         <span class="search-tab-close">&times;</span>
-                        <span class="search-tab-cluster">&#8801;</span>
+                        <!--div class="search-tab-option"></div-->
+                        <!--span class="search-tab-cluster">&#8801;</span-->
                         <div class="row">
                             <div class="item">
                                  <label>Schauspieler</label>
@@ -301,10 +309,10 @@
                         <div class="item">
                             <input type="submit" value="Suche" class="submitBtn"/>
                         </div>
-                        <div class="info">
+                        <!--div class="info">
                             <img class="information_icon more" src="img/info_default.png">
                             <img class="information_icon_hover more" src="img/info_1.png">
-                        </div>
+                        </div-->
                     </div>
                 </div>         
               </div>
@@ -450,8 +458,7 @@
                         </p>    
                     </div>
                     <div class="clearfix">
-                        <button name="infoClose" onclick="document.getElementById('id05').style.display='none'" class="infoClose" id="infoClose">
-                            <a href="index.html">Ok</a></button>
+                        <button name="infoClose" onclick="document.getElementById('id05').style.display='none'" class="infoClose" id="infoClose">Ok</button>
                     </div>
                 </div>
             </div>
@@ -459,7 +466,7 @@
             <div id="id04" class="modal" style="display:none">
                 <div class="modal-content animate">
                     <div class="formular-container">
-                        <h3 class="infoTitel">Klicken Sie bitte auf der linken Seite auf "Filmsuche" und folgen Sie den weiteren Instruktionen.</h3>
+                        <h3 class="infoTitel">Klicken Sie bitte auf der linken Seite auf "Teil nehmen" und folgen Sie den weiteren Instruktionen.</h3>
                         <!--p>Klicken Sie bitte auf "Filmsuche" und folgen Sie den weiteren Instruktionen.
                         </p-->    
                     </div>
@@ -473,17 +480,19 @@
                 <div class="modal-content animate">
                     <div class="formular-container">
                         <h3 class="scenLabels">Szenario</h3>
+                        <div class="explanationIntro">In diesem Szenario werden Sie die Filme bewerten, die folgende Kriterien erfüllen:</div>
                         <div class="explanationBox">
                         </div>
                     </div>
+                 
                     <div class="explanationInfo">
-                        <p class="exInfo">Bestätigen Sie Ihre Eingabe, indem Sie auch "Suche" klicken.</p>
+                        <!--p class="exInfo">Bestätigen Sie Ihre Eingabe, indem Sie auch "Suche" klicken.</p>
                         <b></b>
                         <p>Sollten Sie sich die Angaben nochmals ansehen wollen, klicken Sie auf 
-                        <img src="img/info_default.png">.</p>
+                        <img src="img/info_default.png">.</p-->
                     </div>
                     <div class="clearfix">
-                        <button name="close" class="explainClose" id="explainClose">Ok</button>
+                        <button name="close" class="seachScenario">Ok</button>
                     </div>
                 </div>
             </div>            
@@ -538,167 +547,11 @@
                         <input id="newBtn" type="button" value="New" />
                         
                         <hr>
-                        <div class="search-tab-eval">
-                            <span class="search-tab-eval-close">&times;</span>
-                            <div class="row">
-                                <div class="item">
-                                     <label>Schauspieler</label>
-                                     <textarea rows="1" contentEditable="true" placeholder="Enter the actor's name..." class="input" id="actors"></textarea>
-                               </div>
-                               <div class="item">
-                                   <label for="fader">Erscheinungsjahr</label>
-                                   <div class="range" id="released">
-                                        <input class="min" name="range_1" list="tickmarks" type="range" min="1970" max="2017" value="1970" />
-                                        <input class="max" name="range_1" lirange_minst="tickmarks" type="range" min="1970" max="2017" value="2017" />
-                                        <span class="range_min light left">1970</span>
-                                        <span class="range_max light right">2017</span>
-                                    </div>
-                                </div>
-                           </div>
-                           <div class="row"> 
-                                <div class="item">
-                                    <label>Genre</label>
-                                        <dl class="dropdown"> 
-                                            <dt>
-                                            <a>
-                                              <span class="hida"><img src="img/caret-down.png" alt=""/> Select</span>                     
-                                              <p class="multiSel"></p>  
-                                            </a>
-                                            </dt>
-
-                                            <dd>
-                                                <div class="mutliSelect">
-                                                    <ul id="ul">
-                                                        <li>
-                                                            <input type="checkbox" value="Action"    class="cb" id="Action"/>
-                                                            <label for="Action">Action</label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="checkbox" value="Animation" class="cb" id="Animation"/>
-                                                            <label for="Animation">Animation</label>
-                                                            </li>
-                                                        <li>
-                                                            <input type="checkbox" value="Adventure" class="cb" id="Adventure"/>
-                                                            <label for="Adventure">Adventure</label>
-                                                            </li>
-                                                        <li>
-                                                            <input type="checkbox" value="Biography" class="cb" id="Biography"/>
-                                                            <label for="Biography">Biography</label>
-                                                            </li>
-                                                        <li>
-                                                            <input type="checkbox" value="Comedy" class="cb" id="Comedy"/>
-                                                            <label for="Comedy">Comedy</label>
-                                                       </li>
-                                                        <li>
-                                                            <input type="checkbox" value="Crime" class="cb" id="Crime"/>
-                                                            <label for="Crime">Crime</label>
-                                                        </li>
-
-                                                        <li>
-                                                            <input type="checkbox" value="Documentary" class="cb" id="Documentary"/>
-                                                            <label for="Documentary">Documentary</label>    
-                                                        </li>
-                                                        <li>
-                                                            <input type="checkbox" value="Drama" class="cb" id="Drama"/>
-                                                            <label for="Drama">Drama</label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="checkbox" value="Family" class="cb" id="Family"/>
-                                                            <label for="Family">Family</label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="checkbox" value="Fantasy" class="cb" id="Fantasy"/>
-                                                            <label for="Fantasy">Fantasy</label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="checkbox" value="History" class="cb" id="History"/>
-                                                            <label for="History">History</label>
-                                                        </li>    
-                                                        <li>
-                                                            <input type="checkbox" value="Horror" class="cb" id="Horror"/>
-                                                            <label for="Horror">Horror</label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="checkbox" value="Music" class="cb" id="Music"/>
-                                                            <label for="Music">Music</label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="checkbox" value="Musical" class="cb" id="Musical"/>
-                                                            <label for="Musical">Musical</label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="checkbox" value="Mystery" class="cb" id="Mystery"/>
-                                                            <label for="Mystery">Mystery</label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="checkbox" value="Romance" class="cb" id="Romance"/>
-                                                            <label for="Romance">Romance</label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="checkbox" value="Sci-Fi" class="cb" id="Sci-Fi"/>
-                                                            <label for="Sci-Fi">Sci-Fi</label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="checkbox" value="Sport" class="cb" id="Sport"/>
-                                                            <label for="Sport">Sport</label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="checkbox" value="Thriller" class="cb" id="Thriller"/>
-                                                            <label for="Thriller">Thriller</label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="checkbox" value="War" class="cb" id="War"/>
-                                                            <label for="War">War</label>
-                                                        </li>
-                                                        <li>
-                                                            <input type="checkbox" value="Western" class="cb" id="Western"/>
-                                                            <label for="Western">Western</label>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </dd>
-                                        </dl>
-                                </div>				
-                               <div class="item">
-                                   <label class="lenlabel" for="l">Filmlänge in Minuten</label>
-                                   <div class="range" id="lenght">
-                                        <input class="min" name="range_2" type="range" min="60" max="240" step="15" value="60" />
-                                        <input class="max" name="range_2" type="range" min="0" max="240" step="15" value="240" />
-                                        <span class="range_min light left">60</span>
-                                        <span class="range_max light right">240</span>
-                                   </div>
-                               </div>
-                            </div>
-
-                           <div class="row"> 
-                               <div class="item">
-                                    <label class="ratinglabel">Bewertung</label>
-                                      <div class="rating">
-                                        <input type="radio" id="star0" name="rating" value="0" /><label class="zero" for="star0" title="0">0 star</label>
-                                        <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1">1 star</label>
-                                        <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2">2 stars</label>
-                                        <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3">3 stars</label>
-                                        <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4">4 stars</label>
-                                        <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5">5 stars</label>
-                                        <input type="radio" id="star6" name="rating" value="6" /><label for="star6" title="6">6 stars</label>
-                                        <input type="radio" id="star7" name="rating" value="7" /><label for="star7" title="7">7 stars</label>
-                                        <input type="radio" id="star8" name="rating" value="8" /><label for="star8" title="8">8 stars</label>
-                                        <input type="radio" id="star9" name="rating" value="9" /><label for="star9" title="9">9 stars</label>
-                                        <input type="radio" id="star10" name="rating" value="10" /><label for="star10" title="10">10 stars</label>
-                                    </div>
-                               </div>
-
-                                <div class="item">
-                                    <div class="range" id="star">
-                                        <input class="min" name="range_3" type="range" min="0" max="9" value="0" />
-                                        <span class="from">from</span>
-                                        <span class="range_star">0</span>
-                                        <span class="right">to 10</span>
-                                    </div>
-                               </div>         
-                        </div>
-                    </div>
-                        <input id="defineBtn" type="button" value="define"  style="display:none"/>
+                        <label class="scen_param">Szenario Parameter: </label>
+                        <div class="tab"></div>
+                        <hr>
+                        <label class="scen_desc">Szenario Beschreibung: </label>
+                        <textarea rows="1" contenteditable="true" placeholder="Geben Sie bitte die Beschreibung ein..." class="input" id="description"></textarea>
                     </div>
 
                     <div id="EvalMethod" class="evalcontent">
@@ -882,6 +735,8 @@
                 </div>
                 <div class="clearfix">
                     <button name="login" class="clusterbtn" id="register" onclick="document.getElementById('id01').style.display='none'">Ok</button>
+                    <input id="defineBtn" type="button" value="define"  style="display:none"/>
+                    <input id="loopBtn" type="button" value="define"  style="display:none"/>
                 </div>
             </div>
         </div>

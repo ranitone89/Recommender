@@ -27,8 +27,8 @@ $(document).ready(function() {
    
     $(document).on("click", ".search-back-nav ", function(event){
         
-        $('.title').css('display', 'block');
-        $('.titles').css('display', 'block');
+        $('.title').css('display', 'none');
+        $('.titles').css('display', 'none');
         $('.survey').css('display', 'block');
         $('#ck-buttons').css('display','block');
         

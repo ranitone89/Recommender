@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.recommender.Movie;
 import com.recommender.Scenario;
+import java.util.Arrays;
 
 public class DataDB {
 	private Connection connection;
@@ -133,8 +134,20 @@ public class DataDB {
             //executing the prepared statement, which returns a ResultSet
             ResultSet rs = ps.executeQuery();
             while(rs.next())
-            {
-                Scenario s = new Scenario(rs.getInt("id"),rs.getString("description"));
+            {   
+                Array actorsArray = rs.getArray(3);
+                String[] actors = (String[]) actorsArray.getArray();
+                
+                Array genresArray = rs.getArray(4);
+                String[] genres = (String[]) genresArray.getArray();
+                
+                Array releasedArray = rs.getArray(5);
+                Integer[] released = (Integer[]) releasedArray.getArray();
+
+                Array lenghtArray = rs.getArray(6);
+                Integer[] lenght = (Integer[]) lenghtArray.getArray();
+               
+                Scenario s = new Scenario(rs.getInt(1),rs.getString(2),actors,genres,released,lenght,rs.getInt(7));
                 scenarios.add(s);
 
             }
@@ -142,6 +155,54 @@ public class DataDB {
             e.printStackTrace();
         }
         return scenarios;
+    }     
+    
+    //(description,actors,genres,minReleased,maxReleased,minLenght,maxLenght,rating)
+    public String insertScenarios(String description,String[] actors,String[] genres,
+            String[] released,String[] lenght,String rating) throws Exception{
+        String message = null;
+        PreparedStatement ps = null;
+        boolean action = false;
+        try {
+            String sql = "INSERT INTO scenarios"
+		+ "(description, actors, genres, released, lenght, rating) VALUES"
+		+ "(?,?,?,?,?,?)";
+            
+            Array listActors = connection.createArrayOf("text", actors);
+            Array listGenres = connection.createArrayOf("text", genres);
+            Array listReleased = connection.createArrayOf("int4", released);
+            Array listLenght= connection.createArrayOf("int4", lenght);            
+            int ratingInt = Integer.parseInt(rating);
+            
+            ps = connection.prepareStatement(sql);
+
+            //setting the parameters
+            ps.setString(1, description);
+            ps.setArray(2, listActors);
+            ps.setArray(3, listGenres);            
+            ps.setArray(4, listReleased);
+            ps.setArray(5, listLenght);
+            ps.setInt(6, ratingInt);
+            
+            
+            int count = ps.executeUpdate();
+            action = (count >0);
+
+            //executing the prepared statement, which returns a ResultSet
+            if(action){
+                    System.out.println("SUCCESS");
+                    message = "SUCCESS Insert";
+                }
+            else{
+                    System.out.println("FAILURE");
+                    message = "FAILURE";
+                }
+            } 
+            catch (Exception e) {
+                message = "FAILURE";
+                e.printStackTrace();
+            }
+            return message;
     }     
     
     public String doRegistration(String username,String email,String password, String[] genres, String[] actors) throws Exception {

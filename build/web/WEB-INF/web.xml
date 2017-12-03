@@ -61,4 +61,12 @@
         <servlet-name>ScenarioRequest</servlet-name>
         <url-pattern>/ScenarioRequest</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>InsertScenarioServlet</servlet-name>
+        <servlet-class>com.servlets.InsertScenarioRequest</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InsertScenarioServlet</servlet-name>
+        <url-pattern>/InsertScenarioServlet</url-pattern>
+    </servlet-mapping>
 </web-app>

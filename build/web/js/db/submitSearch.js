@@ -9,6 +9,7 @@ $(document).ready(function() {
     var ratedMovies;
     var num = [];
     var slideIndex = [[],[]];
+    var searchPrameter = [[]];
     var statcsIndex  = 0;
     var statistic = 0;
     var charts = new Array();
@@ -23,12 +24,12 @@ $(document).ready(function() {
     var activeStatistic = 0;
     var surveryInfor = false;
     var surveyIndex = 1;
+    var scenarioIndex = 2;
+    
+    getScenariosDB();
     initMode();
     initWelcomeScreen();
-    //showGoodbye();
-    /*
-     * Statistics move on scroll
-     */
+    
     $(document).scroll(function(e) {
         
         var header = $(".Statistic"+activeStatistic);
@@ -64,7 +65,7 @@ $(document).ready(function() {
         var method = $(this).parents().eq(3).attr('class').match(/\d+/)[0];
         var cluster = $(this).parents().eq(2).attr('id').match(/\d+/)[0];
         resizeMethod(method, 865);
-        
+       
         $('#ck-buttons').css('display','none');
         showMovie(method,cluster);
         movie = $(this).closest('.Movie');
@@ -431,16 +432,10 @@ $(document).ready(function() {
     /************************** Submit Search *********************/
 
     $(document).on("click", ".submitBtn", function(event){
-        setActorParam('Johnny Depp');
-        setLenghtParam(60, 120);
-        setReleasedParam(1980,2000);
-        setRankingParam(2);
-        setGenreParam(['Comedy','Action']);
-        
-        /*$('.statistics-close').trigger('click');       
+        $('.statistics-close').trigger('click');       
         mode = getMode();
-
         getParameterMode(mode);
+        
         
         activeStatistic = 0;
         statcsIndex = 0;
@@ -463,50 +458,6 @@ $(document).ready(function() {
              $('#messageSearch').css("display","block");
              $('#messageSearch').html("<font color='red'>Wählen Sie bitte mindestens ein Genre </font>")
              return;
-         }
-         
-         if(mode == 1 && surveryInfor==false){
-             $('#id02').css("display","block");
-                window.survey = new Survey.Model({ 
-                    pages: [
-                        { title: "Demographische Daten",
-                            questions: [
-                                {type:"checkbox", name:"geschlecht", title: "Geschlecht:", hasOther: false, isRequired: true, 
-                                    choices:["weiblich", "männlich"]},
-                                
-                                {type:"checkbox", name:"alter",title:"Alter: ",
-                                 colCount: 4, isRequired: true,
-                                 choices:["18-24", "25-34", "35-44", "45-59", "60-69", "70 und älter"]},
-                             
-                                {type:"checkbox", name:"beschäftigung", title: "Sind Sie berufstätig?", hasOther: false, isRequired: true, 
-                                choices:["ja", "nein"]}
-                            ],                           
-                        },
-                        { title: "Allgemeine Nutzungsfragen",
-                            questions: [
-                                {type:"checkbox", name:"filme", title: "Wie häufig nutzen Sie Videoinhalte wie z.B Filme und Serien?", hasOther: false, isRequired: true, 
-                                    choices:["Täglich oder fast täglich", "Mindestens einmal pro Woche", "Mindestens einmal im Monat", 
-                                        "Seltener", "Nie", "Weiß nicht"]},
-                                
-                                {type:"checkbox", name:"plattformen", title:"Wenn Sie Filme und Serien nutzen, welche Plattformen verwenden Sie hierfür?", hasOther: true, isRequired: true,
-                                 choices:["Video-Streaming-Dienste", 
-                                     "TV-Sendern","Kostenlose Portale für Filme und Serien (z.B. kinox.to, Streamcloud, movie8k.to)"]},
-                             
-                            ],                           
-                        },
-                        { title: "Zufriedenheit",
-                            questions: [
-                                {type:"checkbox", name:"zufriedenheit", title: "Wie zufrieden sind Sie mit Ihrem Video-Streaming-Dienst insgesamt:", hasOther: false, isRequired: true, 
-                                    choices:["Sehr zufrieden", "Eher zufrieden", "Teils teils", 
-                                        "Weniger zufrieden", "Überhaupt nicht zufrieden", "Weiß nicht"]},
-                            ],                           
-                        }]
-                });
-
-            $("#surveyElement").Survey({ 
-                model: survey 
-            });
-            return;
          }
          else{
              $('#messageSearch').css("display","none");
@@ -558,9 +509,16 @@ $(document).ready(function() {
                         }
                 }
             });
-         }*/
+         }
      });
 
+     function setSearchParameter(parameter){
+        setActorParam(parameter[0]);
+        setGenreParam(parameter[1]);
+        setLenghtParam(parameter[2]);
+        setReleasedParam(parameter[3]);
+        setRankingParam(parameter[4]);
+     }
 
     /*
      * 
@@ -614,6 +572,16 @@ $(document).ready(function() {
             alert('fehler');
         }
     }
+    
+    function getParameterMode(mode) {
+       if(mode == 0){
+            getTestPrametar();
+       }
+        if(mode == 1){
+            getEvalPrametar(evalNum);
+        }  
+    }    
+    
 
     /*
      * 
@@ -1163,12 +1131,6 @@ $(document).ready(function() {
         
         for(var cluster=0; cluster<num[m]; cluster++){
             var c = cluster +1; 
-            /*if($('.Method'+m+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==true && $('.Method'+(m+1)+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==true){
-                $('#messageSurvey').css("display","block");
-                $('#messageSurvey').html("<font color='red'>You can only choose one group of recommendations in this row </font>");
-                $('#Cluster'+c + ' #lb_'+c).text("Select only one of these");
-                return;
-            }*/
             if($('.Method'+m+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==false && $('.Method'+(m+1)+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==false){
                 $('#messageSurvey').css("display","block");
                 $('#messageSurvey').html("<font color='red'>Wählen Sie bitte mindestens eine der gleichfarbigen Filmgruppen </font>")
@@ -1216,36 +1178,49 @@ $(document).ready(function() {
         return poster;
     }    
    
+   /**************************Fragebogen komplett dann Scenario Messasge zeigen*/
    $(document).on("click", ".sv_complete_btn", function(event){
        if($(this).val()=='Complete' && surveyIndex>1){
            $('#id02').css("display","none");
            surveyIndex  = 0;
-           surveryInfor = true;
-           $('.submitBtn').trigger('click');
+           displayScenario(scenarioNum);
        }
        surveyIndex = surveyIndex +1;
-       //$('.tab-back-nav').trigger('click');
+
    });
    
    $(document).on("click", ".search-tab-cluster", function(event){
        $('#id01').css("display","block");
        $('.tab-back-nav').trigger('click');
-       //$('#defaultEval').trigger('click');
+       $('.search-tab').appendTo('#id01 .tab');
+       hideAllModes();
        document.getElementById('defaultEval').click();
    });
    
 
    $(document).on("click", ".clusterbtn", function(event){
-       mode = getMode();
-       if(chechScenarios()){
-           $('#id01').css("display","block");
+       if(mode==0){
+            $('.search-tab').appendTo('.search .tab');
+            $('.search-tab-cluster').appendTo('.search .search-tab');
+            showTestMode();
+            hideEvalMode();
+            $('#testSearch').css("display","block");
+            $('#evalSearch').css("display","none");
        }
        else{
-          document.getElementById('default').click();
-          getScenarios();
-          crateScenarioMessage();
-          checkMode(mode);
+            //$('.search-tab').appendTo('#id01 .tab');
+            //$('.search-tab-cluster').appendTo('.header-right');
+            showEvalMode();
+            hideTestMode();
+            $('#testSearch').css("display","none");
+            $('#evalSearch').css("display","block");
+           
+            //get scenarion including message for each scenario
+            getScenarios();
+            getModeParameter();
        }
+       
+       initWelcomeScreen();
    });
    
    
@@ -1286,12 +1261,14 @@ $(document).ready(function() {
     */
     $('#nMode').change(function(){
         if($(this).val() == 1){
-            hideTestMethods();
+            setMode(1);
+            hideTestMode();
             showEvalMode();
             surveryInfor = false;
         }
         else{
-            showTestMethods();
+            setMode(0);
+            showTestMode();
             hideEvalMode();
         }
     });
@@ -1301,30 +1278,53 @@ $(document).ready(function() {
         $('.submitBtn').trigger('click');
     });    
     
-    /*$('#nScenarios').change(function(){
+    /*$(document).on("click", "#nScenarios",function(event){
+        var lastOption = $('#nScenarios option').length;
+        var lenOptions = $('#nScenarios option:nth-child('+lastOption+')').val();
 
-        var selected = $(this).val();
-
-        if(selected>0){
-           $("#output").append(" " + selected); 
-        }
-
-        if(scenarios.length<=0){
-            scenarios.push(optionSelected);
+        
+        if((scenarioIndex+1)<lenOptions){
+           $('#newBtn').trigger('click');
+           $('#defineBtn').css("display","none");
+           $('#loopBtn').css("display","block");
+           $('search-tab-close').css("display","none");
+           $('#messageEval').css("display","block");
+           $('#messageEval').html("<font color='red'>Einige Szenarien haben keine definierte suchparameter</font>")
         }
         else{
-            for(var i = 0; i<scenarios.length; i++){
-                if(optionSelected==scenarios[i]){
-                    scenarios.splice(scenarios.indexOf(optionSelected), 1);
-                }
-                else{
-                    scenarios[i] = optionSelected;
-                }
-            }
+           //$('#defineBtn').css("display","block");
+           $('#loopBtn').css("display","none");
+           $('#id01 .search-tab').css("display","none");
+           $('search-tab-close').css("display","block");
         }
-        printScenarios();
     });*/
-    
+
+    $(document).on("click", "#loopBtn",function(event){
+        var actors = removeLastComma($('#actors').val());
+        var genres = removeLastComma($('.multiSel').text());
+        var maxReleased = $('#released .range_max').text();
+        var minReleased = $('#released .range_min').text();
+        var maxLenght = $('#lenght .range_max').text();
+        var minLenght = $('#lenght .range_min').text();
+        var minStar = $('#star .range_star').text();
+
+        if(actors == ""){
+             $('#messageEval').css("display","block");
+             $('#messageEval').html("<font color='red'>Geben Sie bitte mindestens einen Namen ein. </font>")
+             return;
+         }
+         if(genres == ""){
+             $('#messageEval').css("display","block");
+             $('#messageEval').html("<font color='red'>Wählen Sie bitte mindestens ein Genre </font>")
+             return;
+         }
+         else{
+            scenarioIndex = scenarioIndex+1;
+            addSearchParameter(actors,genres,minLenght, maxLenght,minReleased,maxReleased,minStar);
+            resetSearchPram();
+            $('#nScenarios').trigger('click');
+         }
+    });    
 
     
     function chechScenarios(){
@@ -1349,28 +1349,16 @@ $(document).ready(function() {
      * @param {type} moviePoster
      * @returns {String}
      */
-    function checkMode(mode) {
+    function getModeParameter(mode) {
        /*Doppelt aufgerufen-->Besser*/
         if(mode == 0){
             getTestPrametar();
        }
         if(mode == 1){
-            crateScenarioMessage();
-            $('#id03').css("display","block");
-            displayScenarioMessage(scenarioNum);
-            createEvalPrametar();
+            getEvalPrametar();
         }  
     }
-    
-    function getParameterMode(mode) {
-       if(mode == 0){
-            getTestPrametar();
-       }
-        if(mode == 1){
-            getEvalPrametar(evalNum);
-        }  
-    }
-    
+
     
     /*************IF evail ist finisched*/
     function checkEvalNum(mode){
@@ -1390,9 +1378,9 @@ $(document).ready(function() {
                     resetSurvey();
                     resetSearchPram();
                     scenarioNum = scenarioNum+1;
-                    setScenarioText(scenarioNum);
+                    //setScenarioText(scenarioNum);
                     unbindSearchButtons();
-                    displayScenarioMessage(scenarioNum);
+                    displayScenario(scenarioNum);
                     
                 }
                 
@@ -1415,7 +1403,7 @@ $(document).ready(function() {
                     closeScenarioMessages();
                     showGoodbye();
                     scenarioNum = 0;
-                    setScenarioText(scenarioNum);
+                    //setScenarioText(scenarioNum);
                     surveryInfor=false;
                 }
             }
@@ -1534,12 +1522,12 @@ $(document).ready(function() {
         $('#messageEval').css('display', 'none');
    }
    
-   function showTestMethods(){
+   function showTestMode(){
         $('.method-1').css('display', 'block');
         $('.method-2').css('display', 'block'); 
    }
    
-   function hideTestMethods(){
+   function hideTestMode(){
         $('.method-1').css('display', 'none');
         $('.method-2').css('display', 'none');       
    }
@@ -1551,6 +1539,7 @@ $(document).ready(function() {
    
    function setMode(value){
        $( ".mode #nMode" ).val(value);
+       mode = value;
    }
 
    function getAlgorithmus(){
@@ -1563,9 +1552,8 @@ $(document).ready(function() {
    }
    
    function initMode(){
-        setScenarioText(scenarioNum);
         setMode(1);
-        setAlgorithmus(1); 
+        setAlgorithmus(1);
    }
    
    
@@ -1577,9 +1565,12 @@ $(document).ready(function() {
        resetReleasedParam();
    }
 
-   function setGenreParam(genre){
+   function setGenreParam(temp){
+
         resetGenreParam();
-        
+        alert(temp[0]);
+        var genre = temp[0].split(',');
+        //alert(genre[0]);
         $('.mutliSelect input[type="checkbox"]').each(function() {
             for(var i =0; i<genre.length; i++){
                 if($(this).val()==genre[i]){
@@ -1605,6 +1596,7 @@ $(document).ready(function() {
     * @returns {undefined}
     **/
    function setActorParam(names){
+       alert(names)
        $('#actors').val(names);
    }
    function resetActorParam(){
@@ -1613,7 +1605,10 @@ $(document).ready(function() {
        $('#actors').css('height','');
    }
    
-   function setReleasedParam(min, max){
+   function setReleasedParam(released){
+        var min = released[0];
+        var max = released[1];
+
        if(min>=1970 && max<=2017){
            $('#released input.min').val(min);
            $('#released input.max').val(max);
@@ -1623,7 +1618,10 @@ $(document).ready(function() {
        }
    }
    
-   function setLenghtParam(min, max){
+   function setLenghtParam(lenght){
+       var min = lenght[0];
+       var max = lenght[1];
+
        if(min>=60 && max<=240){
             $('#lenght input.min').val(min);
             $('#lenght .range_min').text(min);
@@ -1725,7 +1723,7 @@ $(document).ready(function() {
    }
    
    /**Create explanations for every scenario**/
-   function crateScenarioMessage(){
+   function createScenarioMessage(){
        removeScenarioMessage();
        for(var i=0; i<scenarios.length; i++){
            $('.explanationBox').append('<div class="explanation"><p>'+$('#desc'+scenarios[i]).val()+'</p></span></div>');
@@ -1744,20 +1742,26 @@ $(document).ready(function() {
     }
     
    function getNumberScenario(){
-       return $('.optionBox input').length;
+       return scenarios.length;
    }
 
    function getNumberComparations(){
        return $('#nComparation').val();
-   }    
-    
-    
+   }
+   
+    function displayScenario(scenarioAt){
+        $('#id03').css("display","block");
+        setScenarioText(scenarioNum);
+        displayScenarioMessage(scenarioAt);
+    }
+ 
    function displayScenarioMessage(messageAt){
            var position = messageAt;
            hideScenarioMessages();
            $('.explanationBox .explanation').eq(position).addClass('showScenario');
            $('#id03').css("display","block");
    }
+   
    function hideScenarioMessages(){
         for(var i=0; i<getNumberScenario();i++ ){
             $('.explanationBox .explanation').eq(i).removeClass('showScenario');
@@ -1771,6 +1775,12 @@ $(document).ready(function() {
    function openScenarioMessages(){
        $('#id03').css("display","none");
    }
+
+    $(document).on("click", "#id05 .infoClose", function(event){
+        $('#id05').css("display","none");
+        location.href = "index.html"
+   });
+    
    
     $(document).on("click", ".explainClose", function(event){
        closeScenarioMessages();
@@ -1798,6 +1808,12 @@ $(document).ready(function() {
         }
     }
     
+    function initScenarios(){
+        getScenarios();
+        getModeParameter();
+    }
+    
+    
     function showGoodbye(){
         $('#id05').css("display","block");
     }
@@ -1815,7 +1831,7 @@ $(document).ready(function() {
     }
     
     function showEvalInfo(message,error){
-        if(message==true && error==false){
+        if(message==true && error==false && mode==1){
             $('#id06').css("display","block");
             //evalShowInfos = false;
         }
@@ -1831,12 +1847,205 @@ $(document).ready(function() {
     function getScenarios(){
         scenarios = [];
         var temp = $('#output').val().split(', ');
-        
         for(var i=0; i<temp.length; i++){
             if(temp[i]!=''){
                 scenarios[i] = temp[i];
             }
         }
+        //create Messages
+        createScenarioMessage();
     }
-    // sv_complete_btn
+    
+    function initSearchParameter(){
+        searchPrameter = [['Johnny Depp, Leonardo DiCaprio','Comedy, Action',60,120,1980,2000,2],
+                      ['Leonardo DiCaprio','Comedy, Action',60,120,1980,2000,2],
+                      ['Johnny Depp','Comedy, Action, Thriller',75,240,2000,2012,6]
+                      ];
+    }
+   
+  
+    function addSearchParameter(actors,genre,minLen, maxLen,minRel,maxRel,rat){
+        searchPrameter[scenarioIndex] = [actors,genre,minLen, maxLen,minRel,maxRel,rat];
+        
+        for(var i=0; i<searchPrameter.length; i++){
+             alert(searchPrameter[i]);
+        }
+    }
+    $(document).on("click", ".seachScenario", function(event){
+        setSearchParameter(searchPrameter[scenarios[scenarioNum]-1]);
+        $('.submitBtn').trigger('click');
+        $('#id03').css("display","none");
+    });
+    
+    $(document).on("click", "#id04 #infoClose", function(event){
+        initScenarios();
+    });
+    
+    $(document).on("click", "#evalSearch", function(event){
+        $('.search-tab-cluster').css("display","none");
+             $('#id02').css("display","block");
+                window.survey = new Survey.Model({ 
+                    pages: [
+                        { title: "Demographische Daten",
+                            questions: [
+                                {type:"radiogroup", name:"geschlecht", title: "Geschlecht:", isRequired: true, 
+                                    choices:["weiblich", "männlich"]},
+                                
+                                {type:"radiogroup", name:"alter",title:"Alter: ",
+                                 colCount: 4, isRequired: true,
+                                 choices:["18-24", "25-34", "35-44", "45-59", "60-69", "70 und älter"]},
+                             
+                                {type:"radiogroup", name:"beschäftigung", title: "Sind Sie berufstätig?", isRequired: true, 
+                                choices:["ja", "nein"]}
+                            ],                           
+                        },
+                        { title: "Allgemeine Nutzungsfragen",
+                            questions: [
+                                {type:"radiogroup", name:"filme", title: "Wie häufig nutzen Sie Videoinhalte wie z.B Filme und Serien?", isRequired: true, 
+                                    choices:["Täglich oder fast täglich", "Mindestens einmal pro Woche", "Mindestens einmal im Monat", 
+                                        "Seltener", "Nie", "Weiß nicht"]},
+                                
+                                {type:"radiogroup", name:"plattformen", title:"Wenn Sie Filme und Serien nutzen, welche Plattformen verwenden Sie hierfür?", isRequired: true,
+                                 choices:["Video-Streaming-Dienste", 
+                                     "TV-Sendern","Kostenlose Portale für Filme und Serien (z.B. kinox.to, Streamcloud, movie8k.to)"]},
+                             
+                            ],                           
+                        },
+                        { title: "Zufriedenheit",
+                            questions: [
+                                {type:"radiogroup", name:"zufriedenheit", title: "Wie zufrieden sind Sie mit Ihrem Video-Streaming-Dienst insgesamt:", isRequired: true, 
+                                    choices:["Sehr zufrieden", "Eher zufrieden", "Teils teils", 
+                                        "Weniger zufrieden", "Überhaupt nicht zufrieden", "Weiß nicht"]},
+                            ],                           
+                        }]
+                });
+
+            $("#surveyElement").Survey({ 
+                model: survey 
+            });
+            return;
+    });
+    
+    $(document).on("click","#defineBtn", function(event){
+        var actors = removeLastComma($('#id01 .search-tab #actors').val());
+        var genres = removeLastComma($('#id01 .search-tab .multiSel').text());
+        var description = $('#description').val();
+        
+        var maxReleased = $('#id01 .search-tab #released .range_max').text();
+        var minReleased = $('#id01 .search-tab #released .range_min').text();
+        var maxLenght = $('#id01 .search-tab #lenght .range_max').text();
+        var minLenght = $('#id01 .search-tab #lenght .range_min').text();
+        var minStar = $('#id01 .search-tab #star .range_star').text();
+
+        if(actors == ""){
+             $('#messageEval').css("display","block");
+             $('#messageEval').html("<font color='red'>Geben Sie bitte mindestens einen Namen ein. </font>")
+             return;
+         }
+         if(genres == ""){
+             $('#messageEval').css("display","block");
+             $('#messageEval').html("<font color='red'>Wählen Sie bitte mindestens ein Genre </font>")
+             return;
+         }
+         if(description == ""){
+             $('#messageEval').css("display","block");
+             $('#messageEval').html("<font color='red'>Geben Sie bitte Beschreibung ein</font>")
+             return;
+         }
+       else{
+            var released = [minReleased,maxReleased];
+            var lenght = [minLenght,maxLenght];
+            //var actorList = covertToArray(actors,'g');
+            var genreList = covertToArray(genres,'g');
+            
+            $('.clusterbtn').css("display","block");
+            $('#defineBtn').css("display","none");
+            $('#id01 .search-tab').css("display","none"); 
+            $('#messageEval').css("display","none");
+            $('.scen_param').css("display","none");
+            $('.scen_desc').css("display","none");
+            $('hr').css("display","none");
+            $('#description').css("display","none");
+            
+            $.ajax({
+             url : "InsertScenarioServlet",
+             type : "GET",
+             data : {
+                 description : description,
+                 actors : actors,
+                 genreList : genreList,
+                 lenght : lenght,
+                 released : released,
+                 minStar  : minStar
+                 
+             },
+             success : function(response){
+                        if(response != null && response != "")
+                        {
+                            getScenariosDB();
+                        }
+                    else
+                        {
+                            $('#messageSearch').css("display","block");
+                            $('#messageSearch').html("<font color='red'>Die angegebene Parameter sind zu spezifisch. </font>");
+                            alert("Insert Error");
+                        }
+                }
+            });
+        }
+    });
+    
+    function getScenariosDB(){
+       $.ajax({
+             url : "ScenarioRequest",
+             type : "GET",
+             dataType: "json",
+             success : function(response){
+                        if(response != null && response != "")
+                        {
+                            var jsonStr = JSON.stringify(response);
+                            var jsonObj = JSON.parse(jsonStr);
+                            parseScenarios(jsonObj);
+
+                        }
+                    else
+                        {
+                            alert("Some exception occurred! Please try again.");
+                        }
+                }
+            });
+            
+   }
+   
+      function parseScenarios(jsonObj){
+        removeAllScenarios();
+        removeAllScenariosMessages();
+        initEvalScenarios(1,2,3);
+        for(var i = 0; i < jsonObj.length; i++)
+        {   
+            searchPrameter[i]=[jsonObj[i].actors,jsonObj[i].genres,jsonObj[i].lenght,jsonObj[i].released,jsonObj[i].rating]
+            $('#nScenarios').append('<option value="'+jsonObj[i].id+'"'+'>Szenario ' + jsonObj[i].id + '</option>');
+            $('#EvalScenario').append('<textarea id="desc'+jsonObj[i].id+'" rows="1" class="descriptions" contenteditable="true">'+jsonObj[i].desc+'</textarea>');
+        }
+   }
+   
+    function initEvalScenarios(s1,s2,s3){
+        removeAllSelectedScenarios();
+       $("#output").append(s1+", ");
+       $("#output").append(s2+", ");
+       $("#output").append(s3+", ");
+    }
+    
+   function removeAllScenarios(){
+       $('#nScenarios option').remove();
+   }
+   
+   function removeAllScenariosMessages(){
+       $('#EvalScenario .descriptions').remove();
+   }
+   
+   function removeAllSelectedScenarios(){
+       $("#deleteBtn").trigger('click');
+   }
+      
 });

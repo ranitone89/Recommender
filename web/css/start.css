@@ -462,7 +462,7 @@ html, body {
     margin-bottom: 55px;
 }
 
-.clusterbtn, input#defineBtn {
+.clusterbtn, input#defineBtn, input#loopBtn {
     color: white;
     padding: 14px 20px;
     /*margin: 8px 0;*/
@@ -479,12 +479,12 @@ html, body {
     margin-left: 40%;
 }
 
-.clusterbtn:active, input#defineBtn:active{
+.clusterbtn:active, input#defineBtn:active, input#loopBtn:active{
     color: white;
     background-color: #fe7900;
 }
 
-.clusterbtn:hover, input#defineBtn:hover{
+.clusterbtn:hover, input#defineBtn:hover, input#loopBtn:hover{
     color: white;
     background-color: #fe7900;
 }
@@ -811,7 +811,7 @@ html, body {
 .header-right {
     float:right;
     margin-top: 55px;
-    display: none;
+    display: block;
 }
 
 
@@ -1019,7 +1019,7 @@ html, body {
     color: white;
 }
 
-.tab {
+.search .tab {
     overflow: hidden;
     border-top: none;
     padding: 10px 0px 0 10px;
@@ -2733,7 +2733,7 @@ button#btn_next_stat {
     font-size: 18px;
     font-weight: bold;
     color: #aaaaaa;
-    margin-top: 166px;
+    /*margin-top: 67px;*/
     margin-right: -15px;
 }
 
@@ -2749,7 +2749,7 @@ button#btn_next_stat {
     margin-top: 50px;
     border: 1px solid #d8d8d8;
     height: 135px;
-    width: 650px;
+    width: 732px;
     background-color: whitesmoke;
     display: none;
 }
@@ -3017,12 +3017,12 @@ button#infoClose:hover{
     display: none;
 }
 
-.explanationInfo {
+.explanationInfo, explanationIntro {
     margin-left: 50px;
     margin-top: 81px;
 }
 
-.explanationInfo p {
+.explanationInfo p, .explanationIntro p {
     margin: 20px 20px;
     font-size: 14px;
     text-align: left;
@@ -3208,13 +3208,30 @@ input#newBtn{
     margin-top: 22px;
 }
 
-.search-tab-eval{
-    margin-top: 40px;
-    display: none;
-    min-height: 200px;
+#id01 .search-tab-cluster{
+    display:none;
 }
 
-.search-tab-eval .row {
+#id01 .submitBtn{
+    display: none;
+}
+
+#id01 .tab{
+    display: none;
+    margin-top: 40px;
+}
+
+#id01 .info{
+    display:none;
+}
+#id01 .search-tab{
+    margin-top: 40px;
+    min-height: 200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+#id01 .search-tab .row {
     float: left;
     width: 200px;
     margin-right: 20px;
@@ -3240,13 +3257,13 @@ input#newBtn{
     );
 }
 
-#id01 .rating {
+/*#id01 .rating {
     float: left;
     width: 200px;
     margin-top: 26px;
-}
+}*/
 
-.search-tab-eval .rating label{
+#id01 .rating:not(:checked) > label {
     float: left;
     width: 1em;
     padding: 0 .1em;
@@ -3257,6 +3274,10 @@ input#newBtn{
     line-height: 1.2;
     color: #9d9d9d;
 }
+#id01 .rating > input:checked ~ label {
+    color: #ea0;
+}
+
 #id01 .range .right {
     position: relative;
     float: right;
@@ -3281,7 +3302,7 @@ input#newBtn{
     padding: 2px 15px 2px 5px;
     position: absolute;
     top: 2px;
-    width: 210px;
+    width: 182px;
     list-style: none;
     height: 100px;
     overflow: auto;
@@ -3289,3 +3310,60 @@ input#newBtn{
     border-radius: 4px;
     z-index: 2;
 }
+
+.scen_param,.scen_desc{
+    display:none;
+}
+
+#id01 textarea#description {
+    width: 40%;
+    color: #666;
+    resize: none;
+    margin: 14px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 13px 19px 12px 10px;
+    font-size: 13px;
+    background-color: white;
+    text-decoration: none;
+    vertical-align: middle;
+    font-family: 'Nunito', sans-serif;
+    margin-bottom: 30px;
+    overflow: hidden;
+    display:none;
+}
+hr{
+    display:none;
+    margin-top: 10px;
+}
+
+label.scen_desc, .scen_param {
+    margin-top: 30px;
+}
+.search .search-tab-cluster{
+    margin-top: 167px;
+}
+
+.header-right .search-tab-cluster{
+    margin-top: 0px;
+}
+
+#testSearch{
+    display:none;
+}
+
+.seachScenario {
+    color: white;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 10%;
+    padding: 6px 15px;
+    background-color: #4CAF50;
+    margin-left: 43%;
+    margin-top: 114px;
+    float: left;
+}
+

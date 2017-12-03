@@ -5,9 +5,9 @@
  */
 
 $(document).ready(function() {
-    $(document).on("click", ".search-tab-close", function(event){
+    $(document).on("click", ".search .search-tab-close", function(event){
         $('.search').hide();
-        $('.search-tab-close').hide();
+        $('.search .search-tab-close').hide();
    });
 }); 
 

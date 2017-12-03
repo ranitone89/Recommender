@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 
-$(document).ready(function() {
-    getScenarios();
+/*$(document).ready(function() {
+   getScenarios();
    
    function getScenarios(){
        $.ajax({
@@ -45,4 +45,4 @@ $(document).ready(function() {
        $("#output").append(s3+", ");
    }
    
-}); 
+});*/
