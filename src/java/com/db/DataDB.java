@@ -159,19 +159,21 @@ public class DataDB {
     
     //(description,actors,genres,minReleased,maxReleased,minLenght,maxLenght,rating)
     public String insertScenarios(String description,String[] actors,String[] genres,
-            String[] released,String[] lenght,String rating) throws Exception{
+            String[] released,String[] lenght,String[] parameter,String rating) throws Exception{
         String message = null;
         PreparedStatement ps = null;
         boolean action = false;
         try {
             String sql = "INSERT INTO scenarios"
-		+ "(description, actors, genres, released, lenght, rating) VALUES"
-		+ "(?,?,?,?,?,?)";
+		+ "(description, actors, genres, released, lenght, parameters, rating) VALUES"
+		+ "(?,?,?,?,?,?,?)";
+            
             
             Array listActors = connection.createArrayOf("text", actors);
             Array listGenres = connection.createArrayOf("text", genres);
             Array listReleased = connection.createArrayOf("int4", released);
-            Array listLenght= connection.createArrayOf("int4", lenght);            
+            Array listLenght= connection.createArrayOf("int4", lenght);
+            Array listParameter = connection.createArrayOf("text", parameter); 
             int ratingInt = Integer.parseInt(rating);
             
             ps = connection.prepareStatement(sql);
@@ -182,7 +184,8 @@ public class DataDB {
             ps.setArray(3, listGenres);            
             ps.setArray(4, listReleased);
             ps.setArray(5, listLenght);
-            ps.setInt(6, ratingInt);
+            ps.setArray(6, listParameter);
+            ps.setInt(7, ratingInt);
             
             
             int count = ps.executeUpdate();

@@ -54,10 +54,11 @@ public class InsertScenarioRequest extends HttpServlet {
             String lenght[] = request.getParameterValues("lenght[]");
             String released[] = request.getParameterValues("released[]"); 
             String actors[] = request.getParameterValues("actors");
-            String genres[] = request.getParameterValues("genreList[]");  
+            String genres[] = request.getParameterValues("genreList[]"); 
+            String parameter[] = request.getParameterValues("paramList[]");
             String minStar = request.getParameter("minStar");
             
-            String message  = dataDao.insertScenarios(description,actors,genres,released,lenght,minStar);
+            String message  = dataDao.insertScenarios(description,actors,genres,released,lenght,parameter,minStar);
 
             response.getWriter().write(message);
             

@@ -2945,7 +2945,11 @@ input#newBtn{
     z-index: 2;
 }
 
-.scen_param,.scen_desc{
+.search_param{
+    margin-top: 32px;
+}
+
+.scen_param,.scen_desc, .search_param{
     display:none;
 }
 
@@ -2967,6 +2971,11 @@ input#newBtn{
     margin-bottom: 30px;
     overflow: hidden;
     display:none;
+}
+
+.searchParameter{
+    display: none;
+    margin-top: 10px;
 }
 hr{
     display:none;

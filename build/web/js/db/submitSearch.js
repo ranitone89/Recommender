@@ -1939,6 +1939,7 @@ $(document).ready(function() {
         var actors = removeLastComma($('#id01 .search-tab #actors').val());
         var genres = removeLastComma($('#id01 .search-tab .multiSel').text());
         var description = $('#description').val();
+        var parameter = $('.searchParameter input[type="checkbox"]:checked').length;
         
         var maxReleased = $('#id01 .search-tab #released .range_max').text();
         var minReleased = $('#id01 .search-tab #released .range_min').text();
@@ -1961,11 +1962,19 @@ $(document).ready(function() {
              $('#messageEval').html("<font color='red'>Geben Sie bitte Beschreibung ein</font>")
              return;
          }
+         if(parameter < 3){
+             $('#messageEval').css("display","block");
+             $('#messageEval').html("<font color='red'>Wählen Sie bitte mind. drei Suchparameter aus</font>")
+             return;
+         }
+         
        else{
             var released = [minReleased,maxReleased];
             var lenght = [minLenght,maxLenght];
             //var actorList = covertToArray(actors,'g');
             var genreList = covertToArray(genres,'g');
+            var paramList = getSearchPreference();
+            alert(paramList);
             
             $('.clusterbtn').css("display","block");
             $('#defineBtn').css("display","none");
@@ -1973,10 +1982,13 @@ $(document).ready(function() {
             $('#messageEval').css("display","none");
             $('.scen_param').css("display","none");
             $('.scen_desc').css("display","none");
+            $('.search_param').css("display","none");
             $('hr').css("display","none");
             $('#description').css("display","none");
+            $('.searchParameter').css("display","none");
             
-            $.ajax({
+            
+            /*$.ajax({
              url : "InsertScenarioServlet",
              type : "GET",
              data : {
@@ -1985,6 +1997,7 @@ $(document).ready(function() {
                  genreList : genreList,
                  lenght : lenght,
                  released : released,
+                 paramList : paramList,
                  minStar  : minStar
                  
              },
@@ -2000,7 +2013,7 @@ $(document).ready(function() {
                             alert("Insert Error");
                         }
                 }
-            });
+            });*/
         }
     });
     
@@ -2038,6 +2051,14 @@ $(document).ready(function() {
         }
    }
    
+    function getSearchPreference() {         
+        var searchParams = [];
+        $('.searchParameter input[type="checkbox"]:checked').each(function() {
+            searchParams.push($(this).val());
+        });
+        return searchParams;
+    }
+  
     function initEvalScenarios(s1,s2,s3){
         removeAllSelectedScenarios();
        $("#output").append(s1+", ");

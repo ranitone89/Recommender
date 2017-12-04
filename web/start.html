@@ -523,10 +523,19 @@
                         </div>
                         <input id="newBtn" type="button" value="New" />
                         
-                        <hr>
+                        <div><hr></div>
+                        <label class="search_param">Suchparameter für Szenario: </label>
+                        <div class="searchParameter">
+                            <input type="checkbox" name="searchParam" value="Schauspieler"> Schauspieler<br>
+                            <input type="checkbox" name="searchParam" value="Genre" checked> Genre<br>
+                            <input type="checkbox" name="searchParam" value="Filmlänge"> Filmlänge<br>
+                            <input type="checkbox" name="searchParam" value="Erscheinungsjahr" checked> Erscheinungsjahr<br>
+                            <input type="checkbox" name="searchParam" value="Rating"> Rating<br>
+                        </div>
+                        <div><hr></div>
                         <label class="scen_param">Szenario Parameter: </label>
                         <div class="tab"></div>
-                        <hr>
+                        <div><hr></div>
                         <label class="scen_desc">Szenario Beschreibung: </label>
                         <textarea rows="1" contenteditable="true" placeholder="Geben Sie bitte die Beschreibung ein..." class="input" id="description"></textarea>
                     </div>

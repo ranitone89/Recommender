@@ -41,6 +41,8 @@ $(document).ready(function() {
         $('.scen_desc').css("display","block");
         $('hr').css("display","block");
         $('#description').css("display","block");
+        $('.searchParameter').css("display","block");
+        $('.search_param').css("display","block");
    });
    
    /*$(document).on("click","#defineBtn", function(event){
