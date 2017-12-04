@@ -25,6 +25,7 @@ $(document).ready(function() {
     var surveryInfor = false;
     var surveyIndex = 1;
     var scenarioIndex = 2;
+    var surveyPar = false;
     
     getScenariosDB();
     initMode();
@@ -59,7 +60,6 @@ $(document).ready(function() {
     
     $(document).on("click", ".RatedMovie img", function(event){
         $('.survey').css('display', 'none');
-        $('.title').css('display', 'none');
   
         var $movie = $(this).closest('.Movie');
         var method = $(this).parents().eq(3).attr('class').match(/\d+/)[0];
@@ -87,8 +87,6 @@ $(document).ready(function() {
    });
    
     $(document).on("click", ".search-back-nav ", function(event){
-        $('.title').css('display', 'block');
-        //$('.Titles').css('display', 'block');
         $('.survey').css('display', 'block');
         $('#ck-buttons').css('display','block');
         $('.btnStatistics').css('display','block');
@@ -556,8 +554,6 @@ $(document).ready(function() {
     function showMessage(method,cluster,movies){
         if(movies !== null){
             $('.survey').css('display', 'block');
-            $('.title').css('display', 'block');
-            //$('.Titles').css('display', 'block');
             
             displayMovies(covertToArray(movies,'r'),method,cluster);
 
@@ -1430,9 +1426,8 @@ $(document).ready(function() {
       $('.search-tab-close').css("display","none");;
       $('#TopRated').css("display","block");
       $('#Result').css("display","none");
-      $('.title').css("display","none");
       $('.submitSurvey').css("display","none");
-      $('.search').css("display","block");    
+      $('.search').css("display","none");    
    }
 
    function showMovies(){
@@ -1442,13 +1437,11 @@ $(document).ready(function() {
       $('.search-tab-close').css("display","block");;
       $('#TopRated').css("display","block");
       $('#Result').css("display","none");
-      $('.title').css("display","none");
       $('.submitSurvey').css("display","block");
       $('.search').css("display","block");    
    }
    function hideResult(){
       $('#Result').css("display","none");
-      $('.title').css("display","none");
       $('.survey').css("display","none");
       $('.recom-text').css("display","none");
       $('.tab-back-nav').css("display","none");
@@ -1457,7 +1450,6 @@ $(document).ready(function() {
         bindSearchButtons();
         if(errorevalShowInfos==false){
             $('#Result').css("display","block");
-            $('.title').css("display","none");
             $('.survey').css("display","block");
             $('.recom-text').css("display","block");
             $('.tab-back-nav').css("display","none");       
@@ -1882,6 +1874,8 @@ $(document).ready(function() {
     });
     
     $(document).on("click", "#evalSearch", function(event){
+        alert(surveyPar);
+        if(surveyPar==false){
         $('.search-tab-cluster').css("display","none");
              $('#id02').css("display","block");
                 window.survey = new Survey.Model({ 
@@ -1923,7 +1917,10 @@ $(document).ready(function() {
             $("#surveyElement").Survey({ 
                 model: survey 
             });
+            surveyPar = true;
             return;
+            
+        }
     });
     
     $(document).on("click","#defineBtn", function(event){

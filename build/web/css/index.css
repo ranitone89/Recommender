@@ -723,13 +723,20 @@ span.login_span:hover {
  * Effect 8
  * ===============================================*/
 
-/******************************FOOTER*********************/
+/***********************************************************/
+
+
+/**
+ * ---------------------------------------------
+ * 2.9. Footer
+ * ---------------------------------------------
+ */
 
 footer{ 
-  position:absolute; 
-  bottom:0;
-  width:100%; 
-  height:100px; 
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    margin-top: 200px;
 }
 
 .copyright-footer{
@@ -742,23 +749,37 @@ footer{
 }
 
 .copyright {
-    line-height: 80px;
+    line-height: 30px;
     color: #666;
     font-size: 15px;
     width: 1290px;
     margin: 0 auto;
 }
 
+
+.copyright-menu {
+    width: 200px;
+    margin-top: 20px;
+    margin-bottom: 60px;
+}
+
 .copyright-text{
-    width:280px;
-    height:120px;
+    width: 682px;
     margin: 0 auto;
-    float: left;
+    margin-left: 43px;
+}
+
+.copyright-text img {
+    width: 120px;
+}
+
+.copyright-text a {
+    color: #666;
 }
 
 .copyright-menu ul {
     width:580px;
-    height:120px;
+    /*height:120px;*/
     margin: 0 auto;
 }
 
@@ -772,46 +793,6 @@ footer{
     color: #666;
     font-size: 15px;
 }
-/***********************************************************/
-
-
-/******************************FOOTER*********************/
-
-/*.copyright-footer{
-    border-top: 1px solid;
-}
-
-.copyright {
-    line-height: 80px;
-    color: #666;
-    font-size: 15px;
-    width: 1290px;
-    margin: 0 auto;
-}
-
-.copyright-text{
-    width:280px;
-    height:120px;
-    margin: 0 auto;
-    float: left;
-}
-
-.copyright-menu ul {
-    width:580px;
-    height:120px;
-    margin: 0 auto;
-}
-
-.copyright-menu ul li {
-    display: inline-block;
-    list-style: none;
-    padding: 0 5px;
-}
-
-.copyright-menu a {
-    color: #666;
-    font-size: 15px;
-}*/
 /***********************************************************/
 #id05 button {
     color: white;

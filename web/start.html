@@ -15,8 +15,9 @@
     <script src="js/libs/jssor.slider-25.1.0.min.js" type="text/javascript"></script>
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-    <!--script src="js/sliderStartMovies.js"></script-->
-    <script type="text/javascript" src="js/content_slider.js"></script>
+
+    <script src="js/sliderStartMovies.js"></script>
+    
     <script src="js/activeTab.js"></script>
     <script src="js/backTab.js"></script>
     <script src="js/ratedMovies.js"></script>
@@ -77,60 +78,29 @@
             </div>
             <div id="header-shadow"></div>
         </header>
-        <!-----------------------------Main------------------------------------------------------>
+        <!---------------------------------------- MAIN --------------------------------------> 
         <div id="main">
             <div id="content" class="site-content">
-                <div id="slider">
-                    <!-- Loading Screen -->
-                    <div data-u="loading" class="loading-screen">
-                        <!--img src="img/double-tail-spin.svg" /-->
+                <div class="slideshow-container">
+                    <div class="mySlides fade">
+                      <img src="img/img_1.JPG">
+                    </div>
 
+                    <div class="mySlides fade">
+                      <img src="img/img_2.JPG">
                     </div>
-                    <div data-u="slides" class="slides">
-                        <div>
-                            <img data-u="image" src="img/img_22.jpg" />
-                            <div id ="img_title">THE GIRL ON THE TRAIN</div>
-                            <div id ="img_text">Build your slider with anything, includes image, content, text, html, photo, picture</div>
-                        </div>
-                        <div>
-                            <img data-u="image" src="img/img_23.jpg"/>
-                            <div id ="img_title">SAUSAGE PARTY</div>
-                            <div id ="img_text">Build your slider with anything, includes image, content, text, html, photo, picture</div>
-                        </div>
-                        <div>
-                            <img data-u="image" src="img/img_24.jpg" />
-                            <div id ="img_title">FREE STATE OF JONES</div>
-                            <div id ="img_text">Build your slider with anything, includes image, content, text, html, photo, picture</div>
-                        </div>  
-                        
-                        <div>
-                            <img data-u="image" src="img/img_25.jpg" />
-                            <div id ="img_title">ICE AGE</div>
-                            <div id ="img_text">Build your slider with anything, includes image, content, text, html, photo, picture</div>
-                        </div>    
+
+                    <div class="mySlides fade">
+                      <img src="img/img_3.JPG">
                     </div>
-                    
-                    <!-- Bullet Navigator -->
-                    <div data-u="navigator" class="bullet_navigator">
-                        <div data-u="prototype" class="i">
-                            <svg viewbox="0 0 50 50">
-                                <circle class="b" cx="25" cy="25" r="25"></circle>
-                            </svg>
-                        </div>
-                    </div>
-                    
-                    <!-- Arrow Navigator -->
-                    <div data-u="arrowleft" class="arrow_navigator" data-autocenter="2" data-scale="0.75" data-scale-left="0.75" >
-                        <img src="img/arrow-left.png" 
-                        onmouseover="this.src='img/arrow-left-hover.png'"
-                        onmouseout="this.src='img/arrow-left.png'"/>
-                    </div>
-                    <div data-u="arrowright" class="arrow_navigator" data-autocenter="2" data-scale="0.75" data-scale-right="0.75">
-                        <img src="img/arrow-right.png" 
-                        onmouseover="this.src='img/arrow-right-hover.png'"
-                        onmouseout="this.src='img/arrow-right.png'"/>
+                    <div class="dotList" style="text-align:center">
+                      <span class="dot"></span> 
+                      <span class="dot"></span> 
+                      <span class="dot"></span> 
                     </div>
                 </div>
+                
+        <!---------------------------------------- SEARCH TAB --------------------------------------> 
                 <div class="button-container" id="testSearch">
                     <div class="button-content closee">
                         <button class="button">Filmsuche</button>
@@ -141,30 +111,29 @@
                         <button class="button">Teil nehmen</button>
                     </div>
                 </div>
-                <!------------------ SEARCH BAR--------------------------------------------------------->                   
+        
+        <!---------------------------------------- SEARCH FORMULAR ---------------------------------->                  
                 <div class="search">
                     <div class="tab">
-                    <div class="search-tab">
+                        <div class="search-tab">
                         <span class="search-tab-close">&times;</span>
-                        <!--div class="search-tab-option"></div-->
-                        <!--span class="search-tab-cluster">&#8801;</span-->
-                        <div class="row">
-                            <div class="item">
-                                 <label>Schauspieler</label>
-                                 <textarea rows="1" contentEditable="true" placeholder="Enter the actor's name..." class="input" id="actors"></textarea>
-                           </div>
-                           <div class="item">
-                               <label for="fader">Erscheinungsjahr</label>
-                               <div class="range" id="released">
-                                    <input class="min" name="range_1" list="tickmarks" type="range" min="1970" max="2017" value="1970" />
-                                    <input class="max" name="range_1" lirange_minst="tickmarks" type="range" min="1970" max="2017" value="2017" />
-                                    <span class="range_min light left">1970</span>
-                                    <span class="range_max light right">2017</span>
+                            <div class="row">
+                                <div class="item">
+                                     <label>Schauspieler</label>
+                                     <textarea rows="1" contentEditable="true" placeholder="Enter the actor's name..." class="input" id="actors"></textarea>
+                               </div>
+                               <div class="item">
+                                   <label for="fader">Erscheinungsjahr</label>
+                                   <div class="range" id="released">
+                                        <input class="min" name="range_1" list="tickmarks" type="range" min="1970" max="2017" value="1970" />
+                                        <input class="max" name="range_1" lirange_minst="tickmarks" type="range" min="1970" max="2017" value="2017" />
+                                        <span class="range_min light left">1970</span>
+                                        <span class="range_max light right">2017</span>
+                                    </div>
                                 </div>
-                            </div>
-                       </div>
-                       <div class="row"> 
-                            <div class="item">
+                           </div>
+                            <div class="row"> 
+                                <div class="item">
 				<label>Genre</label>
                                     <dl class="dropdown"> 
                                         <dt>
@@ -266,62 +235,60 @@
                                             </div>
                                         </dd>
                                     </dl>
-                            </div>				
-                           <div class="item">
-                               <label class="lenlabel" for="l">Filmlänge in Minuten</label>
-                               <div class="range" id="lenght">
-                                    <input class="min" name="range_2" type="range" min="60" max="240" step="15" value="60" />
-                                    <input class="max" name="range_2" type="range" min="0" max="240" step="15" value="240" />
-                                    <span class="range_min light left">60</span>
-                                    <span class="range_max light right">240</span>
-                               </div>
-                           </div>
-                        </div>
+                                </div>				
+                                <div class="item">
+                                    <label class="lenlabel" for="l">Filmlänge in Minuten</label>
+                                    <div class="range" id="lenght">
+                                         <input class="min" name="range_2" type="range" min="60" max="240" step="15" value="60" />
+                                         <input class="max" name="range_2" type="range" min="0" max="240" step="15" value="240" />
+                                         <span class="range_min light left">60</span>
+                                         <span class="range_max light right">240</span>
+                                    </div>
+                                </div>
+                            </div>
                     
-                       <div class="row"> 
-                           <div class="item">
+                            <div class="row"> 
+                                <div class="item">
                                 <label class="ratinglabel">Bewertung</label>
-                                  <div class="rating">
-                                    <input type="radio" id="star0" name="rating" value="0" /><label class="zero" for="star0" title="0">0 star</label>
-                                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1">1 star</label>
-                                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2">2 stars</label>
-                                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3">3 stars</label>
-                                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4">4 stars</label>
-                                    <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5">5 stars</label>
-                                    <input type="radio" id="star6" name="rating" value="6" /><label for="star6" title="6">6 stars</label>
-                                    <input type="radio" id="star7" name="rating" value="7" /><label for="star7" title="7">7 stars</label>
-                                    <input type="radio" id="star8" name="rating" value="8" /><label for="star8" title="8">8 stars</label>
-                                    <input type="radio" id="star9" name="rating" value="9" /><label for="star9" title="9">9 stars</label>
-                                    <input type="radio" id="star10" name="rating" value="10" /><label for="star10" title="10">10 stars</label>
+                                    <div class="rating">
+                                        <input type="radio" id="star0" name="rating" value="0" /><label class="zero" for="star0" title="0">0 star</label>
+                                        <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1">1 star</label>
+                                        <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2">2 stars</label>
+                                        <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3">3 stars</label>
+                                        <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4">4 stars</label>
+                                        <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5">5 stars</label>
+                                        <input type="radio" id="star6" name="rating" value="6" /><label for="star6" title="6">6 stars</label>
+                                        <input type="radio" id="star7" name="rating" value="7" /><label for="star7" title="7">7 stars</label>
+                                        <input type="radio" id="star8" name="rating" value="8" /><label for="star8" title="8">8 stars</label>
+                                        <input type="radio" id="star9" name="rating" value="9" /><label for="star9" title="9">9 stars</label>
+                                        <input type="radio" id="star10" name="rating" value="10" /><label for="star10" title="10">10 stars</label>
+                                    </div>
                                 </div>
-                           </div>
                            
+                                <div class="item">
+                                    <div class="range" id="star">
+                                        <input class="min" name="range_3" type="range" min="0" max="9" value="0" />
+                                        <span class="from">from</span>
+                                        <span class="range_star">0</span>
+                                        <span class="right">to 10</span>
+                                    </div>
+                                </div>         
+                            </div>
+                        <div class="row"> 
                             <div class="item">
-                                <div class="range" id="star">
-                                    <input class="min" name="range_3" type="range" min="0" max="9" value="0" />
-                                    <span class="from">from</span>
-                                    <span class="range_star">0</span>
-                                    <span class="right">to 10</span>
-                                </div>
-                           </div>         
-                    </div>
-                    <div class="row"> 
-                        <div class="item">
-                            <input type="submit" value="Suche" class="submitBtn"/>
+                                <input type="submit" value="Suche" class="submitBtn"/>
+                            </div>
                         </div>
-                        <!--div class="info">
-                            <img class="information_icon more" src="img/info_default.png">
-                            <img class="information_icon_hover more" src="img/info_1.png">
-                        </div-->
-                    </div>
-                </div>         
-              </div>
-              <div id="messageSearch" style="display:none;"></div>
+                    </div>         
+                </div>
+                <div id="messageSearch" style="display:none;"></div>
             </div>
+        
+        <!---------------------------------------- LOADING SPIN ---------------------------------->          
             <div id="loading">
-                  <!--p>It's loading…</p-->
             </div>
-            <!--------------------------- TAB NAVIGATION ---------------------------------------------->
+        
+        <!---------------------------------------- TAB NAVIGATION --------------------------------->
             <div class="tab-nav">
                 <ul>
                     <li class="tablinks" onclick="openTab(event, 'TopRated')" id="default">
@@ -356,7 +323,8 @@
                 <h4 class="backLink"> Back to start</h4>
                 <div style="clear: both;"></div>
            </div>
-           <!--------------------------------- TAB CONTENT ------------------------------------------>
+            
+           <!--------------------------------- MOVIE TAB CONTENT ------------------------------------------>
             <div id="TopRated" class="tabcontent">
             </div>
 
@@ -365,7 +333,7 @@
 
             <div id="Cooming" class="tabcontent" >
             </div>
-            <div class="title" style="display: none;">
+            <!--div class="title" style="display: none;">
                 <h4 class="main-text">In this section you need to select the group of recommendations that response better to you - choose between methode 1 and methode 2.</h4>
                 <img class="question_icon more" src="img/add_default.png">
                 <img class="question_icon_hover more" src="img/add.png">
@@ -374,7 +342,7 @@
                 The rows between you should choose have allways the same color and contains a group of movies that we recommend to you.And the end you need to choose method that in your opinion matches your personal tastes.
       
                 </span>
-            </div>
+            </div-->
            
              
             <div class="Titles" style="display: none;">
@@ -383,6 +351,8 @@
                 <h4 id="tStat2" class="tStatistisc">Statistics for the second method</h4>
                 <h4 id="tMethod2" class="tMethods">Method two</h4>
             </div>
+           
+           <!--------------------------------- MOVIE SEARCH CONTENT ------------------------------------------>
             <div id="Result">
                 <div class="Method1"></div>
                 <div class="Statistic1">
@@ -398,11 +368,11 @@
                 <div class="Method2"></div>                
                 <div id="ck-buttons">
                     <div class="ck-button" id="ck-left">
-                            <label class="cb_label">
-                               <input id="cl1_like" type="checkbox" value="1">
-                               <span class="unlike"> <img src="img/unlike.png"/> Unlike</span>
-                               <span class="like"> <img src="img/like.png"/> Like</span>
-                            </label>
+                        <label class="cb_label">
+                           <input id="cl1_like" type="checkbox" value="1">
+                           <span class="unlike"> <img src="img/unlike.png"/> Unlike</span>
+                           <span class="like"> <img src="img/like.png"/> Like</span>
+                        </label>
                     </div>
                     
                     <div class="ck-button" id="ck-center">
@@ -421,101 +391,107 @@
                         </label>
                    </div>
                 </div>
-                </div>
             </div>
-            <div id="messageSurvey" style="display:none"></div>
-            <div class="survey" style="display:none">
-                <input type="submit" value="Ok" class="submitSurvey"/>
-            </div>
+           
+        </div>
             
-            <div id="id06" class="modal" style="display:none">
-                <div class="modal-content animate">
-                    <div class="formular-container">
-                        <h3 class="infoTitel">Bewertung von Szenarien</h3>
-                        <p>Wählen Sie nun bitte zwischen gleichfarbigen Filmgruppen aus und bestätigen Sie Ihre Auswahl mit einem Klick auf das vorgesehene Feld. Halten Sie beide Filmgruppen für ansprechend, können Sie beide Felder anklicken.
-                        <br><br>
-                        Aller Filmgruppen auf der linken Seite sind der ersten Methode zuzuordnen, Filmgruppen auf der rechten Seite gehören der zweiten Methode an.
-                        <br><br>
-                        Unterhalb der Filmgruppen finden geben Sie Ihre Bewertung zu der jeweiligen Methode ab. Klicken Sie auf den linken Button, so bevorzügen Sie die erste Methode. Durch einen Klick auf den rechten Button ziehen Sie die zweite Methode vor.
-                        Sollten Sie sich zwischen beiden Methoden nicht entscheiden können, so wählen Sie den mittleren Button.
-                        </p>
-                        <p>Sollten Sie sich die Angaben nochmals ansehen wollen, klicken Sie auf 
-                        <img src="img/info_default.png">.</p>
-                        
-                    </div>
-                    <div class="clearfix">
-                        <button name="infoClose" onclick="document.getElementById('id06').style.display='none'" class="infoClose" id="infoClose">Ok</button>
-                    </div>
-                </div>
-            </div>              
-            <div id="id05" class="modal" style="display:none">
-                <div class="modal-content animate">
-                    <div class="formular-container">
-                        <!--h3 class="infoTitel">Umfrage zu Empfehlungssystemen</h3-->
-                        <p>Liebe Teilnehmerin, lieber Teilnehmer,
-                            <br><br>vielen lieben Dank für die rege Teilnahme an der Evaluation.<br><br>
-                            <br><br>
-                        </p>    
-                    </div>
-                    <div class="clearfix">
-                        <button name="infoClose" onclick="document.getElementById('id05').style.display='none'" class="infoClose" id="infoClose">Ok</button>
-                    </div>
-                </div>
-            </div>
+       <!--------------------------------- MESAGGES CONTENT ------------------------------------------>
+        <div id="messageSurvey" style="display:none"></div>
+        <div class="survey" style="display:none">
+            <input type="submit" value="Ok" class="submitSurvey"/>
+        </div>
             
-            <div id="id04" class="modal" style="display:none">
-                <div class="modal-content animate">
-                    <div class="formular-container">
-                        <h3 class="infoTitel">Klicken Sie bitte auf der linken Seite auf "Teil nehmen" und folgen Sie den weiteren Instruktionen.</h3>
-                        <!--p>Klicken Sie bitte auf "Filmsuche" und folgen Sie den weiteren Instruktionen.
-                        </p-->    
-                    </div>
-                    <div class="clearfix">
-                        <button name="infoClose" onclick="document.getElementById('id04').style.display='none'" class="infoClose" id="infoClose">Ok</button>
-                    </div>
-                </div>
-            </div>  
-            
-            <div id="id03" class="modal" style="display:none">
-                <div class="modal-content animate">
-                    <div class="formular-container">
-                        <h3 class="scenLabels">Szenario</h3>
-                        <div class="explanationIntro">In diesem Szenario werden Sie die Filme bewerten, die folgende Kriterien erfüllen:</div>
-                        <div class="explanationBox">
-                        </div>
-                    </div>
-                 
-                    <div class="explanationInfo">
-                        <!--p class="exInfo">Bestätigen Sie Ihre Eingabe, indem Sie auch "Suche" klicken.</p>
-                        <b></b>
-                        <p>Sollten Sie sich die Angaben nochmals ansehen wollen, klicken Sie auf 
-                        <img src="img/info_default.png">.</p-->
-                    </div>
-                    <div class="clearfix">
-                        <button name="close" class="seachScenario">Ok</button>
-                    </div>
-                </div>
-            </div>            
-            
-            <div id="id02" class="modal" style="display:none">
-                <!--span class="close" title="Close Modal"><a>×</a></span-->
-                <div class="modal-content animate">
-                    <div class="formular-container">
-                        <!--p>Thank you for taking the time to complete this survey. 
-                            We truly value the information you have provided. 
-                            Your responses will contribute to our analyses of the texts and suggest new lines of approach to the corpus data.
-                        </p--> 
-                    </div>
+        <!--------------------------------- EVALUATION DESCRIPTION CONTENT ------------------------------------------>            
+        <div id="id06" class="modal" style="display:none">
+            <div class="modal-content animate">
+                <div class="formular-container">
+                    <h3 class="infoTitel">Bewertung von Szenarien</h3>
+                    <p>Wählen Sie nun bitte zwischen gleichfarbigen Filmgruppen aus und bestätigen Sie Ihre Auswahl mit einem Klick auf das vorgesehene Feld. Halten Sie beide Filmgruppen für ansprechend, können Sie beide Felder anklicken.
+                    <br><br>
+                    Aller Filmgruppen auf der linken Seite sind der ersten Methode zuzuordnen, Filmgruppen auf der rechten Seite gehören der zweiten Methode an.
+                    <br><br>
+                    Unterhalb der Filmgruppen finden geben Sie Ihre Bewertung zu der jeweiligen Methode ab. Klicken Sie auf den linken Button, so bevorzügen Sie die erste Methode. Durch einen Klick auf den rechten Button ziehen Sie die zweite Methode vor.
+                    Sollten Sie sich zwischen beiden Methoden nicht entscheiden können, so wählen Sie den mittleren Button.
+                    </p>
+                    <p>Sollten Sie sich die Angaben nochmals ansehen wollen, klicken Sie auf 
+                    <img src="img/info_default.png">.</p>
 
-                    <div id="surveyElement"></div>
-                    <div class="clearfix">
-                        <button name="close" class="surveyclose" id="surveyclose">Close</button>
-                    </div>
+                </div>
+                <div class="clearfix">
+                    <button name="infoClose" onclick="document.getElementById('id06').style.display='none'" class="infoClose" id="infoClose">Ok</button>
                 </div>
             </div>
+        </div>
+            
+        <!--------------------------------- GOODBYE DESCRIPTION CONTENT ------------------------------------------>
+        <div id="id05" class="modal" style="display:none">
+            <div class="modal-content animate">
+                <div class="formular-container">
+                    <!--h3 class="infoTitel">Umfrage zu Empfehlungssystemen</h3-->
+                    <p>Liebe Teilnehmerin, lieber Teilnehmer,
+                        <br><br>vielen lieben Dank für die rege Teilnahme an der Evaluation.<br><br>
+                        <br><br>
+                    </p>    
+                </div>
+                <div class="clearfix">
+                    <button name="infoClose" onclick="document.getElementById('id05').style.display='none'" class="infoClose" id="infoClose">Ok</button>
+                </div>
+            </div>
+        </div>
+        
+        <!--------------------------------- STARTING EVALUATION DESCRIPTION ------------------------------------------>    
+        <div id="id04" class="modal" style="display:none">
+            <div class="modal-content animate">
+                <div class="formular-container">
+                    <h3 class="infoTitel">Klicken Sie bitte auf der linken Seite auf "Teil nehmen" und folgen Sie den weiteren Instruktionen.</h3>
+                    <!--p>Klicken Sie bitte auf "Filmsuche" und folgen Sie den weiteren Instruktionen.
+                    </p-->    
+                </div>
+                <div class="clearfix">
+                    <button name="infoClose" onclick="document.getElementById('id04').style.display='none'" class="infoClose" id="infoClose">Ok</button>
+                </div>
+            </div>
+        </div>  
+        
+        <!--------------------------------- SCENARIO DESCRIPTION CONTENT ------------------------------------------>
+        <div id="id03" class="modal" style="display:none">
+            <div class="modal-content animate">
+                <div class="formular-container">
+                    <h3 class="scenLabels">Szenario</h3>
+                    <div class="explanationIntro"><p>In diesem Szenario werden Sie die Filme bewerten, die folgende Kriterien erfüllen:</p></div>
+                    <div class="explanationBox">
+                    </div>
+                </div>
 
-            <div id="id01" class="modal" style="display:none">
-              <div class="modal-content">
+                <div class="explanationInfo">
+                </div>
+                <div class="clearfix">
+                    <button name="close" class="seachScenario">Ok</button>
+                </div>
+            </div>
+        </div>            
+        
+        <!---------------------------------  DESCRIPTION CONTENT ------------------------------------------>
+        <div id="id02" class="modal" style="display:none">
+            <!--span class="close" title="Close Modal"><a>×</a></span-->
+            <div class="modal-content animate">
+                <div class="formular-container">
+                    <!--p>Thank you for taking the time to complete this survey. 
+                        We truly value the information you have provided. 
+                        Your responses will contribute to our analyses of the texts and suggest new lines of approach to the corpus data.
+                    </p--> 
+                </div>
+
+                <div id="surveyElement"></div>
+                <div class="clearfix">
+                    <button name="close" class="surveyclose" id="surveyclose">Close</button>
+                </div>
+            </div>
+        </div>
+        
+        <!--------------------------------- MODUS CONTENT ------------------------------------------>
+        <div id="id01" class="modal" style="display:none">
+            <div class="modal-content">
                     <div class="formular-container">
                         <h4>In diesem Abschnitt kann zwischen unterschiedlichen Modi gewählt werden. 
                            Zusätzlich können zu jedem Modus jeweiliger Parameter bestimmt werden.
@@ -532,7 +508,8 @@
                     <button class="tablinks" onclick="openEval(event, 'EvalScenario')" id="defaultEval">Scenarios</button>
                     <button class="tablinks" onclick="openEval(event, 'EvalMethod')">Methods</button>
                   </div>
-                  
+                
+                <!--------------------------------- EVALUATION MODUS CONTENT ------------------------------------------>
                     <div id="EvalScenario" class="evalcontent">
                         <p>Definieren Sie bitte die Szenarien,die bei der Evaluation verwedet werden sollen.
                         </p>
@@ -553,7 +530,8 @@
                         <label class="scen_desc">Szenario Beschreibung: </label>
                         <textarea rows="1" contenteditable="true" placeholder="Geben Sie bitte die Beschreibung ein..." class="input" id="description"></textarea>
                     </div>
-
+                
+                    <!--------------------------------- EVALUATION MODUS CONTENT ------------------------------------------>
                     <div id="EvalMethod" class="evalcontent">
                       <p>Wählen Sie bitte die Anzahl der Vergleiche. Zu jedem Vergleich können sie bestimmen welche Methoden miteinander verglichen werden sollen.</p>
                        <div class="comparation">
@@ -740,34 +718,32 @@
                 </div>
             </div>
         </div>
-                    
-            <!-- Display charts-->
-            
-            <!---------------------------------------------------------------------------------------->
          </div>
        </div>
-       
+       <!------------------------------------------ Footer --------------------------------------------->
        <footer>
          <div class="copyright-footer">
            <div class="copyright">
-                    <div class="copyright-text">
-                        ©copyright 2016 University of Augsburg
-                    </div>
                     <div class="copyright-menu">
                         <ul class="menu">
                               <li class="menu-item">
-                                <a href="#">Privacy Policy</a>
+                                <a href="www.uni-augsburg.de/de/impressum.html#copyright">Impressum</a>
                               </li>
                               <li class="menu-item">
-                                <a href="#">Terms of us</a>
-                              </li>
+                                <a href="http://www.uni-augsburg.de/de/impressum.html#datenschutz">Datenschutz</a>
+                             </li>
                               <li class="menu-item">
-                                <a href="#">Site Map</a>
+                                ©copyright 2017 University of Augsburg
                              </li>
                         </ul>
                     </div>
+                    <div class="copyright-text">
+                        <!--©copyright 2016 University of Augsburg-->
+                        <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a>
+                        <br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
+                    </div>
              </div>
-       </div>    
+       </div>
        </footer>
     </div>
   </body>

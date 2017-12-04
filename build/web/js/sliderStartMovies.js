@@ -1,11 +1,23 @@
 $(document).ready(function() {
-    var randomMovieArray = ['Dunkirk','War for the Planet of the Apes', 'Spider-Man: Homecoming', 'Baby Driver','To the Bone','Lady Macbeth'
-                            ,'The Dark Knight','Pulp Fiction','The Godfather','Forrest Gump','The Matrix','The Lord of the Rings','The Silence of the Lambs',
-                            'Se7en','Gladiator','American Beauty','Ice Age','Django Unchained'];
+    var slideIndex = 0;
+    showSlides();
 
-      for (var i = 0; i < randomMovieArray.length; i++) {
-        $.getJSON('http://www.omdbapi.com/?t='+ encodeURI(randomMovieArray[i])+ '&apikey=dc2f6d3a').then(function(response){
-        $('<div></div>').append('<img data-u="image" src="'+ response.Poster+'">').appendTo('.slides');
-       });
-     }
+    function showSlides() {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("dot");
+        for (i = 0; i < slides.length; i++) {
+           slides[i].style.display = "none";  
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {slideIndex = 1}    
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex-1].style.display = "block";  
+        dots[slideIndex-1].className += " active";
+        setTimeout(showSlides, 8000); // Change image every 2 seconds
+    }
+
+    
 });
