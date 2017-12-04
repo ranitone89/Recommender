@@ -27,6 +27,8 @@ $(document).ready(function() {
     var scenarioIndex = 2;
     var surveyPar = false;
     
+    var userId = getUserId();
+
     getScenariosDB();
     initMode();
     initWelcomeScreen();
@@ -106,6 +108,15 @@ $(document).ready(function() {
         $('.tab-back-nav').hide();
    });
 
+    /*
+     * 
+     * @returns {undefined}
+     */
+    function getUserId() {
+        var url = window.location.href;
+        var userid = url.substring(url.lastIndexOf('=') + 1);
+        return userid;
+    }
 
     /*
      * 
@@ -754,6 +765,7 @@ $(document).ready(function() {
                 
                 for(var j = 0; j<jsonObj[mt][cl].movies.length; j++){
                     movies += jsonObj[mt][cl].movies[j].title+", ";
+                    alert("FIlm ID: "+jsonObj[mt][cl].movies[j].movieId+" Cluster: "+cluster);
                 }
                 showMessage(method,cluster,movies);
                 //initIndex(method,cluster);

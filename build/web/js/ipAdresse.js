@@ -63,7 +63,7 @@ $(document).ready(function() {
         }
     });
     
-    $("#submit2").on('click', function(){
+    $("#registerUser").on('click', function(){
         var actors = removeLastComma($('#favoriteActors').val());
         actorList = covertToArray(actors,'a');
         /*alert(actors);*/
@@ -86,10 +86,6 @@ $(document).ready(function() {
                     if(results != null && results != ""){
                         showMessage(results);
                         $('#messageDiv').css("display","block");
-                    }else{
-                        $('#messageDiv').css("display","none");
-                        $('#messageDiv').html("");
-                        alert("Some exception occurred! Please try again.");
                     }
                 }
             });
@@ -99,10 +95,10 @@ $(document).ready(function() {
     
     //function to display message to the user
     function showMessage(results){
-        if(results == 'SUCCESS'){
-            window.location="start.html?username="+$("#username_reg").val();
-        }else if(results == 'FAILURE'){
-            $('#messageDiv').html("<font color='red'>Username or password incorrect </font>")
+        if(results != ""){
+            window.location="start.html?userId="+results;
+        }else if(results == ""){
+            $('#messageDiv').html("<font color='red'>Username or password incorrect </font>");
         }
     }
     

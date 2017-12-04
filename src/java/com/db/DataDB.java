@@ -252,7 +252,7 @@ public class DataDB {
 		+ "(?,?,?)";
             
             
-            ps = connection.prepareStatement(sql);
+            ps = connection.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
             
             //setting the parameters
             ps.setString(1, ip);
@@ -261,17 +261,23 @@ public class DataDB {
             int count = ps.executeUpdate();
             action = (count > 0);
             
+            ResultSet keyResultSet = ps.getGeneratedKeys();
+            
             // was executeUpdate succes
-            if(action){
-                System.out.println("SUCCESS");
-                message = "SUCCESS";
-            }else{
+            if(action==false){
                 System.out.println("FAILURE INSERT");
-                message = "FAILURE";
+                message = "";
+            }
+            else{ 
+                if (keyResultSet.next()) {
+                    System.out.println(keyResultSet.getInt(3));
+                    System.out.println("SUCCESS");
+                    message = Integer.toString(keyResultSet.getInt(3));
+                }
             }
         } 
         catch (Exception e) {
-            message = "FAILURE";
+            message = "";
             e.printStackTrace();
         }
         return message;
