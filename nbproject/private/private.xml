@@ -5,11 +5,12 @@
         <group>
             <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/js/ipAdresse.js</file>
             <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/start.html</file>
-            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/recommender/Movie.java</file>
             <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/db/DataDB.java</file>
             <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/servlets/RegisterRequest.java</file>
-            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/js/sliderStartMovies.js</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/servlets/InsertScenarioRequest.java</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/css/start.css</file>
             <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/js/db/submitSearch.js</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/js/searchTab.js</file>
         </group>
     </open-files>
 </project-private>

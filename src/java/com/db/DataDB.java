@@ -310,12 +310,12 @@ public class DataDB {
                                 + "WHERE aa.name LIKE ANY(?)) "
                                 + "AND movie_runtime(run.time) BETWEEN (?) AND (?) "
                                 + "AND movie_year(m.year) BETWEEN (?) AND (?) "
-                                + "AND(rank.rank::float BETWEEN (?) AND 10"
+                                + "AND(rank.rank::float BETWEEN (?) AND 10.0"
                                 + "OR genre.genre = ANY(?)) "
                                 + "AND md.title NOT LIKE '%(TV)' "
                                 + "AND genre.genre NOT LIKE '%Documentary' "
                                 + "GROUP BY m.movieid "
-                                + "LIMIT 40";
+                                + "LIMIT 200";
             
             Array listActors = connection.createArrayOf("text", actors);
             Array listGenres = connection.createArrayOf("text", genres);

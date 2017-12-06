@@ -556,8 +556,9 @@
                         </select>
                         </div>
                       
+                      <label class="compLabels">Vergleich</label>
                       <div class="evalSlider">
-                        <label class="compLabels">Vergleich</label>
+                      
                       <!--div class="evalComparation active">
                         <div class="evalMethods" id="evalMeth1">
                           <div class="rowEval">
@@ -639,18 +640,30 @@
 
                   <div id="messageEval" style="display:none"></div>
                   
+                  <div class="testMode">
                   <div class="method-1">
                     <label class="methLabels">Method 1</label> 
-                    <div class="row-1">
-                        <label>Algorithm</label>
-                        <select id="nAlg" class="alg" name="Algorithm">
+                    <div class="row-test">
+                        <!--label>Algorithm</label-->
+                        <select class="evalChoise" name="Choise">
+                            <option value="0">Euclidean</option>
+                            <option value="1">Canberra</option>
+                            <option value="2">Bray Curtis</option>
+                            <option value="3">Manhattan</option>
+                            <option value="4">Borda</option>
+                        </select>
+                    </div>
+                  
+                    <div class="row-test">
+                        <!--label>Algorithm</label-->
+                        <select class="evalAlg" name="Algorithm">
                           <option value="0">Borda</option>
                           <option value="1">Cluster</option>
                         </select>
                     </div>
-                    <div class="row-2">
-                        <label>#Clusters</label>
-                        <select id="nCluster" name="Number of Clusters">
+                    <div class="row-test">
+                        <!--label>#Clusters</label-->
+                        <select class="evalCluster" name="Number of Clusters">
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -661,9 +674,9 @@
                         </select>
                     </div>
                     
-                    <div class="row-3">  
-                        <label>Distance</label>
-                        <select id="distance" name="Distance">
+                    <div class="row-test">  
+                        <!--label>Distance</label-->
+                        <select class="evalDistance" name="Distance">
                           <option value="0">Euclidean</option>
                           <option value="1">Canberra</option>
                           <option value="2">Bray Curtis</option>
@@ -671,27 +684,37 @@
                         </select>
                     </div>
                       
-                    <div class="row-4">  
-                        <label>Sorting</label>
-                        <select id="sorting" name="Sorting">
+                    <div class="row-test">  
+                        <!--label>Sorting</label-->
+                        <select class="evalSorting" name="Sorting">
                           <option value="0">simple initializiation of centroids</option>
                           <option value="1">k-means++</option>
                         </select>
                     </div>
                 </div>
                   
-                  <div class="method-2">
-                  <label class="methLabels">Method 2</label>    
-                    <div class="row-1">
-                        <label>Algorithm</label>
-                        <select id="nAlg" class="alg" name="Algorithm">
+                <div class="method-2">
+                  <label class="methLabels">Method 2</label>
+                    <div class="row-test">
+                        <!--label>Algorithm</label-->
+                        <select class="evalChoise" name="Choise">
+                            <option value="0">Euclidean</option>
+                            <option value="1">Canberra</option>
+                            <option value="2">Bray Curtis</option>
+                            <option value="3">Manhattan</option>
+                            <option value="4">Borda</option>
+                        </select>
+                    </div>
+                    <div class="row-test">
+                        <!--label>Algorithm</label-->
+                        <select class="evalAlg" name="Algorithm">
                           <option value="0">Borda</option>
                           <option value="1">Cluster</option>
                         </select>
                     </div>
-                  <div class="row-2">
-                        <label>#Clusters</label>
-                        <select id="nCluster" name="Number of Clusters">
+                  <div class="row-test">
+                        <!--label>#Clusters</label-->
+                        <select class="evalCluster" name="Number of Clusters">
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -702,9 +725,9 @@
                         </select>
                     </div>
                     
-                    <div class="row-3">  
-                        <label>Distance</label>
-                        <select id="distance" name="Distance">
+                    <div class="row-test">  
+                        <!--label>Distance</label-->
+                        <select class="evalDistance" name="Distance">
                           <option value="0">Euclidean</option>
                           <option value="1">Canberra</option>
                           <option value="2">Bray Curtis</option>
@@ -712,19 +735,21 @@
                         </select>
                     </div>
                       
-                    <div class="row-4">  
-                        <label>Sorting</label>
-                        <select id="sorting" name="Sorting">
+                    <div class="row-test">  
+                        <!--label>Sorting</label-->
+                        <select class="evalSorting" name="Sorting">
                           <option value="0">simple initializiation of centroids</option>
                           <option value="1">k-means++</option>
                         </select>
                     </div>
+                </div>
                 </div>
                 <div class="clearfix">
                     <button name="login" class="clusterbtn" id="register" onclick="document.getElementById('id01').style.display='none'">Ok</button>
                     <input id="defineBtn" type="button" value="define"  style="display:none"/>
                     <input id="loopBtn" type="button" value="define"  style="display:none"/>
                 </div>
+            
             </div>
         </div>
          </div>

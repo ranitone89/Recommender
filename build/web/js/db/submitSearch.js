@@ -19,7 +19,7 @@ $(document).ready(function() {
     var scenarios = [];
     var evalShowInfos = true;
     var errorevalShowInfos = false;
-    var mode;
+    var mode = 1;
     var divColors = ['#666','#f1f1f1','#d9f5da','#ffeaea','#c0fef1','#ffd6b3','#fae9be','#d4e3ff','#eafec0'];
     var activeStatistic = 0;
     var surveryInfor = false;
@@ -28,9 +28,9 @@ $(document).ready(function() {
     var surveyPar = false;
     
     var userId = getUserId();
-
-    getScenariosDB();
     initMode();
+    getScenariosDB();
+    //initMode();
     initWelcomeScreen();
     
     $(document).scroll(function(e) {
@@ -443,7 +443,8 @@ $(document).ready(function() {
     $(document).on("click", ".submitBtn", function(event){
         $('.statistics-close').trigger('click');       
         mode = getMode();
-        getParameterMode(mode);
+        //getParameterMode(mode);
+        getModeParameter(mode);
         
         
         activeStatistic = 0;
@@ -585,7 +586,7 @@ $(document).ready(function() {
             getTestPrametar();
        }
         if(mode == 1){
-            getEvalPrametar(evalNum);
+            getEvalPrametar();
         }  
     }    
     
@@ -765,7 +766,7 @@ $(document).ready(function() {
                 
                 for(var j = 0; j<jsonObj[mt][cl].movies.length; j++){
                     movies += jsonObj[mt][cl].movies[j].title+", ";
-                    alert("FIlm ID: "+jsonObj[mt][cl].movies[j].movieId+" Cluster: "+cluster);
+                    //alert("FIlm ID: "+jsonObj[mt][cl].movies[j].movieId+" Cluster: "+cluster);
                 }
                 showMessage(method,cluster,movies);
                 //initIndex(method,cluster);
@@ -1216,8 +1217,8 @@ $(document).ready(function() {
             $('#evalSearch').css("display","none");
        }
        else{
-            //$('.search-tab').appendTo('#id01 .tab');
-            //$('.search-tab-cluster').appendTo('.header-right');
+            $('.search-tab').appendTo('#id01 .tab');
+            $('.search-tab-cluster').appendTo('.header-right');
             showEvalMode();
             hideTestMode();
             $('#testSearch').css("display","none");
@@ -1225,7 +1226,7 @@ $(document).ready(function() {
            
             //get scenarion including message for each scenario
             getScenarios();
-            getModeParameter();
+            getModeParameter(mode);
        }
        
        initWelcomeScreen();
@@ -1358,12 +1359,13 @@ $(document).ready(function() {
      * @returns {String}
      */
     function getModeParameter(mode) {
-       /*Doppelt aufgerufen-->Besser*/
+        //alert("Get Mode Parameter");
+
         if(mode == 0){
             getTestPrametar();
        }
         if(mode == 1){
-            getEvalPrametar();
+            getEvalPrametar(evalNum);
         }  
     }
 
@@ -1487,19 +1489,19 @@ $(document).ready(function() {
     
    
    function getTestPrametar(){
-        method1Parameter[0] = $( ".method-1 #nAlg" ).val();
-        method1Parameter[1] = $( ".method-1 #nCluster" ).val();
-        method1Parameter[2] = $( ".method-1 #distance" ).val();
-        method1Parameter[3] = $( ".method-1 #sorting" ).val();
+        method1Parameter[0] = $( ".method-1 .evalAlg" ).val();
+        method1Parameter[1] = $( ".method-1 .evalCluster" ).val();
+        method1Parameter[2] = $( ".method-1 .evalDistance" ).val();
+        method1Parameter[3] = $( ".method-1 .evalSorting" ).val();
 
-        method2Parameter[0] = $( ".method-2 #nAlg" ).val();
-        method2Parameter[1] = $( ".method-2 #nCluster" ).val();
-        method2Parameter[2] = $( ".method-2 #distance" ).val();
-        method2Parameter[3] = $( ".method-2 #sorting" ).val();
+        method2Parameter[0] = $( ".method-2 .evalAlg" ).val();
+        method2Parameter[1] = $( ".method-2 .evalCluster" ).val();
+        method2Parameter[2] = $( ".method-2 .evalDistance" ).val();
+        method2Parameter[3] = $( ".method-2 .evalSorting" ).val();
+        
    }
    
    function getEvalPrametar(comparationAt){
-       
         method1Parameter[0] = $('#evalCom'+comparationAt+' #evalMeth1 .evalAlg').val();
         method1Parameter[1] = $('#evalCom'+comparationAt+' #evalMeth1 .evalCluster').val();
         method1Parameter[2] = $('#evalCom'+comparationAt+' #evalMeth1 .evalDistance').val();
@@ -1527,13 +1529,12 @@ $(document).ready(function() {
    }
    
    function showTestMode(){
-        $('.method-1').css('display', 'block');
-        $('.method-2').css('display', 'block'); 
+       $('.testMode').css('display', 'block');
+       $('.testMode  .evalChoise').trigger('click');
    }
    
    function hideTestMode(){
-        $('.method-1').css('display', 'none');
-        $('.method-2').css('display', 'none');       
+        $('.testMode').css('display', 'none');
    }
    
    function getMode(){
@@ -1572,7 +1573,6 @@ $(document).ready(function() {
    function setGenreParam(temp){
 
         resetGenreParam();
-        alert(temp[0]);
         var genre = temp[0].split(',');
         //alert(genre[0]);
         $('.mutliSelect input[type="checkbox"]').each(function() {
@@ -1814,7 +1814,7 @@ $(document).ready(function() {
     
     function initScenarios(){
         getScenarios();
-        getModeParameter();
+        getModeParameter(mode);
     }
     
     
@@ -1886,7 +1886,6 @@ $(document).ready(function() {
     });
     
     $(document).on("click", "#evalSearch", function(event){
-        alert(surveyPar);
         if(surveyPar==false){
         $('.search-tab-cluster').css("display","none");
              $('#id02').css("display","block");
@@ -1902,26 +1901,52 @@ $(document).ready(function() {
                                  choices:["18-24", "25-34", "35-44", "45-59", "60-69", "70 und älter"]},
                              
                                 {type:"radiogroup", name:"beschäftigung", title: "Sind Sie berufstätig?", isRequired: true, 
-                                choices:["ja", "nein"]}
+                                choices:["ja", "nein"]},
+                                
+                                {type: "text", name: "email",isRequired: true,
+                                    title: "Was ist Ihr derzeitiger / was war Ihr letzter Beruf?"}
                             ],                           
                         },
                         { title: "Allgemeine Nutzungsfragen",
                             questions: [
                                 {type:"radiogroup", name:"filme", title: "Wie häufig nutzen Sie Videoinhalte wie z.B Filme und Serien?", isRequired: true, 
                                     choices:["Täglich oder fast täglich", "Mindestens einmal pro Woche", "Mindestens einmal im Monat", 
-                                        "Seltener", "Nie", "Weiß nicht"]},
+                                        "Seltener", "Nie"]},
                                 
-                                {type:"radiogroup", name:"plattformen", title:"Wenn Sie Filme und Serien nutzen, welche Plattformen verwenden Sie hierfür?", isRequired: true,
-                                 choices:["Video-Streaming-Dienste", 
-                                     "TV-Sendern","Kostenlose Portale für Filme und Serien (z.B. kinox.to, Streamcloud, movie8k.to)"]},
-                             
+                                {type:"radiogroup", name:"zahlbereitschaft", title: "Wären Sie bereit für Videoinhalte zu zahlen?", isRequired: true, 
+                                    choices:["Ja", "Nein"]},
+                                
+                                { type: "matrix", name: "plattformen", title: "Wie häufig verwenden Sie foglende Platformen für die Nutzung von Videoinhalten?", isRequired: true,
+                                    columns: [{ value: 1, text: "nie" },
+                                        { value: 2, text: "selten" },
+                                        { value: 3, text: "manchmal" },
+                                        { value: 4, text: "meistens" },
+                                        { value: 5, text: "immer" }],
+                                    rows: [{
+                                        value: "stream",
+                                        text: "Video-Streaming-Dienste"
+                                    }, {
+                                        value: "tv",
+                                        text: "TV-Sendern"
+                                    }, {
+                                        value: "portale",
+                                        text: "Kostenlose Portale(z.B YouTube)"
+                                    }]
+                                }, 
+                                                               
+                                { type: "radiogroup", name: "empfehlung", title: "Wie oft werden Ihnen Filme auf  Ihr Lieblingsplattform empfohlen?", isRequired: true,
+                                 choices:["nie", 
+                                     "selten","manchmal","meistens","immer"]},
+                                                                                 
                             ],                           
                         },
-                        { title: "Zufriedenheit",
+                        { title: "Zufriedenheit", 
                             questions: [
-                                {type:"radiogroup", name:"zufriedenheit", title: "Wie zufrieden sind Sie mit Ihrem Video-Streaming-Dienst insgesamt:", isRequired: true, 
-                                    choices:["Sehr zufrieden", "Eher zufrieden", "Teils teils", 
-                                        "Weniger zufrieden", "Überhaupt nicht zufrieden", "Weiß nicht"]},
+                                { type: "radiogroup", name: "sinn", title: "Halten Sie automatisch generierte Filmempfehlugen für lästig?", isRequired: true,
+                                 choices:["nie","selten","manchmal","meistens","immer"]},
+                             
+                                {type:"radiogroup", name:"zufriedenheit", title: "Treffen solche Empfehlungen in der Regel ihr Geschmack?", isRequired: true, 
+                                choices:["nie","selten","manchmal","meistens","immer"]},
                             ],                           
                         }]
                 });
@@ -1974,7 +1999,7 @@ $(document).ready(function() {
             //var actorList = covertToArray(actors,'g');
             var genreList = covertToArray(genres,'g');
             var paramList = getSearchPreference();
-            alert(paramList);
+            resetGenreParam();
             
             $('.clusterbtn').css("display","block");
             $('#defineBtn').css("display","none");
@@ -1988,7 +2013,7 @@ $(document).ready(function() {
             $('.searchParameter').css("display","none");
             
             
-            /*$.ajax({
+            $.ajax({
              url : "InsertScenarioServlet",
              type : "GET",
              data : {
@@ -2013,7 +2038,7 @@ $(document).ready(function() {
                             alert("Insert Error");
                         }
                 }
-            });*/
+            });
         }
     });
     

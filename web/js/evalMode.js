@@ -58,7 +58,43 @@ $(document).ready(function() {
         comparIndex = $(this).val();
         removeComparations();
         addComparations(comparIndex);
+        setLabelText(1);
     });
+    
+    //Eval Choise
+    $(document).on('click','.evalSlider .evalChoise', function(){
+        alert("Eval");
+        var firstParent = $(this).parents().eq(2).attr('id');
+        var secondParent = $(this).parents().eq(1).attr('id');
+        var value = $(this).val();
+        if(value < 4){
+            setAlgorithmus(firstParent, secondParent, 1);
+            setDistance(firstParent, secondParent, value);
+        }
+        /*Borda*/
+        else{
+            setAlgorithmus(firstParent, secondParent, 0);
+            //setDistance(firstParent, secondParent, value);            
+        }
+        
+    });
+    
+    
+    //Test Choise
+    $(document).on('click','.testMode .evalChoise', function(){
+        var firstParent = $(this).parents().eq(1).attr('class');
+        var value = $(this).val();
+        if(value < 4){
+            setTestAlgorithmus(firstParent, 1);
+            setTestDistance(firstParent,value);
+        }
+        else{
+            setTestAlgorithmus(firstParent, 0)
+            //setDistance(firstParent, secondParent, value);            
+        }
+        
+    });
+    
 
     /* Add comparations to div
     * 
@@ -69,6 +105,13 @@ $(document).ready(function() {
     function appendComparations(num) {
         $('.evalSlider').append('<div class="evalComparation"'+ ' id="evalCom'+num+'">'
                           + '<div class="evalMethods" id="evalMeth1">'
+                            + '<div class="rowEval"><select class="evalChoise" name="Choise">'
+                              + '<option value="0">Euclidean</option>'
+                              + '<option value="1">Canberra</option>'
+                              + '<option value="2">Bray Curtis</option>'
+                              + '<option value="3">Manhattan</option>'
+                              + '<option value="4">Borda</option>'
+                            + '</select></div>'
                             + '<div class="rowEval"><select class="evalAlg" name="Algorithm">'
                               + '<option value="0">Borda</option>'
                               + '<option value="1">Cluster</option>'
@@ -95,6 +138,13 @@ $(document).ready(function() {
                             +'</select></div>'
                           +'</div>'+
                         '<div class="evalMethods" id="evalMeth2">'
+                            + '<div class="rowEval"><select class="evalChoise" name="Choise">'
+                              + '<option value="0">Euclidean</option>'
+                              + '<option value="1">Canberra</option>'
+                              + '<option value="2">Bray Curtis</option>'
+                              + '<option value="3">Manhattan</option>'
+                              + '<option value="4">Borda</option>'
+                            + '</select></div>'
                           + '<div class="rowEval"><select class="evalAlg" name="Algorithm">'
                             + '<option value="0">Borda</option>'
                             + '<option value="1">Cluster</option>'
@@ -122,6 +172,7 @@ $(document).ready(function() {
                           +'</div>'
                     +'</div>');
         showComparation(0);
+        $('.evalSlider .evalChoise').trigger('click');
     }    
     
     function addComparations(comparIndex){
@@ -154,7 +205,7 @@ $(document).ready(function() {
     }
     
     /*
-     * Algorithmus: 0 Borda, 1 Clustering
+     * Algorithmus: 0 Euclidean, 1 Canberra, 2 Bray Curtis, 3 Manhattan, 4 Borda
      * #Cluster: 1...7
      * Distance: 0 Euclidean, 1 Canberra, 2 Bray Curtis, 3 Manhattan
      * Initialisation: 0 simple initialization of centroids, 1 kmeans++
@@ -164,6 +215,16 @@ $(document).ready(function() {
      */
     
     function initEvalMethods(){
+        /*Init first Comparation*/
+        
+        /*IComparation 1: Borda, Cluster Euclidian*/
+        setChoise(1, 1, 4);
+        setChoise(1, 2, 0);
+        
+        /*Comparation 2: Borda, Cluster Canberra */
+        setChoise(2, 1, 4);
+        setChoise(2, 2, 1);
+        
         /*Init first Comparation*/
         $('#evalCom1 #evalMeth1 .evalAlg').val(0);
         $('#evalCom1 #evalMeth1 .evalCluster').val(3);
@@ -194,24 +255,69 @@ $(document).ready(function() {
        $('.compLabels').text(text);
     }
 
+
+    /*
+     * Set Choise
+    */
+    function setChoise(comp, method, value){
+        $('#evalCom'+comp+ ' #evalMeth'+method+ ' .evalChoise').val(value).trigger('click');
+    }
+    /*
+     * Get Algorithmus
+     */
     function getAlgorithmus(){
        var alg = $(".evalAlg").val();
        return alg;
     }
-   
-    function setAlgorithmus(div, value){
-       $(".evalAlg").val(value);
+
+    /*
+     * Set Algorithmus for evaluation mode
+    */
+    function setAlgorithmus(first, second, value){
+       
+        $('#'+first+' #'+second+' .evalAlg').val(value);
+    }
+
+
+    /*
+     * Set Algorithmus for test mode
+    */
+    function setTestAlgorithmus(first, value){
+        $('.'+first+ ' .row-test .evalAlg').val(value);
     }
     
+    /*
+     * Set Distance Eval Mode
+    */
+    function setDistance(first, second, value){
+       $('#'+first+' #'+second+' .evalDistance').val(value);
+    }    
+
+
+    /*
+     * Set Distance Eval Mode
+    */
+    function setTestDistance(first, value){
+       $('.'+first+ ' .row-test .evalDistance').val(value);
+    }  
+    
+    /*
+     * Set Number of Comparations
+     * @param {type} num
+     * @returns {undefined}
+     */
     function setNumCom(num){
         $( ".comparation #nComparation" ).val(num);
     }
     
+    /*
+     * Get Number of Comparations
+     * @returns {jQuery}
+     */
     function getNumCom(){
         return $( ".comparation #nComparation" ).val();
     }
     
-    /**/
 });
 
 function openEval(evt, cityName) {

@@ -812,6 +812,8 @@ span.range_star {
 
 .methLabels {
     float: left;
+    margin-left: 32px;
+    margin-bottom: 10px;
 }
 
 input[type=text] {
@@ -824,7 +826,7 @@ input[type=text] {
     overflow: hidden;
 }
 
-.method-1 input[type=text], .method-1 select {
+/*.method-1 input[type=text], .method-1 select {
     width: 100%;
     margin: 14px 0;
     display: inline-block;
@@ -854,7 +856,7 @@ input[type=text] {
     vertical-align: middle;
     font-family: 'Nunito', sans-serif;
    margin-bottom: 30px;
-}
+}*/
 
 textarea#actors {
     width: 100%;
@@ -976,7 +978,7 @@ button#surveyclose {
 .sv_row {
     border-bottom: 1px solid #ccc;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    width: 60%;
+    width: 80%;
     margin-left: 0;
 }
 /***************************/
@@ -2379,22 +2381,69 @@ button#btn_next_stat {
 }
 
 .method-1, .method-2 {
-    margin-left: 72px;
+    /*margin-left: 72px;
     margin-top: 50px;
     border: 1px solid #d8d8d8;
     height: 135px;
     width: 732px;
     background-color: whitesmoke;
-    display: none;
+    display: none;*/
+    width: 200px;
+    float: left;
+    margin-left: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-.row-1, .row-2, .row-3, .row-4 {
+.method-1 {
+    margin-left: 168px;
+}
+
+/*.row-1, .row-2, .row-3, .row-4 {
     width: 105px;
     margin-left: 12px;
     margin-right: 30px;
     margin-top: 40px;
     float: left;
 
+}*/
+
+.testMode {
+    /*height: 180px;
+    border: 1px solid #ccc;
+    background-color: #d8d8d8;
+    margin-left: 30px;*/
+    margin-left: 72px;
+    margin-top: 50px;
+    border: 1px solid #d8d8d8;
+    height: 158px;
+    width: 734px;
+    background-color: whitesmoke;
+    display: none;
+}
+
+.testMode input[type=text], .testMode .evalChoise, .testMode .evalCluster, .testMode .evalSorting {
+    width: 130%;
+    margin: 1px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 9px 21px 10px 15px;
+    font-size: 13px;
+    background-color: white;
+    text-decoration: none;
+    vertical-align: middle;
+    font-family: 'Nunito', sans-serif;
+}
+
+
+.row-test {
+    width: 105px;
+    margin-left: 12px;
+    margin-right: 30px;
+    /*margin-top: 40px;*/
+    float: left;
 }
 
 .modal-content label {
@@ -2504,6 +2553,14 @@ div.tab button.active {
     border-top: none;
     width: 710px;
     margin-left: 72px;
+}
+
+.evalDistance {
+    display: none;
+}
+
+.evalAlg {
+    display: none;
 }
 
 #messageEval {
@@ -2678,6 +2735,7 @@ button#infoClose:hover{
     height: 180px;
     border: 1px solid #ccc;
     background-color: #d8d8d8;
+    margin-left: 30px;
 }
 
 .evalMethods {
@@ -2688,7 +2746,14 @@ button#infoClose:hover{
     margin-bottom: 10px;
 }
 
-.evalComparation input[type=text], .evalComparation select{
+#evalMeth1 {
+    margin-left: 90px;
+}
+
+.evalComparation input[type=text], 
+.evalComparation .evalChoise, 
+.evalComparation .evalCluster, 
+.evalComparation .evalSorting{
     width: 100%;
     margin: 1px 0;
     display: inline-block;
@@ -2705,11 +2770,11 @@ button#infoClose:hover{
 
 .compLabels {
     float: left;
-    margin-top: -36px;
+    margin-top: 10px;
 }
 
 .evalButtons {
-    margin-left: 250px;
+    margin-left: 320px;
     margin-bottom: 20px;
 }
 
@@ -2951,6 +3016,10 @@ input#newBtn{
 
 .scen_param,.scen_desc, .search_param{
     display:none;
+}
+
+#defaultEval{
+    display: block;
 }
 
 #id01 textarea#description {
