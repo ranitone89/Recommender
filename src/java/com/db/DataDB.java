@@ -21,7 +21,6 @@ public class DataDB {
 	public ArrayList<String> getFrameWork(String frameWork) throws Exception {
                 ArrayList<String> list = new ArrayList<String>();
 		PreparedStatement ps = null;
-                System.out.println("Autooooo");
                 String data;
 		try {
                     String sql = "SELECT name FROM top_actors WHERE name LIKE ?";

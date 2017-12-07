@@ -59,31 +59,44 @@ public class SearchRequest extends HttpServlet {
 
             DataDB dataDao = new DataDB();
             
+            
+            /*  Get Movies From data base
+            *
+            */
             ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres);
             ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<>();
             
+            
             if(movies.size()>10){
+                /*Calculate scores for each movie based on search parameter*/
                 Search search = new Search(genres, actors);
                 Score s = new Score(movies,search);
                 ArrayList<PointdDim> points = getPoints(movies);
+                /***********************************************************/
 
-                //int k, int distance, int sort
+                /*  Transform string parameters to ArrayList */
                 ArrayList<Integer> firstMethParam = getParameters(method1,0);
                 ArrayList<Integer> secondMethParam = getParameters(method2,1);
-
+                
+                
+                /*  Get Clusters for first method  */
                 FinalClustering fistMethod = new FinalClustering();
                 fistMethod = getMethod(points,firstMethParam);
 
+                /*  Get Clusters for second method  */
                 FinalClustering secondMethod = new FinalClustering();
                 secondMethod = getMethod(points,secondMethParam);
 
-                //ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<>();
-
+                
+                /*  Make final recommendations, that includes all clusters and movies  
+                    for each method*/
                 ArrayList<Recommendation> firstRecommendation = getMethodElements(fistMethod,0);
                 ArrayList<Recommendation> secondRecommendation = getMethodElements(secondMethod,1);
-
+                
+                /* Sort Cluster */
                 sortCluster(firstRecommendation, secondRecommendation);
-
+    
+                /* Append recommendations */
                 recommendations.add(firstRecommendation);
                 recommendations.add(secondRecommendation);
 
@@ -99,7 +112,8 @@ public class SearchRequest extends HttpServlet {
         }
     }
 
-    /** 
+    /**  Get all cluster for the method
+     *   
      */
     private FinalClustering getMethod(ArrayList<PointdDim> points,  ArrayList<Integer> methParam)
     {
@@ -120,7 +134,7 @@ public class SearchRequest extends HttpServlet {
     
     
     /**
-     * Filters parameter from String, prove if parameters are equals zero
+     * Get Parameter from js as ArrayList for particular method
      * @param parameters
      * @return 
      */
@@ -144,14 +158,15 @@ public class SearchRequest extends HttpServlet {
         return temp;
     }        
 
+
     /**
-     * 
-     * @param firstCluster
-     * @param secondCluster
-     * @throws IOException 
-     */
-    private void sortCluster(ArrayList<Recommendation> firstMethod, ArrayList<Recommendation> secondMethod) throws IOException 
-    {
+     * Sort clusters of two methods in order to display simular clusters in one row
+     * @param parameters
+     * @return 
+     */    
+     
+     private void sortCluster(ArrayList<Recommendation> firstMethod, ArrayList<Recommendation> secondMethod) throws IOException 
+     {
         float[ ][ ] scores = new float[firstMethod.size()][secondMethod.size()];
         
         HashMap <Integer, Integer> hmap = new HashMap<Integer, Integer>();
@@ -160,6 +175,7 @@ public class SearchRequest extends HttpServlet {
         
         for(Recommendation cl1:firstMethod ){
             for(Recommendation cl2:secondMethod ){
+                /*compare movies of clusters*/
                 scores[cl1.getClusterId()][cl2.getClusterId()] = compareClusters(cl1, cl2);
                 
             }
@@ -168,6 +184,10 @@ public class SearchRequest extends HttpServlet {
         setClusterIds(secondMethod, hmap);
     }  
 
+    
+    /* Change id of each cluster according to sorting order
+    *
+    */
     public static void setClusterIds(ArrayList<Recommendation> secondMethod, HashMap hmap){
         
         for(Recommendation cluster: secondMethod){
@@ -180,13 +200,16 @@ public class SearchRequest extends HttpServlet {
         }
     }
     
+    /*
+    *   Get cluster with maximal simularity and disable affected row and column
+    */
     public static void getClusterPair(float[][] scores, Set usedRows, Set usedColumns, HashMap hmap){
         for(int i =0; i<scores.length; i++){
             System.out.println("Max: "+getMaxValue(scores,usedRows,usedColumns,hmap));
         }
     }
     
-    
+    /*Transform Matrix*/
     public static float getMaxValue(float[][] numbers, Set usedRows, Set usedColumns, HashMap hmap) {
         float maxValue = 0f;
         int row = Integer.MIN_VALUE;
@@ -216,11 +239,12 @@ public class SearchRequest extends HttpServlet {
         return maxValue;
     }
     
+    /* Calculate simularity between custer according movie title with jaccard*/
     private float compareClusters(Recommendation firstCluster, Recommendation secondCluster) throws IOException 
     {
-        int numMoviesCl1 = firstCluster.getMovies().size(); //movieGenres
-        int numMoviesCl2 = secondCluster.getMovies().size(); //searchGenres
-        int commonMovies = 0; //commonGenres
+        int numMoviesCl1 = firstCluster.getMovies().size();
+        int numMoviesCl2 = secondCluster.getMovies().size(); 
+        int commonMovies = 0;
         
         for(Movie m1: firstCluster.getMovies()){
             for(Movie m2: secondCluster.getMovies()){
@@ -251,7 +275,7 @@ public class SearchRequest extends HttpServlet {
         return recommendations;
     }    
     
-    
+    /* transform movies to points*/
     private ArrayList<PointdDim> getPoints(ArrayList<Movie> movies)
     {  
         ArrayList<PointdDim> points = new ArrayList<PointdDim>();
