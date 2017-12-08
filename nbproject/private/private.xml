@@ -3,14 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/js/ipAdresse.js</file>
-            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/start.html</file>
-            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/db/DataDB.java</file>
-            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/servlets/RegisterRequest.java</file>
-            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/servlets/InsertScenarioRequest.java</file>
-            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/css/start.css</file>
-            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/js/db/submitSearch.js</file>
-            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/js/searchTab.js</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Desktop/Recommender/web/js/methods.js</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Desktop/Recommender/web/js/db/submitSearch.js</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Desktop/Recommender/web/js/statistics.js</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Desktop/Recommender/web/css/start.css</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Desktop/Recommender/web/start.html</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Desktop/Recommender/web/js/movies_1.js</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Desktop/Recommender/web/js/tab.js</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Desktop/Recommender/web/index.html</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Desktop/Recommender/web/js/global.js</file>
         </group>
     </open-files>
 </project-private>
