@@ -83,7 +83,6 @@
         for(var i=0; i<focusStat;i++ ){
             $(slider).eq(i).removeClass('hide');
         }
-        alert("reset Stats");
     };
     
      /* Get Labels for dimensionen that are included in statistics

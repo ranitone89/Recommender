@@ -1,4 +1,6 @@
 
+/* global scenarioObject, searchObject */
+
 $(document).ready(function() {
     var evalNum = 1;
     var scenarioNum = 0;
@@ -8,14 +10,17 @@ $(document).ready(function() {
     var ratedMovies;
     var num = [];
     var slideIndex = [[],[]];
-    var searchPrameter = [[]];
+
     var statcsIndex  = 0;
     var statistic = 0;
     var charts = new Array();
     
+    var searchPrameter = [[]];
+    var scenarios = [];
+    
     var method1Parameter = [];
     var method2Parameter = [];
-    var scenarios = [];
+    //var scenarios = [];
     var evalShowInfos = true;
     var errorevalShowInfos = false;
     var mode = 1;
@@ -27,7 +32,7 @@ $(document).ready(function() {
     
     var userId = getUserId();
     initMode();
-    getScenariosDB();
+    //getScenariosDB();
     //initMode();
     initWelcomeScreen();
     
@@ -229,7 +234,6 @@ $(document).ready(function() {
        
     });
     $(document).on("click", ".statistics-close", function(event){
-        alert("Close submit");
         var activeStatic = $(this).parents().eq(0).attr('class');
         activeStatistic = 0;
         $('.ck-button').css('display', 'block');
@@ -251,11 +255,13 @@ $(document).ready(function() {
     /************************** Submit Search *********************/
 
     $(document).on("click", ".submitBtn", function(event){
-        $('.statistics-close').trigger('click');       
+        $('.statistics-close').trigger('click');
+
         mode = getMode();
         //getParameterMode(mode);
+        alert("GetMOde")
         getModeParameter(mode);
-        
+        alert("getModeParameter");
         
         activeStatistic = 0;
         statcsIndex = 0;
@@ -268,7 +274,11 @@ $(document).ready(function() {
         var minLenght = $('#lenght .range_min').text();
         var minStar = $('#star .range_star').text();
         
-            
+        alert(actors);
+        alert(genres);
+        alert(maxReleased);
+        alert(minStar);
+        
          if(actors == ""){
              $('#messageSearch').css("display","block");
              $('#messageSearch').html("<font color='red'>Geben Sie bitte mindestens einen Namen ein. </font>")
@@ -280,13 +290,14 @@ $(document).ready(function() {
              return;
          }
          else{
+             alert("Parameter in ordnung")
              $('#messageSearch').css("display","none");
-             var actorList = covertToArray(actors,'a');
-             var genreList = covertToArray(genres,'g');
+             var actorList = searchObject.covertToArray(actors,'a');
+             var genreList = searchObject.covertToArray(genres,'g');
              $('#id02').css("display","none");
              delDivContent();
              surveryInfor==false;
-             
+             alert("Search");
              $.ajax({
              url : "SearchServlet",
              type : "GET",
@@ -366,7 +377,7 @@ $(document).ready(function() {
         if(movies !== null){
             $('.survey').css('display', 'block');
             
-            movieObject.displayMovies(covertToArray(movies,'r'),method,cluster);
+            movieObject.displayMovies(searchObject.covertToArray(movies,'r'),method,cluster);
 
             $('.tab-nav').hide();
             $('.tab-back-nav').show();
@@ -616,7 +627,7 @@ $(document).ready(function() {
     }
     
 
-    function covertToArray(array, string)
+    searchObject.covertToArray = function(array, string)
     {
         var theArray = '';
 
@@ -784,7 +795,7 @@ $(document).ready(function() {
        if($(this).val()=='Complete' && surveyIndex>1){
            $('#id02').css("display","none");
            surveyIndex  = 0;
-           displayScenario(scenarioNum);
+           scenarioObject.displayScenario(scenarioNum);
        }
        surveyIndex = surveyIndex +1;
 
@@ -816,7 +827,11 @@ $(document).ready(function() {
             $('#evalSearch').css("display","block");
            
             //get scenarion including message for each scenario
-            getScenarios();
+            //getScenarios();
+            scenarios = scenarioObject.getScenarios();
+            scenarioObject.createScenarioMessage(scenarios);
+            alert("Cluster btn: ",scenarios);
+            alert("Scenarios: ",scenarios);
             getModeParameter(mode);
        }
        
@@ -917,8 +932,8 @@ $(document).ready(function() {
     function checkEvalNum(mode){
         //first scenario allready shown
         if(mode == 1){
-            if(scenarioNum < getNumberScenario()-1){
-                if(evalNum < getNumberComparations()){
+            if(scenarioNum < searchObject.getNumberScenario-1){
+                if(evalNum < searchObject.getNumberScenario){
                     evalNum = evalNum+1;
                     $('.submitBtn').trigger('click');
                     getSurveyVaues();
@@ -930,11 +945,11 @@ $(document).ready(function() {
                     getSurveyVaues();
                     evalNum = 1;
                     resetSurvey();
-                    resetSearchPram();
+                    searchObject.resetSearchPram();
                     scenarioNum = scenarioNum+1;
                     //setScenarioText(scenarioNum);
                     unbindSearchButtons();
-                    displayScenario(scenarioNum);
+                    scenarioObject.displayScenario(scenarioNum);
                     
                 }
                 
@@ -952,10 +967,10 @@ $(document).ready(function() {
                     getSurveyVaues();
                     evalNum = 1;
                     resetSurvey();
-                    resetSearchPram();
-                    hideScenarioMessages();
-                    removeScenarioMessage();
-                    closeScenarioMessages();
+                    searchObject.resetSearchPram();
+                    scenarioObject.hideScenarioMessages();
+                    scenarioObject.removeScenarioMessage();
+                    scenarioObject.closeScenarioMessages();
                     showGoodbye();
                     scenarioNum = 0;
                     //setScenarioText(scenarioNum);
@@ -970,7 +985,7 @@ $(document).ready(function() {
             hideResult();
             movieObject.showMovies();
             hideGoodbye();
-            resetSearchPram();
+            searchObject.resetSearchPram();
             scenarioNum = 0;
             evalShowInfos = false;
             errorevalShowInfos = false;
@@ -1086,7 +1101,7 @@ $(document).ready(function() {
    }
    
    
-   function resetSearchPram(){
+   searchObject.resetSearchPram = function(){
        resetGenreParam();
        resetActorParam();
        resetRankingParam();
@@ -1250,75 +1265,20 @@ $(document).ready(function() {
        return method;
    }
    
-   /**Create explanations for every scenario**/
-   function createScenarioMessage(){
-       removeScenarioMessage();
-       for(var i=0; i<scenarios.length; i++){
-           $('.explanationBox').append('<div class="explanation"><p>'+$('#desc'+scenarios[i]).val()+'</p></span></div>');
-        }
-    }
 
-    /**Remove all explanations**/
-   function removeScenarioMessage(){
-        $('.explanationBox').empty();
-   }
-   
-    function setScenarioText(value){
-        var textNum = value+1;
-        var text = "Szenario: "+textNum +" von "+getNumberScenario();
-       $('.scenLabels').text(text);
-    }
-    
-   function getNumberScenario(){
+   searchObject.getNumberScenario = function(){
        return scenarios.length;
-   }
+   };
 
    function getNumberComparations(){
        return $('#nComparation').val();
    }
    
-    function displayScenario(scenarioAt){
-        $('#id03').css("display","block");
-        setScenarioText(scenarioNum);
-        displayScenarioMessage(scenarioAt);
-    }
- 
-   function displayScenarioMessage(messageAt){
-           var position = messageAt;
-           hideScenarioMessages();
-           $('.explanationBox .explanation').eq(position).addClass('showScenario');
-           $('#id03').css("display","block");
-   }
-   
-   function hideScenarioMessages(){
-        for(var i=0; i<getNumberScenario();i++ ){
-            $('.explanationBox .explanation').eq(i).removeClass('showScenario');
-        }
-   }
-   
-   function closeScenarioMessages(){
-       $('#id03').css("display","none");
-   }
-   
-   function openScenarioMessages(){
-       $('#id03').css("display","none");
-   }
-
     $(document).on("click", "#id05 .infoClose", function(event){
         $('#id05').css("display","none");
         location.href = "index.html"
    });
     
-   
-    $(document).on("click", ".explainClose", function(event){
-       closeScenarioMessages();
-       hideScenarioMessages();
-   });
-    
-    $(document).on("click", ".information_icon", function(event){
-        displayScenarioMessage(scenarioNum);
-   });
-
     $(document).on("click", "#id05 #infoClose", function(event){
         $(".nav-element").trigger('click');
    });    
@@ -1382,6 +1342,7 @@ $(document).ready(function() {
     
     /************************* Survey *****************************************/
     $(document).on("click", "#id04 #infoClose", function(event){
+        alert("init");
         initScenarios();
     });
     
@@ -1461,180 +1422,24 @@ $(document).ready(function() {
     });
     
     
-    /*********************************** Insert Scenarios ********************************************/
+    /*************Trigger Scenarios**********************/
     
     function initScenarios(){
-        getScenarios();
+        scenarios = scenarioObject.getScenarios();
+        scenarioObject.createScenarioMessage(scenarios);
         getModeParameter(mode);
     }
     
-    
-    function getScenarioLenght(){
-        var temp = $('#output').val().split(', ');
-        return temp.length-1;
-    }
+    $(document).on("click", ".information_icon", function(event){
+        scenarioObject.displayScenarioMessage(scenarioNum);
+    });
    
-    function getScenarios(){
-        scenarios = [];
-        var temp = $('#output').val().split(', ');
-        for(var i=0; i<temp.length; i++){
-            if(temp[i]!=''){
-                scenarios[i] = temp[i];
-            }
-        }
-        //create Messages
-        createScenarioMessage();
-    }
-    
-    
-    
     $(document).on("click", ".seachScenario", function(event){
+        searchPrameter = scenarioObject.getSearchParameter();
         setSearchParameter(searchPrameter[scenarios[scenarioNum]-1]);
+        alert("SUbmit in search Scenario");
         $('.submitBtn').trigger('click');
         $('#id03').css("display","none");
     });
     
-    $(document).on("click","#defineBtn", function(event){
-        var actors = removeLastComma($('#id01 .search-tab #actors').val());
-        var genres = removeLastComma($('#id01 .search-tab .multiSel').text());
-        var description = $('#description').val();
-        var parameter = $('.searchParameter input[type="checkbox"]:checked').length;
-        
-        var maxReleased = $('#id01 .search-tab #released .range_max').text();
-        var minReleased = $('#id01 .search-tab #released .range_min').text();
-        var maxLenght = $('#id01 .search-tab #lenght .range_max').text();
-        var minLenght = $('#id01 .search-tab #lenght .range_min').text();
-        var minStar = $('#id01 .search-tab #star .range_star').text();
-
-        if(actors == ""){
-             $('#messageEval').css("display","block");
-             $('#messageEval').html("<font color='red'>Geben Sie bitte mindestens einen Namen ein. </font>")
-             return;
-         }
-         if(genres == ""){
-             $('#messageEval').css("display","block");
-             $('#messageEval').html("<font color='red'>Wählen Sie bitte mindestens ein Genre </font>")
-             return;
-         }
-         if(description == ""){
-             $('#messageEval').css("display","block");
-             $('#messageEval').html("<font color='red'>Geben Sie bitte Beschreibung ein</font>")
-             return;
-         }
-         if(parameter < 3){
-             $('#messageEval').css("display","block");
-             $('#messageEval').html("<font color='red'>Wählen Sie bitte mind. drei Suchparameter aus</font>")
-             return;
-         }
-         
-       else{
-            var released = [minReleased,maxReleased];
-            var lenght = [minLenght,maxLenght];
-            //var actorList = covertToArray(actors,'g');
-            var genreList = covertToArray(genres,'g');
-            var paramList = getSearchPreference();
-            resetGenreParam();
-            
-            $('.clusterbtn').css("display","block");
-            $('#defineBtn').css("display","none");
-            $('#id01 .search-tab').css("display","none"); 
-            $('#messageEval').css("display","none");
-            $('.scen_param').css("display","none");
-            $('.scen_desc').css("display","none");
-            $('.search_param').css("display","none");
-            $('hr').css("display","none");
-            $('#description').css("display","none");
-            $('.searchParameter').css("display","none");
-            
-            
-            $.ajax({
-             url : "InsertScenarioServlet",
-             type : "GET",
-             data : {
-                 description : description,
-                 actors : actors,
-                 genreList : genreList,
-                 lenght : lenght,
-                 released : released,
-                 paramList : paramList,
-                 minStar  : minStar
-                 
-             },
-             success : function(response){
-                        if(response != null && response != "")
-                        {
-                            getScenariosDB();
-                        }
-                    else
-                        {
-                            $('#messageSearch').css("display","block");
-                            $('#messageSearch').html("<font color='red'>Die angegebene Parameter sind zu spezifisch. </font>");
-                            alert("Insert Error");
-                        }
-                }
-            });
-        }
-    });
-    
-    function getScenariosDB(){
-       $.ajax({
-             url : "ScenarioRequest",
-             type : "GET",
-             dataType: "json",
-             success : function(response){
-                        if(response != null && response != "")
-                        {
-                            var jsonStr = JSON.stringify(response);
-                            var jsonObj = JSON.parse(jsonStr);
-                            parseScenarios(jsonObj);
-
-                        }
-                    else
-                        {
-                            alert("Some exception occurred! Please try again.");
-                        }
-                }
-            });
-            
-   }
-   
-    function parseScenarios(jsonObj){
-        removeAllScenarios();
-        removeAllScenariosMessages();
-        initEvalScenarios(1,2,3);
-        for(var i = 0; i < jsonObj.length; i++)
-        {   
-            searchPrameter[i]=[jsonObj[i].actors,jsonObj[i].genres,jsonObj[i].lenght,jsonObj[i].released,jsonObj[i].rating]
-            $('#nScenarios').append('<option value="'+jsonObj[i].id+'"'+'>Szenario ' + jsonObj[i].id + '</option>');
-            $('#EvalScenario').append('<textarea id="desc'+jsonObj[i].id+'" rows="1" class="descriptions" contenteditable="true">'+jsonObj[i].desc+'</textarea>');
-        }
-   }
-   
-    function getSearchPreference() {         
-        var searchParams = [];
-        $('.searchParameter input[type="checkbox"]:checked').each(function() {
-            searchParams.push($(this).val());
-        });
-        return searchParams;
-    }
-  
-    function initEvalScenarios(s1,s2,s3){
-        removeAllSelectedScenarios();
-       $("#output").append(s1+", ");
-       $("#output").append(s2+", ");
-       $("#output").append(s3+", ");
-    }
-    
-   function removeAllScenarios(){
-       $('#nScenarios option').remove();
-   }
-   
-   function removeAllScenariosMessages(){
-       $('#EvalScenario .descriptions').remove();
-   }
-   
-   function removeAllSelectedScenarios(){
-       $("#deleteBtn").trigger('click');
-   }
-/******************************************* Scenarios ***********************************************************/  
 });
