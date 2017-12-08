@@ -1,0 +1,2 @@
+var statisticObject = {};
+var methodObject = {};
