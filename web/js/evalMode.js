@@ -1,3 +1,5 @@
+/* global modeObject */
+
 $(document).ready(function() {
     
     var evalIndex = 0;
@@ -89,8 +91,7 @@ $(document).ready(function() {
             setTestDistance(firstParent,value);
         }
         else{
-            setTestAlgorithmus(firstParent, 0)
-            //setDistance(firstParent, secondParent, value);            
+            setTestAlgorithmus(firstParent, 0)        
         }
         
     });

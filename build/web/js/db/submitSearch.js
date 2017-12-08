@@ -2,8 +2,6 @@
 $(document).ready(function() {
     var evalNum = 1;
     var scenarioNum = 0;
-    var focusStat = 4;
-    var focus = 5;
     var movieContent;
     var movies;
     var movie;
@@ -21,7 +19,6 @@ $(document).ready(function() {
     var evalShowInfos = true;
     var errorevalShowInfos = false;
     var mode = 1;
-    var divColors = ['#666','#f1f1f1','#d9f5da','#ffeaea','#c0fef1','#ffd6b3','#fae9be','#d4e3ff','#eafec0'];
     var activeStatistic = 0;
     var surveryInfor = false;
     var surveyIndex = 1;
@@ -34,6 +31,8 @@ $(document).ready(function() {
     //initMode();
     initWelcomeScreen();
     
+    
+    /*Scroll statistics*/
     $(document).scroll(function(e) {
         var header = $(".Statistic"+activeStatistic);
         if(activeStatistic!==0){
@@ -60,6 +59,8 @@ $(document).ready(function() {
         }
     });
     
+    
+    /*After detail go back*/
     $(document).on("click", ".RatedMovie img", function(event){
         $('.survey').css('display', 'none');
         var $movie = $(this).closest('.Movie');
@@ -92,6 +93,8 @@ $(document).ready(function() {
         
    });
    
+   
+    /*BAck from movie Detail*/
     $(document).on("click", ".search-back-nav ", function(event){
         $('.survey').css('display', 'block');
         $('#ck-buttons').css('display','block');
@@ -130,7 +133,8 @@ $(document).ready(function() {
     function resizeMethod(method, width) {
         $('.Method'+method).css('width',''+width);
     }
-
+    
+    /*On movie hover show his position in dua*/
     $(document).on("mouseover",".RatedMovie", function(event){
         var text = $(this).closest('.Movie').find('.MovieTitle').text().trim();
 
@@ -167,9 +171,7 @@ $(document).ready(function() {
         var lenght = slider.length;
         method = checkMethod(method);
         cluster = checkCluster(cluster);
-        //checkIndex(buttonid,lenght,method,cluster);
         movieObject.checkIndex(buttonid,lenght,method,cluster,slideIndex);
-        //slide(slider,lenght,method,cluster);
         movieObject.slide(slider,lenght,method,cluster,slideIndex);
    });
 
@@ -329,6 +331,8 @@ $(document).ready(function() {
             });
          }
      });
+     
+     /****************************************/
 
      function setSearchParameter(parameter){
         setActorParam(parameter[0]);
@@ -376,14 +380,14 @@ $(document).ready(function() {
         }
     }
     
-    function getParameterMode(mode) {
+    /*function getParameterMode(mode) {
        if(mode == 0){
             getTestPrametar();
        }
         if(mode == 1){
             getEvalPrametar();
         }  
-    }    
+    }   */
     
 
     /*
@@ -611,148 +615,7 @@ $(document).ready(function() {
         return "rgb("+(Math.round((t-R)*p)+R)+","+(Math.round((t-G)*p)+G)+","+(Math.round((t-B)*p)+B)+")";
     }
     
-    
-    /**
-     * 
-     * @param {type} num
-     * @returns {undefined}
-     */
-    /*function initIndex(num) {
-        for(var i=0;i<num.length;i++) {
-            //slideIndex[i]=new Array();
-            for(var j=0;j<num[i];j++) {
-                slideIndex[i][j] = 0;
-            } 
-        }
-    }*/
-    
-    /*
-     * 
-     * @param {type} movies
-     * @param {type} method
-     * @param {type} cluster
-     * @returns {String} 
-     */
-    function getDivColor(cluster){
-        return divColors[cluster];
-    }
-    /**
-     * 
-     * @param {type} movies
-     * @param {type} method
-     * @param {type} cluster
-     * @returns {undefined}
-     */
-    /*function displayMovies(movies,method,cluster){
-      $('#TopRated').css("display","none");
-      $('#New').css("display","none");
-      $('#Cooming').css("display","none");
-      $('.Method'+method+' #Cluster'+cluster).empty();
-      $('#Result').css("display","block");
 
-      $('.Method'+method+ ' #Cluster'+cluster).css("background-color",""+getDivColor(cluster));
-      $('.Method'+method+ ' #Cluster'+cluster).css("display","block");
-      
-
-      var movieClass ='';
-      for (var i = 0; i < movies.length; i++) {
-        var movieNum = 0;
-        var poster = "";
-        var title = "";
-
-        $.getJSON('http://www.omdbapi.com/?t='+ encodeURI(movies[i])+ '&apikey=dc2f6d3a').then(function(response){
-
-            poster = checkPoster(response.Poster);
-            title = checkTitle(response.Title);
-            if(title!==undefined){
-                //movieClass = showHideMovie(movieNum);
-                movieClass = movieObject.showHideMovie(movieNum);
-                $('<div></div>')
-                .addClass(''+movieClass).append('<div class="RatedMovie">' +
-                                            '<img src="'+ poster + '" '+
-                                            'alt="' + title + '" ' +
-                                            'class="movieImage">' +
-                                            '<div id="textBlock">' +
-                                            '<h4>' + title + '</h4>' +
-                                            '<h5>Realese: ' + response.Released + '</h5>' +
-                                            '</div>'+
-                                        '</div>'+
-                                    '<div class="Content">' +
-                                        '<div class="MovieImage">' +
-                                        '<img width="204" height="350" src="'+ poster + '" '+
-                                        'alt="' + response.Title + '"> '+
-                                        '</div>' +
-                                        '<div class="MovieInfos">'+
-                                        '<h1 class="MovieTitle">'+ response.Title +
-                                        '</h1>' +
-                                        '<div id="MovieDur">' +
-                                        '<span class="pg">G</span>' +
-                                        '<span class="duration">' +
-                                        '<i class="fa fa-clock-o"></i>'+ response.Runtime + '</span>' +
-                                        '</div>'+
-                                        '<ul class="info-list">' +
-                                            '<li><label>Actors:</label>' +
-                                            '<span>'+response.Actors + '</span></li>'+
-                                            '<li><label>Director:</label>' +
-                                            '<span>'+response.Director + '</span></li>'+
-                                            '<li><label>Writer:</label>' +
-                                            '<span>'+response.Writer + '</span></li>'+
-                                            '<li><label>Genre:</label>' +
-                                            '<span>'+response.Genre + '</span></li>'+
-                                            '<li><label>Language:</label>' +
-                                            '<span>'+response.Language + '</span></li>'+
-                                            '<li><label>Production:</label>' +
-                                            '<span>'+response.Production + '</span></li>'+
-                                            '<li><label>Website:</label>' +
-                                            '<span>'+response.Website + '</span></li>'+
-                                          '</ul>'+
-                                          '<div class="entry-action">'+
-                                            '<div class="mrate user-rate has-rate">'+
-                                                  '<ul class="mv-rating-stars">'+
-                                                    '<li class="mv-current-rating user-rating" data-point="92%" style="width: 92%;">'+
-                                                    '</li>'+
-                                                  '</ul>'+
-                                                  '<span class="mcount">'+response.imdbVotes+' votes</span>'+
-                                                  '<span class="rate">'+response.imdbRating+'</span>'+
-                                            '</div>'+
-                                        '</div>'+
-                                    '</div>'+
-                                    '<div class="clearfix"></div>'+
-                                    '<div class="Synopsis" itemprop="description articleBody">'+
-                                        '<h3 class="Action">Synopsis</h3>'+
-                                        '<p>'+response.Plot+'</p>'+
-                                    '</div>'+
-                                '</div>')
-                .appendTo('.Method'+method+' #Cluster'+cluster);
-                movieNum = movieNum+1; 
-                }
-               
-            });
-        }
-        var cb = 'cb_cluster'+method+cluster;
-        var lb = 'lb_'+cluster;
-        var bt = 'bt_'+method;
-
-        if (!$('.Method'+method+' .btnStatistics').length)
-        {    
-            $('.Method'+method).append('<input type="submit" id="'+bt+'" class="btnStatistics" value="Statistiken">');
-        }
-
-        
-        $('.Method'+method+' #Cluster'+cluster).append('<button class="btn" id="btn_prev">&#10094</button>');
-        $('.Method'+method+' #Cluster'+cluster).append('<button class="btn" id="btn_next">&#10095</button>');
-        $('.Method'+method+' #Cluster'+cluster).append('<input id="'+cb+'" type="checkbox" class="cb_cluster">');
-        $('.Method'+method+' #Cluster'+cluster).append('<label class="cb_text" for="'+cb+'"></label>');
-        $('.Method'+method+' #Cluster'+cluster).append('<label id="'+lb+'" class="cb_text_label"></label>');
-       
-    }*/
-
-    /**
-     * 
-     * @param {type} array
-     * @param {type} string
-     * @returns {Array}
-     */
     function covertToArray(array, string)
     {
         var theArray = '';
@@ -841,72 +704,6 @@ $(document).ready(function() {
         }
         return newArray;
     }
-    
-    /**
-     * 
-     * @param {type} movieNum
-     * @returns {String}
-     */
-    /*function showHideMovie(movieNum) {
-        var movieClass ='';
-        if(movieNum<focus){
-            movieClass ='Movie';
-        }
-        else{
-            movieClass ='Movie hide';
-        }
-        return movieClass;
-    }*/
-
-    /**
-     * 
-     * @param {type} movieNum
-     * @returns {String}
-     */
-    /*function showHideStat(movieNum) {
-        var movieClass ='';
-        if(movieNum<focusStat){
-            movieClass ='clstats';
-        }
-        else{
-            movieClass ='clstats hide';
-        }
-        return movieClass;
-    }*/ 
-    
-    /**
-     * 
-     * @param {type} moviePoster
-     * @returns {String}
-     */
-    /*function checkPoster(moviePoster) {
-        var poster = "";
-        if(moviePoster ==="N/A"){
-            poster = "img/no_poster.png";
-        }
-        else{
-            poster = moviePoster;
-        } 
-        
-        return poster;
-    }
-    
-    /**
-     * 
-     * @param {type} movieTitle
-     * @returns {String}
-     */
-    /*function checkTitle(movieTitle) {
-        var title = "";
-        if(movieTitle ==="N/A"){
-            title = "Unknown";
-        }
-        else{
-            title = movieTitle;
-        } 
-        
-        return title;
-    }*/
     
     function shadeColor(color, percent) {
 
@@ -1081,54 +878,6 @@ $(document).ready(function() {
         $('.submitBtn').trigger('click');
     });    
     
-    /*$(document).on("click", "#nScenarios",function(event){
-        var lastOption = $('#nScenarios option').length;
-        var lenOptions = $('#nScenarios option:nth-child('+lastOption+')').val();
-
-        
-        if((scenarioIndex+1)<lenOptions){
-           $('#newBtn').trigger('click');
-           $('#defineBtn').css("display","none");
-           $('#loopBtn').css("display","block");
-           $('search-tab-close').css("display","none");
-           $('#messageEval').css("display","block");
-           $('#messageEval').html("<font color='red'>Einige Szenarien haben keine definierte suchparameter</font>")
-        }
-        else{
-           //$('#defineBtn').css("display","block");
-           $('#loopBtn').css("display","none");
-           $('#id01 .search-tab').css("display","none");
-           $('search-tab-close').css("display","block");
-        }
-    });*/
-
-    /*$(document).on("click", "#loopBtn",function(event){
-        var actors = removeLastComma($('#actors').val());
-        var genres = removeLastComma($('.multiSel').text());
-        var maxReleased = $('#released .range_max').text();
-        var minReleased = $('#released .range_min').text();
-        var maxLenght = $('#lenght .range_max').text();
-        var minLenght = $('#lenght .range_min').text();
-        var minStar = $('#star .range_star').text();
-
-        if(actors == ""){
-             $('#messageEval').css("display","block");
-             $('#messageEval').html("<font color='red'>Geben Sie bitte mindestens einen Namen ein. </font>")
-             return;
-         }
-         if(genres == ""){
-             $('#messageEval').css("display","block");
-             $('#messageEval').html("<font color='red'>Wählen Sie bitte mindestens ein Genre </font>")
-             return;
-         }
-         else{
-            scenarioIndex = scenarioIndex+1;
-            addSearchParameter(actors,genres,minLenght, maxLenght,minReleased,maxReleased,minStar);
-            resetSearchPram();
-            $('#nScenarios').trigger('click');
-         }
-    });*/    
-
     
     function chechScenarios(){
         var error = false;
@@ -1228,18 +977,6 @@ $(document).ready(function() {
         }
     }
     
-   // Hide recommendation 
-   /*function hideMovies(){
-      $('.tab-nav').css("display","block");
-      $('.tab-back-nav').css("display","none");
-      $('.recom-text').css("display","none");
-      $('.search-tab-close').css("display","none");;
-      $('#TopRated').css("display","block");
-      $('#Result').css("display","none");
-      $('.submitSurvey').css("display","none");
-      $('.search').css("display","none");    
-   }*/
-
 
    function hideResult(){
       $('#Result').css("display","none");
@@ -1598,13 +1335,7 @@ $(document).ready(function() {
             $('#id04').css("display","none");
         }
     }
-    
-    function initScenarios(){
-        getScenarios();
-        getModeParameter(mode);
-    }
-    
-    
+   
     function showGoodbye(){
         $('#id05').css("display","block");
     }
@@ -1628,26 +1359,9 @@ $(document).ready(function() {
         }
     }
 
-   
-   
-    function getScenarioLenght(){
-        var temp = $('#output').val().split(', ');
-        return temp.length-1;
-    }
-   
-    function getScenarios(){
-        scenarios = [];
-        var temp = $('#output').val().split(', ');
-        for(var i=0; i<temp.length; i++){
-            if(temp[i]!=''){
-                scenarios[i] = temp[i];
-            }
-        }
-        //create Messages
-        createScenarioMessage();
-    }
+  
     
-    function initSearchParameter(){
+    /*function initSearchParameter(){
         searchPrameter = [['Johnny Depp, Leonardo DiCaprio','Comedy, Action',60,120,1980,2000,2],
                       ['Leonardo DiCaprio','Comedy, Action',60,120,1980,2000,2],
                       ['Johnny Depp','Comedy, Action, Thriller',75,240,2000,2012,6]
@@ -1661,13 +1375,12 @@ $(document).ready(function() {
         for(var i=0; i<searchPrameter.length; i++){
              alert(searchPrameter[i]);
         }
-    }
-    $(document).on("click", ".seachScenario", function(event){
-        setSearchParameter(searchPrameter[scenarios[scenarioNum]-1]);
-        $('.submitBtn').trigger('click');
-        $('#id03').css("display","none");
-    });
+    }*/
     
+
+    
+    
+    /************************* Survey *****************************************/
     $(document).on("click", "#id04 #infoClose", function(event){
         initScenarios();
     });
@@ -1745,6 +1458,40 @@ $(document).ready(function() {
             return;
             
         }
+    });
+    
+    
+    /*********************************** Insert Scenarios ********************************************/
+    
+    function initScenarios(){
+        getScenarios();
+        getModeParameter(mode);
+    }
+    
+    
+    function getScenarioLenght(){
+        var temp = $('#output').val().split(', ');
+        return temp.length-1;
+    }
+   
+    function getScenarios(){
+        scenarios = [];
+        var temp = $('#output').val().split(', ');
+        for(var i=0; i<temp.length; i++){
+            if(temp[i]!=''){
+                scenarios[i] = temp[i];
+            }
+        }
+        //create Messages
+        createScenarioMessage();
+    }
+    
+    
+    
+    $(document).on("click", ".seachScenario", function(event){
+        setSearchParameter(searchPrameter[scenarios[scenarioNum]-1]);
+        $('.submitBtn').trigger('click');
+        $('#id03').css("display","none");
     });
     
     $(document).on("click","#defineBtn", function(event){
@@ -1851,7 +1598,7 @@ $(document).ready(function() {
             
    }
    
-      function parseScenarios(jsonObj){
+    function parseScenarios(jsonObj){
         removeAllScenarios();
         removeAllScenariosMessages();
         initEvalScenarios(1,2,3);
@@ -1889,5 +1636,5 @@ $(document).ready(function() {
    function removeAllSelectedScenarios(){
        $("#deleteBtn").trigger('click');
    }
-      
+/******************************************* Scenarios ***********************************************************/  
 });
