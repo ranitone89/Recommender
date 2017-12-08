@@ -27,7 +27,7 @@ $(document).ready(function() {
     var activeStatistic = 0;
     var surveryInfor = false;
     var surveyIndex = 1;
-    var scenarioIndex = 2;
+
     var surveyPar = false;
     
     var userId = getUserId();
@@ -71,14 +71,9 @@ $(document).ready(function() {
         var $movie = $(this).closest('.Movie');
         var method = $(this).parents().eq(3).attr('class').match(/\d+/)[0];
         var cluster = $(this).parents().eq(2).attr('id').match(/\d+/)[0];
-        alert("Klicked");
         resizeMethod(method, 865);
-        
-        //methodObject.resizeMethod(method, 865);
-        alert("resize");
+
         $('#ck-buttons').css('display','none');
-        //showMovie(method,cluster);
-        alert("Show movie");
         movieObject.showMovie(method,cluster,num); 
         movie = $(this).closest('.Movie');
         movies = $(".Movie").not($movie);
@@ -259,9 +254,7 @@ $(document).ready(function() {
 
         mode = getMode();
         //getParameterMode(mode);
-        alert("GetMOde")
         getModeParameter(mode);
-        alert("getModeParameter");
         
         activeStatistic = 0;
         statcsIndex = 0;
@@ -274,10 +267,6 @@ $(document).ready(function() {
         var minLenght = $('#lenght .range_min').text();
         var minStar = $('#star .range_star').text();
         
-        alert(actors);
-        alert(genres);
-        alert(maxReleased);
-        alert(minStar);
         
          if(actors == ""){
              $('#messageSearch').css("display","block");
@@ -290,14 +279,13 @@ $(document).ready(function() {
              return;
          }
          else{
-             alert("Parameter in ordnung")
              $('#messageSearch').css("display","none");
              var actorList = searchObject.covertToArray(actors,'a');
              var genreList = searchObject.covertToArray(genres,'g');
              $('#id02').css("display","none");
              delDivContent();
              surveryInfor==false;
-             alert("Search");
+
              $.ajax({
              url : "SearchServlet",
              type : "GET",
@@ -410,7 +398,6 @@ $(document).ready(function() {
      */
     function getCharts(dataList,method)
     {
-        alert("Get Charts");
         var data = new Array();
 
         //number of movie objects
@@ -472,7 +459,6 @@ $(document).ready(function() {
      */
     function displaytCharts(jsonData,method,label,i)
     {   
-        alert("Display");
         var stats = statisticObject.showHideStat(i);
         var axis = label.split(" ");
 
@@ -559,7 +545,6 @@ $(document).ready(function() {
      */
     function getData(jsonObj)
     {
-        alert("Get Data")
         for(var mt = 0; mt < jsonObj.length; mt++)
         {
             charts[mt] = new Array();
@@ -819,20 +804,23 @@ $(document).ready(function() {
             $('#evalSearch').css("display","none");
        }
        else{
-            $('.search-tab').appendTo('#id01 .tab');
-            $('.search-tab-cluster').appendTo('.header-right');
-            showEvalMode();
-            hideTestMode();
-            $('#testSearch').css("display","none");
-            $('#evalSearch').css("display","block");
-           
-            //get scenarion including message for each scenario
-            //getScenarios();
-            scenarios = scenarioObject.getScenarios();
-            scenarioObject.createScenarioMessage(scenarios);
-            alert("Cluster btn: ",scenarios);
-            alert("Scenarios: ",scenarios);
-            getModeParameter(mode);
+           //if scenarios empty
+            if(chechScenarios()==false){
+                $('#id01').css('display','none');
+                $('.search-tab').appendTo('#id01 .tab');
+                $('.search-tab-cluster').appendTo('.header-right');
+                showEvalMode();
+                hideTestMode();
+                $('#testSearch').css("display","none");
+                $('#evalSearch').css("display","block");
+                scenarios = scenarioObject.getScenarios();
+                scenarioObject.createScenarioMessage(scenarios);
+                getModeParameter(mode);   
+            }
+            else{
+                $('#id01 .modal-content').css('display','block');
+                return;
+            }
        }
        
        initWelcomeScreen();
@@ -916,9 +904,9 @@ $(document).ready(function() {
      * @param {type} moviePoster
      * @returns {String}
      */
+    
+    /*Get searchParameter for mode*/
     function getModeParameter(mode) {
-        //alert("Get Mode Parameter");
-
         if(mode == 0){
             getTestPrametar();
        }
@@ -928,15 +916,15 @@ $(document).ready(function() {
     }
 
     
-    /*************IF evail ist finisched*/
+    /*Check for evaluation current mode and trigger click*/
     function checkEvalNum(mode){
-        //first scenario allready shown
         if(mode == 1){
-            if(scenarioNum < searchObject.getNumberScenario-1){
-                if(evalNum < searchObject.getNumberScenario){
+            if(scenarioNum < searchObject.getNumberScenario()-1){
+                if(evalNum < getNumberComparations()){
+                    getSurveyVaues();
                     evalNum = evalNum+1;
                     $('.submitBtn').trigger('click');
-                    getSurveyVaues();
+                    //getSurveyVaues();
                     resetSurvey();
                 }
                 else{
@@ -952,13 +940,14 @@ $(document).ready(function() {
                     scenarioObject.displayScenario(scenarioNum);
                     
                 }
-                
+               
             }
             else{                
                 if(evalNum < getNumberComparations()){
+                    getSurveyVaues();
                     evalNum = evalNum+1;
                     $('.submitBtn').trigger('click');
-                    getSurveyVaues();
+                    
                     resetSurvey();
                 }
                 else{
@@ -973,7 +962,6 @@ $(document).ready(function() {
                     scenarioObject.closeScenarioMessages();
                     showGoodbye();
                     scenarioNum = 0;
-                    //setScenarioText(scenarioNum);
                     surveryInfor=false;
                 }
             }
@@ -1107,7 +1095,7 @@ $(document).ready(function() {
        resetRankingParam();
        resetLenghtParam();
        resetReleasedParam();
-   }
+   };
 
    function setGenreParam(temp){
 
@@ -1249,11 +1237,17 @@ $(document).ready(function() {
        $('input#cl2_like').attr('checked', false);
    }
    
-    function getSurveyVaues(){    
-        alert("Method: "+getSurveyMethod());
+    function getSurveyVaues(){
+        alert("UserID: "+getUserId());
+        alert("ScenarioID: "+scenarios[scenarioNum]);
+        alert("Alg1:"+getEvalMethod1(evalNum));
+        alert("Alg2:"+getEvalMethod2(evalNum));
+        alert("Method: "+getSurveyResult());
+        alert("Method1CLusterEval: "+getClusterEvaluation(1));
+        alert("Method1CLusterEva2: "+getClusterEvaluation(2));
     }
    
-   function getSurveyMethod(){
+   function getSurveyResult(){
        var method = 0;
        
        if($('#cl1_like').is(':checked')==true){
@@ -1318,26 +1312,21 @@ $(document).ready(function() {
             //evalShowInfos = false;
         }
     }
-
-  
     
-    /*function initSearchParameter(){
-        searchPrameter = [['Johnny Depp, Leonardo DiCaprio','Comedy, Action',60,120,1980,2000,2],
-                      ['Leonardo DiCaprio','Comedy, Action',60,120,1980,2000,2],
-                      ['Johnny Depp','Comedy, Action, Thriller',75,240,2000,2012,6]
-                      ];
+    /* Get method of evaluation*/
+    /* Euclidian 0
+     * Canberra 1
+     * Bray Czrtis 2
+     * Manhattan 3
+     * Borda 4
+     **/
+    function getEvalMethod1(evalNum){
+        return $('#evalCom'+evalNum+' #evalMeth1 .evalChoise').val();
     }
-   
-  
-    function addSearchParameter(actors,genre,minLen, maxLen,minRel,maxRel,rat){
-        searchPrameter[scenarioIndex] = [actors,genre,minLen, maxLen,minRel,maxRel,rat];
-        
-        for(var i=0; i<searchPrameter.length; i++){
-             alert(searchPrameter[i]);
-        }
-    }*/
+    function getEvalMethod2(evalNum){
+        return  $('#evalCom'+evalNum+' #evalMeth2 .evalChoise').val();
+    }
     
-
     
     
     /************************* Survey *****************************************/
@@ -1420,7 +1409,15 @@ $(document).ready(function() {
             
         }
     });
+    /****************************************************/
     
+    function getClusterEvaluation(method){
+        var clusterEvaluation = [];
+        $('.Method'+method+' input:checked').map(function() {
+            clusterEvaluation.push($(this).val());
+        });
+        return clusterEvaluation;
+    }
     
     /*************Trigger Scenarios**********************/
     
@@ -1437,9 +1434,13 @@ $(document).ready(function() {
     $(document).on("click", ".seachScenario", function(event){
         searchPrameter = scenarioObject.getSearchParameter();
         setSearchParameter(searchPrameter[scenarios[scenarioNum]-1]);
-        alert("SUbmit in search Scenario");
         $('.submitBtn').trigger('click');
         $('#id03').css("display","none");
     });
+    
+    function getScenarioLenght(){
+        var temp = $('#output').val().split(', ');
+        return temp.length-1;
+    }
     
 });

@@ -6,7 +6,6 @@ $(document).ready(function() {
 
     
     $(document).on("click","#defineBtn", function(event){
-        alert("define btn");
         var actors = removeLastComma($('#id01 .search-tab #actors').val());
         var genres = removeLastComma($('#id01 .search-tab .multiSel').text());
         var description = $('#description').val();
@@ -89,7 +88,6 @@ $(document).ready(function() {
     });
     
     function getScenariosDB(){
-        alert("Scenarien Holen");
        $.ajax({
              url : "ScenarioRequest",
              type : "GET",
@@ -151,11 +149,6 @@ $(document).ready(function() {
    }
    
    
-    function getScenarioLenght(){
-        var temp = $('#output').val().split(', ');
-        return temp.length-1;
-    }
-   
     scenarioObject.getScenarios = function(){
         var scenarios = [];
         var temp = $('#output').val().split(', ');
@@ -202,7 +195,6 @@ $(document).ready(function() {
     });*/
     
     scenarioObject.getSearchParameter = function(){
-        alert("get search parameter");
         return searchPrameter;
     };
     
@@ -235,7 +227,6 @@ $(document).ready(function() {
     };
     
     scenarioObject.hideScenarioMessages = function(){
-        alert("Remove showScenario");
         for(var i=0; i<getNumberScenario();i++ ){
             $('.explanationBox .explanation').eq(i).removeClass('showScenario');
         }
