@@ -1,7 +1,7 @@
-    var focusStat = 4;
-     /* Check if  statistic chosen after movie detail clicked
-     * 
-     */
+
+    var numStats;
+    var focusStat = 4;    
+    
     statisticObject.checkStatistics = function(method){
         alert("Check Statistics");
         var statistic = 0;
@@ -101,3 +101,83 @@
         return label;
     };
     
+     /** Show and hide statistics in slide
+     * 
+     * @param {type} movieNum
+     * @returns {String}
+     */
+    statisticObject.showHideStat = function(movieNum) {
+        var movieClass ='';
+        if(movieNum<focusStat){
+            movieClass ='clstats';
+        }
+        else{
+            movieClass ='clstats hide';
+        }
+        return movieClass;
+    }  
+
+
+    /* After Detail about movie if statistic was opened go to previous condition*/
+    statisticObject.showAfterCheck = function(statistic,num){
+        if(statistic !==0){
+            showAfterDetailStat(statistic,num);
+        }
+        else{
+            showAfterDetail(num);
+        }
+    }
+    
+    
+    
+        /**
+     * 
+     * @param {type} method
+     * @param {type} cluster
+     * @returns {undefined}
+     */
+    function showAfterDetail(num){
+        alert("showAfterDetail");
+        for(var method=0; method<num.length; method++){
+            var m = method + 1;
+            $('.Method'+m + ' #ck-button').css('display','block');
+            $('.Method'+m).css('border','1px solid #f1f1f1');
+            $('.Method'+m).show();
+
+            for(var cluster=0; cluster<num[method]; cluster++){
+                var c = cluster +1; 
+                $('.Method'+m+ ' #Cluster'+c).show();
+                $('.Method'+m+ ' #Cluster'+c).css('width', '621px');
+                $('.Method'+m+ ' #Cluster'+c).css('height', '255px');
+                $('.Method'+m).css('margin-left','');
+            }
+        }
+    }
+
+    /**
+     * 
+     * @param {type} method
+     * @param {type} cluster
+     * @returns {undefined}
+     */
+    function showAfterDetailStat(statistic,num){
+        alert("showAfterDetailStat");
+        for(var method=0; method<num.length; method++){
+            var mt = method + 1;
+            if(statistic===mt){
+                $('.Method'+statistic + ' #ck-button').css('display','block');
+                $('.Method'+statistic).css('border','1px solid #f1f1f1');
+                $('.Method'+statistic).show();            }
+            if(statistic!==mt){
+                $('.Method'+mt).hide();
+            }
+        
+            for(var cluster=0; cluster<num[method]; cluster++){
+                var c = cluster +1; 
+                $('.Method'+statistic+ ' #Cluster'+c).show();
+                $('.Method'+statistic+ ' #Cluster'+c).css('width', '621px');
+                $('.Method'+statistic+ ' #Cluster'+c).css('height', '255px');
+                $('.Method'+statistic).css('margin-left','');
+            }
+        }
+    }

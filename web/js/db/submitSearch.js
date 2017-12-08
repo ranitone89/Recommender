@@ -14,7 +14,7 @@ $(document).ready(function() {
     var statcsIndex  = 0;
     var statistic = 0;
     var charts = new Array();
-    var numStats;
+    
     var method1Parameter = [];
     var method2Parameter = [];
     var scenarios = [];
@@ -35,9 +35,6 @@ $(document).ready(function() {
     initWelcomeScreen();
     
     $(document).scroll(function(e) {
-        //statisticsObject.statisticsOnScroll(activeStatistic);
-        //scrollStatistics();
-        //statisticsOnScroll(activeStatistic);
         var header = $(".Statistic"+activeStatistic);
         if(activeStatistic!==0){
             var elTop = $('.Method'+activeStatistic).offset().top;
@@ -65,16 +62,18 @@ $(document).ready(function() {
     
     $(document).on("click", ".RatedMovie img", function(event){
         $('.survey').css('display', 'none');
-  
         var $movie = $(this).closest('.Movie');
         var method = $(this).parents().eq(3).attr('class').match(/\d+/)[0];
         var cluster = $(this).parents().eq(2).attr('id').match(/\d+/)[0];
-        resizeMethod(method, 865);
         alert("Klicked");
+        resizeMethod(method, 865);
+        
         //methodObject.resizeMethod(method, 865);
         alert("resize");
         $('#ck-buttons').css('display','none');
-        showMovie(method,cluster);
+        //showMovie(method,cluster);
+        alert("Show movie");
+        movieObject.showMovie(method,cluster,num); 
         movie = $(this).closest('.Movie');
         movies = $(".Movie").not($movie);
         movieContent = $(this).closest('.Movie').children('.Content');
@@ -107,7 +106,8 @@ $(document).ready(function() {
         //methodObject.resizeMethod(method, 643);
         ratedMovies.show().removeAttr( 'style' );
         $(".Movie").show().removeAttr( 'style' );
-        showAfterCheck(statistic);
+        //showAfterCheck(statistic);
+        statisticObject.showAfterCheck(statistic,num);
         $(".btn").show();
         $('.search-back-nav').hide();
         $('.tab-back-nav').hide();
@@ -127,125 +127,8 @@ $(document).ready(function() {
      * 
      * @returns {undefined}
      */
-    /*function resizeMethod(method, width) {
+    function resizeMethod(method, width) {
         $('.Method'+method).css('width',''+width);
-    }*/
-    /*
-     * 
-     * @returns {undefined}
-     */
-    /*function statisticsShow() {
-        if(statistic !==0){
-            $('.Statistic'+statistic).css('display','block');
-        }
-    }*/
-    
-    /* @
-     * @param {type} method
-     * @returns {undefined}
-     */
-    function checkStatistics(method) {
-        if($('.Statistic'+method).css('display') == 'block'){
-            statistic = method;
-        }
-        else{
-            statistic = 0;
-        }
-    }
-    
-    /*
-     * 
-     * @returns {undefined}
-     */
-    function showAfterCheck(statistic){
-        if(statistic !==0){
-            showAfterDetailStat(statistic);
-        }
-        else{
-            showAfterDetail();
-        }
-    }    
-    /**
-     * 
-     * @param {type} method
-     * @param {type} cluster
-     * @returns {undefined}
-     */
-    function showAfterDetail(){
-        for(var method=0; method<num.length; method++){
-            var m = method + 1;
-            $('.Method'+m + ' #ck-button').css('display','block');
-            $('.Method'+m).css('border','1px solid #f1f1f1');
-            $('.Method'+m).show();
-
-            for(var cluster=0; cluster<num[method]; cluster++){
-                var c = cluster +1; 
-                $('.Method'+m+ ' #Cluster'+c).show();
-                $('.Method'+m+ ' #Cluster'+c).css('width', '621px');
-                $('.Method'+m+ ' #Cluster'+c).css('height', '255px');
-                $('.Method'+m).css('margin-left','');
-            }
-        }
-    }
-
-    /**
-     * 
-     * @param {type} method
-     * @param {type} cluster
-     * @returns {undefined}
-     */
-    function showAfterDetailStat(statistic){
-        for(var method=0; method<num.length; method++){
-            var mt = method + 1;
-            if(statistic===mt){
-                $('.Method'+statistic + ' #ck-button').css('display','block');
-                $('.Method'+statistic).css('border','1px solid #f1f1f1');
-                $('.Method'+statistic).show();            }
-            if(statistic!==mt){
-                $('.Method'+mt).hide();
-            }
-        
-            for(var cluster=0; cluster<num[method]; cluster++){
-                var c = cluster +1; 
-                $('.Method'+statistic+ ' #Cluster'+c).show();
-                $('.Method'+statistic+ ' #Cluster'+c).css('width', '621px');
-                $('.Method'+statistic+ ' #Cluster'+c).css('height', '255px');
-                $('.Method'+statistic).css('margin-left','');
-            }
-        }
-    }
-    
-    
-    /*
-     * 
-     * @param {type} method
-     * @param {type} cluster
-     * @returns {undefined}
-     */
-    function showMovie(method,cluster) {
-        for(var m=0; m<num.length; m++){
-            var mt = ''+(m+1);
-            if(method===mt){
-                $('.Method'+method).css('margin-left','130px');
-                $('.Method'+method).css('border','none');
-            }
-            if(method!==mt){
-                $('.Method'+mt).hide();
-            }
-            for(var c=0; c<num[m]; c++){
-                var cl = ''+(c+1);
-                if(cluster===cl){
-                    $('.Method'+method+' #Cluster'+cluster).css('width', 'auto');
-                    $('.Method'+method+' #Cluster'+cluster).css('height', 'auto');                    
-                }
-                if(cluster!==cl){
-                    $('.Method'+method+' #Cluster'+cl).hide();
-                    $('.Method'+method+' #Cluster'+cl).hide();                    
-                }
-            }
-            
-        }
-        $(".btn").hide();
     }
 
     $(document).on("mouseover",".RatedMovie", function(event){
@@ -284,8 +167,10 @@ $(document).ready(function() {
         var lenght = slider.length;
         method = checkMethod(method);
         cluster = checkCluster(cluster);
-        checkIndex(buttonid,lenght,method,cluster);
-        slide(slider,lenght,method,cluster);
+        //checkIndex(buttonid,lenght,method,cluster);
+        movieObject.checkIndex(buttonid,lenght,method,cluster,slideIndex);
+        //slide(slider,lenght,method,cluster);
+        movieObject.slide(slider,lenght,method,cluster,slideIndex);
    });
 
     $(document).on("click", ".btn_statc", function(event){
@@ -295,90 +180,7 @@ $(document).ready(function() {
         statcsIndex = statisticObject.checkIndexStat(statcsIndex,buttonid,slider.length);
         statisticObject.slideStatcs(statcsIndex,slider);
    });
-   
-   /*
-    * 
-    * @param {type} id
-    * @param {type} lenght
-    * @returns {undefined}
-    */
-    /*function checkIndexStat(id,lenght) {
-        if(id==="btn_next_stat"){
-            if(statcsIndex>=(lenght-focusStat) || statcsIndex>=8){
-                statcsIndex = statcsIndex;
-            }
-            else{
-                statcsIndex = statcsIndex+4;
-            }
-        }
-        if(id==="btn_prev_stat"){
-            if(statcsIndex<=0){
-                statcsIndex = 0;
-            }
-            else{
-                statcsIndex = statcsIndex-4;
-            }
-        }
-    }*/
-    
-    /*
-     * 
-     * @param {type} id
-     * @param {type} lenght
-     * @param {type} method
-     * @param {type} cluster
-     * @returns {undefined}
-     */
-    function checkIndex(id,lenght,method,cluster) {
-        if(id=="btn_prev"){
-            if(slideIndex[method][cluster]<=0){
-                slideIndex[method][cluster] = 0;
-            }
-            else{
-                slideIndex[method][cluster] = slideIndex[method][cluster]-1;
-            }
-        }
-        if(id=="btn_next"){
-            if(lenght>focus){
-                if(slideIndex[method][cluster]>=(lenght-focus)){
-                    slideIndex[method][cluster] = (lenght-focus);
-                }
-                else{
-                    slideIndex[method][cluster] = slideIndex[method][cluster]+1;
-                }
-            }
-            else{
-                slideIndex[method][cluster] = 0;
-            }
-        }
-    }
-    
-    /*
-     * 
-     * @param {type} slider
-     * @param {type} lenght
-     * @param {type} cluster
-     * @param {type} row
-     * @returns {undefined}
-     */
-    function slide(slider,lenght,cluster,row) {
-        for(var i=0; i<lenght;i++ ){
-            $(slider).eq(i).addClass('hide');
-        }
-        for(i=slideIndex[cluster][row]; i<(slideIndex[cluster][row]+focus);i++ ){
-            $(slider).eq(i).removeClass('hide');
-        }
-    }
 
-    /*function slideStatcs(slider) {
-        for(var i=0; i<slider.length;i++ ){
-            $(slider).eq(i).addClass('hide');
-        }
-
-        for(var i=statcsIndex; i<(statcsIndex+focusStat);i++ ){
-            $(slider).eq(i).removeClass('hide');
-        }
-    }*/
     
     /*
      * 
@@ -560,7 +362,7 @@ $(document).ready(function() {
         if(movies !== null){
             $('.survey').css('display', 'block');
             
-            displayMovies(covertToArray(movies,'r'),method,cluster);
+            movieObject.displayMovies(covertToArray(movies,'r'),method,cluster);
 
             $('.tab-nav').hide();
             $('.tab-back-nav').show();
@@ -593,6 +395,7 @@ $(document).ready(function() {
      */
     function getCharts(dataList,method)
     {
+        alert("Get Charts");
         var data = new Array();
 
         //number of movie objects
@@ -617,11 +420,12 @@ $(document).ready(function() {
             } 
         }
         var labels = statisticObject.getStatcsLabel(['actor','genre','lenght','year','rating']);
-        numStats = data.length;
+        //numStats = data.length;
         
         for(var i=0; i<data.length; i++){
             
             displaytCharts(data[i],method,labels[i],i);
+            //statisticObject.displaytCharts(data[i],method,labels[i],i);
             
         }
     }
@@ -653,7 +457,8 @@ $(document).ready(function() {
      */
     function displaytCharts(jsonData,method,label,i)
     {   
-        var stats = showHideStat(i);
+        alert("Display");
+        var stats = statisticObject.showHideStat(i);
         var axis = label.split(" ");
 
 
@@ -725,12 +530,6 @@ $(document).ready(function() {
                     pointFormat: '<b>{point.title}</b><br>'+ ' '+axis[0]+' :{point.x}'+ ' '+axis[1]+' :{point.y}'
                 }
             }
-            
-                /*tooltip: {
-                    //useHTML: true,
-                    headerFormat: '<table>',
-                    pointFormat: '<b>{point.title}</b><br>'+ ' '+axis[0]+' :{point.x}'+ ' '+axis[1]+' :{point.y}'
-                }*/
             },
             series: [{
                     data: jsonData
@@ -745,6 +544,7 @@ $(document).ready(function() {
      */
     function getData(jsonObj)
     {
+        alert("Get Data")
         for(var mt = 0; mt < jsonObj.length; mt++)
         {
             charts[mt] = new Array();
@@ -780,6 +580,7 @@ $(document).ready(function() {
                 }
             }
             getCharts(score,method);
+            //statisticObject.getCharts(score,method,charts);
         }     
     }
     
@@ -816,14 +617,14 @@ $(document).ready(function() {
      * @param {type} num
      * @returns {undefined}
      */
-    function initIndex(num) {
+    /*function initIndex(num) {
         for(var i=0;i<num.length;i++) {
             //slideIndex[i]=new Array();
             for(var j=0;j<num[i];j++) {
                 slideIndex[i][j] = 0;
             } 
         }
-    }
+    }*/
     
     /*
      * 
@@ -842,7 +643,7 @@ $(document).ready(function() {
      * @param {type} cluster
      * @returns {undefined}
      */
-    function displayMovies(movies,method,cluster){
+    /*function displayMovies(movies,method,cluster){
       $('#TopRated').css("display","none");
       $('#New').css("display","none");
       $('#Cooming').css("display","none");
@@ -864,7 +665,8 @@ $(document).ready(function() {
             poster = checkPoster(response.Poster);
             title = checkTitle(response.Title);
             if(title!==undefined){
-                movieClass = showHideMovie(movieNum);
+                //movieClass = showHideMovie(movieNum);
+                movieClass = movieObject.showHideMovie(movieNum);
                 $('<div></div>')
                 .addClass(''+movieClass).append('<div class="RatedMovie">' +
                                             '<img src="'+ poster + '" '+
@@ -943,7 +745,7 @@ $(document).ready(function() {
         $('.Method'+method+' #Cluster'+cluster).append('<label class="cb_text" for="'+cb+'"></label>');
         $('.Method'+method+' #Cluster'+cluster).append('<label id="'+lb+'" class="cb_text_label"></label>');
        
-    }
+    }*/
 
     /**
      * 
@@ -1045,7 +847,7 @@ $(document).ready(function() {
      * @param {type} movieNum
      * @returns {String}
      */
-    function showHideMovie(movieNum) {
+    /*function showHideMovie(movieNum) {
         var movieClass ='';
         if(movieNum<focus){
             movieClass ='Movie';
@@ -1054,14 +856,14 @@ $(document).ready(function() {
             movieClass ='Movie hide';
         }
         return movieClass;
-    }
+    }*/
 
     /**
      * 
      * @param {type} movieNum
      * @returns {String}
      */
-    function showHideStat(movieNum) {
+    /*function showHideStat(movieNum) {
         var movieClass ='';
         if(movieNum<focusStat){
             movieClass ='clstats';
@@ -1070,14 +872,14 @@ $(document).ready(function() {
             movieClass ='clstats hide';
         }
         return movieClass;
-    }    
+    }*/ 
     
     /**
      * 
      * @param {type} moviePoster
      * @returns {String}
      */
-    function checkPoster(moviePoster) {
+    /*function checkPoster(moviePoster) {
         var poster = "";
         if(moviePoster ==="N/A"){
             poster = "img/no_poster.png";
@@ -1094,7 +896,7 @@ $(document).ready(function() {
      * @param {type} movieTitle
      * @returns {String}
      */
-    function checkTitle(movieTitle) {
+    /*function checkTitle(movieTitle) {
         var title = "";
         if(movieTitle ==="N/A"){
             title = "Unknown";
@@ -1104,7 +906,7 @@ $(document).ready(function() {
         } 
         
         return title;
-    }
+    }*/
     
     function shadeColor(color, percent) {
 
@@ -1300,7 +1102,7 @@ $(document).ready(function() {
         }
     });*/
 
-    $(document).on("click", "#loopBtn",function(event){
+    /*$(document).on("click", "#loopBtn",function(event){
         var actors = removeLastComma($('#actors').val());
         var genres = removeLastComma($('.multiSel').text());
         var maxReleased = $('#released .range_max').text();
@@ -1325,7 +1127,7 @@ $(document).ready(function() {
             resetSearchPram();
             $('#nScenarios').trigger('click');
          }
-    });    
+    });*/    
 
     
     function chechScenarios(){
@@ -1374,7 +1176,8 @@ $(document).ready(function() {
                     resetSurvey();
                 }
                 else{
-                    hideMovies();
+                    //hideMovies();
+                    movieObject.hideMovies();
                     getSurveyVaues();
                     evalNum = 1;
                     resetSurvey();
@@ -1395,7 +1198,8 @@ $(document).ready(function() {
                     resetSurvey();
                 }
                 else{
-                    hideMovies();
+                    //hideMovies();
+                    movieObject.hideMovies();
                     getSurveyVaues();
                     evalNum = 1;
                     resetSurvey();
@@ -1415,7 +1219,7 @@ $(document).ready(function() {
         
         if(mode == 0){
             hideResult();
-            showMovies();
+            movieObject.showMovies();
             hideGoodbye();
             resetSearchPram();
             scenarioNum = 0;
@@ -1425,7 +1229,7 @@ $(document).ready(function() {
     }
     
    // Hide recommendation 
-   function hideMovies(){
+   /*function hideMovies(){
       $('.tab-nav').css("display","block");
       $('.tab-back-nav').css("display","none");
       $('.recom-text').css("display","none");
@@ -1434,18 +1238,9 @@ $(document).ready(function() {
       $('#Result').css("display","none");
       $('.submitSurvey').css("display","none");
       $('.search').css("display","none");    
-   }
+   }*/
 
-   function showMovies(){
-      $('.tab-nav').css("display","block");
-      $('.tab-back-nav').css("display","none");
-      $('.recom-text').css("display","none");
-      $('.search-tab-close').css("display","block");;
-      $('#TopRated').css("display","block");
-      $('#Result').css("display","none");
-      $('.submitSurvey').css("display","block");
-      $('.search').css("display","block");    
-   }
+
    function hideResult(){
       $('#Result').css("display","none");
       $('.survey').css("display","none");
