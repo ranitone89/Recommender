@@ -19,6 +19,7 @@ public class Movie {
     private int movieLenght;
     private float rating;
     private float[] scores = new float[5];
+    private String[] scoresString = new String[5];
 
     public Movie(int movieId, String title, String genres, String actors, int movieLenght, int releaseYear, float rating)
     {
@@ -32,6 +33,21 @@ public class Movie {
         setLenghtScore(movieLenght);
         setReleaseScore(releaseYear);
         setRatingScore(rating);
+    }
+
+    public Movie(int movieId, String title, String genres, String actors, int movieLenght, int releaseYear, float rating, String scores)
+    {
+        this.movieId = movieId;
+        this.title = title;
+        this.releaseYear = releaseYear;
+        this.movieLenght = movieLenght;
+        this.rating = rating;
+        setGenres(genres);
+        setActors(actors);
+        setLenghtScore(movieLenght);
+        setReleaseScore(releaseYear);
+        setRatingScore(rating);
+        setScores(scores);
     }
     
     
@@ -144,23 +160,28 @@ public class Movie {
     /*Set rating scores*/
     public void setActorScore(float actorScore){
         this.scores[0] = actorScore;
+        this.scoresString[0] = ""+actorScore;
     } 
     
     public void setGenreScore(float movieScore){
         this.scores[1] = movieScore;
+        this.scoresString[1] = ""+movieScore;
     } 
     
     private void setLenghtScore(int movieLenght){
         this.scores[2] = (float)movieLenght;
+        this.scoresString[2] = ""+movieLenght;
     }
     
     private void setReleaseScore(int releaseYear){
         this.scores[3] = (float)releaseYear;
+        this.scoresString[3] = ""+releaseYear;
     }    
 
     
     private void setRatingScore(float rating){
         this.scores[4] = rating;
+        this.scoresString[4] = ""+rating;
     } 
 
     /*Get rating scores*/
@@ -186,12 +207,28 @@ public class Movie {
 
     public float[] getScores(){
         return scores;
+    }
+    
+    public String[] getStringScores(){
+        return this.scoresString;
     } 
 
     
     @Override
     public String toString(){
         return "A: "+this.getActorScore()+" G: "+this.getGenreScore()+" L: "+this.getLenghtScore()+" Rel: "+this.getReleaseScore()+" Rank: "+this.getRatingScore();
+    }
+
+    private void setScores(String scores) {
+        scores = scores.replaceAll("[\\[\\](){}]","");
+        System.out.println("Parsed: "+scores);
+        
+        String[] scoreArray = scores.split(",");
+        setActorScore(Float.parseFloat(scoreArray[0]));
+        setGenreScore(Float.parseFloat(scoreArray[1]));
+        setLenghtScore(Integer.parseInt(scoreArray[2]));
+        setReleaseScore(Integer.parseInt(scoreArray[3]));
+        setRatingScore(Float.parseFloat(scoreArray[4]));   
     }
  
      

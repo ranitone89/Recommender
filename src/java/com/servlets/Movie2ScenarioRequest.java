@@ -33,7 +33,8 @@ import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
  *
  * @author Nemanja Ranitovic
  */
-public class SearchRequest extends HttpServlet {
+
+public class Movie2ScenarioRequest extends HttpServlet {
     private static final long serialVersionUID = 1L;
     /**
      *
@@ -47,64 +48,35 @@ public class SearchRequest extends HttpServlet {
         HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         try {
-            String minLenght = request.getParameter("minLenght");
-            String maxLenght = request.getParameter("maxLenght");
-            String minReleased = request.getParameter("minReleased");
-            String maxReleased = request.getParameter("maxReleased"); 
-            String actors[] = request.getParameterValues("actorList[]");
-            String genres[] = request.getParameterValues("genreList[]");  
-            String minStar = request.getParameter("minStar");
-            String method1[] = request.getParameterValues("method1[]"); 
-            String method2[] = request.getParameterValues("method2[]");
+            Integer method1 = Integer.parseInt(request.getParameter("method1"));
+            Integer method2 = Integer.parseInt(request.getParameter("method2")); 
+            Integer scenario = Integer.parseInt(request.getParameter("scenario"));
 
             DataDB dataDao = new DataDB();
             
             /*  Get Movies From data base
             *
             */
-            ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres);
             ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<>();
             
+
+            /*  Make final recommendations, that includes all clusters and movies  
+            for each method*/
+            ArrayList<Recommendation> firstRecommendation = dataDao.getMovies2Scenario(scenario,method1);
+            ArrayList<Recommendation> secondRecommendation = dataDao.getMovies2Scenario(scenario,method2);
+
+            /* Sort Cluster */
+            sortCluster(firstRecommendation, secondRecommendation);
             
-            if(movies.size()>10){
-                /*Calculate scores for each movie based on search parameter*/
-                Search search = new Search(genres, actors);
-                Score s = new Score(movies,search);
-                ArrayList<PointdDim> points = getPoints(movies);
-                /***********************************************************/
+            /* Append recommendations */
+            recommendations.add(firstRecommendation);
+            recommendations.add(secondRecommendation);
 
-                /*  Transform string parameters to ArrayList */
-                ArrayList<Integer> firstMethParam = getParameters(method1,0);
-                ArrayList<Integer> secondMethParam = getParameters(method2,1);
-                
-                
-                /*  Get Clusters for first method  */
-                FinalClustering fistMethod = new FinalClustering();
-                fistMethod = getMethod(points,firstMethParam);
-
-                /*  Get Clusters for second method  */
-                FinalClustering secondMethod = new FinalClustering();
-                secondMethod = getMethod(points,secondMethParam);
-
-                
-                /*  Make final recommendations, that includes all clusters and movies  
-                    for each method*/
-                ArrayList<Recommendation> firstRecommendation = getMethodElements(fistMethod,0);
-                ArrayList<Recommendation> secondRecommendation = getMethodElements(secondMethod,1);
-                
-                /* Sort Cluster */
-                sortCluster(firstRecommendation, secondRecommendation);
-    
-                /* Append recommendations */
-                recommendations.add(firstRecommendation);
-                recommendations.add(secondRecommendation);
-
-            }
-                String json = new Gson().toJson(recommendations);
-                System.out.println(json);
-                response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
-                response.getWriter().write(json);
+            String json = new Gson().toJson(recommendations);
+            System.out.println(json);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
         } 
         catch (Exception e) {
             System.err.println(e.getMessage());
@@ -167,7 +139,7 @@ public class SearchRequest extends HttpServlet {
      private void sortCluster(ArrayList<Recommendation> firstMethod, ArrayList<Recommendation> secondMethod) throws IOException 
      {
         float[ ][ ] scores = new float[firstMethod.size()][secondMethod.size()];
-        
+         System.out.println("Sort Cluster");
         HashMap <Integer, Integer> hmap = new HashMap<Integer, Integer>();
         HashSet <Integer> usedRows = new HashSet<Integer>();
         HashSet <Integer> usedColumns = new HashSet<Integer>();
@@ -175,7 +147,7 @@ public class SearchRequest extends HttpServlet {
         for(Recommendation cl1:firstMethod ){
             for(Recommendation cl2:secondMethod ){
                 /*compare movies of clusters*/
-                scores[cl1.getClusterId()][cl2.getClusterId()] = compareClusters(cl1, cl2);
+                scores[cl1.getClusterId()-1][cl2.getClusterId()-1] = compareClusters(cl1, cl2);
                 
             }
         }
@@ -188,10 +160,10 @@ public class SearchRequest extends HttpServlet {
     *
     */
     public static void setClusterIds(ArrayList<Recommendation> secondMethod, HashMap hmap){
-        
+        System.out.println("Set Cluster IDs");
         for(Recommendation cluster: secondMethod){
-            int tempId= (int) hmap.get(cluster.getClusterId());
-            cluster.setClusterId(tempId);
+            int tempId= (int) hmap.get(cluster.getClusterId()-1);
+            cluster.setClusterId(tempId+1);
         }
         /*Delete in order to remove error*/
         for (Object row: hmap.keySet()){
@@ -203,6 +175,7 @@ public class SearchRequest extends HttpServlet {
     *   Get cluster with maximal simularity and disable affected row and column
     */
     public static void getClusterPair(float[][] scores, Set usedRows, Set usedColumns, HashMap hmap){
+        System.out.println("Cluster Pair");
         for(int i =0; i<scores.length; i++){
             System.out.println("Max: "+getMaxValue(scores,usedRows,usedColumns,hmap));
         }
@@ -258,7 +231,7 @@ public class SearchRequest extends HttpServlet {
     }     
     
     
-    private ArrayList<Recommendation>getMethodElements(FinalClustering clusterings, int methodid) throws IOException 
+    /*private ArrayList<Recommendation>getMethodElements(FinalClustering clusterings, int methodid) throws IOException 
     {
         ArrayList<Recommendation> recommendations = new ArrayList<Recommendation>();
         
@@ -275,7 +248,7 @@ public class SearchRequest extends HttpServlet {
     }    
     
     /* transform movies to points*/
-    private ArrayList<PointdDim> getPoints(ArrayList<Movie> movies)
+    /*private ArrayList<PointdDim> getPoints(ArrayList<Movie> movies)
     {  
         ArrayList<PointdDim> points = new ArrayList<PointdDim>();
         
@@ -288,14 +261,14 @@ public class SearchRequest extends HttpServlet {
         }
         
         return points;  
-    }
+    }*/
 
-    private void printPointes(ArrayList<PointdDim> points){
+    /*private void printPointes(ArrayList<PointdDim> points){
         for(PointdDim p: points){
             System.out.println("id "+p.getId()+" Dims: "+p.toString()+" Dims: "+p.getMovieDim().getTitle());
         }
         
-    }
+    }*/
     
     private String[] movieArray(String str){
         String[] temp;

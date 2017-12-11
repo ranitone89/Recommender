@@ -22,8 +22,9 @@ public class Scenario {
     private Integer[] lenght;
     
     private int rating;
+    private Integer[][] comparations;
     
-    public Scenario(int id, String desc, String[] actors,String[] genres, Integer[] released,Integer[] lenght, int rating  ) {
+    public Scenario(int id, String desc, String[] actors,String[] genres, Integer[] released,Integer[] lenght, int rating,String comparationString) {
         this.id = id;
         this.desc = desc;
         this.genres = genres;
@@ -31,5 +32,20 @@ public class Scenario {
         this.released = released;
         this.lenght = lenght;
         this.rating = rating;
+        setComparations(comparationString);
     } 
+    
+    private void setComparations(String comString){
+        String[] comparation = comString.split(";");
+        this.comparations = new Integer[comparation.length][];
+        
+        for (int i = 0; i < comparation.length; i++) {
+            String[] row = comparation[i].split(",");
+            comparations[i] = new Integer[row.length];
+
+            for(int j=0; j < row.length; j++) {
+                comparations[i][j] = Integer.parseInt(row[j]);
+            }
+        }     
+    }
 }

@@ -5,13 +5,14 @@
  */
 package com.recommender;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Nemanja Ranitovic
  */
-public class Recommendation {
+public class Recommendation{
     
     private int methodid;
     private int clusterid;
@@ -33,6 +34,7 @@ public class Recommendation {
     }
     
     public void setClusterId(int clusterid){
+        System.out.println("This add cluster id");
         this.clusterid = clusterid;
     }
 }

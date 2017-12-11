@@ -2,38 +2,37 @@
 /* global scenarioObject, searchObject */
 
 $(document).ready(function() {
+    var mode = 1;
+    var userId = getUserId();
+    
     var evalNum = 1;
     var scenarioNum = 0;
+    var searchPrameter = [[]];
+    var scenarios = [];
+    
+    var num = [];
+    var slideIndex = [[],[]];   
+    var statcsIndex  = 0;
+    var statistic = 0;
+    var activeStatistic = 0;
+    var charts = new Array();    
+    
     var movieContent;
     var movies;
     var movie;
     var ratedMovies;
-    var num = [];
-    var slideIndex = [[],[]];
 
-    var statcsIndex  = 0;
-    var statistic = 0;
-    var charts = new Array();
-    
-    var searchPrameter = [[]];
-    var scenarios = [];
-    
     var method1Parameter = [];
     var method2Parameter = [];
-    //var scenarios = [];
+    
     var evalShowInfos = true;
     var errorevalShowInfos = false;
-    var mode = 1;
-    var activeStatistic = 0;
+
     var surveryInfor = false;
     var surveyIndex = 1;
-
     var surveyPar = false;
-    
-    var userId = getUserId();
+
     initMode();
-    //getScenariosDB();
-    //initMode();
     initWelcomeScreen();
     
     
@@ -286,7 +285,7 @@ $(document).ready(function() {
              delDivContent();
              surveryInfor==false;
 
-             $.ajax({
+             /*$.ajax({
              url : "SearchServlet",
              type : "GET",
              beforeSend: function(){
@@ -327,7 +326,7 @@ $(document).ready(function() {
                             alert("Some exception occurred! Please try again.");
                         }
                 }
-            });
+            });*/
          }
      });
      
@@ -354,262 +353,11 @@ $(document).ready(function() {
 
 
 
-    /*
-     * 
-     * @param {type} method
-     * @param {type} cluster
-     * @param {type} movies
-     * @returns {undefined}
-     */
-    function showMessage(method,cluster,movies){
-        if(movies !== null){
-            $('.survey').css('display', 'block');
-            
-            movieObject.displayMovies(searchObject.covertToArray(movies,'r'),method,cluster);
+  
 
-            $('.tab-nav').hide();
-            $('.tab-back-nav').show();
-            $('.recom-text').show();
-            $('.search').hide();
-            $('.search-tab-close').hide();
-            $('.submitSurvey').css('display', 'block');
-        }
-        else if(movies == 'FAILURE'){
-            alert('fehler');
-        }
-    }
-    
-    /*function getParameterMode(mode) {
-       if(mode == 0){
-            getTestPrametar();
-       }
-        if(mode == 1){
-            getEvalPrametar();
-        }  
-    }   */
+
     
 
-    /*
-     * 
-     * @param {type} dataList
-     * @param {type} method
-     * @param {type} cluster
-     * @returns {undefined}
-     */
-    function getCharts(dataList,method)
-    {
-        var data = new Array();
-
-        //number of movie objects
-        var dataDim = 0;
-        for(var j=0; j<dataList[0].scores.length; j++){
-            for(var z = j+1; z <dataList[0].scores.length; z++ )
-            {   
-                data.push( [] );
-                dataDim = dataDim+1;
-            }
-        }
-        
-        for(var i =0; i<dataList.length; i++){
-            var dim = 0;
-            for(var j=0; j<dataList[i].scores.length; j++){
-                
-                for(var z = j+1; z <dataList[i].scores.length; z++ ){        
-                    data[dim].push({ x : dataList[i].scores[j], y: dataList[i].scores[z], title: dataList[i].title, color:dataList[i].color});
-                    dim = dim+1;
-                }
-                
-            } 
-        }
-        var labels = statisticObject.getStatcsLabel(['actor','genre','lenght','year','rating']);
-        //numStats = data.length;
-        
-        for(var i=0; i<data.length; i++){
-            
-            displaytCharts(data[i],method,labels[i],i);
-            //statisticObject.displaytCharts(data[i],method,labels[i],i);
-            
-        }
-    }
-
-    /*
-     * 
-     * @param {type} labels
-     * @returns {Array}
-     */
-    /*function getStatcsLabel(labels){
-        var label = [];
-        for(var j=0; j<labels.length; j++){
-            for(var z = j+1; z <labels.length; z++ )
-            {   
-                label.push(labels[j]+" "+labels[z]);
-            }
-        }
-        return label;
-    }*/
-    
-    /*
-     * 
-     * @param {type} jsonData
-     * @param {type} method
-     * @param {type} cluster
-     * @param {type} label
-     * @param {type} i
-     * @returns {undefined}
-     */
-    function displaytCharts(jsonData,method,label,i)
-    {   
-        var stats = statisticObject.showHideStat(i);
-        var axis = label.split(" ");
-
-
-        $('#Result .Statistic'+method).append('<div id='+axis[0]+'_'+axis[1]+ '_'+method+' ></div>');
-        $('#Result .Statistic'+method+' #'+axis[0]+'_'+axis[1]+ '_'+method).addClass(stats);
-
-        charts[method-1][i] = Highcharts.chart(''+axis[0]+'_'+axis[1]+ '_'+method,{
-            chart: {
-                type: 'scatter',
-                zoomType: 'xy'
-            },
-
-            legend: {
-                enabled: false
-            },
-
-            title: {
-                text: ''
-            },
-            credits: false,
-            subtitle: {
-                text: '<br>'+axis[0]+'/'+axis[1]+'</br>'
-            },
-            exporting: {
-                enabled: false
-            },
-            xAxis: {
-                //gridLineWidth: 1,
-                title: {
-                    text: ''+axis[0]
-                },
-                labels: {
-                    format: '{value}'
-                },
-            },
-
-            yAxis: {
-                startOnTick: false,
-                endOnTick: false,
-                title: {
-                    text: ''+axis[1]
-                },
-                labels: {
-                    format: '{value}'
-                },
-                maxPadding: 0.2,
-            },
-            plotOptions: {
-            scatter: {
-                marker: {
-                    radius: 5,
-                    states: {
-                        hover: {
-                            enabled: true,
-                            lineColor: 'rgb(100,100,100)'
-                        }
-                    }
-                },
-                states: {
-                    hover: {
-                        marker: {
-                            enabled: true,
-                        }
-                    }
-                },
-                tooltip: {
-                    //useHTML: true,
-                    headerFormat: '<table>',
-                    pointFormat: '<b>{point.title}</b><br>'+ ' '+axis[0]+' :{point.x}'+ ' '+axis[1]+' :{point.y}'
-                }
-            }
-            },
-            series: [{
-                    data: jsonData
-            }]
-        });
-    }
-
-    /*
-     * 
-     * @param {type} jsonObj
-     * @returns {undefined}
-     */
-    function getData(jsonObj)
-    {
-        for(var mt = 0; mt < jsonObj.length; mt++)
-        {
-            charts[mt] = new Array();
-            num.push(jsonObj[mt].length);
-            
-            for(var cl = 0; cl<jsonObj[mt].length; cl++){
-                
-                var movies = "";
-                var cluster= jsonObj[mt][cl].clusterid+1;
-                var method = jsonObj[mt][cl].methodid +1;
-                $('.Method'+method).append('<div id=Cluster'+cluster+' class=Clusters></div>');
-                
-                for(var j = 0; j<jsonObj[mt][cl].movies.length; j++){
-                    movies += jsonObj[mt][cl].movies[j].title+", ";
-                    //alert("FIlm ID: "+jsonObj[mt][cl].movies[j].movieId+" Cluster: "+cluster);
-                }
-                showMessage(method,cluster,movies);
-                //initIndex(method,cluster);
-                slideIndex[mt][cl] = 0;
-            }
-        }
-        /********************* Statistics **********************/
-
-        for(var mt = 0; mt < jsonObj.length; mt++)
-        {
-            var score = [];
-            for(var cl = 0; cl<jsonObj[mt].length; cl++){
-                var cluster= jsonObj[mt][cl].clusterid+1;
-                var method = jsonObj[mt][cl].methodid +1;
-                
-                for(var j = 0; j<jsonObj[mt][cl].movies.length; j++){
-                    score.push({title: jsonObj[mt][cl].movies[j].title, scores: jsonObj[mt][cl].movies[j].scores, color: setColor(method, cluster)});
-                }
-            }
-            getCharts(score,method);
-            //statisticObject.getCharts(score,method,charts);
-        }     
-    }
-    
-    /**
-     * 
-     * @param {type} jsonObj
-     * @returns {undefined}
-     */
-    function sortData(jsonObj)
-    {
-        for(var mt = 0; mt < jsonObj.length; mt++){
-            for(var cl = 0; cl<jsonObj[mt].length; cl++){
-                jsonObj[mt]=jsonObj[mt].sort(function(a, b) {
-                    return (a.clusterid > b.clusterid) ? 1 : ((a.clusterid < b.clusterid) ? -1 : 0);
-                });
-            }   
-        }
-        getData(jsonObj);
-    }
-    
-    function setColor(method, cluster){
-        var color =  $('.Method'+method+' #Cluster'+cluster).css('background-color');
-        return shadeRGBColor(color, -0.05);
-    }
-    
-    function shadeRGBColor(color, percent) {
-        var f=color.split(","),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=parseInt(f[0].slice(4)),G=parseInt(f[1]),B=parseInt(f[2]);
-        return "rgb("+(Math.round((t-R)*p)+R)+","+(Math.round((t-G)*p)+G)+","+(Math.round((t-B)*p)+B)+")";
-    }
     
 
     searchObject.covertToArray = function(array, string)
@@ -796,12 +544,14 @@ $(document).ready(function() {
 
    $(document).on("click", ".clusterbtn", function(event){
        if(mode==0){
+           alert(mode);
             $('.search-tab').appendTo('.search .tab');
             $('.search-tab-cluster').appendTo('.search .search-tab');
             showTestMode();
             hideEvalMode();
             $('#testSearch').css("display","block");
             $('#evalSearch').css("display","none");
+            $('#id01').css('display','none');
        }
        else{
            //if scenarios empty
@@ -815,6 +565,7 @@ $(document).ready(function() {
                 $('#evalSearch').css("display","block");
                 scenarios = scenarioObject.getScenarios();
                 scenarioObject.createScenarioMessage(scenarios);
+                alert(scenarios);
                 getModeParameter(mode);   
             }
             else{
@@ -910,12 +661,12 @@ $(document).ready(function() {
         if(mode == 0){
             getTestPrametar();
        }
-        if(mode == 1){
+        /*if(mode == 1){
             getEvalPrametar(evalNum);
-        }  
+        }*/  
     }
 
-    
+   
     /*Check for evaluation current mode and trigger click*/
     function checkEvalNum(mode){
         if(mode == 1){
@@ -923,8 +674,7 @@ $(document).ready(function() {
                 if(evalNum < getNumberComparations()){
                     getSurveyVaues();
                     evalNum = evalNum+1;
-                    $('.submitBtn').trigger('click');
-                    //getSurveyVaues();
+                    $('.seachScenario').trigger('click');
                     resetSurvey();
                 }
                 else{
@@ -935,10 +685,8 @@ $(document).ready(function() {
                     resetSurvey();
                     searchObject.resetSearchPram();
                     scenarioNum = scenarioNum+1;
-                    //setScenarioText(scenarioNum);
                     unbindSearchButtons();
                     scenarioObject.displayScenario(scenarioNum);
-                    
                 }
                
             }
@@ -946,7 +694,7 @@ $(document).ready(function() {
                 if(evalNum < getNumberComparations()){
                     getSurveyVaues();
                     evalNum = evalNum+1;
-                    $('.submitBtn').trigger('click');
+                    $('.seachScenario').trigger('click');
                     
                     resetSurvey();
                 }
@@ -980,13 +728,21 @@ $(document).ready(function() {
         }
     }
     
-
+   /* Hide previous generated scenarios including movies 
+    * 
+    * @returns {undefined}
+    */
    function hideResult(){
       $('#Result').css("display","none");
       $('.survey').css("display","none");
       $('.recom-text').css("display","none");
       $('.tab-back-nav').css("display","none");
    }
+
+    /* Show generated scenarios including movies 
+    *  Show infos about evaluation only for the first comparation
+    * @returns {undefined}
+    */
    function showResult(){
         bindSearchButtons();
         if(errorevalShowInfos==false){
@@ -998,23 +754,46 @@ $(document).ready(function() {
         showEvalInfo(evalShowInfos,errorevalShowInfos);
    }
    
+   /* Hide loading animation
+    * 
+    * @returns {undefined}
+    */
    function hideLoading(){
       $('#loading').css("display","none");
    }
+   
+   /* Show loading animation
+    * 
+    * @returns {undefined}
+    */
    function showLoading(){
         $('#loading').css("display","block");
    }
    
+   /* Hide distance and algorithm for initialisation in mode selection
+    * 
+    * @param {type} div
+    * @returns {undefined}
+    */
    function hideBordaDivs(div){
           $('.'+div+' .row-3').css("display","none");
           $('.'+div+' .row-4').css("display","none");
    }
+   
+    /* Show distance and algorithm for initialisation in mode selectioon
+    * 
+    * @param {type} div
+    * @returns {undefined}
+    */
    function showBordaDivs(div){
           $('.'+div+' .row-3').css("display","block");
           $('.'+div+' .row-4').css("display","block");
    }   
     
-   
+   /* Get search parameter for test mode, his parameters are used to get movies from db
+    * 
+    * @returns {undefined}
+    */
    function getTestPrametar(){
         method1Parameter[0] = $( ".method-1 .evalAlg" ).val();
         method1Parameter[1] = $( ".method-1 .evalCluster" ).val();
@@ -1027,20 +806,11 @@ $(document).ready(function() {
         method2Parameter[3] = $( ".method-2 .evalSorting" ).val();
         
    }
-   
-   function getEvalPrametar(comparationAt){
-        method1Parameter[0] = $('#evalCom'+comparationAt+' #evalMeth1 .evalAlg').val();
-        method1Parameter[1] = $('#evalCom'+comparationAt+' #evalMeth1 .evalCluster').val();
-        method1Parameter[2] = $('#evalCom'+comparationAt+' #evalMeth1 .evalDistance').val();
-        method1Parameter[3] = $('#evalCom'+comparationAt+' #evalMeth1 .evalSorting').val();
-        
-        method2Parameter[0] = $('#evalCom'+comparationAt+' #evalMeth2 .evalAlg').val();
-        method2Parameter[1] = $('#evalCom'+comparationAt+' #evalMeth2 .evalCluster').val();
-        method2Parameter[2] = $('#evalCom'+comparationAt+' #evalMeth2 .evalDistance').val();
-        method2Parameter[3] = $('#evalCom'+comparationAt+' #evalMeth2 .evalSorting').val();
-
-   }   
-
+  
+  /* Show eval mode
+   * 
+   * @returns {undefined}
+   */
    function showEvalMode(){
         $('.evalTab').css('display', 'block');
         $('#EvalScenario').css('display', 'block');
@@ -1048,6 +818,10 @@ $(document).ready(function() {
         $('#messageEval').css('display', 'none');
    }
    
+   /* Hide eval mode
+    * 
+    * @returns {undefined}
+    */
    function hideEvalMode(){
         $('.evalTab').css('display', 'none');
         $('#EvalScenario').css('display', 'none');
@@ -1055,30 +829,57 @@ $(document).ready(function() {
         $('#messageEval').css('display', 'none');
    }
    
+   /* Show test mode
+    * 
+    * @returns {undefined}
+    */
    function showTestMode(){
        $('.testMode').css('display', 'block');
        $('.testMode  .evalChoise').trigger('click');
    }
    
+   /* Hide test mode
+    * 
+    * @returns {undefined}
+    */
    function hideTestMode(){
         $('.testMode').css('display', 'none');
    }
    
+   /* Get selected mode
+    * 
+    * @returns {jQuery}
+    */
    function getMode(){
        var mode = $( ".mode #nMode" ).val();
        return mode;
    }
    
+   /* Set mode
+    * 
+    * @param {type} value
+    * @returns {undefined}
+    */
    function setMode(value){
        $( ".mode #nMode" ).val(value);
        mode = value;
    }
-
+   
+   
+   /* Get algorithm
+    * 
+    * @returns {jQuery}
+    */
    function getAlgorithmus(){
        var alg = $(".alg").val();
        return alg;
    }
    
+   /* Set algorithm
+    * 
+    * @param {type} value
+    * @returns {undefined}
+    */
    function setAlgorithmus(value){
        $(".alg").val(value);
    }
@@ -1101,7 +902,6 @@ $(document).ready(function() {
 
         resetGenreParam();
         var genre = temp[0].split(',');
-        //alert(genre[0]);
         $('.mutliSelect input[type="checkbox"]').each(function() {
             for(var i =0; i<genre.length; i++){
                 if($(this).val()==genre[i]){
@@ -1231,33 +1031,7 @@ $(document).ready(function() {
         );
    }
    
-   function resetSurvey(){
-       $('input#cl0_like').attr('checked', false);
-       $('input#cl1_like').attr('checked', false);
-       $('input#cl2_like').attr('checked', false);
-   }
-   
-    function getSurveyVaues(){
-        alert("UserID: "+getUserId());
-        alert("ScenarioID: "+scenarios[scenarioNum]);
-        alert("Alg1:"+getEvalMethod1(evalNum));
-        alert("Alg2:"+getEvalMethod2(evalNum));
-        alert("Method: "+getSurveyResult());
-        alert("Method1CLusterEval: "+getClusterEvaluation(1));
-        alert("Method1CLusterEva2: "+getClusterEvaluation(2));
-    }
-   
-   function getSurveyResult(){
-       var method = 0;
-       
-       if($('#cl1_like').is(':checked')==true){
-           method = 1;
-       }
-       if($('#cl2_like').is(':checked')==true){
-           method = 2;
-       }
-       return method;
-   }
+
    
 
    searchObject.getNumberScenario = function(){
@@ -1268,73 +1042,20 @@ $(document).ready(function() {
        return $('#nComparation').val();
    }
    
-    $(document).on("click", "#id05 .infoClose", function(event){
-        $('#id05').css("display","none");
-        location.href = "index.html"
-   });
-    
-    $(document).on("click", "#id05 #infoClose", function(event){
-        $(".nav-element").trigger('click');
-   });    
-   
-    $(document).on("click", ".information_eval_icon", function(event){
-        $('#id06').css("display","block");
-    });
 
-    function initWelcomeScreen(){
-        if(getMode()==1){
-            $('#id04').css("display","block");
-        }
-        else{
-            $('#id04').css("display","none");
-        }
-    }
-   
-    function showGoodbye(){
-        $('#id05').css("display","block");
-    }
-    function hideGoodbye(){
-        $('#id05').css("display","none");
-    }
+
+
     
-    function bindSearchButtons(){
-        $('.button-container .closee').addClass("active");
-        $('.button-container .open').addClass("active");         
-    }
-    function unbindSearchButtons(){
-        $('.button-container .closee').removeClass("active");
-        $('.button-container .open').removeClass("active"); 
-    }
+
     
-    function showEvalInfo(message,error){
-        if(message==true && error==false && mode==1){
-            $('#id06').css("display","block");
-            //evalShowInfos = false;
-        }
-    }
     
-    /* Get method of evaluation*/
-    /* Euclidian 0
-     * Canberra 1
-     * Bray Czrtis 2
-     * Manhattan 3
-     * Borda 4
+ 
+
+    /************************ Survey ****************************/
+    
+    /* Display Survey Questions
+     * 
      **/
-    function getEvalMethod1(evalNum){
-        return $('#evalCom'+evalNum+' #evalMeth1 .evalChoise').val();
-    }
-    function getEvalMethod2(evalNum){
-        return  $('#evalCom'+evalNum+' #evalMeth2 .evalChoise').val();
-    }
-    
-    
-    
-    /************************* Survey *****************************************/
-    $(document).on("click", "#id04 #infoClose", function(event){
-        alert("init");
-        initScenarios();
-    });
-    
     $(document).on("click", "#evalSearch", function(event){
         if(surveyPar==false){
         $('.search-tab-cluster').css("display","none");
@@ -1343,7 +1064,7 @@ $(document).ready(function() {
                     pages: [
                         { title: "Demographische Daten",
                             questions: [
-                                {type:"radiogroup", name:"geschlecht", title: "Geschlecht:", isRequired: true, 
+                                /*{type:"radiogroup", name:"geschlecht", title: "Geschlecht:", isRequired: true, 
                                     choices:["weiblich", "männlich"]},
                                 
                                 {type:"radiogroup", name:"alter",title:"Alter: ",
@@ -1351,7 +1072,7 @@ $(document).ready(function() {
                                  choices:["18-24", "25-34", "35-44", "45-59", "60-69", "70 und älter"]},
                              
                                 {type:"radiogroup", name:"beschäftigung", title: "Sind Sie berufstätig?", isRequired: true, 
-                                choices:["ja", "nein"]},
+                                choices:["ja", "nein"]},*/
                                 
                                 {type: "text", name: "email",isRequired: true,
                                     title: "Was ist Ihr derzeitiger / was war Ihr letzter Beruf?"}
@@ -1359,7 +1080,7 @@ $(document).ready(function() {
                         },
                         { title: "Allgemeine Nutzungsfragen",
                             questions: [
-                                {type:"radiogroup", name:"filme", title: "Wie häufig nutzen Sie Videoinhalte wie z.B Filme und Serien?", isRequired: true, 
+                                /*{type:"radiogroup", name:"filme", title: "Wie häufig nutzen Sie Videoinhalte wie z.B Filme und Serien?", isRequired: true, 
                                     choices:["Täglich oder fast täglich", "Mindestens einmal pro Woche", "Mindestens einmal im Monat", 
                                         "Seltener", "Nie"]},
                                 
@@ -1382,18 +1103,18 @@ $(document).ready(function() {
                                         value: "portale",
                                         text: "Kostenlose Portale(z.B YouTube)"
                                     }]
-                                }, 
+                                },*/
                                                                
                                 { type: "radiogroup", name: "empfehlung", title: "Wie oft werden Ihnen Filme auf  Ihr Lieblingsplattform empfohlen?", isRequired: true,
                                  choices:["nie", 
-                                     "selten","manchmal","meistens","immer"]},
+                                     "selten","manchmal","meistens","immer"]}
                                                                                  
                             ],                           
                         },
                         { title: "Zufriedenheit", 
                             questions: [
-                                { type: "radiogroup", name: "sinn", title: "Halten Sie automatisch generierte Filmempfehlugen für lästig?", isRequired: true,
-                                 choices:["nie","selten","manchmal","meistens","immer"]},
+                                /*{ type: "radiogroup", name: "sinn", title: "Halten Sie automatisch generierte Filmempfehlugen für lästig?", isRequired: true,
+                                 choices:["nie","selten","manchmal","meistens","immer"]},*/
                              
                                 {type:"radiogroup", name:"zufriedenheit", title: "Treffen solche Empfehlungen in der Regel ihr Geschmack?", isRequired: true, 
                                 choices:["nie","selten","manchmal","meistens","immer"]},
@@ -1409,38 +1130,580 @@ $(document).ready(function() {
             
         }
     });
-    /****************************************************/
     
-    function getClusterEvaluation(method){
-        var clusterEvaluation = [];
-        $('.Method'+method+' input:checked').map(function() {
-            clusterEvaluation.push($(this).val());
-        });
-        return clusterEvaluation;
+    
+    /* Display Welcome Screen
+     * 
+     * @returns {undefined}
+     **/
+    function initWelcomeScreen(){
+        if(getMode()==1){
+            $('#id04').css("display","block");
+        }
+        else{
+            $('#id04').css("display","none");
+        }
     }
     
-    /*************Trigger Scenarios**********************/
+    /* Display Godbye Sceen
+     * 
+     * @returns {undefined}
+     */
+    function showGoodbye(){
+        $('#id05').css("display","block");
+    }
     
+    /* Hide Goodbye Screen
+     * 
+     * @returns {undefined}
+     */
+    function hideGoodbye(){
+        $('#id05').css("display","none");
+    }
+    
+    /* Show searh mask 
+     * 
+     * @returns {undefined}
+     */
+    function bindSearchButtons(){
+        $('.button-container .closee').addClass("active");
+        $('.button-container .open').addClass("active");         
+    }
+    
+    /* Hide search mask
+     * 
+     * @returns {undefined}
+     */
+    function unbindSearchButtons(){
+        $('.button-container .closee').removeClass("active");
+        $('.button-container .open').removeClass("active"); 
+    }
+    
+    /* Shows detail about how to evaluate scenarios
+     * 
+     * @param {type} message
+     * @param {type} error
+     * @returns {undefined}
+     */
+    function showEvalInfo(message,error){
+        if(message==true && error==false && mode==1){
+            $('#id06').css("display","block");
+            //evalShowInfos = false;
+        }
+    }
+    
+    /* After evaluation ends go to index.com
+     * 
+     */
+    $(document).on("click", "#id05 .infoClose", function(event){
+        $('#id05').css("display","none");
+        location.href = "index.html"
+    });
+    
+    
+    $(document).on("click", "#id05 #infoClose", function(event){
+        $(".nav-element").trigger('click');
+    });
+    
+    
+    /* Display infomations about evaluation task
+     * 
+     */   
+    $(document).on("click", ".information_eval_icon", function(event){
+        $('#id06').css("display","block");
+    });
+    
+    /************************ END ****************************/
+    
+    /***********************************Evaluation scores *****************************/
+    
+    /* reset score for every comparation 
+     * 
+     * @param {type} method
+     * @returns {Array}
+     */
+    function resetSurvey(){
+       $('input#cl0_like').attr('checked', false);
+       $('input#cl1_like').attr('checked', false);
+       $('input#cl2_like').attr('checked', false);
+   }
+   
+   /* Get final scores for each comparations
+    * 
+    * @param {type} method
+    * @returns {Array}
+    **/
+    function getSurveyVaues(){
+        alert("UserID: "+getUserId());
+        alert("ScenarioID: "+scenarios[scenarioNum]);
+        alert("Alg1:"+getSurveyMethod1(evalNum));
+        alert("Alg2:"+getSurveyMethod2(evalNum));
+        alert("Method: "+getSurveyMethod());
+        alert("Method1CLusterEval: "+getSurveyCluster(1));
+        alert("Method1CLusterEva2: "+getSurveyCluster(2));
+    }
+   
+    
+    /* 
+     * 
+     * @returns {Number}
+     */
+    function getSurveyMethod(){
+       var method = 0;
+       
+       if($('#cl1_like').is(':checked')==true){
+           method = 1;
+       }
+       if($('#cl2_like').is(':checked')==true){
+           method = 2;
+       }
+       return method;
+    }
+    
+    /* Get score for methods of one scenario 
+     * 
+     * @returns {Number}
+     */
+    function getSurveyCluster(method){
+        var surveyClusters = [];
+        $('.Method'+method+' input:checked').map(function() {
+            surveyClusters.push($(this).val());
+        });
+        return surveyClusters;
+        
+    }
+    
+       /* Get method of evaluation*/
+    /* Euclidian 0
+     * Canberra 1
+     * Bray Czrtis 2
+     * Manhattan 3
+     * Borda 4
+     **/
+    function getSurveyMethod1(evalNum){
+        return $('#evalCom'+evalNum+' #evalMeth1 .evalChoise').val();
+    }
+    function getSurveyMethod2(evalNum){
+        return  $('#evalCom'+evalNum+' #evalMeth2 .evalChoise').val();
+    }
+        
+    /************************ END ****************************/
+    
+    /************************* Procede Scenarios from DB TEST mode********************************/
+    $(document).on("click", ".submitBtn", function(event){
+        $('.statistics-close').trigger('click');
+
+        getTestPrametar();
+        
+        activeStatistic = 0;
+        statcsIndex = 0;
+        
+        var actors = removeLastComma($('#actors').val());
+        var genres = removeLastComma($('.multiSel').text());
+        var maxReleased = $('#released .range_max').text();
+        var minReleased = $('#released .range_min').text();
+        var maxLenght = $('#lenght .range_max').text();
+        var minLenght = $('#lenght .range_min').text();
+        var minStar = $('#star .range_star').text();
+        
+        
+         if(actors == ""){
+             $('#messageSearch').css("display","block");
+             $('#messageSearch').html("<font color='red'>Geben Sie bitte mindestens einen Namen ein. </font>")
+             return;
+         }
+         if(genres == ""){
+             $('#messageSearch').css("display","block");
+             $('#messageSearch').html("<font color='red'>Wählen Sie bitte mindestens ein Genre </font>")
+             return;
+         }
+         else{
+             $('#messageSearch').css("display","none");
+             var actorList = searchObject.covertToArray(actors,'a');
+             var genreList = searchObject.covertToArray(genres,'g');
+             $('#id02').css("display","none");
+             delDivContent();
+             
+             $.ajax({
+             url : "SearchServlet",
+             type : "GET",
+             beforeSend: function(){
+                 showLoading();
+                 hideResult();
+             },
+             data : {
+                 actorList : actorList,
+                 genreList : genreList,
+                 maxLenght : maxLenght,
+                 minLenght : minLenght,
+                 minReleased : minReleased,
+                 maxReleased : maxReleased,
+                 minStar     : minStar,
+                 method1    : method1Parameter,
+                 method2    : method2Parameter
+                 
+             },
+             dataType: "json",
+             complete: function(){
+                    hideLoading();
+                    showResult();
+             },
+             success : function(response){
+                        if(response != null && response != "")
+                        {
+                            errorevalShowInfos = false;
+                            var jsonStr = JSON.stringify(response);
+                            var jsonObj = JSON.parse(jsonStr);
+                            sortData(jsonObj);
+
+                        }
+                    else
+                        {
+                            errorevalShowInfos = true;
+                            $('#messageSearch').css("display","block");
+                            $('#messageSearch').html("<font color='red'>Die angegebene Parameter sind zu spezifisch. </font>");
+                            alert("Some exception occurred! Please try again.");
+                        }
+                }
+            });
+         }
+     });
+
+   
+   
+    /************************* Procede Scenarios from DB EVALUATION mode********************************/
+    
+    /*  Init on "Ok" clicked information button
+     * 
+     **/
+    $(document).on("click", "#id04 #infoClose", function(event){
+        initScenarios();
+    });
+    
+    /* Get Scenarios from DB at the ver begiing
+     * 
+     **/    
     function initScenarios(){
         scenarios = scenarioObject.getScenarios();
         scenarioObject.createScenarioMessage(scenarios);
         getModeParameter(mode);
     }
     
-    $(document).on("click", ".information_icon", function(event){
-        scenarioObject.displayScenarioMessage(scenarioNum);
-    });
-   
-    $(document).on("click", ".seachScenario", function(event){
-        searchPrameter = scenarioObject.getSearchParameter();
-        setSearchParameter(searchPrameter[scenarios[scenarioNum]-1]);
-        $('.submitBtn').trigger('click');
-        $('#id03').css("display","none");
-    });
-    
+    /* Get number of selected scenarios in eval mode
+     * 
+     **/
     function getScenarioLenght(){
         var temp = $('#output').val().split(', ');
         return temp.length-1;
     }
+    
+
+    /* Get Scenarios from DB
+    * 
+    **/
+    $(document).on("click", ".seachScenario", function(event){
+        // Get search parameter from scenarios
+        searchPrameter = scenarioObject.getSearchParameter();
+        alert("Comparations: "+searchPrameter[scenarioNum][evalNum-1]);
+        alert("Scenario: "+scenarios[scenarioNum]);
+        $('#id03').css("display","none");
+        delDivContent();
+        surveryInfor==false;
+        
+        $.ajax({
+             url : "Movie2ScenarioServlet",
+             type : "GET",
+             beforeSend: function(){
+                 showLoading();
+                 hideResult();
+             },
+             data : {
+                 scenario   : scenarios[scenarioNum],
+                 method1    : searchPrameter[scenarioNum][evalNum-1][0],
+                 method2    : searchPrameter[scenarioNum][evalNum-1][1]
+                 
+             },
+             dataType: "json",
+             complete: function(){
+                    hideLoading();
+                    showResult();
+             },
+             success : function(response){
+                        if(response != null && response != "")
+                        {
+                            errorevalShowInfos = false;
+                            var jsonStr = JSON.stringify(response);
+                            var jsonObj = JSON.parse(jsonStr);
+                            sortData(jsonObj);
+                            alert("Get Data");
+
+                        }
+                    else
+                        {
+                            errorevalShowInfos = true;
+                            $('#messageSearch').css("display","block");
+                            $('#messageSearch').html("<font color='red'>Die angegebene Parameter sind zu spezifisch. </font>");
+                            alert("Some exception occurred! Please try again.");
+                        }
+                }
+            }); 
+    });
+    
+    
+    
+    /** Sorting data fromm search request in order that simular cluster are in the same row
+     * 
+     * @param {type} jsonObj
+     * @returns {undefined}
+     */
+    function sortData(jsonObj)
+    {
+        for(var mt = 0; mt < jsonObj.length; mt++){
+            for(var cl = 0; cl<jsonObj[mt].length; cl++){
+                jsonObj[mt]=jsonObj[mt].sort(function(a, b) {
+                    return (a.clusterid > b.clusterid) ? 1 : ((a.clusterid < b.clusterid) ? -1 : 0);
+                });
+            }   
+        }
+        getData(jsonObj);
+    }    
+
+    /*
+     * Get Sorted Data from DB and append them to different divs
+     * @param {type} jsonObj
+     * @returns {undefined}
+     */
+    function getData(jsonObj)
+    {
+        for(var mt = 0; mt < jsonObj.length; mt++)
+        {
+            charts[mt] = new Array();
+            num.push(jsonObj[mt].length);
+            
+            for(var cl = 0; cl<jsonObj[mt].length; cl++){
+                
+                var movies = "";
+                var cluster= cl+1;
+                var method = mt+1;
+                $('.Method'+method).append('<div id=Cluster'+cluster+' class=Clusters></div>');
+                
+                for(var j = 0; j<jsonObj[mt][cl].movies.length; j++){
+                    movies += jsonObj[mt][cl].movies[j].title+", ";
+                    //alert("FIlm ID: "+jsonObj[mt][cl].movies[j].movieId+" Cluster: "+cluster);
+                }
+                displayData(method,cluster,movies);
+                slideIndex[mt][cl] = 0;
+            }
+        }
+        /********************* Statistics **********************/
+
+        for(var mt = 0; mt < jsonObj.length; mt++)
+        {
+            var score = [];
+            for(var cl = 0; cl<jsonObj[mt].length; cl++){
+                var cluster= cl + 1;
+                var method = mt + 1;
+                
+                for(var j = 0; j<jsonObj[mt][cl].movies.length; j++){
+                    score.push({title: jsonObj[mt][cl].movies[j].title, scores: jsonObj[mt][cl].movies[j].scores, color: setColor(method, cluster)});
+                }
+            }
+            displayCharts(score,method);
+        }     
+    }
+
+    /*
+     * 
+     * @param {type} method
+     * @param {type} cluster
+     * @param {type} movies
+     * @returns {undefined}
+     */
+    function displayData(method,cluster,movies){
+        if(movies !== null){
+            $('.survey').css('display', 'block');
+            
+            movieObject.displayMovies(searchObject.covertToArray(movies,'r'),method,cluster);
+
+            $('.tab-nav').hide();
+            $('.tab-back-nav').show();
+            $('.recom-text').show();
+            $('.search').hide();
+            $('.search-tab-close').hide();
+            $('.submitSurvey').css('display', 'block');
+        }
+        else if(movies == 'FAILURE'){
+            alert('fehler');
+        }
+    }
+    
+     /* Create charts for each methhod the basis for this are movie scores
+     * 
+     * @param {type} dataList
+     * @param {type} method
+     * @param {type} cluster
+     * @returns {undefined}
+     */
+    function displayCharts(dataList,method)
+    {
+        var data = new Array();
+
+        //number of movie objects
+        var dataDim = 0;
+        for(var j=0; j<dataList[0].scores.length; j++){
+            for(var z = j+1; z <dataList[0].scores.length; z++ )
+            {   
+                data.push( [] );
+                dataDim = dataDim+1;
+            }
+        }
+        
+        for(var i =0; i<dataList.length; i++){
+            var dim = 0;
+            for(var j=0; j<dataList[i].scores.length; j++){
+                
+                for(var z = j+1; z <dataList[i].scores.length; z++ ){        
+                    data[dim].push({ x : dataList[i].scores[j], y: dataList[i].scores[z], title: dataList[i].title, color:dataList[i].color});
+                    dim = dim+1;
+                }
+                
+            } 
+        }
+        var labels = statisticObject.getStatcsLabel(['actor','genre','lenght','year','rating']);
+        //numStats = data.length;
+        
+        for(var i=0; i<data.length; i++){
+            
+            createCharts(data[i],method,labels[i],i);
+            //statisticObject.displaytCharts(data[i],method,labels[i],i);
+            
+        }
+    }
+    
+    /*
+     * 
+     * @param {type} jsonData
+     * @param {type} method
+     * @param {type} cluster
+     * @param {type} label
+     * @param {type} i
+     * @returns {undefined}
+     */
+    function createCharts(jsonData,method,label,i)
+    {   
+        var stats = statisticObject.showHideStat(i);
+        var axis = label.split(" ");
+
+
+        $('#Result .Statistic'+method).append('<div id='+axis[0]+'_'+axis[1]+ '_'+method+' ></div>');
+        $('#Result .Statistic'+method+' #'+axis[0]+'_'+axis[1]+ '_'+method).addClass(stats);
+
+        charts[method-1][i] = Highcharts.chart(''+axis[0]+'_'+axis[1]+ '_'+method,{
+            chart: {
+                type: 'scatter',
+                zoomType: 'xy'
+            },
+
+            legend: {
+                enabled: false
+            },
+
+            title: {
+                text: ''
+            },
+            credits: false,
+            subtitle: {
+                text: '<br>'+axis[0]+'/'+axis[1]+'</br>'
+            },
+            exporting: {
+                enabled: false
+            },
+            xAxis: {
+                //gridLineWidth: 1,
+                title: {
+                    text: ''+axis[0]
+                },
+                labels: {
+                    format: '{value}'
+                },
+            },
+
+            yAxis: {
+                startOnTick: false,
+                endOnTick: false,
+                title: {
+                    text: ''+axis[1]
+                },
+                labels: {
+                    format: '{value}'
+                },
+                maxPadding: 0.2,
+            },
+            plotOptions: {
+            scatter: {
+                marker: {
+                    radius: 5,
+                    states: {
+                        hover: {
+                            enabled: true,
+                            lineColor: 'rgb(100,100,100)'
+                        }
+                    }
+                },
+                states: {
+                    hover: {
+                        marker: {
+                            enabled: true,
+                        }
+                    }
+                },
+                tooltip: {
+                    //useHTML: true,
+                    headerFormat: '<table>',
+                    pointFormat: '<b>{point.title}</b><br>'+ ' '+axis[0]+' :{point.x}'+ ' '+axis[1]+' :{point.y}'
+                }
+            }
+            },
+            series: [{
+                    data: jsonData
+            }]
+        });
+    }
+    
+    /************************* END ********************************/
+
+    /************************* DISPLAY SCENARIOS  ********************************/
+    
+    
+    
+    
+    /* Display Message of particular scenario
+     * 
+     **/
+    $(document).on("click", ".information_icon", function(event){
+        scenarioObject.displayScenarioMessage(scenarioNum);
+    }); 
+    
+    /* Set display color of each cluster of one method
+     * 
+     **/
+    function setColor(method, cluster){
+        var color =  $('.Method'+method+' #Cluster'+cluster).css('background-color');
+        return shadeRGBColor(color, -0.05);
+    }
+    
+    /* Generates darker color for statistic points 
+     * 
+     * @param {type} color
+     * @param {type} percent
+     * @returns {String}
+     */
+    function shadeRGBColor(color, percent) {
+        var f=color.split(","),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=parseInt(f[0].slice(4)),G=parseInt(f[1]),B=parseInt(f[2]);
+        return "rgb("+(Math.round((t-R)*p)+R)+","+(Math.round((t-G)*p)+G)+","+(Math.round((t-B)*p)+B)+")";
+    }
+    
+    /************************* END ********************************/
+    
     
 });

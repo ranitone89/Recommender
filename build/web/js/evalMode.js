@@ -65,7 +65,6 @@ $(document).ready(function() {
     
     //Eval Choise
     $(document).on('click','.evalSlider .evalChoise', function(){
-        alert("Eval");
         var firstParent = $(this).parents().eq(2).attr('id');
         var secondParent = $(this).parents().eq(1).attr('id');
         var value = $(this).val();
@@ -112,69 +111,20 @@ $(document).ready(function() {
                               + '<option value="2">Bray Curtis</option>'
                               + '<option value="3">Manhattan</option>'
                               + '<option value="4">Borda</option>'
-                            + '</select></div>'
-                            + '<div class="rowEval"><select class="evalAlg" name="Algorithm">'
-                              + '<option value="0">Borda</option>'
-                              + '<option value="1">Cluster</option>'
-                            + '</select></div>'
-                            + '<div class="rowEval"><select class="evalCluster" name="Number of Clusters">'
-                              + '<option value="1">1</option>'
-                              + '<option value="2">2</option>'
-                              + '<option value="3">3</option>'
-                              + '<option value="4">4</option>'
-                              + '<option value="5">5</option>'
-                              + '<option value="6">6</option>'
-                              + '<option value="7">7</option>'
-                            + '</select></div>'
-                            + '<div class="rowEval"><select class="evalDistance" name="Distance">'
-                                  +'<option value="0">Euclidean</option>'
-                                  +'<option value="1">Canberra</option>'
-                                  +'<option value="2">Bray Curtis</option>'
-                                  +'<option value="3">Manhattan</option>'
-                                +'</select></div>'
-                            +'<div class="rowEval">' 
-                              +'<select class="evalSorting" name="Sorting">'
-                              +'<option value="0">simple initializiation of centroids</option>'
-                              +'<option value="1">k-means++</option>'
-                            +'</select></div>'
-                          +'</div>'+
-                        '<div class="evalMethods" id="evalMeth2">'
+                            + '</select></div></div>'
+                        +'<div class="evalMethods" id="evalMeth2">'
                             + '<div class="rowEval"><select class="evalChoise" name="Choise">'
                               + '<option value="0">Euclidean</option>'
                               + '<option value="1">Canberra</option>'
                               + '<option value="2">Bray Curtis</option>'
                               + '<option value="3">Manhattan</option>'
                               + '<option value="4">Borda</option>'
-                            + '</select></div>'
-                          + '<div class="rowEval"><select class="evalAlg" name="Algorithm">'
-                            + '<option value="0">Borda</option>'
-                            + '<option value="1">Cluster</option>'
-                          + '</select></div>'
-                          + '<div class="rowEval"><select class="evalCluster" name="Number of Clusters">'
-                            + '<option value="1">1</option>'
-                            + '<option value="2">2</option>'
-                            + '<option value="3">3</option>'
-                            + '<option value="4">4</option>'
-                            + '<option value="5">5</option>'
-                            + '<option value="6">6</option>'
-                            + '<option value="7">7</option>'
-                          + '</select></div>'
-                          + '<div class="rowEval"><select class="evalDistance" name="Distance">'
-                                +'<option value="0">Euclidean</option>'
-                                +'<option value="1">Canberra</option>'
-                                +'<option value="2">Bray Curtis</option>'
-                                +'<option value="3">Manhattan</option>'
-                              +'</select></div>'
-                          +'<div class="rowEval">' 
-                            +'<select class="evalSorting" name="Sorting">'
-                            +'<option value="0">simple initializiation of centroids</option>'
-                            +'<option value="1">k-means++</option>'
-                          +'</select></div>'
-                          +'</div>'
+                            + '</select></div></div>'
                     +'</div>');
         showComparation(0);
-        $('.evalSlider .evalChoise').trigger('click');
+        //$('.evalSlider .evalChoise').trigger('click');
     }    
+    
     
     function addComparations(comparIndex){
         for(var i =1; i<=comparIndex; i++){
@@ -186,12 +136,12 @@ $(document).ready(function() {
     }
     
     function showComparation(positionAt){
-        $('.evalComparation').eq(positionAt).addClass('active');
+        $('.evalSlider .evalComparation').eq(positionAt).addClass('active');
     }
     
     function slideComparation(positionAt){
-        for(var i =0; i<$('.evalComparation').length; i++){
-            $('.evalComparation').eq(i).removeClass('active');
+        for(var i =0; i<$('.evalSlider .evalComparation').length; i++){
+            $('.evalSlider .evalComparation').eq(i).removeClass('active');
         }
         showComparation(positionAt);
     }
@@ -261,7 +211,7 @@ $(document).ready(function() {
      * Set Choise
     */
     function setChoise(comp, method, value){
-        $('#evalCom'+comp+ ' #evalMeth'+method+ ' .evalChoise').val(value).trigger('click');
+        $('.evalSlider #evalCom'+comp+ ' #evalMeth'+method+ ' .evalChoise').val(value).trigger('click');
     }
     /*
      * Get Algorithmus

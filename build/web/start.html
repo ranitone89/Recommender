@@ -493,7 +493,7 @@
                     </div>
                   <div class="evalTab">
                     <button class="tablinks" onclick="openEval(event, 'EvalScenario')" id="defaultEval">Scenarios</button>
-                    <button class="tablinks" onclick="openEval(event, 'EvalMethod')">Methods</button>
+                    <button class="tablinks">Details</button>
                   </div>
                 
                 <!--------------------------------- EVALUATION MODUS CONTENT ------------------------------------------>
@@ -509,8 +509,11 @@
                             <input id="deleteBtn" type="button" value="delete" />
                         </div>
                         <input id="newBtn" type="button" value="New" />
-                        
-                        <div><hr></div>
+                    </div>
+                
+                    <!--------------------------------- EVALUATION MODUS CONTENT ------------------------------------------>
+                    <div id="EvalMethod" class="evalcontent">
+                        <div id="ScenarioDetail">
                         <label class="search_param">Suchparameter für Szenario: </label>
                         <div class="searchParameter">
                             <input type="checkbox" name="searchParam" value="Schauspieler"> Schauspieler<br>
@@ -519,16 +522,38 @@
                             <input type="checkbox" name="searchParam" value="Erscheinungsjahr" checked> Erscheinungsjahr<br>
                             <input type="checkbox" name="searchParam" value="Rating"> Rating<br>
                         </div>
-                        <div><hr></div>
-                        <label class="scen_param">Szenario Parameter: </label>
-                        <div class="tab"></div>
-                        <div><hr></div>
-                        <label class="scen_desc">Szenario Beschreibung: </label>
-                        <textarea rows="1" contenteditable="true" placeholder="Geben Sie bitte die Beschreibung ein..." class="input" id="description"></textarea>
-                    </div>
-                
-                    <!--------------------------------- EVALUATION MODUS CONTENT ------------------------------------------>
-                    <div id="EvalMethod" class="evalcontent">
+                        <div id="SearchParameter">
+                            <div><hr></div>
+                            <label class="scen_param">Szenario Parameter: </label>
+                            <div class="tab"></div>
+                        </div>
+                        <div id="Methods">
+                            <div><hr></div>
+                            <label class="search_param">Legen Sie bitte die Anzahl der Methoden an sowie die Parameter für jede Methode</label>
+                            <br>
+                            <div class="searchMethodParameter">
+                                <label>Anzahl der Methoden</label>
+                                <select id="nMethods" name="number of methods">     
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                </select>
+                            </div>
+                        
+                        <label class="methodParamLabels"> Vergleich</label>
+                        <div class="searchMethodParameterSlider">
+                        </div>
+                        
+                        <div class="searchMethodParameterButtons"> 
+                            <button class="eval_method_param" id="btn_prev_method_param">&#10094</button>
+                            <button class="eval_method_param" id="btn_next_method_param">&#10095</button>
+                        </div>
+                        </div>
+                        
+                      <div id="Comparations">  
+                      <div><hr></div>
                       <p>Wählen Sie bitte die Anzahl der Vergleiche. Zu jedem Vergleich können sie bestimmen welche Methoden miteinander verglichen werden sollen.</p>
                        <div class="comparation">
                         <label>Anzahl der Vergleiche</label>
@@ -542,89 +567,21 @@
                           <option value="7">7</option>
                         </select>
                         </div>
-                      
                       <label class="compLabels">Vergleich</label>
                       <div class="evalSlider">
-                      
-                      <!--div class="evalComparation active">
-                        <div class="evalMethods" id="evalMeth1">
-                          <div class="rowEval">
-                              <select class="evalAlg" name="Algorithm">
-                                  <option value="0">Borda</option>
-                                  <option value="1">Cluster</option>
-                              </select>
-                          </div>
-                          <div class="rowEval">
-                              <select class="evalCluster" name="Number of Clusters">
-                                  <option value="1">1</option>
-                                  <option value="2">2</option>
-                                  <option value="3">3</option>
-                                  <option value="4">4</option>
-                                  <option value="5">5</option>
-                                  <option value="6">6</option>
-                                  <option value="7">7</option>
-                              </select>
-                          </div>
-
-                          <div class="rowEval">  
-                              <select class="evalDistance" name="Distance">
-                                <option value="0">Euclidean</option>
-                                <option value="1">Canberra</option>
-                                <option value="2">Bray Curtis</option>
-                                <option value="3">Manhattan</option>
-                              </select>
-                          </div>
-
-                          <div class="rowEval">  
-                              <select class="evalSorting" name="Sorting">
-                                <option value="0">simple initializiation of centroids</option>
-                                <option value="1">k-means++</option>
-                              </select>
-                          </div>
-                      </div>
-                        <div class="evalMethods" id="evalMeth2">
-                          <div class="rowEval">
-                              <select class="evalAlg" name="Algorithm">
-                                  <option value="0">Borda</option>
-                                  <option value="1">Cluster</option>
-                              </select>
-                          </div>
-                          <div class="rowEval">
-                              <select class="evalCluster" name="Number of Clusters">
-                                  <option value="1">1</option>
-                                  <option value="2">2</option>
-                                  <option value="3">3</option>
-                                  <option value="4">4</option>
-                                  <option value="5">5</option>
-                                  <option value="6">6</option>
-                                  <option value="7">7</option>
-                              </select>
-                          </div>
-
-                          <div class="rowEval">  
-                              <select class="evalDistance" name="Distance">
-                                <option value="0">Euclidean</option>
-                                <option value="1">Canberra</option>
-                                <option value="2">Bray Curtis</option>
-                                <option value="3">Manhattan</option>
-                              </select>
-                          </div>
-
-                          <div class="rowEval">  
-                              <select class="evalSorting" name="Sorting">
-                                <option value="0">simple initializiation of centroids</option>
-                                <option value="1">k-means++</option>
-                              </select>
-                          </div>
-                      </div>
-                    </div-->
                     </div>
                     <div class="evalButtons"> 
-                    <button class="eval_statc" id="btn_prev_eval">&#10094</button>
-                    <button class="eval_statc" id="btn_next_eval">&#10095</button>
+                        <button class="eval_statc" id="btn_prev_eval">&#10094</button>
+                        <button class="eval_statc" id="btn_next_eval">&#10095</button>
+                    </div>
+                    </div>
+                    <div id="Description">
+                    <div><hr></div>
+                    <label class="scen_desc">Szenario Beschreibung: </label>
+                    <textarea rows="1" contenteditable="true" placeholder="Geben Sie bitte die Beschreibung ein..." class="input" id="description"></textarea>
                     </div>
                 </div>
-
+                </div>
                   <div id="messageEval" style="display:none"></div>
                   
                   <div class="testMode">

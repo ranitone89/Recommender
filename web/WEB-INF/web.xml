@@ -69,4 +69,14 @@
         <servlet-name>InsertScenarioServlet</servlet-name>
         <url-pattern>/InsertScenarioServlet</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>Movie2ScenarioServlet</servlet-name>
+        <servlet-class>com.servlets.Movie2ScenarioRequest</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Movie2ScenarioServlet</servlet-name>
+        <url-pattern>/Movie2ScenarioServlet</url-pattern>
+    </servlet-mapping>
+    
 </web-app>

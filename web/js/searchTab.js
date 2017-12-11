@@ -37,12 +37,21 @@ $(document).ready(function() {
         $('#defineBtn').css("display","block"); 
         $('.clusterbtn').css("display","none");
         $('#id01 .tab').css("display","block");
+        $('#ScenarioDetail').css("display","block");
         $('.scen_param').css("display","block");
+        $('.search_param').css("display","block");
+        
         $('.scen_desc').css("display","block");
         $('hr').css("display","block");
         $('#description').css("display","block");
         $('.searchParameter').css("display","block");
-        $('.search_param').css("display","block");
+        $('.searchMethodParameter').css("display","block");
+        $('.searchMethodParameterButtons').css("display","block");
+        $('.searchMethodParameterSlider').css("display","block");
+        $('.methodParamLabels').css("display","block");
+        
+        openEval(event, 'EvalMethod');
+
    });
    
     $(document).on("click","#id01 .search-tab-close", function(event){
@@ -50,10 +59,16 @@ $(document).ready(function() {
         $('#defineBtn').css("display","none");
         $('#id01 .tab').css("display","none");
         $('#messageEval').css("display","none");
+        $('#ScenarioDetail').css("display","none");
         $('.scen_param').css("display","none");
+        $('.search_param').css("display","none");
         $('.scen_desc').css("display","none");
         $('hr').css("display","none");
         $('#description').css("display","none");
+        $('.searchMethodParameter').css("display","none");
+        $('.searchMethodParameterButtons').css("display","none");
+        $('.searchMethodParameterSlider').css("display","none");
+        $('.methodParamLabels').css("display","none");
    });
    
     function removeLastComma(str) {

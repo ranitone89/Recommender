@@ -2408,6 +2408,46 @@ button#btn_next_stat {
 
 }*/
 
+.searchMethodParameter{
+    display: none;
+    margin-top: 10px;
+}
+.searchMethodParameter input[type=text], .searchMethodParameter select {
+    width: 40px;
+    /* margin: 2px 0; */
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 2px 2px 2px 2px;
+    font-size: 13px;
+    background-color: white;
+    text-decoration: none;
+    vertical-align: middle;
+    font-family: 'Nunito', sans-serif;
+    margin-left: 10px;
+}
+
+
+.searchMethodParameterButtons {
+    margin-bottom: 31px;
+    margin-left: 327px;
+    margin-top: 10px;
+    display: none;
+}
+
+.searchMethodParameterSlider {
+    width: 432px;
+    margin-top: 40px;
+    margin-left: 120px;
+}
+
+
+.methodParamLabels {
+    float: left;
+    margin-top: 10px;
+}
+
 .testMode {
     /*height: 180px;
     border: 1px solid #ccc;
@@ -2746,8 +2786,12 @@ button#infoClose:hover{
     margin-bottom: 10px;
 }
 
-#evalMeth1 {
-    margin-left: 90px;
+.evalSlider #evalMeth1 {
+    margin-left: 92px;
+}
+
+.searchMethodParameterSlider #evalMeth1{
+    margin-left: 100px;
 }
 
 .evalComparation input[type=text], 
@@ -2773,8 +2817,13 @@ button#infoClose:hover{
     margin-top: 10px;
 }
 
+.methodParamLabels{
+    float: left;
+    margin-top: 10px;
+    display:none;
+}
 .evalButtons {
-    margin-left: 320px;
+    margin-left: 327px;
     margin-bottom: 20px;
 }
 
@@ -2796,6 +2845,14 @@ button#infoClose:hover{
     vertical-align: middle;
     font-family: 'Nunito', sans-serif;
     margin-left: 10px;
+}
+
+.searchMethodParameterSlider{
+    display: none;
+}
+
+.evalComparation.active {
+    display: block;
 }
 
 .evalComparation.active {
@@ -3014,7 +3071,7 @@ input#newBtn{
     margin-top: 32px;
 }
 
-.scen_param,.scen_desc, .search_param{
+.scen_param,.scen_desc, .search_param,.search_param{
     display:none;
 }
 
