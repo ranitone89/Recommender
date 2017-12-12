@@ -21,15 +21,21 @@ public class DataDB {
             connection = DBConnection.getDBConnection();  
            
 	}
-
-	public ArrayList<String> getFrameWork(String frameWork) throws Exception {
+        
+        /** Autocomplete
+         * 
+         * @param term
+         * @return
+         * @throws Exception 
+         */
+	public ArrayList<String> doAutocomplete(String term) throws Exception {
                 ArrayList<String> list = new ArrayList<String>();
 		PreparedStatement ps = null;
-                String data;
+
 		try {
                     String sql = "SELECT name FROM top_actors WHERE name LIKE ?";
                     ps = connection.prepareStatement(sql);
-                    ps.setString(1, frameWork + "%");
+                    ps.setString(1, term + "%");
                     ResultSet rs = ps.executeQuery();
                     while (rs.next()) {
                             list.add(rs.getString("name"));
@@ -41,55 +47,28 @@ public class DataDB {
 		return list;
 	}
         
-        public String doLogin(String username, String password) throws Exception{
-            System.out.println("DRIN");
+        /** Check if User exist
+         * 
+         * @param ip
+         * @return
+         * @throws Exception 
+         */
+        public String doLogin(String ipAdresse) throws Exception{
             String message = null;
             PreparedStatement ps = null;
-            String data;
-            try {
-                String sql = "SELECT name,password FROM users WHERE name = ? AND password = ?";
-                ps = connection.prepareStatement(sql);
-                
-                //setting the parameters
-                ps.setString(1, username);
-                ps.setString(2, password);
-                
-                //executing the prepared statement, which returns a ResultSet
-                ResultSet rs = ps.executeQuery();
-                if(rs.next()){
-                    System.out.println("SUCCESS");
-                    message = "SUCCESS";
-                }else{
-                    System.out.println("FAILURE");
-                    message = "FAILURE";
-                }
-            } catch (Exception e) {
-                message = "FAILURE";
-                e.printStackTrace();
-            }
-            return message;
-        }     
-      
-        public String checkIpAdress(String ip) throws Exception{
-            System.out.println("DRIN");
-            String message = null;
-            PreparedStatement ps = null;
-            String data;
             try {
                 String sql = "SELECT usersid FROM test_users WHERE ip = ?";
                 ps = connection.prepareStatement(sql);
                 
                 //setting the parameters
-                ps.setString(1, ip);
+                ps.setString(1, ipAdresse);
                 
                 //executing the prepared statement, which returns a ResultSet
                 ResultSet rs = ps.executeQuery();
                 if(rs.next()){
                     message = "USER EXIST";
-                    System.out.println(message);
                 }else{
                     message = "NEW USER";
-                    System.out.println(message);
                 }
             } catch (Exception e) {
                 message = "FAILURE";
@@ -127,7 +106,7 @@ public class DataDB {
             return message;
     }
     
-    public ArrayList<Scenario> getScenarios() throws Exception{
+    public ArrayList<Scenario> loadScenarios() throws Exception{
         ArrayList<Scenario> scenarios = new ArrayList<Scenario>();
         PreparedStatement ps = null;
         try {
@@ -262,44 +241,15 @@ public class DataDB {
             return message;
     }     
     
-    public String doRegistration(String username,String email,String password, String[] genres, String[] actors) throws Exception {
-        String message = null;
-        PreparedStatement ps = null;
-        boolean action = false;
-        try {
-            String sql = "INSERT INTO users"
-		+ "(name, email, password, genres, actors) VALUES"
-		+ "(?,?,?,?,?)";
-            
-            
-            ps = connection.prepareStatement(sql);
-            
-            //setting the parameters
-            ps.setString(1, username);
-            ps.setString(2, email);
-            ps.setString(3, password);
-            ps.setArray(4, connection.createArrayOf("text", genres));
-            ps.setArray(5, connection.createArrayOf("text", actors));
-            int count = ps.executeUpdate();
-            action = (count > 0);
-            
-            // was executeUpdate succes
-            if(action){
-                System.out.println("SUCCESS");
-                message = "SUCCESS";
-            }else{
-                System.out.println("FAILURE INSERT");
-                message = "FAILURE";
-            }
-        } 
-        catch (Exception e) {
-            message = "FAILURE";
-            e.printStackTrace();
-        }
-        return message;
-    }    
-    
-    public String doRegistrationTest(String ip,String[] genres, String[] actors) throws Exception {
+    /** Register new user
+     * 
+     * @param ip
+     * @param genres
+     * @param actors
+     * @return
+     * @throws Exception 
+     */
+  public String doRegistration(String ip,String[] genres, String[] actors) throws Exception {
         String message = null;
         PreparedStatement ps = null;
         boolean action = false;
@@ -340,7 +290,18 @@ public class DataDB {
         return message;
     }
     
-
+    /** Search for movies
+     * 
+     * @param minLenght
+     * @param maxLenght
+     * @param minReleased
+     * @param maxReleased
+     * @param minStar
+     * @param actors
+     * @param genres
+     * @return
+     * @throws Exception 
+     */
     public ArrayList<Movie> search(String minLenght, String maxLenght, String minReleased, String maxReleased,String minStar, String[] actors, String[] genres) throws Exception {
         String message = null;
         PreparedStatement ps = null;
@@ -411,117 +372,56 @@ public class DataDB {
         return movieList;
     }
 
-    
-    public ArrayList<Movie> searchTest(String[] actors,String[] genres, String[] released,String[] lenght,String rating) throws Exception {
-        String message = null;
-        PreparedStatement ps = null;
-        ArrayList<Movie> movieList = new ArrayList<Movie>();
-        System.out.println("TESSSSSSSSSSSSSSSSSSSSSSSSSSSST");
-        try {
-            String sql = "SELECT m.movieid,array_to_string(array_agg(distinct md.title),',') AS title, "
-                                + "array_to_string(array_agg(distinct md.genre),',') AS genres, "
-                                + "array_to_string(array_agg(distinct a.name),',') AS actors, "
-                                + "MAX(movie_runtime(run.time)), "
-                                + "MAX(movie_year(m.year)), "
-                                + "MAX(rank.rank::float) "
-                                + "FROM moviedata md "
-                                + "INNER JOIN runningtimes run ON md.movieid = run.movieid "
-                                + "INNER JOIN ratings rank ON run.movieid = rank.movieid "
-                                + "INNER JOIN genres genre ON rank.movieid = genre.movieid "
-                                + "INNER JOIN movies m ON genre.movieid = m.movieid "
-                                + "LEFT JOIN actors a ON md.actorid = a.actorid "
-                                + "WHERE md.movieid IN ("
-                                + "SELECT mm.movieid FROM moviedata mm "
-                                + "LEFT JOIN actors aa ON mm.actorid = aa.actorid "
-                                + "WHERE aa.name LIKE ANY(?)) "
-                                + "AND movie_runtime(run.time) BETWEEN (?) AND (?) "
-                                + "AND movie_year(m.year) BETWEEN (?) AND (?) "
-                                + "AND(rank.rank::float BETWEEN (?) AND 10.0"
-                                + "OR genre.genre = ANY(?)) "
-                                + "AND md.title NOT LIKE '%(TV)' "
-                                + "AND genre.genre NOT LIKE '%Documentary' "
-                                + "GROUP BY m.movieid "
-                                + "LIMIT 200";
-            
-            Array listActors = connection.createArrayOf("text", actors);
-            Array listGenres = connection.createArrayOf("text", genres);
-        
-            float ratingParsed = Float.parseFloat(rating);
-            
-            int minRel = Integer.parseInt(released[0]);
-            int maxRel = Integer.parseInt(released[1]);
-            int minLen = Integer.parseInt(lenght[0]);
-            int maxLen = Integer.parseInt(lenght[1]);          
-            ps = connection.prepareStatement(sql);
-
-            //setting the parameters
-            ps.setArray(1, listActors);
-            ps.setInt(2, minLen);
-            ps.setInt(3, maxLen);            
-            ps.setInt(4, minRel);
-            ps.setInt(5, maxRel);
-            ps.setFloat(6, ratingParsed);
-            ps.setArray(7, listGenres);
-
-            //executing the prepared statement, which returns a ResultSet
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()){
-                while(rs.next())
-                {
-                    Movie movie = new Movie(rs.getInt(1), rs.getString(2),rs.getString(3), rs.getString(4),
-                                            rs.getInt(5),rs.getInt(6),rs.getFloat(7));
-                    movieList.add(movie);
-                    System.out.println(message);
-
-                }
-                message = "SUCCESS SEARCH";
-            }else{
-                message = "FAILURE CANNOT SELECT DATA";
-                System.out.println(message);
-            }
-        } 
-        catch (Exception e) {
-            message = "FAILURE";
-            e.printStackTrace();
-        }
-        return movieList;
-    }
-
+   
+    /** Insert clustered movies to database 
+     * 
+     * @param method
+     * @param scenario
+     * @param firstRecommendation
+     * @throws SQLException 
+     */
     public void insertClustering(String method, int scenario, ArrayList<Recommendation> firstRecommendation) throws SQLException {
         PreparedStatement ps = null;
         try {
             String query = "INSERT INTO clustering"
-		+ "(clusterid, methodid, movieid, scenarioid) VALUES"
-		+ "(?,?,?,?)";
-            
-            
+                + "(clusterid, methodid, movieid, scenarioid) VALUES"
+                + "(?,?,?,?)";
+
+
             int methodId = Integer.parseInt(method);
             ps = connection.prepareStatement(query);
-            
-                // now loop through nearly 1,500 nodes in the list
-                for (Recommendation rec : firstRecommendation)
-                {
-                    for(Movie m: rec.getMovies()){
-                        ps.setInt(1, (rec.getClusterId()+1));
-                        ps.setInt(2, methodId);
-                        ps.setInt(3, m.getMovieId());
-                        ps.setInt(4, scenario);
-                        ps.execute(); 
-                    }
-                } 
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        
-            finally
+
+            // now loop through nearly 1,500 nodes in the list
+            for (Recommendation rec : firstRecommendation)
             {
-              // close the statement when all the INSERT's are finished
-              ps.close();
-            }
+                for(Movie m: rec.getMovies()){
+                    ps.setInt(1, (rec.getClusterId()+1));
+                    ps.setInt(2, methodId);
+                    ps.setInt(3, m.getMovieId());
+                    ps.setInt(4, scenario);
+                    ps.execute(); 
+                }
+            } 
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finally
+        {
+          // close the statement when all the INSERT's are finished
+          ps.close();
+        }
         
     }
-
+    
+    /** Insert movies to scenario
+     * 
+     * @param movies
+     * @param scenario
+     * @return
+     * @throws SQLException 
+     */
     public String insertMovies(ArrayList<Movie> movies, int scenario) throws SQLException {
         String message = null;
         PreparedStatement ps = null;
@@ -571,7 +471,67 @@ public class DataDB {
             return message;
                 
     }
+    
+    /** Insert result from evaluation into database
+     * 
+     * @param userId
+     * @param scenarioId
+     * @param alg1
+     * @param alg2
+     * @param methodEval
+     * @param cluster1Eval
+     * @param cluster2Eval
+     * @return
+     * @throws SQLException 
+     */
+    public String insertEvaluation(String userId,String scenarioId, String alg1, String alg2,
+        String methodEval,String[] cluster1Eval,String[] cluster2Eval) throws SQLException {
+        String message = null;
+        boolean action = false;
+        PreparedStatement ps = null;
+        try {
+            String query = "INSERT INTO evaluation"
+		+ "(userid, scenarioid, method1, method2, ranking, clusters1,clusters2) VALUES"
+		+ "(?,?,?,?,?,?,?)";
+            
+            System.out.println("############################");
+            System.out.println(alg1);
+            System.out.println(alg2);
+            
+            ps = connection.prepareStatement(query);
+            //setting the parameters
+            ps.setInt(1, Integer.parseInt(userId));
+            ps.setInt(2, Integer.parseInt(scenarioId));
+            ps.setInt(3, Integer.parseInt(alg1));
+            ps.setInt(4, Integer.parseInt(alg2));
+            ps.setInt(5, Integer.parseInt(methodEval)); 
+            ps.setArray(6, connection.createArrayOf("int", cluster1Eval));
+            ps.setArray(7, connection.createArrayOf("int", cluster2Eval));
+            int count = ps.executeUpdate();
+            action = (count > 0);
+            
+            // was executeUpdate succes
+            if(action==false){
+                System.out.println("FAILURE INSERT");
+                message = "";
+            }
+            else{ 
+                System.out.println("SUCCESS");
+                message = "SUCCESS";
+            }          
 
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        
+            finally
+            {
+              ps.close();
+            }
+            return message;
+    }    
+    
     public ArrayList<Recommendation> getMovies2Scenario(Integer scenario, Integer method) throws SQLException {
         ArrayList<Recommendation> recommendations = new ArrayList<Recommendation>();
         PreparedStatement ps = null;
@@ -597,10 +557,6 @@ public class DataDB {
 
                     while(rs.next())
                     {
-                        System.out.println("####### Scenario: "+scenario);
-                        System.out.println("####### Distance: "+method);
-                        System.out.println("####### ClusterIsd: "+clusterId);
-
                         Movie movie = new Movie(rs.getInt(1), rs.getString(2),rs.getString(3), rs.getString(4),
                                                 rs.getInt(5),rs.getInt(6),rs.getFloat(7),rs.getString(8));
                         movieList.add(movie);
@@ -668,6 +624,154 @@ public class DataDB {
                 //To change body of generated methods, choose Tools | Templates.
             return clusterids;
     }    
+    
+    /** Get scenarios for evaluation
+     * 
+     * @param scenarios
+     * @return 
+     */
+    public ArrayList<Scenario> getScenarios(String[] evalScenarios) {
+        ArrayList<Scenario> scenarios = new ArrayList<Scenario>();
+        PreparedStatement ps = null;
+        try {
+            String sql = "SELECT * FROM scenarios "
+                    + "WHERE id = (?) ";
+            ps = connection.prepareStatement(sql);
+            
+            for(int i = 0; i<evalScenarios.length; i++){
+                System.out.println(": "+evalScenarios[i]);
+                ps.setInt(1, Integer.parseInt(evalScenarios[i]));
+                
+                //executing the prepared statement, which returns a ResultSet
+                ResultSet rs = ps.executeQuery();
+                
+                while(rs.next())
+                {
+                    Array actorsArray = rs.getArray(3);
+                    String[] actors = (String[]) actorsArray.getArray();
+
+                    Array genresArray = rs.getArray(4);
+                    String[] genres = (String[]) genresArray.getArray();
+
+                    Array releasedArray = rs.getArray(5);
+                    Integer[] released = (Integer[]) releasedArray.getArray();
+
+                    Array lenghtArray = rs.getArray(6);
+                    Integer[] lenght = (Integer[]) lenghtArray.getArray();
+
+                    Scenario s = new Scenario(rs.getInt(1),rs.getString(2),actors,genres,released,lenght,rs.getInt(7), rs.getString(9));
+                    scenarios.add(s);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return scenarios;
+    }
+    
+    /** Insert Survey results
+     * 
+     * @param result
+     * @return 
+     */
+    public int insertSurveyResults(String[] result) {
+        PreparedStatement ps = null;
+        int generatedKey = 0;
+        try {
+            String query = "INSERT INTO survey"
+		+ "(gender, age, employment_status, job, video_usage, payment_readiness, "
+                + "platformen_stream, platformen_tv, platformen_portale, "
+                + "recommendation_frequency,recommendation_sense,recommendation_satisfaction ) VALUES"
+		+ "(?,?,?,?,?,?,?,?,?,?,?,?)";
+            
+            
+            ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+            //setting the parameters
+            //geschlecht
+            ps.setInt(1, Integer.parseInt(result[0]));
+            //alter
+            ps.setInt(2, Integer.parseInt(result[1]));
+            //beschäftigung
+            ps.setInt(3, Integer.parseInt(result[2]));
+            //beruf
+            ps.setString(4, result[3]);
+            // filme
+            ps.setInt(5, Integer.parseInt(result[4]));
+            // zahlbereitschaft
+            ps.setInt(6, Integer.parseInt(result[5]));
+            // stream
+            ps.setInt(7, Integer.parseInt(result[6]));
+            // tv
+            ps.setInt(8, Integer.parseInt(result[7]));
+            // portale
+            ps.setInt(9, Integer.parseInt(result[8]));
+            
+            // empfehlungen
+            ps.setInt(10, Integer.parseInt(result[9]));
+            // sinn
+            ps.setInt(11, Integer.parseInt(result[10]));
+            // zufriedenheit
+            ps.setInt(12, Integer.parseInt(result[11]));
+            
+            
+            ps.executeUpdate();
+            
+            ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    generatedKey = rs.getInt(1);
+                }
+                System.out.println("Inserted survey's ID: " + generatedKey);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            return generatedKey;        
+    }
+    
+    /**
+     * Insert survey to user
+     * @param userid
+     * @param survey
+     * @return 
+     */
+    public String insertSurvey2User(int userid, int survey) {
+        String message = null;
+        PreparedStatement ps = null;
+        boolean action = false;
+
+        try {
+            String query = "UPDATE test_users "
+		+ "SET surveyid = (?) "
+                + "WHERE usersid = (?)";
+            
+            
+            ps = connection.prepareStatement(query);
+
+            ps.setInt(1, survey);
+            ps.setInt(2, userid);
+
+            //ps.executeUpdate();
+            int count = ps.executeUpdate();
+            action = (count > 0);
+            
+            // was executeUpdate succes
+            if(action==false){
+                System.out.println("ERROR INSERT SURVEY TO USER");
+                message = "";
+            }
+            else{ 
+                System.out.println("SUCCESS INSERT SURVEY");
+                message = "SUCCESS INSERT SURVEY";
+            }             
+            //ResultSet rs = ps.executeQuery();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return message;
+        
+    }
 }
 
 

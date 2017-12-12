@@ -1,1 +1,1 @@
-﻿delete from test_users where ip='137.250.129.30';
+﻿delete from test_users where ip='137.250.129.165';

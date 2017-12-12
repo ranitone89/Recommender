@@ -1,7 +1,9 @@
 /* global scenarioObject */
 
 $(document).ready(function() {
-   getScenariosDB();
+   loadScenariosDB();
+   initEvalScenarios(19,20,21);
+
    var searchPrameter = [[]];
    var comparIndex = 1;
    var evalIndex = 0;
@@ -90,7 +92,7 @@ $(document).ready(function() {
                         if(response != null && response != "")
                         {
                             alert("After insert get inserted");
-                            getScenariosDB();
+                            loadScenariosDB();
                         }
                     else
                         {
@@ -104,20 +106,19 @@ $(document).ready(function() {
         }
     });
     
-    /* Get all defined scenarios from database
+    /* Load all defined scenarios from database
      * 
      * @param {type} jsonObj
      * @returns {undefined}
      */
-    function getScenariosDB(){
+    function loadScenariosDB(){
        $.ajax({
-             url : "ScenarioRequest",
+             url : "LoadScenariosServlet",
              type : "GET",
              dataType: "json",
              success : function(response){
                         if(response != null && response != "")
                         {
-                            alert("Get Scenarios");
                             var jsonStr = JSON.stringify(response);
                             var jsonObj = JSON.parse(jsonStr);
                             parseScenarios(jsonObj);
@@ -141,7 +142,57 @@ $(document).ready(function() {
     function parseScenarios(jsonObj){
         removeAllScenarios();
         removeAllScenariosMessages();
-        initEvalScenarios(21,18,19);
+
+        for(var i = 0; i < jsonObj.length; i++)
+        {   
+            $('#nScenarios').append('<option value="'+jsonObj[i].id+'"'+'>Szenario ' + jsonObj[i].id + '</option>');
+            $('#EvalScenario').append('<textarea id="desc'+jsonObj[i].id+'" rows="1" class="descriptions" contenteditable="true">'+jsonObj[i].desc+'</textarea>');
+        }
+   }
+   
+
+    /* Get all scenarios from database for evaluation
+     * 
+     * @param {type} jsonObj
+     * @returns {undefined}
+     */
+    scenarioObject.getScenariosEvaluation = function(){
+
+       var scenarios = scenarioObject.getUserChoise();
+
+       $.ajax({
+             url : "GetScenarioServlet",
+             type : "GET",
+             dataType: "json",
+             data : {
+                 scenarios : scenarios     
+             },
+             
+            success : function(response){
+                        if(response != null && response != "")
+                        {
+                            var jsonStr = JSON.stringify(response);
+                            var jsonObj = JSON.parse(jsonStr);
+                            parseEvalScenarios(jsonObj);
+
+                        }
+                    else
+                        {
+                            alert("Some exception occurred! Please try again.");
+                        }
+                }
+            });
+            
+   }
+   
+    /* Parse informations from scenarios
+     * Initalisation: Scenario 1, Scenario 1, Scenario 1 
+     * @param {type} jsonObj
+     * @returns {undefined}
+     */
+    function parseEvalScenarios(jsonObj){
+        //removeAllScenarios();
+        removeAllScenariosMessages();
         for(var i = 0; i < jsonObj.length; i++)
         {   
             searchPrameter[i]=[jsonObj[i].comparations[0],jsonObj[i].comparations[1]];
@@ -149,7 +200,6 @@ $(document).ready(function() {
             $('#EvalScenario').append('<textarea id="desc'+jsonObj[i].id+'" rows="1" class="descriptions" contenteditable="true">'+jsonObj[i].desc+'</textarea>');
         }
    }
-   
    
    /* Slide methods that should be defined for new scenario
     * 
@@ -366,7 +416,7 @@ $(document).ready(function() {
      * 
      * @returns {Array}
      */
-    scenarioObject.getScenarios = function(){
+    scenarioObject.getUserChoise = function(){
         var scenarios = [];
         var temp = $('#output').val().split(', ');
         for(var i=0; i<temp.length; i++){

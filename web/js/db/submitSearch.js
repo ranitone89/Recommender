@@ -1,5 +1,5 @@
 
-/* global scenarioObject, searchObject */
+/* global scenarioObject, searchObject, evaluationObject, surveyObject, surveyInserted */
 
 $(document).ready(function() {
     var mode = 1;
@@ -246,90 +246,7 @@ $(document).ready(function() {
         statisticObject.resetStats(activeStatic);
     });
 
-    /************************** Submit Search *********************/
 
-    $(document).on("click", ".submitBtn", function(event){
-        $('.statistics-close').trigger('click');
-
-        mode = getMode();
-        //getParameterMode(mode);
-        getModeParameter(mode);
-        
-        activeStatistic = 0;
-        statcsIndex = 0;
-        
-        var actors = removeLastComma($('#actors').val());
-        var genres = removeLastComma($('.multiSel').text());
-        var maxReleased = $('#released .range_max').text();
-        var minReleased = $('#released .range_min').text();
-        var maxLenght = $('#lenght .range_max').text();
-        var minLenght = $('#lenght .range_min').text();
-        var minStar = $('#star .range_star').text();
-        
-        
-         if(actors == ""){
-             $('#messageSearch').css("display","block");
-             $('#messageSearch').html("<font color='red'>Geben Sie bitte mindestens einen Namen ein. </font>")
-             return;
-         }
-         if(genres == ""){
-             $('#messageSearch').css("display","block");
-             $('#messageSearch').html("<font color='red'>Wählen Sie bitte mindestens ein Genre </font>")
-             return;
-         }
-         else{
-             $('#messageSearch').css("display","none");
-             var actorList = searchObject.covertToArray(actors,'a');
-             var genreList = searchObject.covertToArray(genres,'g');
-             $('#id02').css("display","none");
-             delDivContent();
-             surveryInfor==false;
-
-             /*$.ajax({
-             url : "SearchServlet",
-             type : "GET",
-             beforeSend: function(){
-                 showLoading();
-                 hideResult();
-             },
-             data : {
-                 actorList : actorList,
-                 genreList : genreList,
-                 maxLenght : maxLenght,
-                 minLenght : minLenght,
-                 minReleased : minReleased,
-                 maxReleased : maxReleased,
-                 minStar     : minStar,
-                 method1    : method1Parameter,
-                 method2    : method2Parameter
-                 
-             },
-             dataType: "json",
-             complete: function(){
-                    hideLoading();
-                    showResult();
-             },
-             success : function(response){
-                        if(response != null && response != "")
-                        {
-                            errorevalShowInfos = false;
-                            var jsonStr = JSON.stringify(response);
-                            var jsonObj = JSON.parse(jsonStr);
-                            sortData(jsonObj);
-
-                        }
-                    else
-                        {
-                            errorevalShowInfos = true;
-                            $('#messageSearch').css("display","block");
-                            $('#messageSearch').html("<font color='red'>Die angegebene Parameter sind zu spezifisch. </font>");
-                            alert("Some exception occurred! Please try again.");
-                        }
-                }
-            });*/
-         }
-     });
-     
      /****************************************/
 
      function setSearchParameter(parameter){
@@ -524,15 +441,6 @@ $(document).ready(function() {
     }    
    
    /**************************Fragebogen komplett dann Scenario Messasge zeigen*/
-   $(document).on("click", ".sv_complete_btn", function(event){
-       if($(this).val()=='Complete' && surveyIndex>1){
-           $('#id02').css("display","none");
-           surveyIndex  = 0;
-           scenarioObject.displayScenario(scenarioNum);
-       }
-       surveyIndex = surveyIndex +1;
-
-   });
    
    $(document).on("click", ".search-tab-cluster", function(event){
        $('#id01').css("display","block");
@@ -544,7 +452,6 @@ $(document).ready(function() {
 
    $(document).on("click", ".clusterbtn", function(event){
        if(mode==0){
-           alert(mode);
             $('.search-tab').appendTo('.search .tab');
             $('.search-tab-cluster').appendTo('.search .search-tab');
             showTestMode();
@@ -563,9 +470,9 @@ $(document).ready(function() {
                 hideTestMode();
                 $('#testSearch').css("display","none");
                 $('#evalSearch').css("display","block");
-                scenarios = scenarioObject.getScenarios();
+                
+                scenarios = scenarioObject.getUserChoise();
                 scenarioObject.createScenarioMessage(scenarios);
-                alert(scenarios);
                 getModeParameter(mode);   
             }
             else{
@@ -627,10 +534,10 @@ $(document).ready(function() {
         }
     });
 
-    $(document).on("click", ".surveyclose ", function(event){
+    /*$(document).on("click", ".surveyclose ", function(event){
         surveryInfor = true;
         $('.submitBtn').trigger('click');
-    });    
+    }); */  
     
     
     function chechScenarios(){
@@ -695,7 +602,6 @@ $(document).ready(function() {
                     getSurveyVaues();
                     evalNum = evalNum+1;
                     $('.seachScenario').trigger('click');
-                    
                     resetSurvey();
                 }
                 else{
@@ -927,7 +833,6 @@ $(document).ready(function() {
     * @returns {undefined}
     **/
    function setActorParam(names){
-       alert(names)
        $('#actors').val(names);
    }
    function resetActorParam(){
@@ -1064,35 +969,45 @@ $(document).ready(function() {
                     pages: [
                         { title: "Demographische Daten",
                             questions: [
-                                /*{type:"radiogroup", name:"geschlecht", title: "Geschlecht:", isRequired: true, 
-                                    choices:["weiblich", "männlich"]},
+                                {type:"radiogroup", name:"geschlecht", title: "Geschlecht:", isRequired: true, 
+                                    choices:[{value: 0, text:{default:"weiblich"}}, {value: 1,text:{default:"männlich"}}]},
                                 
                                 {type:"radiogroup", name:"alter",title:"Alter: ",
                                  colCount: 4, isRequired: true,
-                                 choices:["18-24", "25-34", "35-44", "45-59", "60-69", "70 und älter"]},
+                                 choices:[
+                                          {value: 0,text:{default:"18<"}},
+                                          {value: 1,text:{default:"18-24"}}, 
+                                          {value: 2,text:{default:"25-34"}}, 
+                                          {value: 3,text:{default:"35-44"}}, 
+                                          {value: 4,text:{default:"45-59"}}, 
+                                          {value: 5,text:{default:"60-69"}}, 
+                                          {value: 6,text:{default:"70 und älter"}}]},
                              
                                 {type:"radiogroup", name:"beschäftigung", title: "Sind Sie berufstätig?", isRequired: true, 
-                                choices:["ja", "nein"]},*/
+                                choices:[{value: 1,text:{default:"Ja"}}, {value: 0,text:{default:"Nein"}}]},
                                 
-                                {type: "text", name: "email",isRequired: true,
+                                {type: "text", name: "beruf",isRequired: true,
                                     title: "Was ist Ihr derzeitiger / was war Ihr letzter Beruf?"}
                             ],                           
                         },
                         { title: "Allgemeine Nutzungsfragen",
                             questions: [
-                                /*{type:"radiogroup", name:"filme", title: "Wie häufig nutzen Sie Videoinhalte wie z.B Filme und Serien?", isRequired: true, 
-                                    choices:["Täglich oder fast täglich", "Mindestens einmal pro Woche", "Mindestens einmal im Monat", 
-                                        "Seltener", "Nie"]},
+                                {type:"radiogroup", name:"filme", title: "Wie häufig nutzen Sie Videoinhalte wie z.B Filme und Serien?", isRequired: true, 
+                                    choices:[{ value: 0, text: "Täglich oder fast täglich"}, 
+                                             { value: 1, text: "Mindestens einmal pro Woche"}, 
+                                             { value: 2, text: "Mindestens einmal im Monat"}, 
+                                             { value: 3, text: "Seltener"},
+                                             { value: 4, text: "Nie"}]},
                                 
                                 {type:"radiogroup", name:"zahlbereitschaft", title: "Wären Sie bereit für Videoinhalte zu zahlen?", isRequired: true, 
-                                    choices:["Ja", "Nein"]},
+                                    choices:[{value: 1,text:{default:"Ja"}}, {value: 0,text:{default:"Nein"}}]},
                                 
                                 { type: "matrix", name: "plattformen", title: "Wie häufig verwenden Sie foglende Platformen für die Nutzung von Videoinhalten?", isRequired: true,
-                                    columns: [{ value: 1, text: "nie" },
-                                        { value: 2, text: "selten" },
-                                        { value: 3, text: "manchmal" },
-                                        { value: 4, text: "meistens" },
-                                        { value: 5, text: "immer" }],
+                                    columns: [{ value: 0, text: "nie" },
+                                        { value: 1, text: "selten" },
+                                        { value: 2, text: "manchmal" },
+                                        { value: 3, text: "meistens" },
+                                        { value: 4, text: "immer" }],
                                     rows: [{
                                         value: "stream",
                                         text: "Video-Streaming-Dienste"
@@ -1103,21 +1018,32 @@ $(document).ready(function() {
                                         value: "portale",
                                         text: "Kostenlose Portale(z.B YouTube)"
                                     }]
-                                },*/
+                                },
                                                                
                                 { type: "radiogroup", name: "empfehlung", title: "Wie oft werden Ihnen Filme auf  Ihr Lieblingsplattform empfohlen?", isRequired: true,
-                                 choices:["nie", 
-                                     "selten","manchmal","meistens","immer"]}
+                                 choices:[{value: 0,text:{default:"nie"}}, 
+                                          {value: 1,text:{default:"selten"}},
+                                          {value: 2,text:{default:"manchmal"}},
+                                          {value: 3,text:{default:"meistens"}},
+                                          {value: 4,text:{default:"immer"}}]}
                                                                                  
                             ],                           
                         },
                         { title: "Zufriedenheit", 
                             questions: [
-                                /*{ type: "radiogroup", name: "sinn", title: "Halten Sie automatisch generierte Filmempfehlugen für lästig?", isRequired: true,
-                                 choices:["nie","selten","manchmal","meistens","immer"]},*/
+                                { type: "radiogroup", name: "sinn", title: "Halten Sie automatisch generierte Filmempfehlugen für lästig?", isRequired: true,
+                                 choices:[{value: 0,text:{default:"nie"}}, 
+                                          {value: 1,text:{default:"selten"}},
+                                          {value: 2,text:{default:"manchmal"}},
+                                          {value: 3,text:{default:"meistens"}},
+                                          {value: 4,text:{default:"immer"}}]},
                              
                                 {type:"radiogroup", name:"zufriedenheit", title: "Treffen solche Empfehlungen in der Regel ihr Geschmack?", isRequired: true, 
-                                choices:["nie","selten","manchmal","meistens","immer"]},
+                                choices:[{value: 0,text:{default:"nie"}}, 
+                                          {value: 1,text:{default:"selten"}},
+                                          {value: 2,text:{default:"manchmal"}},
+                                          {value: 3,text:{default:"meistens"}},
+                                          {value: 4,text:{default:"immer"}}]},
                             ],                           
                         }]
                 });
@@ -1126,10 +1052,41 @@ $(document).ready(function() {
                 model: survey 
             });
             surveyPar = true;
+            
+            survey.onComplete.add(function(result) {
+                surveyCompleted(result);
+            });
             return;
             
         }
     });
+    
+    /**
+     * Survey is completed
+     * @param {type} result
+     * @returns {undefined}
+     */
+    function surveyCompleted(result){
+        var inserted = surveyObject.insertSurveyResults(result, getUserId());
+        if(inserted){
+            $('#id02').css("display","none");
+            scenarioObject.displayScenario(scenarioNum);
+        }
+    }
+    
+    /**
+     * 
+     */
+    /*$(document).on("click", ".sv_complete_btn", function(event){
+       if($(this).val()=='Complete' && surveyIndex>1){
+           $('#id02').css("display","none");
+           surveyIndex  = 0;
+           
+           scenarioObject.displayScenario(scenarioNum);
+       }
+       surveyIndex = surveyIndex +1;
+       
+   });*/
     
     
     /* Display Welcome Screen
@@ -1234,13 +1191,8 @@ $(document).ready(function() {
     * @returns {Array}
     **/
     function getSurveyVaues(){
-        alert("UserID: "+getUserId());
-        alert("ScenarioID: "+scenarios[scenarioNum]);
-        alert("Alg1:"+getSurveyMethod1(evalNum));
-        alert("Alg2:"+getSurveyMethod2(evalNum));
-        alert("Method: "+getSurveyMethod());
-        alert("Method1CLusterEval: "+getSurveyCluster(1));
-        alert("Method1CLusterEva2: "+getSurveyCluster(2));
+        evaluationObject.insertEvaluation(getUserId(), scenarios[scenarioNum], getEvalMethod1(evalNum), 
+        getEvalMethod2(evalNum), getSurveyMethod(), getEvaluationCluster(1), getEvaluationCluster(2));
     }
    
     
@@ -1264,14 +1216,27 @@ $(document).ready(function() {
      * 
      * @returns {Number}
      */
-    function getSurveyCluster(method){
+    function getEvaluationCluster(method){
         var surveyClusters = [];
         $('.Method'+method+' input:checked').map(function() {
             surveyClusters.push($(this).val());
         });
+        checkSurveyCluster(surveyClusters);
         return surveyClusters;
         
     }
+    
+    
+        /* Get score for methods of one scenario 
+     * 
+     * @returns {Number}
+     */
+    function checkSurveyCluster(surveyClusters){
+        if(surveyClusters.length==0){
+            surveyClusters.push(0);
+        }        
+    }
+    
     
        /* Get method of evaluation*/
     /* Euclidian 0
@@ -1280,11 +1245,11 @@ $(document).ready(function() {
      * Manhattan 3
      * Borda 4
      **/
-    function getSurveyMethod1(evalNum){
-        return $('#evalCom'+evalNum+' #evalMeth1 .evalChoise').val();
+    function getEvalMethod1(evalNum){
+        return searchPrameter[scenarioNum][evalNum-1][0];
     }
-    function getSurveyMethod2(evalNum){
-        return  $('#evalCom'+evalNum+' #evalMeth2 .evalChoise').val();
+    function getEvalMethod2(evalNum){
+        return  searchPrameter[scenarioNum][evalNum-1][1];
     }
         
     /************************ END ****************************/
@@ -1325,7 +1290,7 @@ $(document).ready(function() {
              delDivContent();
              
              $.ajax({
-             url : "SearchServlet",
+             url : "TestSearchServlet",
              type : "GET",
              beforeSend: function(){
                  showLoading();
@@ -1384,7 +1349,8 @@ $(document).ready(function() {
      * 
      **/    
     function initScenarios(){
-        scenarios = scenarioObject.getScenarios();
+        scenarios = scenarioObject.getUserChoise();
+        scenarioObject.getScenariosEvaluation();
         scenarioObject.createScenarioMessage(scenarios);
         getModeParameter(mode);
     }
@@ -1404,6 +1370,7 @@ $(document).ready(function() {
     $(document).on("click", ".seachScenario", function(event){
         // Get search parameter from scenarios
         searchPrameter = scenarioObject.getSearchParameter();
+        alert("Scenario Num: "+scenarioNum);
         alert("Comparations: "+searchPrameter[scenarioNum][evalNum-1]);
         alert("Scenario: "+scenarios[scenarioNum]);
         $('#id03').css("display","none");
@@ -1411,7 +1378,7 @@ $(document).ready(function() {
         surveryInfor==false;
         
         $.ajax({
-             url : "Movie2ScenarioServlet",
+             url : "EvalSearchServlet",
              type : "GET",
              beforeSend: function(){
                  showLoading();
@@ -1435,7 +1402,6 @@ $(document).ready(function() {
                             var jsonStr = JSON.stringify(response);
                             var jsonObj = JSON.parse(jsonStr);
                             sortData(jsonObj);
-                            alert("Get Data");
 
                         }
                     else

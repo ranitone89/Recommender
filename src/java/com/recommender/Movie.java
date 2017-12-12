@@ -220,9 +220,7 @@ public class Movie {
     }
 
     private void setScores(String scores) {
-        scores = scores.replaceAll("[\\[\\](){}]","");
-        System.out.println("Parsed: "+scores);
-        
+        scores = scores.replaceAll("[\\[\\](){}]","");     
         String[] scoreArray = scores.split(",");
         setActorScore(Float.parseFloat(scoreArray[0]));
         setGenreScore(Float.parseFloat(scoreArray[1]));
