@@ -65,14 +65,20 @@ public class InsertScenarioServlet extends HttpServlet {
             String searchMethodparameter[][] = getSearchMethodParameter( searchparameter );
             String comparation = request.getParameter("comparation");
             
-            System.out.println("com.servlets.InsertScenarioRequest.doGet(): "+searchparameter);
+            System.out.println("com.servlets.InsertScenarioRequest.doGet(): "+parameter);
+            
+            System.out.println("Erscheinungsjahr min: "+minReleased+" max: "+maxReleased);
+            System.out.println("Lenght min: "+minLenght+" max: "+maxLenght);
+            System.out.println("Rating: "+minStar);
+            
             
             //Get movies according to search parameter
-            ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres);
+            ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres,parameter);
             String message = "";
             
+            
             //Check if movies are generated
-            if(movies.size()>0){
+            /*if(movies.size()>0){
                 //Insert new scenario
                 int scenario = dataDao.getIdOnInsertScenario(description,actors,genres,released,lenght,parameter,minStar,comparation);
                 Search search = new Search(genres, actors);
@@ -92,7 +98,7 @@ public class InsertScenarioServlet extends HttpServlet {
                     ArrayList<Recommendation> recommendation = getMethodElements(methodCluster,Integer.parseInt(searchMethodparameter[i][4]));
                     dataDao.insertClustering(searchMethodparameter[i][4],scenario, recommendation);
                 }
-            }
+            }*/
 
             response.getWriter().write(message);
             

@@ -62,43 +62,34 @@ public class TestSearchServlet extends HttpServlet {
             /*  Get Movies From data base
             *
             */
-            ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres);
+            /*ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres);
             ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<>();
             
             
-            /*Calculate scores for each movie based on search parameter*/
             Search search = new Search(genres, actors);
             Score s = new Score(movies,search);
             ArrayList<PointdDim> points = getPoints(movies);
-            /***********************************************************/
 
-            /*  Transform string parameters to ArrayList */
             ArrayList<Integer> firstMethParam = getParameters(method1,0);
             ArrayList<Integer> secondMethParam = getParameters(method2,1);
 
 
-            /*  Get Clusters for first method  */
             FinalClustering fistMethod = new FinalClustering();
             fistMethod = getMethod(points,firstMethParam);
 
-            /*  Get Clusters for second method  */
             FinalClustering secondMethod = new FinalClustering();
             secondMethod = getMethod(points,secondMethParam);
 
 
-            /*  Make final recommendations, that includes all clusters and movies  
-                for each method*/
             ArrayList<Recommendation> firstRecommendation = getMethodElements(fistMethod,0);
             ArrayList<Recommendation> secondRecommendation = getMethodElements(secondMethod,1);
 
-            /* Sort Cluster */
             sortCluster(firstRecommendation, secondRecommendation);
 
-            /* Append recommendations */
             recommendations.add(firstRecommendation);
             recommendations.add(secondRecommendation);
-
-            String json = new Gson().toJson(recommendations);
+            */
+            String json = new Gson().toJson("");
             System.out.println(json);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");

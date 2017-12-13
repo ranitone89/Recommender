@@ -19,6 +19,7 @@ $(document).ready(function() {
         var genres = removeLastComma($('#id01 .search-tab .multiSel').text());
         var description = $('#description').val();
         var parameter = $('.searchParameter input[type="checkbox"]:checked').length;
+        var paramList = getSearchPreference();
         
         var maxReleased = $('#id01 .search-tab #released .range_max').text();
         var minReleased = $('#id01 .search-tab #released .range_min').text();
@@ -27,33 +28,55 @@ $(document).ready(function() {
         var minStar = $('#id01 .search-tab #star .range_star').text();
         
         
-        if(actors == ""){
-             $('#messageEval').css("display","block");
-             $('#messageEval').html("<font color='red'>Geben Sie bitte mindestens einen Namen ein. </font>")
-             return;
-         }
-         if(genres == ""){
-             $('#messageEval').css("display","block");
-             $('#messageEval').html("<font color='red'>Wählen Sie bitte mindestens ein Genre </font>")
-             return;
-         }
-         if(description == ""){
+        if(paramList.indexOf('Schauspieler')>=0){
+            if(actors == ""){
+                $('#messageEval').css("display","block");
+                $('#messageEval').html("<font color='red'>Geben Sie bitte mindestens einen Namen ein. </font>")
+               return;
+            }
+        }
+        
+        if(paramList.indexOf('Genre')>=0){
+            if(genres == ""){
+                $('#messageEval').css("display","block");
+                $('#messageEval').html("<font color='red'>Wählen Sie bitte mindestens ein Genre </font>")
+                return;
+            }
+        }
+                
+        if(description == ""){
              $('#messageEval').css("display","block");
              $('#messageEval').html("<font color='red'>Geben Sie bitte Beschreibung ein</font>")
              return;
-         }
-         /*if(parameter < 3){
+        }
+        
+        if(parameter < 3){
              $('#messageEval').css("display","block");
              $('#messageEval').html("<font color='red'>Wählen Sie bitte mind. drei Suchparameter aus</font>")
              return;
-         }*/
+         }
          
        else{
             var searchParameterMethods = getSearchParameterMethods();
             var comparation = getComparations();
             var actorList = searchObject.covertToArray(actors,'a');
             var genreList = searchObject.covertToArray(genres,'g');
-            var paramList = getSearchPreference();
+            
+            if(paramList.indexOf('Filmlänge')<0){
+                maxReleased = 0;
+                minReleased = 0;
+            }
+
+            if(paramList.indexOf('Erscheinungsjahr')<0){
+                maxLenght = 0;
+                minLenght = 0;
+            }
+
+            if(paramList.indexOf('Rating')<0){
+                minStar = -1;
+            }
+            
+            alert("Search einschränkungen:  "+paramList);
             searchObject.resetSearchPram();
             
             $('.clusterbtn').css("display","block");

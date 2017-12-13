@@ -214,4 +214,135 @@ $(document).ready(function() {
     }
 
 
+    /**
+     * If Actor search enabled
+     */
+    $(document).on("click",".searchParameter input[name=actor]", function(){       
+        var checked = $(this).is(":checked");
+        if(checked==true){
+            enableActor();
+        }
+        else{
+            disableActor();
+        }
+    });
+    
+
+$(document).on("click",".searchParameter input[name=genre]", function(){       
+        var checked = $(this).is(":checked");
+        if(checked==true){
+            enableGenre();
+        }
+        else{
+            disableGenre();
+        }
+    });
+    
+    $(document).on("click",".searchParameter input[name=lenght]", function(){       
+        var checked = $(this).is(":checked");
+        if(checked==true){
+            enableLenght();
+        }
+        else{
+            disableLenght();
+        }
+    });
+    
+    /**
+     * Rating enable 
+     */
+    $(document).on("click",".searchParameter input[name=rating]", function(){       
+        var checked = $(this).is(":checked");
+        if(checked==true){
+            enableRanking();
+        }
+        else{
+            disableRanking();
+        }
+    });    
+    
+    /**
+     * Year enable
+     */
+    $(document).on("click",".searchParameter input[name=year]", function(){       
+        var checked = $(this).is(":checked");
+        if(checked==true){
+            enableRealeaseYear();
+        }
+        else{
+            disableRealeaseYear();
+        }    
+    });
+    
+    
+    /**
+     * enable and disable actor
+     * @returns {undefined}
+     */
+    function enableActor(){
+        $("#actors").prop('disabled',false);
+        $('#actors').css('background-color' , '');
+    }
+    function disableActor(){
+        $("#actors").prop('disabled',true);
+        $('#actors').css('background-color' , '#DEDEDE');
+    }
+
+    /*
+     * eanable and disable genre 
+     * @returns {undefined}
+     */
+    function enableGenre(){
+        $(".dropdown dt a").prop('disabled',false);
+        //$(".dropdown dd ul li a").prop('disabled',true);
+        $('.dropdown dt a').css('background-color' , '');
+    }
+    function disableGenre(){
+        $(".dropdown dt a").prop('disabled',true);
+        //$(".dropdown dd ul li a").prop('disabled',true);
+        $('.dropdown dt a').css('background-color' , '#DEDEDE');
+    }
+
+    /*
+     * eanable and disable release year 
+     * @returns {undefined}
+     */
+    function enableRealeaseYear(){
+        $(".search-tab #released").children().prop('disabled',false);
+        $(".search-tab #released").css('background-color' , '');
+    }
+    function disableRealeaseYear(){
+        $(".search-tab #released").children().prop('disabled',true);
+        $(".search-tab #released").css('background-color' , '#DEDEDE');
+    }
+
+    /*
+     * eanable and disable release lenght 
+     * @returns {undefined}
+     */    
+    function enableLenght(){
+        $(".search-tab #lenght").children().prop('disabled',false);
+        $(".search-tab #lenght").css('background-color' , '');
+    }
+    function disableLenght(){
+        $(".search-tab #lenght").children().prop('disabled',true);
+        $(".search-tab #lenght").css('background-color' , '#DEDEDE');
+    }
+    
+    /*
+     * eanable and disable release rating 
+     * @returns {undefined}
+     */   
+    function enableRanking(){
+        $(".search-tab #star").children().prop('disabled',false);
+        $(".rating").children().prop('disabled',false);
+        $(".search-tab #star").css('background-color' , '');
+        $(".rating").css('background-color' , '');
+    }    
+    function disableRanking(){
+        $(".search-tab #star").children().prop('disabled',true);
+        $(".rating").children().prop('disabled',true);
+        $(".search-tab #star").css('background-color' , '#DEDEDE');
+        $(".rating").css('background-color' , '#DEDEDE');
+    }    
 }); 

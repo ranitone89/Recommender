@@ -302,36 +302,13 @@ public class DataDB {
      * @return
      * @throws Exception 
      */
-    public ArrayList<Movie> search(String minLenght, String maxLenght, String minReleased, String maxReleased,String minStar, String[] actors, String[] genres) throws Exception {
+    public ArrayList<Movie> search(String minLenght, String maxLenght, String minReleased, String maxReleased,String minStar, String[] actors, String[] genres, String[] parameter) throws Exception {
         String message = null;
         PreparedStatement ps = null;
         ArrayList<Movie> movieList = new ArrayList<Movie>();
+        
         try {
-            String sql = "SELECT m.movieid,array_to_string(array_agg(distinct md.title),',') AS title, "
-                                + "array_to_string(array_agg(distinct md.genre),',') AS genres, "
-                                + "array_to_string(array_agg(distinct a.name),',') AS actors, "
-                                + "MAX(movie_runtime(run.time)), "
-                                + "MAX(movie_year(m.year)), "
-                                + "MAX(rank.rank::float) "
-                                + "FROM moviedata md "
-                                + "INNER JOIN runningtimes run ON md.movieid = run.movieid "
-                                + "INNER JOIN ratings rank ON run.movieid = rank.movieid "
-                                + "INNER JOIN genres genre ON rank.movieid = genre.movieid "
-                                + "INNER JOIN movies m ON genre.movieid = m.movieid "
-                                + "LEFT JOIN actors a ON md.actorid = a.actorid "
-                                + "WHERE md.movieid IN ("
-                                + "SELECT mm.movieid FROM moviedata mm "
-                                + "LEFT JOIN actors aa ON mm.actorid = aa.actorid "
-                                + "WHERE aa.name LIKE ANY(?)) "
-                                + "AND movie_runtime(run.time) BETWEEN (?) AND (?) "
-                                + "AND movie_year(m.year) BETWEEN (?) AND (?) "
-                                + "AND(rank.rank::float BETWEEN (?) AND 10.0"
-                                + "OR genre.genre = ANY(?)) "
-                                + "AND md.title NOT LIKE '%(TV)' "
-                                + "AND genre.genre NOT LIKE '%Documentary' "
-                                + "GROUP BY m.movieid "
-                                + "LIMIT 200";
-            
+            String sql = createQuery(parameter);            
             Array listActors = connection.createArrayOf("text", actors);
             Array listGenres = connection.createArrayOf("text", genres);
             float rating = Float.parseFloat(minStar);
@@ -373,6 +350,61 @@ public class DataDB {
     }
 
    
+    private String createQuery(String[] parameter){
+        /*String query = "";*/
+        
+        String query = "SELECT m.movieid,array_to_string(array_agg(distinct md.title),',') AS title, "
+                    + "array_to_string(array_agg(distinct md.genre),',') AS genres, "
+                    + "array_to_string(array_agg(distinct a.name),',') AS actors, "
+                    + "MAX(movie_runtime(run.time)), "
+                    + "MAX(movie_year(m.year)), "
+                    + "MAX(rank.rank::float) "
+                    + "FROM moviedata md "
+                    + "INNER JOIN runningtimes run ON md.movieid = run.movieid "
+                    + "INNER JOIN ratings rank ON run.movieid = rank.movieid "
+                    + "INNER JOIN genres genre ON rank.movieid = genre.movieid "
+                    + "INNER JOIN movies m ON genre.movieid = m.movieid "
+                    + "INNER JOIN language l ON m.movieid = l.movieid "
+                    + "LEFT JOIN actors a ON md.actorid = a.actorid ";
+                    
+        if(Arrays.asList(parameter).contains("Filmlänge")){
+            query += "movie_runtime(run.time) BETWEEN (?) AND (?) AND ";
+        }
+        
+        if(Arrays.asList(parameter).contains("Erscheinungsjahr")){
+            query += "movie_year(m.year) BETWEEN (?) AND (?) AND ";
+        }
+
+        if(Arrays.asList(parameter).contains("Rating")){
+            query += "rank.rank::float BETWEEN (?) AND (?) AND ";
+        }
+        
+        if(Arrays.asList(parameter).contains("Schauspieler") || Arrays.asList(parameter).contains("Genre")){
+            if(Arrays.asList(parameter).contains("Schauspieler")){
+                query += "( a.name LIKE ANY(?)) AND ";
+            }
+            if(Arrays.asList(parameter).contains("Genre")){
+                query += "( genre.genre = ANY(?)) AND ";
+            }
+            else{
+                query += "( a.name LIKE ANY(?) OR genre.genre = ANY(?)) AND ";
+            }
+            
+        }
+        
+        query += "md.title NOT LIKE '%(TV)%' AND md.title NOT LIKE '%(#%)%' AND md.title NOT LIKE '%(V)%' "
+                + "AND genre.genre NOT LIKE '%Documentary'  "
+                + "AND l.language IN('English','French','German')"
+                + "AND rank.votes > 140000"
+                + "GROUP BY m.movieid"
+                + "order by MAX(rank.rank::float) DESC"
+                + "LIMIT 300";
+         
+        
+        return query;
+    }
+    
+    
     /** Insert clustered movies to database 
      * 
      * @param method

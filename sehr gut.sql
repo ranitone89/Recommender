@@ -3,7 +3,7 @@
                        array_to_string(array_agg(distinct a.name),',') AS actors,
                        MAX(movie_runtime(run.time)),  
                        MAX(movie_year(m.year)),  
-                       MAX(rank.rank::float)  
+                       MAX(rank.rank::float),MAX(rank.votes) as rating  
                        FROM moviedata md  
                        INNER JOIN runningtimes run ON md.movieid = run.movieid  
                        INNER JOIN ratings rank ON run.movieid = rank.movieid  
@@ -12,16 +12,18 @@
                        INNER JOIN language l ON m.movieid = l.movieid
                        LEFT JOIN actors a ON md.actorid = a.actorid  
                        where  movie_runtime(run.time) BETWEEN 60 AND 120
-                       AND movie_year(m.year) BETWEEN 2000 AND 2010  
-                       AND rank.rank::float BETWEEN 7.5 AND 10.0 
+                       and movie_year(m.year) BETWEEN 2000 AND 2010  
+                       AND rank.rank::float BETWEEN 6.0 AND 10.0
                        AND( a.name LIKE ANY('{"Depp, Johnny%"}')
-                       OR genre.genre = ANY('{Drama, Fantasy, Adventure}')) 
+				OR genre.genre = ANY('{}')
+		       ) 
                        AND md.title NOT LIKE '%(TV)%' AND md.title NOT LIKE '%(#%)%' AND md.title NOT LIKE '%(V)%' 
                        AND genre.genre NOT LIKE '%Documentary'  
                        AND l.language IN('English','French','German')
-                       AND rank.votes > 20000
+                       AND rank.votes > 140000
                        GROUP BY m.movieid
-                       LIMIT 150 ;
+                       order by MAX(rank.rank::float) DESC
+                       LIMIT 300 ;
 
 
 
