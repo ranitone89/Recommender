@@ -14,6 +14,10 @@ import com.recommender.Scenario;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class DataDB {
 	private Connection connection;
@@ -305,27 +309,57 @@ public class DataDB {
     public ArrayList<Movie> search(String minLenght, String maxLenght, String minReleased, String maxReleased,String minStar, String[] actors, String[] genres, String[] parameter) throws Exception {
         String message = null;
         PreparedStatement ps = null;
-        ArrayList<Movie> movieList = new ArrayList<Movie>();
+        ArrayList<Movie> movieList = new ArrayList<>();        
+        HashMap<String, List<String>> param =  new HashMap<>();
+        List<String> search = new ArrayList<>();
+        String query = null;
+        
+        param = createQuery(parameter);
         
         try {
-            String sql = createQuery(parameter);            
-            Array listActors = connection.createArrayOf("text", actors);
-            Array listGenres = connection.createArrayOf("text", genres);
-            float rating = Float.parseFloat(minStar);
-            int minRel = Integer.parseInt(minReleased);
-            int maxRel = Integer.parseInt(maxReleased);
-            int minLen = Integer.parseInt(minLenght);
-            int maxLen = Integer.parseInt(maxLenght);          
-            ps = connection.prepareStatement(sql);
+            System.out.println("Fetching Keys and corresponding [Multiple] Values n");
+            for (Map.Entry<String, List<String>> entry : param.entrySet()) {
+                query = entry.getKey();
+                search = entry.getValue();
+            }        
+            //String query = param.keySet().toString().substring(1, param.size()-1);
+            System.out.println("###################### Query ######################");
+            System.out.println(query);
+            System.out.println("###################### Search ######################");
+            for(int i=0; i<search.size(); i++){
+                System.out.println("PARAM: "+search.get(i));
+            }
 
+            
+            ps = connection.prepareStatement(query);
+            
             //setting the parameters
-            ps.setArray(1, listActors);
-            ps.setInt(2, minLen);
-            ps.setInt(3, maxLen);            
-            ps.setInt(4, minRel);
-            ps.setInt(5, maxRel);
-            ps.setFloat(6, rating);
-            ps.setArray(7, listGenres);
+            int index = 1;
+            for (String s : search) {         
+                if (s.equals("min lenght")) {
+                    ps.setInt(index++, Integer.parseInt(minLenght));
+                } 
+                if (s.equals("max lenght")) {
+                    ps.setInt(index++, Integer.parseInt(maxLenght));
+                }
+                if (s.equals("min released")) {
+                    ps.setInt(index++, Integer.parseInt(minReleased));
+                }
+                if (s.equals("max released")) {
+                    ps.setInt(index++, Integer.parseInt(maxReleased));
+                }
+                if(s.equals("rating")) {
+                     ps.setFloat(index++, Float.parseFloat(minStar));
+                }
+                if(s.equals("actor")) {
+                     ps.setArray(index++, connection.createArrayOf("text", actors));
+                }
+                if(s.equals("genre")) {
+                     ps.setArray(index++, connection.createArrayOf("text", genres));
+                }
+            }           
+            
+
 
             //executing the prepared statement, which returns a ResultSet
             ResultSet rs = ps.executeQuery();
@@ -350,58 +384,80 @@ public class DataDB {
     }
 
    
-    private String createQuery(String[] parameter){
-        /*String query = "";*/
-        
+    private HashMap<String, List<String>> createQuery(String[] parameter) throws SQLException{ 
+        HashMap<String, List<String>> params = new HashMap<>();
+        List<String> search = new ArrayList<>();       
+
         String query = "SELECT m.movieid,array_to_string(array_agg(distinct md.title),',') AS title, "
-                    + "array_to_string(array_agg(distinct md.genre),',') AS genres, "
-                    + "array_to_string(array_agg(distinct a.name),',') AS actors, "
-                    + "MAX(movie_runtime(run.time)), "
-                    + "MAX(movie_year(m.year)), "
-                    + "MAX(rank.rank::float) "
-                    + "FROM moviedata md "
-                    + "INNER JOIN runningtimes run ON md.movieid = run.movieid "
-                    + "INNER JOIN ratings rank ON run.movieid = rank.movieid "
-                    + "INNER JOIN genres genre ON rank.movieid = genre.movieid "
-                    + "INNER JOIN movies m ON genre.movieid = m.movieid "
-                    + "INNER JOIN language l ON m.movieid = l.movieid "
-                    + "LEFT JOIN actors a ON md.actorid = a.actorid ";
-                    
-        if(Arrays.asList(parameter).contains("Filmlänge")){
-            query += "movie_runtime(run.time) BETWEEN (?) AND (?) AND ";
-        }
+            + "array_to_string(array_agg(distinct md.genre),',') AS genres, "
+            + "array_to_string(array_agg(distinct a.name),',') AS actors, "
+            + "MAX(movie_runtime(run.time)), "
+            + "MAX(movie_year(m.year)), "
+            + "MAX(rank.rank::float) "
+            + "FROM moviedata md "
+            + "INNER JOIN runningtimes run ON md.movieid = run.movieid "
+            + "INNER JOIN ratings rank ON run.movieid = rank.movieid "
+            + "INNER JOIN genres genre ON rank.movieid = genre.movieid "
+            + "INNER JOIN movies m ON genre.movieid = m.movieid "
+            + "INNER JOIN language l ON m.movieid = l.movieid "
+            + "LEFT JOIN actors a ON md.actorid = a.actorid "
+            + "WHERE ";
         
-        if(Arrays.asList(parameter).contains("Erscheinungsjahr")){
-            query += "movie_year(m.year) BETWEEN (?) AND (?) AND ";
+        if(Arrays.asList(parameter).contains("lenght")){
+            System.out.println("################### Query lenght ######################");
+            query += "movie_runtime(run.time) BETWEEN (?) AND (?) AND ";
+            search.add("min lenght");
+            search.add("max lenght");
         }
 
-        if(Arrays.asList(parameter).contains("Rating")){
-            query += "rank.rank::float BETWEEN (?) AND (?) AND ";
+        if(Arrays.asList(parameter).contains("year")){
+            System.out.println("################### Query year ######################");
+            query += "movie_year(m.year) BETWEEN (?) AND (?) AND ";
+            search.add("min released");
+            search.add("max released");
+        }
+
+        if(Arrays.asList(parameter).contains("rating")){
+            System.out.println("################### Query rating 1 ######################");
+            query += "rank.rank::float BETWEEN (?) AND 10.0 AND ";
+
+            search.add("rating");
+            System.out.println("################### Query rating 2 ######################");
         }
         
-        if(Arrays.asList(parameter).contains("Schauspieler") || Arrays.asList(parameter).contains("Genre")){
-            if(Arrays.asList(parameter).contains("Schauspieler")){
-                query += "( a.name LIKE ANY(?)) AND ";
-            }
-            if(Arrays.asList(parameter).contains("Genre")){
-                query += "( genre.genre = ANY(?)) AND ";
-            }
-            else{
-                query += "( a.name LIKE ANY(?) OR genre.genre = ANY(?)) AND ";
-            }
-            
+        if(Arrays.asList(parameter).contains("actor") && Arrays.asList(parameter).contains("genre")){
+            query += "( a.name LIKE ANY(?) OR genre.genre = ANY(?)) AND ";
+            search.add("actor");
+            search.add("genre"); 
         }
         
+        if(Arrays.asList(parameter).contains("actor") && Arrays.asList(parameter).contains("genre")== false){
+            query += "( a.name LIKE ANY(?)) AND ";
+            search.add("actor");
+        }
+        
+        if(Arrays.asList(parameter).contains("genre") && Arrays.asList(parameter).contains("actor") == false){
+            query += "( genre.genre = ANY(?)) AND ";
+            search.add("genre"); 
+        }
+        
+
         query += "md.title NOT LIKE '%(TV)%' AND md.title NOT LIKE '%(#%)%' AND md.title NOT LIKE '%(V)%' "
-                + "AND genre.genre NOT LIKE '%Documentary'  "
-                + "AND l.language IN('English','French','German')"
-                + "AND rank.votes > 140000"
-                + "GROUP BY m.movieid"
-                + "order by MAX(rank.rank::float) DESC"
+                + "AND genre.genre NOT LIKE '%Documentary' "
+                + "AND l.language IN('English','French','German') "
+                + "AND rank.votes > 140000 "
+                + "GROUP BY m.movieid "
+                + "order by MAX(rank.rank::float) DESC "
                 + "LIMIT 300";
-         
         
-        return query;
+        System.out.println(query);
+        System.out.println("############### ENDE #######################");
+        
+        for(int i=0; i<search.size(); i++){
+                System.out.println("PARAM: "+search.get(i));
+            }
+        params.put(query, search);
+        return params;
     }
     
     

@@ -78,7 +78,7 @@ public class InsertScenarioServlet extends HttpServlet {
             
             
             //Check if movies are generated
-            /*if(movies.size()>0){
+            if(movies.size()>0){
                 //Insert new scenario
                 int scenario = dataDao.getIdOnInsertScenario(description,actors,genres,released,lenght,parameter,minStar,comparation);
                 Search search = new Search(genres, actors);
@@ -98,7 +98,7 @@ public class InsertScenarioServlet extends HttpServlet {
                     ArrayList<Recommendation> recommendation = getMethodElements(methodCluster,Integer.parseInt(searchMethodparameter[i][4]));
                     dataDao.insertClustering(searchMethodparameter[i][4],scenario, recommendation);
                 }
-            }*/
+            }
 
             response.getWriter().write(message);
             

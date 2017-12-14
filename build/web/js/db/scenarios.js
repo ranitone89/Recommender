@@ -28,7 +28,7 @@ $(document).ready(function() {
         var minStar = $('#id01 .search-tab #star .range_star').text();
         
         
-        if(paramList.indexOf('Schauspieler')>=0){
+        if(paramList.indexOf('actor')>=0){
             if(actors == ""){
                 $('#messageEval').css("display","block");
                 $('#messageEval').html("<font color='red'>Geben Sie bitte mindestens einen Namen ein. </font>")
@@ -36,7 +36,7 @@ $(document).ready(function() {
             }
         }
         
-        if(paramList.indexOf('Genre')>=0){
+        if(paramList.indexOf('genre')>=0){
             if(genres == ""){
                 $('#messageEval').css("display","block");
                 $('#messageEval').html("<font color='red'>Wählen Sie bitte mindestens ein Genre </font>")
@@ -62,17 +62,17 @@ $(document).ready(function() {
             var actorList = searchObject.covertToArray(actors,'a');
             var genreList = searchObject.covertToArray(genres,'g');
             
-            if(paramList.indexOf('Filmlänge')<0){
+            if(paramList.indexOf('lenght')<0){
                 maxReleased = 0;
                 minReleased = 0;
             }
 
-            if(paramList.indexOf('Erscheinungsjahr')<0){
+            if(paramList.indexOf('year')<0){
                 maxLenght = 0;
                 minLenght = 0;
             }
 
-            if(paramList.indexOf('Rating')<0){
+            if(paramList.indexOf('rating')<0){
                 minStar = -1;
             }
             
