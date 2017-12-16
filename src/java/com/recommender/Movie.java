@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package com.recommender;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 /**
  *
  * @author Nemanja Ranitovic
@@ -18,8 +20,10 @@ public class Movie {
     private int releaseYear;
     private int movieLenght;
     private float rating;
-    private float[] scores = new float[5];
-    private String[] scoresString = new String[5];
+    //private float[] scores = new float[5];
+    //private String[] scoresString = new String[5];
+    List<Float> scores = new ArrayList<>();
+    List<String> scoresString = new ArrayList<>();
 
     public Movie(int movieId, String title, String genres, String actors, int movieLenght, int releaseYear, float rating)
     {
@@ -30,9 +34,6 @@ public class Movie {
         this.rating = rating;
         setGenres(genres);
         setActors(actors);
-        setLenghtScore(movieLenght);
-        setReleaseScore(releaseYear);
-        setRatingScore(rating);
     }
 
     public Movie(int movieId, String title, String genres, String actors, int movieLenght, int releaseYear, float rating, String scores)
@@ -44,9 +45,6 @@ public class Movie {
         this.rating = rating;
         setGenres(genres);
         setActors(actors);
-        setLenghtScore(movieLenght);
-        setReleaseScore(releaseYear);
-        setRatingScore(rating);
         setScores(scores);
     }
     
@@ -54,20 +52,11 @@ public class Movie {
     public String getTitle(){
         return this.title;
     }
-    
-    private void setTitle(String title){
-        this.title = title;
-    }
-    
-    
+      
     public int getMovieId(){
         return this.movieId;
     }
-    
-    private void setMovieId(int movieId){
-        this.movieId = movieId;
-    }
-    
+       
     public String[] getGenres(){
         return this.genres;
     }
@@ -92,27 +81,15 @@ public class Movie {
         return this.releaseYear;
     }
     
-    private void setReleaseYear(int releaseYear){
-        this.releaseYear = releaseYear;
-    }    
-
     public int getMovieLenght(){
         return this.movieLenght;
     }
-    
-    private void setMovieLenght(int movieLenght){
-        this.movieLenght = movieLenght;
-    } 
 
     public float getMovieRating(){
         return this.rating;
     }
     
-    private void setMovieRating(float rating){
-        this.rating = rating;
-    } 
-    
-    
+      
     private String[] stringToArray(String str, String mode){
         String[] temp = new String[20];
 
@@ -159,65 +136,39 @@ public class Movie {
     
     /*Set rating scores*/
     public void setActorScore(float actorScore){
-        this.scores[0] = actorScore;
-        this.scoresString[0] = ""+actorScore;
+        this.scores.add(actorScore);
+        this.scoresString.add(""+actorScore);
     } 
     
     public void setGenreScore(float movieScore){
-        this.scores[1] = movieScore;
-        this.scoresString[1] = ""+movieScore;
+        this.scores.add(movieScore);
+        this.scoresString.add(""+movieScore);
     } 
     
-    private void setLenghtScore(int movieLenght){
-        this.scores[2] = (float)movieLenght;
-        this.scoresString[2] = ""+movieLenght;
+    public void setLenghtScore(int movieLenght){
+        this.scores.add((float) movieLenght);
+        this.scoresString.add(""+movieLenght);
     }
     
-    private void setReleaseScore(int releaseYear){
-        this.scores[3] = (float)releaseYear;
-        this.scoresString[3] = ""+releaseYear;
+    public void setReleaseScore(int releaseYear){
+        this.scores.add((float)releaseYear);
+        this.scoresString.add(""+releaseYear);
     }    
 
     
-    private void setRatingScore(float rating){
-        this.scores[4] = rating;
-        this.scoresString[4] = ""+rating;
+    public void setRatingScore(float rating){
+        this.scores.add(rating);
+        this.scoresString.add(""+rating);
     } 
 
-    /*Get rating scores*/
-    public float getActorScore(){
-        return scores[0];
-    } 
-
-    public float getGenreScore(){
-        return scores[1];
-    } 
-
-    public float getLenghtScore(){
-        return scores[2];
-    }
-    
-    public float getReleaseScore(){
-        return scores[3];
-    }    
-
-    public float getRatingScore(){
-        return scores[4];
-    } 
 
     public float[] getScores(){
-        return scores;
+        return getFloats(scores);
     }
     
-    public String[] getStringScores(){
+    public List<String> getStringScores(){
         return this.scoresString;
     } 
-
-    
-    @Override
-    public String toString(){
-        return "A: "+this.getActorScore()+" G: "+this.getGenreScore()+" L: "+this.getLenghtScore()+" Rel: "+this.getReleaseScore()+" Rank: "+this.getRatingScore();
-    }
 
     private void setScores(String scores) {
         scores = scores.replaceAll("[\\[\\](){}]","");     
@@ -228,6 +179,19 @@ public class Movie {
         setReleaseScore(Integer.parseInt(scoreArray[3]));
         setRatingScore(Float.parseFloat(scoreArray[4]));   
     }
- 
+    
+    /**
+     * Convert List of floats to array of floats
+     * @param values
+     * @return 
+     */
+    public static float[] getFloats(List<Float> values) {
+        int length = values.size();
+        float[] result = new float[length];
+        for (int i = 0; i < length; i++) {
+            result[i] = values.get(i).floatValue();
+        }
+        return result;
+    }
      
 }

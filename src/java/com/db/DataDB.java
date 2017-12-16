@@ -309,6 +309,7 @@ public class DataDB {
     public ArrayList<Movie> search(String minLenght, String maxLenght, String minReleased, String maxReleased,String minStar, String[] actors, String[] genres, String[] parameter) throws Exception {
         String message = null;
         PreparedStatement ps = null;
+        System.out.println("DriNNNNNNNNNN");
         ArrayList<Movie> movieList = new ArrayList<>();        
         HashMap<String, List<String>> param =  new HashMap<>();
         List<String> search = new ArrayList<>();
@@ -375,6 +376,7 @@ public class DataDB {
             }else{
                 message = "FAILURE CANNOT SELECT DATA";
             }
+            System.out.println(message);
         } 
         catch (Exception e) {
             message = "FAILURE";
@@ -514,7 +516,7 @@ public class DataDB {
         String message = null;
         PreparedStatement ps = null;
 
-        try {
+        /*try {
             String query = "INSERT INTO movies2scenario"
 		+ "(scenarioid, movieid, title,genres,actors,releaseyear,movielenght,rating,scores, stringscores) VALUES"
 		+ "(?,?,?,?,?,?,?,?,?,?)";
@@ -555,7 +557,7 @@ public class DataDB {
             {
               // close the statement when all the INSERT's are finished
               ps.close();
-            }
+            }*/
             return message;
                 
     }
@@ -625,7 +627,7 @@ public class DataDB {
         PreparedStatement ps = null;
         ArrayList<Integer> clusterIds = getClusterId(scenario);
  
-        try {
+        /*try {
             String query = "SELECT ms.movieid, ms.title, ms.genres, ms.actors, ms.releaseyear, ms.movielenght, ms.rating, ms.stringscores "
 		+ "FROM clustering s, movies2scenario ms "
 		+ "WHERE s.scenarioid = ms.scenarioid "
@@ -660,7 +662,7 @@ public class DataDB {
             finally
             {
               ps.close();
-            }
+            }*/
 
             return recommendations;
     }

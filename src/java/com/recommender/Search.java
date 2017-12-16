@@ -17,10 +17,23 @@ public class Search {
     private String[] actors;
     
     public Search(String []genres, String []actors){
+        System.out.println("############## Search #########");
         this.genres = genres;
-        setActors(actors);        
+        setActors(actors);
+        
     }
-    
+
+    public Search(String [] searchParam, String param){
+        if(param.equals("actor")){
+            setActors(actors);
+        }
+        if(param.equals("genre")){
+            this.genres = genres; 
+        }
+        
+        
+    }
+
     public String[] getGenres(){
         return this.genres;
     }

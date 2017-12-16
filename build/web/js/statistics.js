@@ -37,7 +37,7 @@
     */
     statisticObject.checkIndexStat = function(statcsIndex, id,lenght) {
         if(id==="btn_next_stat"){
-            if(statcsIndex>=(lenght-focusStat) || statcsIndex>=8){
+            if(statcsIndex>=(lenght-focusStat)){// || statcsIndex>=8){
                 statcsIndex = statcsIndex;
             }
             else{
@@ -97,6 +97,7 @@
                 label.push(labels[j]+" "+labels[z]);
             }
         }
+        alert(label);
         return label;
     };
     

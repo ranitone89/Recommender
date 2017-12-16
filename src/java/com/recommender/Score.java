@@ -14,48 +14,76 @@ import java.util.Set;
  */
 public class Score {
     
-    public Score(ArrayList<Movie> movies, Search search)
+    /**
+     * Calculate all scores
+     * @param movies
+     * @param genres
+     * @param actors
+     * @param parameter 
+     */
+    public static void calcScores(ArrayList<Movie> movies, String[] genres, String[] actors, String[] parameter)
     {
-        calcScores(search,movies);
-
+        
+        for(String par: parameter){
+            for(Movie m: movies){
+                if(par.equals("actor")){
+                    calcActorScore(actors, m);
+                }
+                if(par.equals("genre")){
+                    calcGenreScore(genres, m);
+                }
+                if(par.equals("lenght")){
+                    m.setLenghtScore(m.getMovieLenght());
+                }
+                if(par.equals("year")){
+                    m.setReleaseScore(m.getReleaseYear());
+                }
+                if(par.equals("rating")){
+                    m.setRatingScore(m.getMovieRating());
+                }
+                
+                System.out.println(m.toString());
+            }             
+        }
     }
-
     
-    private void calcScores(Search search, ArrayList<Movie> movies)
-    {
-        for(Movie m: movies){
-            calcGenreScore(search, m);
-            calcActorScore(search, m);
-            //System.out.println(m.toString());
-        } 
-    }
-    private void calcGenreScore(Search search, Movie movie) 
+    /**
+     * Calculate genre score
+     * @param genres
+     * @param movie 
+     */
+    private static void calcGenreScore(String[] genres, Movie movie) 
     {
         int movieGenres = movie.getGenres().length;
-        int searchGenres = search.getGenres().length;
+        int searchGenres = genres.length;
         int commonGenres = 0;
         
         for(int i = 0; i< movie.getGenres().length; i++){
-            for(int j= 0; j<search.getGenres().length; j++){
-                if(movie.getGenre(i) == null ? search.getGenre(j) == null : movie.getGenre(i).contains(search.getGenre(j))){
+            for(int j= 0; j<genres.length; j++){
+                if(movie.getGenre(i) == null ? genres[j] == null : movie.getGenre(i).contains(genres[j])){
                     commonGenres++;
                 }
             }
         }
-        float genreScore = ((float)commonGenres) /((float)movieGenres+searchGenres-commonGenres); 
+        float genreScore = ((float)commonGenres) /((float)movieGenres+searchGenres-commonGenres);
         movie.setGenreScore(genreScore);
         
     }
-
-    private void calcActorScore(Search search, Movie movie) 
+    
+    /**
+     * Calculate actor score
+     * @param actors
+     * @param movie 
+     */
+    private static void calcActorScore(String[] actors, Movie movie) 
     {
         int movieActors = movie.getActors().length;
-        int searchActors = search.getActors().length;
+        int searchActors = actors.length;
         int commonActors = 0;
         
         for(int i = 0; i< movie.getActors().length; i++){
-            for(int j= 0; j<search.getActors().length; j++){
-                if(movie.getActor(i) == null ? search.getActor(j) == null : movie.getActor(i).contains(search.getActor(j))){
+            for(int j= 0; j<actors.length; j++){
+                if(movie.getActor(i) == null ? actors[j] == null : movie.getActor(i).contains(actors[j])){
                     commonActors++;
                 }
             }
@@ -63,4 +91,6 @@ public class Score {
         float actorScore = ((float)commonActors) /((float)movieActors+searchActors-commonActors);    
         movie.setActorScore(actorScore);
     }
+
+
 }

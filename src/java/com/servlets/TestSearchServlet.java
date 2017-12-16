@@ -45,29 +45,35 @@ public class TestSearchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request,
         HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("utf-8");
+        //request.setCharacterEncoding("utf-8");
         try {
             String minLenght = request.getParameter("minLenght");
             String maxLenght = request.getParameter("maxLenght");
             String minReleased = request.getParameter("minReleased");
             String maxReleased = request.getParameter("maxReleased"); 
             String actors[] = request.getParameterValues("actorList[]");
-            String genres[] = request.getParameterValues("genreList[]");  
+            String genres[] = request.getParameterValues("genreList[]");
+            String parameter[] = request.getParameterValues("paramList[]");
             String minStar = request.getParameter("minStar");
             String method1[] = request.getParameterValues("method1[]"); 
             String method2[] = request.getParameterValues("method2[]");
 
             DataDB dataDao = new DataDB();
-            
+
             /*  Get Movies From data base
             *
             */
-            /*ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres);
+            /*System.out.println("###################################################");
+            for(int i=0; i<parameter.length; i++){
+                System.out.println(parameter[i]);
+            }*/
+
+            ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres,parameter);
             ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<>();
             
-            
-            Search search = new Search(genres, actors);
-            Score s = new Score(movies,search);
+            Score.calcScores(movies, genres, actors,parameter);
+
+
             ArrayList<PointdDim> points = getPoints(movies);
 
             ArrayList<Integer> firstMethParam = getParameters(method1,0);
@@ -88,12 +94,15 @@ public class TestSearchServlet extends HttpServlet {
 
             recommendations.add(firstRecommendation);
             recommendations.add(secondRecommendation);
-            */
-            String json = new Gson().toJson("");
-            System.out.println(json);
+            
+            String json1 = new Gson().toJson(recommendations);
+            String json2 = new Gson().toJson(parameter);
+            //System.out.println(json1);
+            String bothJson = "["+json1+","+json2+"]";
+            System.out.println(bothJson);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(json);
+            response.getWriter().write(bothJson);
         } 
         catch (Exception e) {
             System.err.println(e.getMessage());
@@ -279,6 +288,17 @@ public class TestSearchServlet extends HttpServlet {
         return points;  
     }
 
+    /**
+     * create search parameter
+     * @param points 
+     */
+    /*private void printPointes(ArrayList<PointdDim> points){
+        for(PointdDim p: points){
+            System.out.println("id "+p.getId()+" Dims: "+p.toString()+" Dims: "+p.getMovieDim().getTitle());
+        }
+        
+    }*/
+    
     private void printPointes(ArrayList<PointdDim> points){
         for(PointdDim p: points){
             System.out.println("id "+p.getId()+" Dims: "+p.toString()+" Dims: "+p.getMovieDim().getTitle());
@@ -296,5 +316,19 @@ public class TestSearchServlet extends HttpServlet {
         /* print substrings */
         return temp;
     }
+
+    /*private void checkParameters(String[] genres, String[] actors, Search search, ArrayList<Movie> movies) {
+        
+        if(genres.length>0 && actors.length>0){
+            Score.calcActor(search, movies);
+            Score.calcGenre(search, movies);
+        }
+        if(genres.length>0 && actors.length==0){
+            Score.calcGenre(search, movies);
+        }
+        if(genres.length==0 && actors.length>0){
+            Score.calcActor(search, movies);
+        }
+    }*/
 
 }

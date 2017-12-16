@@ -2464,7 +2464,7 @@ button#btn_next_stat {
     margin-left: 72px;
     margin-top: 50px;
     border: 1px solid #d8d8d8;
-    height: 158px;
+    height: 380px;
     width: 734px;
     background-color: whitesmoke;
     display: none;
@@ -3108,11 +3108,27 @@ input#newBtn{
 }
 
 .searchParameter{
-    display: none;
+    /*display: none;*/
     margin-top: 10px;
 }
+
+.searchParameterTest {
+    float: left;
+    margin-left: 179px;
+    margin-top: 30px;
+}
+
+.search_param_test {
+    margin-left: -129px;
+    /* margin-top: 20px; */
+}
+
+.testMode hr{
+    margin-top: 200px;
+    margin-bottom: 20px;
+}
 hr{
-    display:none;
+    /*display:none;*/
     margin-top: 10px;
 }
 

@@ -19,7 +19,7 @@ $(document).ready(function() {
         var genres = removeLastComma($('#id01 .search-tab .multiSel').text());
         var description = $('#description').val();
         var parameter = $('.searchParameter input[type="checkbox"]:checked').length;
-        var paramList = getSearchPreference();
+        var paramList = scenarioObject.getSearchPreference();
         
         var maxReleased = $('#id01 .search-tab #released .range_max').text();
         var minReleased = $('#id01 .search-tab #released .range_min').text();
@@ -397,13 +397,13 @@ $(document).ready(function() {
     }
     
     /*****************************************////////////////////////////////////****************
-    function getSearchPreference() {         
+    scenarioObject.getSearchPreference = function() {         
         var searchParams = [];
         $('.searchParameter input[type="checkbox"]:checked').each(function() {
             searchParams.push($(this).val());
         });
         return searchParams;
-    }
+    };
     
     /* Init scenarios for evaluation
      * 

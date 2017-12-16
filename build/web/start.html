@@ -517,12 +517,14 @@
                     <div id="EvalMethod" class="evalcontent">
                         <div id="ScenarioDetail">
                         <label class="search_param">Suchparameter für Szenario: </label>
-                        <div class="searchParameter">
-                            <input type="checkbox" name="actor" value="actor" checked> Schauspieler<br>
-                            <input type="checkbox" name="genre" value="genre" checked> Genre<br>
-                            <input type="checkbox" name="lenght" value="lenght" checked> Filmlänge<br>
-                            <input type="checkbox" name="year" value="year" checked> Erscheinungsjahr<br>
-                            <input type="checkbox" name="rating" value="rating" checked> Rating<br>
+                        <div class ="searchParameterEval">
+                            <div class="searchParameter">
+                                <input type="checkbox" name="actor" value="actor" checked> Schauspieler<br>
+                                <input type="checkbox" name="genre" value="genre" checked> Genre<br>
+                                <input type="checkbox" name="lenght" value="lenght" checked> Filmlänge<br>
+                                <input type="checkbox" name="year" value="year" checked> Erscheinungsjahr<br>
+                                <input type="checkbox" name="rating" value="rating" checked> Rating<br>
+                            </div>
                         </div>
                         <div id="SearchParameter">
                             <div><hr></div>
@@ -544,15 +546,15 @@
                                 </select>
                             </div>
                         
-                        <label class="methodParamLabels"> Vergleich</label>
-                        <div class="searchMethodParameterSlider">
+                            <label class="methodParamLabels"> Vergleich</label>
+                            <div class="searchMethodParameterSlider">
                         </div>
                         
                         <div class="searchMethodParameterButtons"> 
                             <button class="eval_method_param" id="btn_prev_method_param">&#10094</button>
                             <button class="eval_method_param" id="btn_next_method_param">&#10095</button>
                         </div>
-                        </div>
+                      </div>
                         
                       <div id="Comparations">  
                       <div><hr></div>
@@ -586,9 +588,9 @@
                 </div>
                   <div id="messageEval" style="display:none"></div>
                   
-                  <div class="testMode">
-                  <div class="method-1">
-                    <label class="methLabels">Method 1</label> 
+                  <div class="testMode">  
+                    <div class="method-1">
+                    <label class="methLabels">Methode 1</label> 
                     <div class="row-test">
                         <!--label>Algorithm</label-->
                         <select class="evalChoise" name="Choise">
@@ -640,7 +642,7 @@
                 </div>
                   
                 <div class="method-2">
-                  <label class="methLabels">Method 2</label>
+                  <label class="methLabels">Methode 2</label>
                     <div class="row-test">
                         <!--label>Algorithm</label-->
                         <select class="evalChoise" name="Choise">
@@ -689,6 +691,9 @@
                         </select>
                     </div>
                 </div>
+                <div><hr></div>
+                <div class = "searchParameterTest"></div>
+                <label class="search_param_test">Suchparameter</label>
                 </div>
                 <div class="clearfix">
                     <button name="login" class="clusterbtn" id="register">Ok</button>

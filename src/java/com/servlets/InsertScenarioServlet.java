@@ -81,8 +81,8 @@ public class InsertScenarioServlet extends HttpServlet {
             if(movies.size()>0){
                 //Insert new scenario
                 int scenario = dataDao.getIdOnInsertScenario(description,actors,genres,released,lenght,parameter,minStar,comparation);
-                Search search = new Search(genres, actors);
-                Score s = new Score(movies,search);
+                //Search search = new Search(genres, actors);
+                //Score s = new Score(movies,search);
 
                 // Insert movies to scenario
                 message = dataDao.insertMovies(movies,scenario);

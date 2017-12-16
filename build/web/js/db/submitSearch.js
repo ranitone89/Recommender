@@ -179,6 +179,7 @@ $(document).ready(function() {
         var method = $(this).parents().eq(0).attr('class');
         var slider = $('.'+method+' .clstats');
         statcsIndex = statisticObject.checkIndexStat(statcsIndex,buttonid,slider.length);
+        alert(slider.length);
         statisticObject.slideStatcs(statcsIndex,slider);
    });
 
@@ -262,11 +263,14 @@ $(document).ready(function() {
      * @returns {undefined}
      */
     function delDivContent(){
+        alert("Remove divs");
         $('.Method1').empty();
         $('.Method2').empty();
-        $('.Statistics1').empty();
-        $('.Statistics2').empty();
+        $('.Statistic1 .clstats').remove();
+        $('.Statistic2 .clstats').remove();
     }
+    
+    
 
 
 
@@ -719,6 +723,7 @@ $(document).ready(function() {
    */
    function showEvalMode(){
         $('.evalTab').css('display', 'block');
+        $('.searchParameter').appendTo('.searchParameterEval');
         $('#EvalScenario').css('display', 'block');
         $('#EvalMethod').css('display', 'none');       
         $('#messageEval').css('display', 'none');
@@ -742,6 +747,7 @@ $(document).ready(function() {
    function showTestMode(){
        $('.testMode').css('display', 'block');
        $('.testMode  .evalChoise').trigger('click');
+       $('.searchParameter').appendTo('.searchParameterTest');
    }
    
    /* Hide test mode
@@ -1271,21 +1277,43 @@ $(document).ready(function() {
         var minLenght = $('#lenght .range_min').text();
         var minStar = $('#star .range_star').text();
         
+        var parameter = $('.searchParameter input[type="checkbox"]:checked').length;
+        var paramList = scenarioObject.getSearchPreference();
+        alert(paramList);
+        if(paramList.indexOf('actor')>=0){
+            if(actors == ""){
+                $('#messageSearch').css("display","block");
+                $('#messageSearch').html("<font color='red'>Geben Sie bitte mindestens einen Namen ein. </font>")
+                return;
+            }
+            else{
+                var actorList = searchObject.covertToArray(actors,'a');
+            }
+        }
         
-         if(actors == ""){
+        if(paramList.indexOf('genre')>=0){
+            if(genres == ""){
+                $('#messageSearch').css("display","block");
+                $('#messageSearch').html("<font color='red'>Wählen Sie bitte mindestens ein Genre </font>")
+                return;
+            }
+            else{
+                var genreList = searchObject.covertToArray(genres,'g');
+            }
+        }
+        
+        if(parameter < 3){
              $('#messageSearch').css("display","block");
-             $('#messageSearch').html("<font color='red'>Geben Sie bitte mindestens einen Namen ein. </font>")
+             $('#messageSearch').html("<font color='red'>Wählen Sie bitte mind. drei Suchparameter aus</font>")
              return;
-         }
-         if(genres == ""){
-             $('#messageSearch').css("display","block");
-             $('#messageSearch').html("<font color='red'>Wählen Sie bitte mindestens ein Genre </font>")
-             return;
-         }
-         else{
+        }
+         
+        else{
              $('#messageSearch').css("display","none");
-             var actorList = searchObject.covertToArray(actors,'a');
-             var genreList = searchObject.covertToArray(genres,'g');
+             //var actorList = searchObject.covertToArray(actors,'a');
+             //var genreList = searchObject.covertToArray(genres,'g');
+             //alert(actorList);
+             //alert(genreList);
              $('#id02').css("display","none");
              delDivContent();
              
@@ -1305,7 +1333,8 @@ $(document).ready(function() {
                  maxReleased : maxReleased,
                  minStar     : minStar,
                  method1    : method1Parameter,
-                 method2    : method2Parameter
+                 method2    : method2Parameter,
+                 paramList : paramList
                  
              },
              dataType: "json",
@@ -1319,6 +1348,7 @@ $(document).ready(function() {
                             errorevalShowInfos = false;
                             var jsonStr = JSON.stringify(response);
                             var jsonObj = JSON.parse(jsonStr);
+                            alert(jsonObj[0]);
                             sortData(jsonObj);
 
                         }
@@ -1424,9 +1454,9 @@ $(document).ready(function() {
      */
     function sortData(jsonObj)
     {
-        for(var mt = 0; mt < jsonObj.length; mt++){
-            for(var cl = 0; cl<jsonObj[mt].length; cl++){
-                jsonObj[mt]=jsonObj[mt].sort(function(a, b) {
+        for(var mt = 0; mt < jsonObj[0].length; mt++){
+            for(var cl = 0; cl<jsonObj[0][mt].length; cl++){
+                jsonObj[0][mt]=jsonObj[0][mt].sort(function(a, b) {
                     return (a.clusterid > b.clusterid) ? 1 : ((a.clusterid < b.clusterid) ? -1 : 0);
                 });
             }   
@@ -1441,20 +1471,20 @@ $(document).ready(function() {
      */
     function getData(jsonObj)
     {
-        for(var mt = 0; mt < jsonObj.length; mt++)
+        for(var mt = 0; mt < jsonObj[0].length; mt++)
         {
             charts[mt] = new Array();
-            num.push(jsonObj[mt].length);
+            num.push(jsonObj[0][mt].length);
             
-            for(var cl = 0; cl<jsonObj[mt].length; cl++){
+            for(var cl = 0; cl<jsonObj[0][mt].length; cl++){
                 
                 var movies = "";
                 var cluster= cl+1;
                 var method = mt+1;
                 $('.Method'+method).append('<div id=Cluster'+cluster+' class=Clusters></div>');
                 
-                for(var j = 0; j<jsonObj[mt][cl].movies.length; j++){
-                    movies += jsonObj[mt][cl].movies[j].title+", ";
+                for(var j = 0; j<jsonObj[0][mt][cl].movies.length; j++){
+                    movies += jsonObj[0][mt][cl].movies[j].title+", ";
                     //alert("FIlm ID: "+jsonObj[mt][cl].movies[j].movieId+" Cluster: "+cluster);
                 }
                 displayData(method,cluster,movies);
@@ -1463,18 +1493,18 @@ $(document).ready(function() {
         }
         /********************* Statistics **********************/
 
-        for(var mt = 0; mt < jsonObj.length; mt++)
+        for(var mt = 0; mt < jsonObj[0].length; mt++)
         {
             var score = [];
-            for(var cl = 0; cl<jsonObj[mt].length; cl++){
+            for(var cl = 0; cl<jsonObj[0][mt].length; cl++){
                 var cluster= cl + 1;
                 var method = mt + 1;
                 
-                for(var j = 0; j<jsonObj[mt][cl].movies.length; j++){
-                    score.push({title: jsonObj[mt][cl].movies[j].title, scores: jsonObj[mt][cl].movies[j].scores, color: setColor(method, cluster)});
+                for(var j = 0; j<jsonObj[0][mt][cl].movies.length; j++){
+                    score.push({title: jsonObj[0][mt][cl].movies[j].title, scores: jsonObj[0][mt][cl].movies[j].scores, color: setColor(method, cluster)});
                 }
             }
-            displayCharts(score,method);
+            displayCharts(score,method,jsonObj[1]);
         }     
     }
 
@@ -1510,8 +1540,9 @@ $(document).ready(function() {
      * @param {type} cluster
      * @returns {undefined}
      */
-    function displayCharts(dataList,method)
+    function displayCharts(dataList,method, labels)
     {
+        alert(labels);
         var data = new Array();
 
         //number of movie objects
@@ -1535,7 +1566,7 @@ $(document).ready(function() {
                 
             } 
         }
-        var labels = statisticObject.getStatcsLabel(['actor','genre','lenght','year','rating']);
+        var labels = statisticObject.getStatcsLabel(labels);
         //numStats = data.length;
         
         for(var i=0; i<data.length; i++){
