@@ -65,12 +65,21 @@ public class InsertScenarioServlet extends HttpServlet {
             String searchMethodparameter[][] = getSearchMethodParameter( searchparameter );
             String comparation = request.getParameter("comparation");
             
-            System.out.println("com.servlets.InsertScenarioRequest.doGet(): "+parameter);
-            
+            System.out.println("Parameter: "+parameter); 
             System.out.println("Erscheinungsjahr min: "+minReleased+" max: "+maxReleased);
             System.out.println("Lenght min: "+minLenght+" max: "+maxLenght);
             System.out.println("Rating: "+minStar);
             
+            System.out.println("############################# Actors ########################################");
+            for(int i=0; i<actors.length; i++){
+                System.out.println(actors[i]);
+            }
+            
+            System.out.println("############################# Genres ########################################");
+            for(int i=0; i<genres.length; i++){
+                System.out.println(genres[i]);
+            }
+                        
             
             //Get movies according to search parameter
             ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres,parameter);
@@ -81,9 +90,8 @@ public class InsertScenarioServlet extends HttpServlet {
             if(movies.size()>0){
                 //Insert new scenario
                 int scenario = dataDao.getIdOnInsertScenario(description,actors,genres,released,lenght,parameter,minStar,comparation);
-                //Search search = new Search(genres, actors);
-                //Score s = new Score(movies,search);
-
+                // Calculate scores for all movies
+                Score.calcScores(movies, genres, actors,parameter);
                 // Insert movies to scenario
                 message = dataDao.insertMovies(movies,scenario);
 
@@ -91,10 +99,17 @@ public class InsertScenarioServlet extends HttpServlet {
                 ArrayList<PointdDim> points = getPoints(movies);
                 
                 // Insert recommendaitons with clustered movies
-                for(int i=0; i < searchMethodparameter.length; i++){               
+                for(int i=0; i < searchMethodparameter.length; i++){
+                    // Get paramter of each method in each comparation
                     ArrayList<Integer> methodParam = getParameters(searchMethodparameter[i]);
+                    // Generate cluster
                     FinalClustering methodCluster = new FinalClustering();
                     methodCluster = getMethod(points,methodParam);
+                    
+                    System.out.println("Method for cluster");
+                    for(int j = 0; j<methodParam.size(); j++){
+                        System.out.println(methodParam.get(j));
+                    }
                     ArrayList<Recommendation> recommendation = getMethodElements(methodCluster,Integer.parseInt(searchMethodparameter[i][4]));
                     dataDao.insertClustering(searchMethodparameter[i][4],scenario, recommendation);
                 }
@@ -108,7 +123,7 @@ public class InsertScenarioServlet extends HttpServlet {
         }
     }
         
-        /**
+     /**
      * Get Parameter from js as ArrayList for particular method
      * @param parameters
      * @return 
@@ -116,23 +131,20 @@ public class InsertScenarioServlet extends HttpServlet {
     private ArrayList<Integer> getParameters(String[] parameters)
     {
         ArrayList<Integer> temp = new ArrayList<Integer>();
-        
-        //List<Integer> defaultPar = Arrays.asList(method, 3, 0, 1);
-        
+
         if(parameters != null){
             for(int i =0; i<parameters.length-1; i++){
                 temp.add(i, Integer.parseInt(parameters[i]));
             }
         }
-        /*else{
-            for(int i =0; i<defaultPar.size(); i++){
-                temp.add(i, defaultPar.get(i));
-                System.out.println(defaultPar.get(i));
-            }
-        } */ 
         return temp;
     }
     
+    /**
+     * Transform movies to points
+     * @param movies
+     * @return 
+     */
     private ArrayList<PointdDim> getPoints(ArrayList<Movie> movies)
     {  
         ArrayList<PointdDim> points = new ArrayList<PointdDim>();
@@ -148,13 +160,15 @@ public class InsertScenarioServlet extends HttpServlet {
         return points;  
     }
     
-        /**  Get all cluster for the method
-     *   
+    /**
+     * Generate cluster from points
+     * @param points
+     * @param methParam
+     * @return 
      */
     private FinalClustering getMethod(ArrayList<PointdDim> points,  ArrayList<Integer> methParam)
     {
         FinalClustering method = null;
-        System.out.println("Parameter 0: "+methParam.get(0).intValue());
         if(methParam.get(0).compareTo(0)>0){
             System.out.println("Cluster");
             method = Kmeans.kMeansClustering(points, methParam.get(1), 
@@ -167,7 +181,14 @@ public class InsertScenarioServlet extends HttpServlet {
             }
         return method;
     }
-    
+
+    /**
+     * Get recommendation generated with a method
+     * @param clusterings
+     * @param methodid
+     * @return
+     * @throws IOException 
+     */    
     private ArrayList<Recommendation>getMethodElements(FinalClustering clusterings, int methodid) throws IOException 
     {
         ArrayList<Recommendation> recommendations = new ArrayList<Recommendation>();
@@ -184,6 +205,12 @@ public class InsertScenarioServlet extends HttpServlet {
         return recommendations;
     }
     
+    
+    /**
+     * 
+     * @param input
+     * @return 
+     */
     private String [][] getSearchMethodParameter(String input ){
         
         String[] x = input.split(";");

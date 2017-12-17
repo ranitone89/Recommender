@@ -34,7 +34,6 @@ public class Recommendation{
     }
     
     public void setClusterId(int clusterid){
-        System.out.println("This add cluster id");
         this.clusterid = clusterid;
     }
 }

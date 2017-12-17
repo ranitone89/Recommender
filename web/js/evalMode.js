@@ -5,7 +5,7 @@ $(document).ready(function() {
     var evalIndex = 0;
     var comparIndex = 1;
     
-    initEvalMode();
+    //initEvalMode();
     
     /*SCENARIOS*/
     $("span.add").on('click', function(){
@@ -13,7 +13,6 @@ $(document).ready(function() {
     });
     
     $(document).on('click','.remove', function(){
-        alert("Remove");
         $(this).parent().remove();
     });
     
@@ -21,7 +20,7 @@ $(document).ready(function() {
     /*METHODS*/
     $(document).on("click", ".eval_statc", function(event){
             var buttonid = $(this).attr('id');
-            var method = $('.evalComparation');
+            var method = $('.evalSlider .evalComparation');
             checkIndexEval(buttonid,method.length);
        });
     
@@ -50,7 +49,6 @@ $(document).ready(function() {
         }
         setLabelText(evalIndex+1);
         slideComparation(evalIndex);
-        
     }
     
     /* Add number of comparation depending on user enter
@@ -59,14 +57,30 @@ $(document).ready(function() {
     $('#nComparation').change(function(){
         comparIndex = $(this).val();
         removeComparations();
+        $( ".evalSlider").css("display","block");
         addComparations(comparIndex);
+        getAvailableComparations();
         setLabelText(1);
+        evalIndex = 0;
     });
     
+    /**
+     * get methods for comparations depending on user preference depending 
+     * @returns {undefined}
+     */
+    function getAvailableComparations(){
+        $('.evalSlider .evalChoise option').attr('disabled', 'disabled');
+        $('.searchMethodParameterSlider .evalChoise :selected').each(function(){
+            var v = $(this).val();
+            $('.evalSlider .evalChoise option[value=' + v + ']').removeAttr('disabled'); 
+            $('.evalSlider .evalChoise ').val(v).trigger('click');
+        });
+    }
     //Eval Choise
     $(document).on('click','.evalSlider .evalChoise', function(){
         var firstParent = $(this).parents().eq(2).attr('id');
         var secondParent = $(this).parents().eq(1).attr('id');
+       
         var value = $(this).val();
         if(value < 4){
             setAlgorithmus(firstParent, secondParent, 1);
@@ -75,7 +89,7 @@ $(document).ready(function() {
         /*Borda*/
         else{
             setAlgorithmus(firstParent, secondParent, 0);
-            //setDistance(firstParent, secondParent, value);            
+            setDistance(firstParent, secondParent, value);            
         }
         
     });
@@ -149,8 +163,8 @@ $(document).ready(function() {
     /*
      */
     function initEvalMode(){
-        setNumCom(2);
-        addComparations(2);
+        setNumCom(1);
+        addComparations(1);
         setLabelText(1);
         initEvalMethods();
     }
@@ -172,9 +186,6 @@ $(document).ready(function() {
         setChoise(1, 1, 4);
         setChoise(1, 2, 0);
         
-        /*Comparation 2: Borda, Cluster Canberra */
-        setChoise(2, 1, 4);
-        setChoise(2, 2, 1);
         
         /*Init first Comparation*/
         $('#evalCom1 #evalMeth1 .evalAlg').val(0);
@@ -187,16 +198,6 @@ $(document).ready(function() {
         $('#evalCom1 #evalMeth2 .evalDistance').val(0);
         $('#evalCom1 #evalMeth2 .evalSorting').val(0);
         
-        /*Init second Comparation*/
-        $('#evalCom2 #evalMeth1 .evalAlg').val(0);
-        $('#evalCom2 #evalMeth1 .evalCluster').val(3);
-        $('#evalCom2 #evalMeth1 .evalDistance').val(0);
-        $('#evalCom2 #evalMeth1 .evalSorting').val(0);
-        
-        $('#evalCom2 #evalMeth2 .evalAlg').val(1);
-        $('#evalCom2 #evalMeth2 .evalCluster').val(3);
-        $('#evalCom2 #evalMeth2 .evalDistance').val(1);
-        $('#evalCom2 #evalMeth2 .evalSorting').val(0);
     }
     /*Eval Parameter*/
 
@@ -226,7 +227,7 @@ $(document).ready(function() {
     */
     function setAlgorithmus(first, second, value){
        
-        $('#'+first+' #'+second+' .evalAlg').val(value);
+        $('.evalSlider #'+first+' #'+second+' .evalAlg').val(value);
     }
 
 
@@ -241,7 +242,7 @@ $(document).ready(function() {
      * Set Distance Eval Mode
     */
     function setDistance(first, second, value){
-       $('#'+first+' #'+second+' .evalDistance').val(value);
+       $('.evalSlider #'+first+' #'+second+' .evalDistance').val(value);
     }    
 
 

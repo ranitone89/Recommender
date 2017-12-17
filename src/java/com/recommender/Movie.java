@@ -20,8 +20,6 @@ public class Movie {
     private int releaseYear;
     private int movieLenght;
     private float rating;
-    //private float[] scores = new float[5];
-    //private String[] scoresString = new String[5];
     List<Float> scores = new ArrayList<>();
     List<String> scoresString = new ArrayList<>();
 
@@ -166,18 +164,21 @@ public class Movie {
         return getFloats(scores);
     }
     
-    public List<String> getStringScores(){
-        return this.scoresString;
+    public String[] getStringScores(){
+        return getStrings(this.scoresString);
     } 
-
+    
+    /**
+     * Set scores for movies in evaluation mode
+     * @param scores 
+     */
     private void setScores(String scores) {
         scores = scores.replaceAll("[\\[\\](){}]","");     
         String[] scoreArray = scores.split(",");
-        setActorScore(Float.parseFloat(scoreArray[0]));
-        setGenreScore(Float.parseFloat(scoreArray[1]));
-        setLenghtScore(Integer.parseInt(scoreArray[2]));
-        setReleaseScore(Integer.parseInt(scoreArray[3]));
-        setRatingScore(Float.parseFloat(scoreArray[4]));   
+        for(String score: scoreArray) {
+            this.scores.add(Float.parseFloat(score));
+            this.scoresString.add(score);
+        }
     }
     
     /**
@@ -193,5 +194,21 @@ public class Movie {
         }
         return result;
     }
-     
+
+    
+    /**
+     * Convert List of strings to array of strings
+     * @param values
+     * @return 
+     */
+    public static String[] getStrings(List<String> values) {
+        int length = values.size();
+        String[] result = new String[length];
+        for (int i = 0; i < length; i++) {
+            result[i] = values.get(i);
+        }
+        return result;
+    }    
+    
+    
 }

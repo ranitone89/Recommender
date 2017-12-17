@@ -9,6 +9,7 @@
 
 $(document).ready(function() {
     evaluationObject.insertEvaluation = function(userId, scenarioId, alg1, alg2, methodEval, cluster1Eval, cluster2Eval){ 
+        var message = "";
         $.ajax({
              url : "InsertEvaluationServlet",
              type : "GET",
@@ -24,14 +25,25 @@ $(document).ready(function() {
              success : function(response){
                         if(response != null && response != "")
                         {
-                            alert("Insert success");
+                            showMessage(response);
                         }
                     else
                         {
-                            alert("Fehler beim eintragen von fragebogen ergebnissen");
+                            showMessage(response);
                         }
                 }
             });
             
-       } 
+       }
+       
+    /**
+     * Display message to the user
+     * @param {type} results
+     * @returns {undefined}
+     */
+    function showMessage(results){
+        if(results == ""){
+            alert("Fehler Fragebogen");
+        }
+    }
 });

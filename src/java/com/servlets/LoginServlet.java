@@ -35,6 +35,7 @@ public class LoginServlet extends HttpServlet {
             String ip = request.getParameter("ip");
             DataDB dataDao = new DataDB();
             String message = dataDao.doLogin(ip);
+            System.out.println(message);
             response.getWriter().write(message);
         } 
         catch (Exception e) {

@@ -9,7 +9,6 @@
      * 
      */
     /*methodObject.checkMethod = function(method) {
-        alert("Cheeck method");
         var method = parseInt(method.replace(/Method/, ''))-1;
         return method;
     }

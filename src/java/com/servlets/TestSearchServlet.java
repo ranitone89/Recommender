@@ -45,7 +45,7 @@ public class TestSearchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request,
         HttpServletResponse response) throws ServletException, IOException {
-        //request.setCharacterEncoding("utf-8");
+
         try {
             String minLenght = request.getParameter("minLenght");
             String maxLenght = request.getParameter("maxLenght");
@@ -57,48 +57,58 @@ public class TestSearchServlet extends HttpServlet {
             String minStar = request.getParameter("minStar");
             String method1[] = request.getParameterValues("method1[]"); 
             String method2[] = request.getParameterValues("method2[]");
-
+            
+            System.out.println("######################## Method1 ###################");
+            for(int i=0; i<method1.length; i++){
+                System.out.println(method1[i]);
+            }
+            
+            System.out.println("######################## Method2 ###################");
+            for(int i=0; i<method2.length; i++){
+                System.out.println(method2[i]);
+            }            
             DataDB dataDao = new DataDB();
-
-            /*  Get Movies From data base
-            *
-            */
-            /*System.out.println("###################################################");
-            for(int i=0; i<parameter.length; i++){
-                System.out.println(parameter[i]);
-            }*/
 
             ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres,parameter);
             ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<>();
+            String json1 = "";
+            String json2 = "";
+            String bothJson = "";
+            System.out.println("com.servlets.TestSearchServlet.doGet(): "+movies.size());
             
-            Score.calcScores(movies, genres, actors,parameter);
+            if(movies.size()>0){
+                Score.calcScores(movies, genres, actors,parameter);
 
 
-            ArrayList<PointdDim> points = getPoints(movies);
+                ArrayList<PointdDim> points = getPoints(movies);
 
-            ArrayList<Integer> firstMethParam = getParameters(method1,0);
-            ArrayList<Integer> secondMethParam = getParameters(method2,1);
-
-
-            FinalClustering fistMethod = new FinalClustering();
-            fistMethod = getMethod(points,firstMethParam);
-
-            FinalClustering secondMethod = new FinalClustering();
-            secondMethod = getMethod(points,secondMethParam);
+                ArrayList<Integer> firstMethParam = getParameters(method1,0);
+                ArrayList<Integer> secondMethParam = getParameters(method2,1);
 
 
-            ArrayList<Recommendation> firstRecommendation = getMethodElements(fistMethod,0);
-            ArrayList<Recommendation> secondRecommendation = getMethodElements(secondMethod,1);
+                FinalClustering fistMethod = new FinalClustering();
+                fistMethod = getMethod(points,firstMethParam);
 
-            sortCluster(firstRecommendation, secondRecommendation);
+                FinalClustering secondMethod = new FinalClustering();
+                secondMethod = getMethod(points,secondMethParam);
 
-            recommendations.add(firstRecommendation);
-            recommendations.add(secondRecommendation);
-            
-            String json1 = new Gson().toJson(recommendations);
-            String json2 = new Gson().toJson(parameter);
-            //System.out.println(json1);
-            String bothJson = "["+json1+","+json2+"]";
+
+                ArrayList<Recommendation> firstRecommendation = getMethodElements(fistMethod,0);
+                ArrayList<Recommendation> secondRecommendation = getMethodElements(secondMethod,1);
+
+                sortCluster(firstRecommendation, secondRecommendation);
+
+                recommendations.add(firstRecommendation);
+                recommendations.add(secondRecommendation);
+
+                json1 = new Gson().toJson(recommendations);
+                json2 = new Gson().toJson(parameter);
+                bothJson = "["+json1+","+json2+"]";
+            }
+            else{
+                bothJson = new Gson().toJson("");                
+            }
+
             System.out.println(bothJson);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
@@ -109,19 +119,23 @@ public class TestSearchServlet extends HttpServlet {
         }
     }
 
-    /**  Get all cluster for the method
-     *   
+
+    /**
+     * Generate cluster from points
+     * @param points
+     * @param methParam
+     * @return 
      */
     private FinalClustering getMethod(ArrayList<PointdDim> points,  ArrayList<Integer> methParam)
     {
         FinalClustering method = null;
         System.out.println("Parameter 0: "+methParam.get(0).intValue());
-        if(methParam.get(0).compareTo(0)<=0){
+        if(methParam.get(0).compareTo(0)>0){
             System.out.println("Cluster");
             method = Kmeans.kMeansClustering(points, methParam.get(1), 
                         methParam.get(2), methParam.get(3));
             }
-        if(methParam.get(0).compareTo(0)>0){
+        if(methParam.get(0).compareTo(0)<=0){
             System.out.println("Borda");
             method = Kmeans.kMeansClusteringBorda(points, methParam.get(1), 
                         methParam.get(3));
@@ -139,6 +153,7 @@ public class TestSearchServlet extends HttpServlet {
     {
         ArrayList<Integer> temp = new ArrayList<Integer>();
         
+        /* Default values */
         List<Integer> defaultPar = Arrays.asList(method, 3, 0, 1);
         
         if(parameters != null){
@@ -149,7 +164,6 @@ public class TestSearchServlet extends HttpServlet {
         else{
             for(int i =0; i<defaultPar.size(); i++){
                 temp.add(i, defaultPar.get(i));
-                System.out.println(defaultPar.get(i));
             }
         }   
         return temp;
@@ -161,7 +175,6 @@ public class TestSearchServlet extends HttpServlet {
      * @param parameters
      * @return 
      */    
-     
      private void sortCluster(ArrayList<Recommendation> firstMethod, ArrayList<Recommendation> secondMethod) throws IOException 
      {
         float[ ][ ] scores = new float[firstMethod.size()][secondMethod.size()];
@@ -181,10 +194,12 @@ public class TestSearchServlet extends HttpServlet {
         setClusterIds(secondMethod, hmap);
     }  
 
-    
-    /* Change id of each cluster according to sorting order
-    *
-    */
+
+    /**
+     * Change id of each cluster according to sorting order
+     * @param secondMethod
+     * @param hmap 
+     */
     public static void setClusterIds(ArrayList<Recommendation> secondMethod, HashMap hmap){
         
         for(Recommendation cluster: secondMethod){
@@ -197,16 +212,29 @@ public class TestSearchServlet extends HttpServlet {
         }
     }
     
-    /*
-    *   Get cluster with maximal simularity and disable affected row and column
-    */
+
+    /**
+     * Get cluster with maximal simularity and disable affected row and column
+     * @param scores
+     * @param usedRows
+     * @param usedColumns
+     * @param hmap 
+     */
     public static void getClusterPair(float[][] scores, Set usedRows, Set usedColumns, HashMap hmap){
         for(int i =0; i<scores.length; i++){
             System.out.println("Max: "+getMaxValue(scores,usedRows,usedColumns,hmap));
         }
     }
     
-    /*Transform Matrix*/
+
+    /**
+     * Transform simularity matrix
+     * @param numbers
+     * @param usedRows
+     * @param usedColumns
+     * @param hmap
+     * @return 
+     */
     public static float getMaxValue(float[][] numbers, Set usedRows, Set usedColumns, HashMap hmap) {
         float maxValue = 0f;
         int row = Integer.MIN_VALUE;
@@ -236,7 +264,14 @@ public class TestSearchServlet extends HttpServlet {
         return maxValue;
     }
     
-    /* Calculate simularity between custer according movie title with jaccard*/
+
+    /**
+     * Calculate simularity between custer according movie title with jaccard
+     * @param firstCluster
+     * @param secondCluster
+     * @return
+     * @throws IOException 
+     */
     private float compareClusters(Recommendation firstCluster, Recommendation secondCluster) throws IOException 
     {
         int numMoviesCl1 = firstCluster.getMovies().size();
@@ -255,7 +290,13 @@ public class TestSearchServlet extends HttpServlet {
         return clusterScore;
     }     
     
-    
+    /**
+     * Get recommendation generated with a method
+     * @param clusterings
+     * @param methodid
+     * @return
+     * @throws IOException 
+     */
     private ArrayList<Recommendation>getMethodElements(FinalClustering clusterings, int methodid) throws IOException 
     {
         ArrayList<Recommendation> recommendations = new ArrayList<Recommendation>();
@@ -272,7 +313,12 @@ public class TestSearchServlet extends HttpServlet {
         return recommendations;
     }    
     
-    /* transform movies to points*/
+
+    /**
+     * Transform movies to points
+     * @param movies
+     * @return 
+     */
     private ArrayList<PointdDim> getPoints(ArrayList<Movie> movies)
     {  
         ArrayList<PointdDim> points = new ArrayList<PointdDim>();
@@ -291,14 +337,7 @@ public class TestSearchServlet extends HttpServlet {
     /**
      * create search parameter
      * @param points 
-     */
-    /*private void printPointes(ArrayList<PointdDim> points){
-        for(PointdDim p: points){
-            System.out.println("id "+p.getId()+" Dims: "+p.toString()+" Dims: "+p.getMovieDim().getTitle());
-        }
-        
-    }*/
-    
+     */    
     private void printPointes(ArrayList<PointdDim> points){
         for(PointdDim p: points){
             System.out.println("id "+p.getId()+" Dims: "+p.toString()+" Dims: "+p.getMovieDim().getTitle());
@@ -306,6 +345,11 @@ public class TestSearchServlet extends HttpServlet {
         
     }
     
+    /**
+     * 
+     * @param str
+     * @return 
+     */
     private String[] movieArray(String str){
         String[] temp;
 
@@ -316,19 +360,5 @@ public class TestSearchServlet extends HttpServlet {
         /* print substrings */
         return temp;
     }
-
-    /*private void checkParameters(String[] genres, String[] actors, Search search, ArrayList<Movie> movies) {
-        
-        if(genres.length>0 && actors.length>0){
-            Score.calcActor(search, movies);
-            Score.calcGenre(search, movies);
-        }
-        if(genres.length>0 && actors.length==0){
-            Score.calcGenre(search, movies);
-        }
-        if(genres.length==0 && actors.length>0){
-            Score.calcActor(search, movies);
-        }
-    }*/
 
 }

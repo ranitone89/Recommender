@@ -2,13 +2,14 @@
 
 $(document).ready(function() {
    loadScenariosDB();
-   initEvalScenarios(19,20,21);
+   //init scenarios for evaluation
+   initEvalScenarios(1,2,3);
 
    var searchPrameter = [[]];
    var comparIndex = 1;
    var evalIndex = 0;
    
-   initMethod();
+   //initMethod();
    
 
     /* Define new scenario and insert it to database
@@ -20,19 +21,34 @@ $(document).ready(function() {
         var description = $('#description').val();
         var parameter = $('.searchParameter input[type="checkbox"]:checked').length;
         var paramList = scenarioObject.getSearchPreference();
+        var maxReleased = 0;
+        var minReleased = 0;
+        var maxLenght = 0;
+        var minLenght = 0;
+        var minStar = 0;        
+        var minStar = 11;
+        var actorList = [""];
+        var genreList = [""];
         
-        var maxReleased = $('#id01 .search-tab #released .range_max').text();
-        var minReleased = $('#id01 .search-tab #released .range_min').text();
-        var maxLenght = $('#id01 .search-tab #lenght .range_max').text();
-        var minLenght = $('#id01 .search-tab #lenght .range_min').text();
-        var minStar = $('#id01 .search-tab #star .range_star').text();
         
-        
+        if(getNumMethod()<=0){
+            $('#messageEval').css("display","block");
+            $('#messageEval').html("<font color='red'>Wählen Sie bitte mindestens zwei Methoden </font>");
+            return;
+        }
+        if(getNumCompar()<=0){
+            $('#messageEval').css("display","block");
+            $('#messageEval').html("<font color='red'>Bitte geben Sie gwünschte Vergleiche </font>");
+            return;            
+        }
         if(paramList.indexOf('actor')>=0){
             if(actors == ""){
                 $('#messageEval').css("display","block");
                 $('#messageEval').html("<font color='red'>Geben Sie bitte mindestens einen Namen ein. </font>")
                return;
+            }
+            else{
+               actorList = searchObject.covertToArray(actors,'a'); 
             }
         }
         
@@ -42,8 +58,24 @@ $(document).ready(function() {
                 $('#messageEval').html("<font color='red'>Wählen Sie bitte mindestens ein Genre </font>")
                 return;
             }
+            else{
+                genreList = searchObject.covertToArray(genres,'g');
+            }
         }
-                
+
+        if(paramList.indexOf('year')>=0){
+            maxReleased = $('#id01 .search-tab #released .range_max').text();
+            minReleased = $('#id01 .search-tab #released .range_min').text();
+        }
+        
+        if(paramList.indexOf('lenght')>=0){
+            maxLenght = $('#id01 .search-tab #lenght .range_max').text();
+            minLenght = $('#id01 .search-tab #lenght .range_min').text();
+        }
+
+        if(paramList.indexOf('rating')>=0){
+            minStar = $('#id01 .search-tab #star .range_star').text();
+        }
         if(description == ""){
              $('#messageEval').css("display","block");
              $('#messageEval').html("<font color='red'>Geben Sie bitte Beschreibung ein</font>")
@@ -59,33 +91,9 @@ $(document).ready(function() {
        else{
             var searchParameterMethods = getSearchParameterMethods();
             var comparation = getComparations();
-            var actorList = searchObject.covertToArray(actors,'a');
-            var genreList = searchObject.covertToArray(genres,'g');
             
-            if(paramList.indexOf('lenght')<0){
-                maxReleased = 0;
-                minReleased = 0;
-            }
-
-            if(paramList.indexOf('year')<0){
-                maxLenght = 0;
-                minLenght = 0;
-            }
-
-            if(paramList.indexOf('rating')<0){
-                minStar = -1;
-            }
-            
-            alert("Search einschränkungen:  "+paramList);
             searchObject.resetSearchPram();
-            
-            $('.clusterbtn').css("display","block");
-            $('#defineBtn').css("display","none");
-            $('#id01 .search-tab').css("display","none"); 
-            $('#messageEval').css("display","none");
-            openEval(event, 'EvalScenario');
-
-            
+             
             $.ajax({
              url : "InsertScenarioServlet",
              type : "GET",
@@ -114,14 +122,19 @@ $(document).ready(function() {
              success : function(response){
                         if(response != null && response != "")
                         {
-                            alert("After insert get inserted");
+                            resetScenario();
                             loadScenariosDB();
+                            $('.clusterbtn').css("display","block");
+                            $('#defineBtn').css("display","none");
+                            $('#id01 .search-tab').css("display","none"); 
+                            $('#messageEval').css("display","none");
+                            openEval(event, 'EvalScenario');
                         }
                     else
                         {
-                            alert("After insert error");
-                            $('#messageSearch').css("display","block");
-                            $('#messageSearch').html("<font color='red'>Die angegebene Parameter sind zu spezifisch. </font>");
+                            resetScenario();
+                            $('#messageEval').css("display","block");
+                            $('#messageEval').html("<font color='red'>Die angegebene Parameter sind zu spezifisch. </font>");
                             alert("Insert Error");
                         }
                 }
@@ -129,8 +142,19 @@ $(document).ready(function() {
         }
     });
     
+    /**
+     * On success created new scenario
+     * @returns {undefined}
+     */
+    function resetScenario(){
+        $('.searchMethodParameterSlider').empty();
+        resetComparationsLabels();
+        $('.evalSlider').empty();
+        resetMethodLabels();
+        $('#description').val("");
+    }
+    
     /* Load all defined scenarios from database
-     * 
      * @param {type} jsonObj
      * @returns {undefined}
      */
@@ -214,11 +238,20 @@ $(document).ready(function() {
      * @returns {undefined}
      */
     function parseEvalScenarios(jsonObj){
-        //removeAllScenarios();
+        removeAllScenarios();
         removeAllScenariosMessages();
+        
+        searchPrameter = new Array(jsonObj.length); 
         for(var i = 0; i < jsonObj.length; i++)
         {   
-            searchPrameter[i]=[jsonObj[i].comparations[0],jsonObj[i].comparations[1]];
+            searchPrameter[i] = new Array(jsonObj[i].comparations.length);
+            for(var j=0; j<jsonObj[i].comparations.length; j++){
+                searchPrameter[i][j] = jsonObj[i].comparations[j];
+            }
+           
+            /*alert("Lenge: "+jsonObj[i].comparations.length);
+            alert("Param: "+searchPrameter[i]);*/
+
             $('#nScenarios').append('<option value="'+jsonObj[i].id+'"'+'>Szenario ' + jsonObj[i].id + '</option>');
             $('#EvalScenario').append('<textarea id="desc'+jsonObj[i].id+'" rows="1" class="descriptions" contenteditable="true">'+jsonObj[i].desc+'</textarea>');
         }
@@ -277,10 +310,12 @@ $(document).ready(function() {
      */
     $('#nMethods').change(function(){
         comparIndex = $(this).val();
+        $('.searchMethodParameterSlider').css("display","block");
         removeMethodParam();
         addMethodParam(comparIndex);
-        //initSearchMethods();
+        initSearchMethods();
         setLabelText(1);
+        evalIndex = 0;
     });
     
     /* Set label text method
@@ -339,7 +374,8 @@ $(document).ready(function() {
     function appendSearchMethodParameter(num) {
         $('.searchMethodParameterSlider').append('<div class="evalComparation"'+ ' id="evalCom'+num+'">'
                           + '<div class="evalMethods" id="evalMeth1">'
-                            + '<div class="rowEval"><select class="evalChoise" name="Choise">'
+                            + '<div class="rowEval">'
+                              + '<select class="evalChoise" name="Choise">'
                               + '<option value="0">Euclidean</option>'
                               + '<option value="1">Canberra</option>'
                               + '<option value="2">Bray Curtis</option>'
@@ -364,6 +400,7 @@ $(document).ready(function() {
                                   +'<option value="1">Canberra</option>'
                                   +'<option value="2">Bray Curtis</option>'
                                   +'<option value="3">Manhattan</option>'
+                                  +'<option value="4">Borda</option>'
                                 +'</select></div>'
                             +'<div class="rowEval">' 
                               +'<select class="evalSorting" name="Sorting">'
@@ -544,6 +581,25 @@ $(document).ready(function() {
         }
     }
     
+
+
+
+
+
+
+     /* Same number of clusters for all methods
+     * 
+     */
+    $(document).on('click','.searchMethodParameterSlider .evalCluster', function(){
+        var value = $(this).val();
+
+        for(var i =0; i<getNumMethod(); i++){
+            var eval = i+1;
+            $('.searchMethodParameterSlider #evalCom'+eval+' #evalMeth1 .evalCluster').val(value);
+        }
+        
+    });
+    
     
     /* Set Parameter of new scenatio depending of user choise
      * 
@@ -552,19 +608,41 @@ $(document).ready(function() {
         var firstParent = $(this).parents().eq(2).attr('id');
         var value = $(this).val();
         
-        /*Borda*/
-        if(value == 4){
-            alert("Borda");
-            setAlgorithmus(firstParent, 0);
-        }
-        /*Cluster*/
-        else{
+        resetComparationsLabels();        
+  
+        if(value < 4){
             setAlgorithmus(firstParent, 1);
             setDistance(firstParent, value);
+        }
+        
+        else{
+            setAlgorithmus(firstParent, 0);
+            setDistance(firstParent, 4);
         }
        
     });
     
+    /**
+     * Reset comparations labels
+     * @returns {undefined}
+     */
+    function resetMethodLabels(){
+        $( ".searchMethodParameter #nMethods" ).val(0);
+        $( ".searchMethodParameterSlider").css("display","none");
+        var text = "Method: "+0 +" von "+0;
+        $('.methodParamLabels').text(text);
+    }    
+    
+    /**
+     * Reset comparations labels
+     * @returns {undefined}
+     */
+    function resetComparationsLabels(){
+        $( ".comparation #nComparation" ).val(0);
+        $( ".evalSlider").css("display","none");
+        var text = "Vergleich: "+0 +" von "+0;
+        $('.compLabels').text(text);        
+    }
     /*
      * 
      * @param {type} first
@@ -572,10 +650,9 @@ $(document).ready(function() {
      * @returns {undefined}
      */
     function setAlgorithmus(first, value){
-        $('.searchMethodParameterSlider #'+first+' #evalMeth1 .evalAlg').val(value);
+        $('.searchMethodParameterSlider #'+first+' #evalMeth1 .evalAlg option[value=' + value + ']').prop("selected",true);
     }
-
-
+    
     /*
      * 
      * @param {type} first
@@ -583,7 +660,7 @@ $(document).ready(function() {
      * @returns {undefined}
      */
     function setDistance(first,value){
-       $('.searchMethodParameterSlider #'+first+' #evalMeth1 .evalDistance').val(value);
+        $('.searchMethodParameterSlider #'+first+' #evalMeth1 .evalDistance option[value=' + value + ']').prop("selected",true);
     }   
     
     /*

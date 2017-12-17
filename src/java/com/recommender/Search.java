@@ -17,7 +17,6 @@ public class Search {
     private String[] actors;
     
     public Search(String []genres, String []actors){
-        System.out.println("############## Search #########");
         this.genres = genres;
         setActors(actors);
         

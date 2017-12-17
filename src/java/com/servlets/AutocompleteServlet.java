@@ -31,7 +31,6 @@ public class AutocompleteServlet extends HttpServlet {
                 response.setContentType("application/json");
                 try {
                         String term = request.getParameter("term");
-                        System.out.println("Autooooo");
 
                         DataDB dataDao = new DataDB();
                         ArrayList<String> list = dataDao.doAutocomplete(term);

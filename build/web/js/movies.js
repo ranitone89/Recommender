@@ -374,7 +374,6 @@
     
     /*Show movie tab after evaluation*/
     movieObject.showMovies = function(){
-        alert("Show Movies");
         $('.tab-nav').css("display","block");
         $('.tab-back-nav').css("display","none");
         $('.recom-text').css("display","none");
@@ -505,6 +504,5 @@
     }
     
     movieObject.setSlideIndex = function(method, cluster, value){
-        alert("Set index movie slider");
         slideIndex[method][cluster] = value;
     };

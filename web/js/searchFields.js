@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 $(document).ready(function() {
     
     /*Lenght Range Ranking slider*/

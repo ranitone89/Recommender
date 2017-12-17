@@ -33,7 +33,6 @@ function openTab(evt, tabName) {
 
 /*Navigate to tab after detail informations*/
 function backToTab(evt) {
-    alert("backTab");
     var $activeTab = $('.tab-nav li.active');
     var indexActive = $activeTab.index();
 
@@ -53,7 +52,6 @@ function backToTab(evt) {
 $(document).ready(function() {   
    /*Tab Navigation*/
    $(document).on("click", ".tab-back-nav", function(event){
-        alert("tab-back-nav");
         resetAllTabs();
         var $movie = $(this).closest('.Movie');
         $('.title').css('display', 'none');
@@ -87,7 +85,6 @@ $(document).ready(function() {
    });
    
    function resetAllTabs(){
-       alert('reset');
        $('#TopRated').css('display','none');
        $('#New').css('display','none');
        $('#Cooming').css('display','none');

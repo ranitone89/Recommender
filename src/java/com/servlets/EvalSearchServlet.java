@@ -46,44 +46,46 @@ public class EvalSearchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request,
         HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("utf-8");
+        //request.setCharacterEncoding("utf-8");
         try {
+            /* Get data from js*/
             Integer method1 = Integer.parseInt(request.getParameter("method1"));
             Integer method2 = Integer.parseInt(request.getParameter("method2")); 
             Integer scenario = Integer.parseInt(request.getParameter("scenario"));
-
+            
+            System.out.println("######################### Method s ##################");
+            System.out.println(method1);
+            System.out.println(method2);
+            
+            /* Establish connection */
             DataDB dataDao = new DataDB();
             
-            /*  Get Movies From data base
-            *
-            */
+            /* Recommendation*/
             ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<>();
             
-
-            /*  Make final recommendations, that includes all clusters and movies  
-            for each method*/
+            /*  Make final recommendations, that includes all clusters and movies for each method */
             ArrayList<Recommendation> firstRecommendation = dataDao.getMovies2Scenario(scenario,method1);
             ArrayList<Recommendation> secondRecommendation = dataDao.getMovies2Scenario(scenario,method2);
+            
+            /* Get search parameter for scenario*/
+            String[] searchParameter = dataDao.getSearchParam(scenario);
 
             /* Sort Cluster */
             sortCluster(firstRecommendation, secondRecommendation);
-            
-            
-            /*System.out.println("################# SORTED ###################");
-            String json1s = new Gson().toJson(firstRecommendation);
-            System.out.println(json1s);
-            String json2s = new Gson().toJson(secondRecommendation);
-            System.out.println(json2s);*/
-            
+
             /* Append recommendations */
             recommendations.add(firstRecommendation);
             recommendations.add(secondRecommendation);
-
-            String json = new Gson().toJson(recommendations);
-            //System.out.println(json);
+            
+            /* Create Json string */
+            String json1 = new Gson().toJson(recommendations);
+            String json2 = new Gson().toJson(searchParameter);
+            String bothJson = "["+json1+","+json2+"]";
+            
+            /* Write string as response */
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(json);
+            response.getWriter().write(bothJson);
         } 
         catch (Exception e) {
             System.err.println(e.getMessage());
@@ -130,7 +132,6 @@ public class EvalSearchServlet extends HttpServlet {
         else{
             for(int i =0; i<defaultPar.size(); i++){
                 temp.add(i, defaultPar.get(i));
-                System.out.println(defaultPar.get(i));
             }
         }   
         return temp;
@@ -146,7 +147,6 @@ public class EvalSearchServlet extends HttpServlet {
      private void sortCluster(ArrayList<Recommendation> firstMethod, ArrayList<Recommendation> secondMethod) throws IOException 
      {
         float[ ][ ] scores = new float[firstMethod.size()][secondMethod.size()];
-         System.out.println("Sort Cluster");
         HashMap <Integer, Integer> hmap = new HashMap<Integer, Integer>();
         HashSet <Integer> usedRows = new HashSet<Integer>();
         HashSet <Integer> usedColumns = new HashSet<Integer>();
@@ -167,7 +167,6 @@ public class EvalSearchServlet extends HttpServlet {
     *
     */
     public static void setClusterIds(ArrayList<Recommendation> secondMethod, HashMap hmap){
-        System.out.println("Set Cluster IDs");
         for(Recommendation cluster: secondMethod){
             int tempId= (int) hmap.get(cluster.getClusterId()-1);
             cluster.setClusterId(tempId+1);
@@ -209,7 +208,6 @@ public class EvalSearchServlet extends HttpServlet {
                 }
                 
             }
-            System.out.println("#################################");
         }
         System.out.println(column+":"+row);
         hmap.put(column, row);
@@ -232,51 +230,11 @@ public class EvalSearchServlet extends HttpServlet {
                 }
             }
         }
-        float clusterScore = ((float)commonMovies) /((float)numMoviesCl1+numMoviesCl2-commonMovies); 
-     
+        float clusterScore = ((float)commonMovies) /((float)numMoviesCl1+numMoviesCl2-commonMovies);   
         return clusterScore;
     }     
     
-    
-    /*private ArrayList<Recommendation>getMethodElements(FinalClustering clusterings, int methodid) throws IOException 
-    {
-        ArrayList<Recommendation> recommendations = new ArrayList<Recommendation>();
-        
-        ArrayList<ArrayList<Cluster>>clusters = clusterings.getClustering();
-        for(Cluster cluster : clusters.get(0)) {
-            ArrayList<Movie> movies = new ArrayList<Movie>();
-            for (PointdDim elem : cluster.getClusterPoints()){
-                movies.add(elem.getMovieDim());
-            }
-            recommendations.add(new Recommendation(methodid,cluster.getId(), movies));
-        }
-        
-        return recommendations;
-    }    
-    
-    /* transform movies to points*/
-    /*private ArrayList<PointdDim> getPoints(ArrayList<Movie> movies)
-    {  
-        ArrayList<PointdDim> points = new ArrayList<PointdDim>();
-        
-        for(Movie m: movies){
-            PointdDim point = new PointdDim();
-            point.setId(m.getMovieId());
-            point.setDim(m.getScores());
-            point.setMovieDim(m);
-            points.add(point);
-        }
-        
-        return points;  
-    }*/
-
-    /*private void printPointes(ArrayList<PointdDim> points){
-        for(PointdDim p: points){
-            System.out.println("id "+p.getId()+" Dims: "+p.toString()+" Dims: "+p.getMovieDim().getTitle());
-        }
-        
-    }*/
-    
+ 
     private String[] movieArray(String str){
         String[] temp;
 

@@ -77,19 +77,11 @@ public class InsertEvaluationServlet extends HttpServlet {
     {
         ArrayList<Integer> temp = new ArrayList<Integer>();
         
-        //List<Integer> defaultPar = Arrays.asList(method, 3, 0, 1);
-        
         if(parameters != null){
             for(int i =0; i<parameters.length-1; i++){
                 temp.add(i, Integer.parseInt(parameters[i]));
             }
         }
-        /*else{
-            for(int i =0; i<defaultPar.size(); i++){
-                temp.add(i, defaultPar.get(i));
-                System.out.println(defaultPar.get(i));
-            }
-        } */ 
         return temp;
     }
     

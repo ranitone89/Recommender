@@ -26,8 +26,8 @@ public class DataDB {
            
 	}
         
-        /** Autocomplete
-         * 
+        /**
+         * Autocomplete
          * @param term
          * @return
          * @throws Exception 
@@ -51,8 +51,8 @@ public class DataDB {
 		return list;
 	}
         
-        /** Check if User exist
-         * 
+        /**
+         * Check if User exist
          * @param ip
          * @return
          * @throws Exception 
@@ -61,7 +61,7 @@ public class DataDB {
             String message = null;
             PreparedStatement ps = null;
             try {
-                String sql = "SELECT usersid FROM test_users WHERE ip = ?";
+                String sql = "SELECT usersid FROM evaluation_users WHERE ip = ?";
                 ps = connection.prepareStatement(sql);
                 
                 //setting the parameters
@@ -110,6 +110,11 @@ public class DataDB {
             return message;
     }
     
+    /**
+     * Get scenarios from database
+     * @return
+     * @throws Exception 
+     */
     public ArrayList<Scenario> loadScenarios() throws Exception{
         ArrayList<Scenario> scenarios = new ArrayList<Scenario>();
         PreparedStatement ps = null;
@@ -133,8 +138,6 @@ public class DataDB {
                 Array lenghtArray = rs.getArray(6);
                 Integer[] lenght = (Integer[]) lenghtArray.getArray();
                 
-                //Integer[][] lenght = (Integer[]) lenghtArray.getArray();
-               
                 Scenario s = new Scenario(rs.getInt(1),rs.getString(2),actors,genres,released,lenght,rs.getInt(7), rs.getString(9));
                 scenarios.add(s);
 
@@ -146,7 +149,19 @@ public class DataDB {
     }     
     
     
-        //(description,actors,genres,minReleased,maxReleased,minLenght,maxLenght,rating)
+    /**
+     * 
+     * @param description
+     * @param actors
+     * @param genres
+     * @param released
+     * @param lenght
+     * @param parameter
+     * @param rating
+     * @param comparation
+     * @return
+     * @throws Exception 
+     */
     public int getIdOnInsertScenario(String description,String[] actors,String[] genres,
             String[] released,String[] lenght,String[] parameter,String rating,String comparation) throws Exception{
         PreparedStatement ps = null;
@@ -163,7 +178,8 @@ public class DataDB {
             Array listReleased = connection.createArrayOf("int4", released);
             Array listLenght= connection.createArrayOf("int4", lenght);
             Array listParameter = connection.createArrayOf("text", parameter); 
-            //Array listMethosParameter = connection.createArrayOf("text", searchParameterMrthos);
+
+            
             int ratingInt = Integer.parseInt(rating);
             
             ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -194,7 +210,18 @@ public class DataDB {
     }    
     
     
-    //(description,actors,genres,minReleased,maxReleased,minLenght,maxLenght,rating)
+    /**
+     * Insert scenario to db
+     * @param description
+     * @param actors
+     * @param genres
+     * @param released
+     * @param lenght
+     * @param parameter
+     * @param rating
+     * @return
+     * @throws Exception 
+     */
     public String insertScenarios(String description,String[] actors,String[] genres,
             String[] released,String[] lenght,String[] parameter,String rating) throws Exception{
         String message = null;
@@ -245,8 +272,8 @@ public class DataDB {
             return message;
     }     
     
-    /** Register new user
-     * 
+    /**
+     * Register new user
      * @param ip
      * @param genres
      * @param actors
@@ -258,7 +285,7 @@ public class DataDB {
         PreparedStatement ps = null;
         boolean action = false;
         try {
-            String sql = "INSERT INTO test_users"
+            String sql = "INSERT INTO evaluation_users"
 		+ "(ip, genres, actors) VALUES"
 		+ "(?,?,?)";
             
@@ -294,8 +321,8 @@ public class DataDB {
         return message;
     }
     
-    /** Search for movies
-     * 
+    /**
+     * Search for movies
      * @param minLenght
      * @param maxLenght
      * @param minReleased
@@ -309,7 +336,6 @@ public class DataDB {
     public ArrayList<Movie> search(String minLenght, String maxLenght, String minReleased, String maxReleased,String minStar, String[] actors, String[] genres, String[] parameter) throws Exception {
         String message = null;
         PreparedStatement ps = null;
-        System.out.println("DriNNNNNNNNNN");
         ArrayList<Movie> movieList = new ArrayList<>();        
         HashMap<String, List<String>> param =  new HashMap<>();
         List<String> search = new ArrayList<>();
@@ -318,20 +344,11 @@ public class DataDB {
         param = createQuery(parameter);
         
         try {
-            System.out.println("Fetching Keys and corresponding [Multiple] Values n");
             for (Map.Entry<String, List<String>> entry : param.entrySet()) {
                 query = entry.getKey();
                 search = entry.getValue();
             }        
-            //String query = param.keySet().toString().substring(1, param.size()-1);
-            System.out.println("###################### Query ######################");
-            System.out.println(query);
-            System.out.println("###################### Search ######################");
-            for(int i=0; i<search.size(); i++){
-                System.out.println("PARAM: "+search.get(i));
-            }
 
-            
             ps = connection.prepareStatement(query);
             
             //setting the parameters
@@ -361,8 +378,6 @@ public class DataDB {
             }           
             
 
-
-            //executing the prepared statement, which returns a ResultSet
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 while(rs.next())
@@ -385,7 +400,12 @@ public class DataDB {
         return movieList;
     }
 
-   
+    /**
+     * Create dynamic query
+     * @param parameter
+     * @return
+     * @throws SQLException 
+     */
     private HashMap<String, List<String>> createQuery(String[] parameter) throws SQLException{ 
         HashMap<String, List<String>> params = new HashMap<>();
         List<String> search = new ArrayList<>();       
@@ -406,25 +426,20 @@ public class DataDB {
             + "WHERE ";
         
         if(Arrays.asList(parameter).contains("lenght")){
-            System.out.println("################### Query lenght ######################");
             query += "movie_runtime(run.time) BETWEEN (?) AND (?) AND ";
             search.add("min lenght");
             search.add("max lenght");
         }
 
         if(Arrays.asList(parameter).contains("year")){
-            System.out.println("################### Query year ######################");
             query += "movie_year(m.year) BETWEEN (?) AND (?) AND ";
             search.add("min released");
             search.add("max released");
         }
 
         if(Arrays.asList(parameter).contains("rating")){
-            System.out.println("################### Query rating 1 ######################");
             query += "rank.rank::float BETWEEN (?) AND 10.0 AND ";
-
             search.add("rating");
-            System.out.println("################### Query rating 2 ######################");
         }
         
         if(Arrays.asList(parameter).contains("actor") && Arrays.asList(parameter).contains("genre")){
@@ -450,21 +465,14 @@ public class DataDB {
                 + "AND rank.votes > 140000 "
                 + "GROUP BY m.movieid "
                 + "order by MAX(rank.rank::float) DESC "
-                + "LIMIT 300";
-        
-        System.out.println(query);
-        System.out.println("############### ENDE #######################");
-        
-        for(int i=0; i<search.size(); i++){
-                System.out.println("PARAM: "+search.get(i));
-            }
+                + "LIMIT 150"; //200 300
         params.put(query, search);
         return params;
     }
     
     
-    /** Insert clustered movies to database 
-     * 
+    /**
+     * Insert clustered movies to database 
      * @param method
      * @param scenario
      * @param firstRecommendation
@@ -499,14 +507,13 @@ public class DataDB {
 
         finally
         {
-          // close the statement when all the INSERT's are finished
           ps.close();
         }
         
     }
     
-    /** Insert movies to scenario
-     * 
+    /**
+     * Insert movies to scenario
      * @param movies
      * @param scenario
      * @return
@@ -516,7 +523,7 @@ public class DataDB {
         String message = null;
         PreparedStatement ps = null;
 
-        /*try {
+        try {
             String query = "INSERT INTO movies2scenario"
 		+ "(scenarioid, movieid, title,genres,actors,releaseyear,movielenght,rating,scores, stringscores) VALUES"
 		+ "(?,?,?,?,?,?,?,?,?,?)";
@@ -555,15 +562,14 @@ public class DataDB {
         
             finally
             {
-              // close the statement when all the INSERT's are finished
               ps.close();
-            }*/
+            }
             return message;
                 
     }
     
-    /** Insert result from evaluation into database
-     * 
+    /** 
+     * Insert result from evaluation into database
      * @param userId
      * @param scenarioId
      * @param alg1
@@ -622,12 +628,19 @@ public class DataDB {
             return message;
     }    
     
+    /**
+     * Get movies from one scenario
+     * @param scenario
+     * @param method
+     * @return
+     * @throws SQLException 
+     */
     public ArrayList<Recommendation> getMovies2Scenario(Integer scenario, Integer method) throws SQLException {
         ArrayList<Recommendation> recommendations = new ArrayList<Recommendation>();
         PreparedStatement ps = null;
         ArrayList<Integer> clusterIds = getClusterId(scenario);
  
-        /*try {
+        try {
             String query = "SELECT ms.movieid, ms.title, ms.genres, ms.actors, ms.releaseyear, ms.movielenght, ms.rating, ms.stringscores "
 		+ "FROM clustering s, movies2scenario ms "
 		+ "WHERE s.scenarioid = ms.scenarioid "
@@ -662,11 +675,17 @@ public class DataDB {
             finally
             {
               ps.close();
-            }*/
+            }
 
             return recommendations;
     }
-
+    
+    /**
+     * Get custer id
+     * @param scenario
+     * @return
+     * @throws SQLException 
+     */
     public ArrayList<Integer> getClusterId(Integer scenario) throws SQLException {
         
         ArrayList<Integer> clusterids = new ArrayList<Integer>();
@@ -683,22 +702,15 @@ public class DataDB {
             
             ps = connection.prepareStatement(query);
             
-            // now loop through nearly 1,500 nodes in the list
- 
             ps.setInt(1, scenario);
 
             
             //executing the prepared statement, which returns a ResultSet
             ResultSet rs = ps.executeQuery();
-                //if(rs.next()){
-                    while(rs.next())
-                    {
-                        clusterids.add(rs.getInt(1));
-                    }
-                //}else{
-                //    message = "FAILURE CANNOT SELECT DATA";
-                //    System.out.println(message);
-                //}
+                while(rs.next())
+                {
+                    clusterids.add(rs.getInt(1));
+                }
 
             }
             catch (Exception e) {
@@ -707,11 +719,8 @@ public class DataDB {
             }
             finally
             {
-              // close the statement when all the INSERT's are finished
               ps.close();
             }
-            //return message;
-                //To change body of generated methods, choose Tools | Templates.
             return clusterids;
     }    
     
@@ -729,7 +738,6 @@ public class DataDB {
             ps = connection.prepareStatement(sql);
             
             for(int i = 0; i<evalScenarios.length; i++){
-                System.out.println(": "+evalScenarios[i]);
                 ps.setInt(1, Integer.parseInt(evalScenarios[i]));
                 
                 //executing the prepared statement, which returns a ResultSet
@@ -771,8 +779,9 @@ public class DataDB {
             String query = "INSERT INTO survey"
 		+ "(gender, age, employment_status, job, video_usage, payment_readiness, "
                 + "platformen_stream, platformen_tv, platformen_portale, "
-                + "recommendation_frequency,recommendation_sense,recommendation_satisfaction ) VALUES"
-		+ "(?,?,?,?,?,?,?,?,?,?,?,?)";
+                + "recommendation_frequency,recommendation_sense,recommendation_satisfaction,recommendation_number_few,recommendation_number_lots "
+                + ",recommendation_char_known, recommendation_char_unknown, recommendation_char_mix,recommendation_experience ) VALUES"
+		+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             
             
             ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -795,15 +804,21 @@ public class DataDB {
             // tv
             ps.setInt(8, Integer.parseInt(result[7]));
             // portale
-            ps.setInt(9, Integer.parseInt(result[8]));
-            
+            ps.setInt(9, Integer.parseInt(result[8])); 
             // empfehlungen
             ps.setInt(10, Integer.parseInt(result[9]));
             // sinn
             ps.setInt(11, Integer.parseInt(result[10]));
             // zufriedenheit
             ps.setInt(12, Integer.parseInt(result[11]));
-            
+            // Number of movies in recommenarion
+            ps.setInt(13, Integer.parseInt(result[12]));
+            // Number of movies in recommenarion
+            ps.setInt(14, Integer.parseInt(result[13]));
+            ps.setInt(15, Integer.parseInt(result[14]));
+            ps.setInt(16, Integer.parseInt(result[15]));
+            ps.setInt(17, Integer.parseInt(result[16]));
+            ps.setString(18, result[17]);
             
             ps.executeUpdate();
             
@@ -811,7 +826,6 @@ public class DataDB {
                 if (rs.next()) {
                     generatedKey = rs.getInt(1);
                 }
-                System.out.println("Inserted survey's ID: " + generatedKey);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -831,7 +845,7 @@ public class DataDB {
         boolean action = false;
 
         try {
-            String query = "UPDATE test_users "
+            String query = "UPDATE evaluation_users "
 		+ "SET surveyid = (?) "
                 + "WHERE usersid = (?)";
             
@@ -861,6 +875,48 @@ public class DataDB {
         }
         return message;
         
+    }
+
+    /**
+     * Get seach parameter
+     * @param scenario
+     * @return
+     * @throws SQLException 
+     */
+    public String[] getSearchParam(Integer scenario) throws SQLException {
+        PreparedStatement ps = null;
+        String [] param = null;
+        System.out.println(" SEARCH PARAM FROM SCENARIO ");
+        try {
+            String query = "SELECT s.parameters "
+		+ "FROM scenarios s "
+		+ "WHERE s.id = (?) ";
+            
+                ps = connection.prepareStatement(query);        
+                
+                ps.setInt(1, scenario);
+                ResultSet rs = ps.executeQuery();
+
+                if(rs.next())
+                {
+                    param = (String[]) rs.getArray(1).getArray();
+                    System.out.println("SUCCESS SEARCH");
+                }
+                    
+                else{
+                    System.out.println("FAILURE CANNOT SELECT DATA");
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        
+            finally
+            {
+              ps.close();
+            }
+
+            return param;
     }
 }
 

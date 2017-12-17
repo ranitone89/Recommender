@@ -38,13 +38,14 @@ public class Scenario {
     private void setComparations(String comString){
         String[] comparation = comString.split(";");
         this.comparations = new Integer[comparation.length][];
-        
+        System.out.println("com.recommender.Scenario.setComparations(): "+comparation.length);
+       
         for (int i = 0; i < comparation.length; i++) {
             String[] row = comparation[i].split(",");
-            comparations[i] = new Integer[row.length];
+            this.comparations[i] = new Integer[row.length];
 
             for(int j=0; j < row.length; j++) {
-                comparations[i][j] = Integer.parseInt(row[j]);
+                this.comparations[i][j] = Integer.parseInt(row[j]);
             }
         }     
     }

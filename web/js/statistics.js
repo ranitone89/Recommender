@@ -3,7 +3,6 @@
     var focusStat = 4;    
     
     statisticObject.checkStatistics = function(method){
-        alert("Check Statistics");
         var statistic = 0;
         
         if($('.Statistic'+method).css('display') == 'block'){
@@ -22,7 +21,6 @@
      * 
      */
      statisticObject.statisticsShow = function(statistic) {
-        alert("Show: "+statistic);
         if(statistic !==0){
             $('.Statistic'+statistic).css('display','block');
         }
@@ -97,7 +95,6 @@
                 label.push(labels[j]+" "+labels[z]);
             }
         }
-        alert(label);
         return label;
     };
     
@@ -137,7 +134,6 @@
      * @returns {undefined}
      */
     function showAfterDetail(num){
-        alert("showAfterDetail");
         for(var method=0; method<num.length; method++){
             var m = method + 1;
             $('.Method'+m + ' #ck-button').css('display','block');
@@ -161,7 +157,6 @@
      * @returns {undefined}
      */
     function showAfterDetailStat(statistic,num){
-        alert("showAfterDetailStat");
         for(var method=0; method<num.length; method++){
             var mt = method + 1;
             if(statistic===mt){

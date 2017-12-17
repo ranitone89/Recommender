@@ -42,7 +42,6 @@ public class Score {
                     m.setRatingScore(m.getMovieRating());
                 }
                 
-                System.out.println(m.toString());
             }             
         }
     }

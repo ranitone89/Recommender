@@ -19,7 +19,15 @@
         surveyResults.push(result.data.empfehlung);
         surveyResults.push(result.data.sinn);
         surveyResults.push(result.data.zufriedenheit);
-
+        
+        surveyResults.push(result.data.anzahl_filme.viele);
+        surveyResults.push(result.data.anzahl_filme.wenige);
+        surveyResults.push(result.data.merkmale_filme.bekannte);
+        surveyResults.push(result.data.merkmale_filme.unbekannte);
+        surveyResults.push(result.data.merkmale_filme.gemischt);
+        surveyResults.push(result.data.erfahrung_empfehlungen);
+        
+        alert(surveyResults);
         $.ajax({
              url : "InsertSurveyServlet",
              type : "GET",
@@ -32,7 +40,6 @@
                         if(response != null && response != "")
                         {
                             inserted = true;
-                            alert("Insert Survey");
                         }
                     else
                         {
@@ -42,7 +49,6 @@
                 } 
         });
         
-        alert("Inserted: "+inserted);
         return inserted;
     };
 

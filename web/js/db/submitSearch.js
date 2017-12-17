@@ -72,7 +72,8 @@ $(document).ready(function() {
         var cluster = $(this).parents().eq(2).attr('id').match(/\d+/)[0];
         resizeMethod(method, 865);
 
-        $('#ck-buttons').css('display','none');
+        //$('#ck-buttons').css('display','none');
+        hideEvalButtons();
         movieObject.showMovie(method,cluster,num); 
         movie = $(this).closest('.Movie');
         movies = $(".Movie").not($movie);
@@ -96,7 +97,8 @@ $(document).ready(function() {
     /*BAck from movie Detail*/
     $(document).on("click", ".search-back-nav ", function(event){
         $('.survey').css('display', 'block');
-        $('#ck-buttons').css('display','block');
+        //$('#ck-buttons').css('display','block');
+        showEvalButtons();
         $('.btnStatistics').css('display','block');
         $('.Method1').css("width","643");
         $('.Method2').css("width","643");
@@ -114,7 +116,15 @@ $(document).ready(function() {
         $('.search-back-nav').hide();
         $('.tab-back-nav').hide();
    });
+   
+   
+   function showEvalButtons(){
+       $('#ck-buttons').css('display','block');
+   }
 
+   function hideEvalButtons(){
+       $('#ck-buttons').css('display','none');
+   }
     /*
      * 
      * @returns {undefined}
@@ -179,7 +189,6 @@ $(document).ready(function() {
         var method = $(this).parents().eq(0).attr('class');
         var slider = $('.'+method+' .clstats');
         statcsIndex = statisticObject.checkIndexStat(statcsIndex,buttonid,slider.length);
-        alert(slider.length);
         statisticObject.slideStatcs(statcsIndex,slider);
    });
 
@@ -263,7 +272,6 @@ $(document).ready(function() {
      * @returns {undefined}
      */
     function delDivContent(){
-        alert("Remove divs");
         $('.Method1').empty();
         $('.Method2').empty();
         $('.Statistic1 .clstats').remove();
@@ -397,24 +405,24 @@ $(document).ready(function() {
         
         for(var cluster=0; cluster<num[m]; cluster++){
             var c = cluster +1; 
-            if($('.Method'+m+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==false && $('.Method'+(m+1)+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==false){
+            /*if($('.Method'+m+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==false && $('.Method'+(m+1)+ ' #Cluster'+c + ' .cb_cluster').is(':checked')==false){
                 $('#messageSurvey').css("display","block");
                 $('#messageSurvey').html("<font color='red'>Wählen Sie bitte mindestens eine der gleichfarbigen Filmgruppen </font>")
                 $('#Cluster'+c + ' #lb_'+c).text("Bitte auswählen");
                 return;
-            }
-            else{
+            }*/
+            //else{
                 $('#messageSurvey').css("display","none");
                 $('#Cluster'+c +' #lb_'+c).text("");
-            }
+            //}
         }
         
-        if($('#cl0_like').is(':checked')==true && $('#cl1_like').is(':checked')==true && $('#cl2_like').is(':checked')==true ){
+        if(mode==1 && $('#cl0_like').is(':checked')==true && $('#cl1_like').is(':checked')==true && $('#cl2_like').is(':checked')==true ){
            $('#messageSurvey').css("display","block");
            $('#messageSurvey').html("<font color='red'>Sie können nur eine der Möglichkeiten auswählen</font>");
            return;
         }           
-        if($('#cl0_like').is(':checked')==false && $('#cl1_like').is(':checked')==false && $('#cl2_like').is(':checked')==false ){
+        if(mode==1 && $('#cl0_like').is(':checked')==false && $('#cl1_like').is(':checked')==false && $('#cl2_like').is(':checked')==false ){
            $('#messageSurvey').css("display","block");
            $('#messageSurvey').html("<font color='red'>Wählen Sie mindestens eine Option</font>");
            return;
@@ -450,6 +458,7 @@ $(document).ready(function() {
        $('#id01').css("display","block");
        $('.tab-back-nav').trigger('click');
        $('.search-tab').appendTo('#id01 .tab');
+       /*$('#defaultEval').trigger('click');*/
        hideAllModes();
    });
    
@@ -458,11 +467,17 @@ $(document).ready(function() {
        if(mode==0){
             $('.search-tab').appendTo('.search .tab');
             $('.search-tab-cluster').appendTo('.search .search-tab');
+            
+            /*$('#Result .cb_text').css("display","block");
+            $('.Cluster1 #Result .cb_text').css("display","block");
+            $('.Method1 .Cluster1 #Result .cb_text').css("display","block");*/
             showTestMode();
             hideEvalMode();
             $('#testSearch').css("display","block");
             $('#evalSearch').css("display","none");
             $('#id01').css('display','none');
+            /*$('#Result .btnStatistics').css("display","block");
+            $('#Result .cb_text').css("display","none");*/
        }
        else{
            //if scenarios empty
@@ -474,6 +489,7 @@ $(document).ready(function() {
                 hideTestMode();
                 $('#testSearch').css("display","none");
                 $('#evalSearch').css("display","block");
+                $('#Result .cb_text').css("display","block");
                 
                 scenarios = scenarioObject.getUserChoise();
                 scenarioObject.createScenarioMessage(scenarios);
@@ -538,6 +554,41 @@ $(document).ready(function() {
         }
     });
 
+    /**
+     * Show evaluation checkboxex
+     * @returns {Boolean}
+     */
+    function showEvalCheckboxes(){
+        $('#Result .cb_text').css("display","block"); 
+    }
+    
+    /**
+     * Hide evaluation checkboxex
+     * @returns {Boolean}
+     */
+    function hideEvalCheckboxes(){
+        $('#Result .cb_text').css("display","none");        
+    }    
+
+    /**
+     * Show evaluation checkboxex
+     * @returns {Boolean}
+     */
+    function showStatistics(){
+        $('#Result .btnStatistics').css("display","block");        
+    }
+    
+    /**
+     * Hide evaluation checkboxex
+     * @returns {Boolean}
+     */
+    function hideStatistics(){
+        $('#Result .btnStatistics').css("display","none");        
+    }     
+    
+    
+    
+    
     /*$(document).on("click", ".surveyclose ", function(event){
         surveryInfor = true;
         $('.submitBtn').trigger('click');
@@ -581,8 +632,13 @@ $(document).ready(function() {
     /*Check for evaluation current mode and trigger click*/
     function checkEvalNum(mode){
         if(mode == 1){
-            if(scenarioNum < searchObject.getNumberScenario()-1){
-                if(evalNum < getNumberComparations()){
+            /*alert("Scenario num: "+scenarioNum);
+            alert("Num Scenarios: "+(searchObject.getNumberScenario()-1));
+            alert("Scenario comparation: "+evalNum);
+            alert("Num Comparations: "+getNumberComparations(scenarioNum));*/
+            
+            if(scenarioNum < (searchObject.getNumberScenario()-1)){
+                if(evalNum < getNumberComparations(scenarioNum)){
                     getSurveyVaues();
                     evalNum = evalNum+1;
                     $('.seachScenario').trigger('click');
@@ -602,7 +658,7 @@ $(document).ready(function() {
                
             }
             else{                
-                if(evalNum < getNumberComparations()){
+                if(evalNum < getNumberComparations(scenarioNum)){
                     getSurveyVaues();
                     evalNum = evalNum+1;
                     $('.seachScenario').trigger('click');
@@ -943,14 +999,18 @@ $(document).ready(function() {
    }
    
 
-   
+    function getNumberScenarios(){
+       return scenarios.length;
+    }
 
    searchObject.getNumberScenario = function(){
+       //return scenarios.length;
        return scenarios.length;
    };
 
-   function getNumberComparations(){
-       return $('#nComparation').val();
+   function getNumberComparations(scenarioNum){
+       //return $('#nComparation').val();
+       return searchPrameter[scenarioNum].length;
    }
    
 
@@ -1008,7 +1068,7 @@ $(document).ready(function() {
                                 {type:"radiogroup", name:"zahlbereitschaft", title: "Wären Sie bereit für Videoinhalte zu zahlen?", isRequired: true, 
                                     choices:[{value: 1,text:{default:"Ja"}}, {value: 0,text:{default:"Nein"}}]},
                                 
-                                { type: "matrix", name: "plattformen", title: "Wie häufig verwenden Sie foglende Platformen für die Nutzung von Videoinhalten?", isRequired: true,
+                                { type: "matrix", name: "plattformen", title: "Wie häufig verwenden Sie foglende Platformen für die Nutzung von Videoinhalten?", isAllRowRequired: true,
                                     columns: [{ value: 0, text: "nie" },
                                         { value: 1, text: "selten" },
                                         { value: 2, text: "manchmal" },
@@ -1044,12 +1104,48 @@ $(document).ready(function() {
                                           {value: 3,text:{default:"meistens"}},
                                           {value: 4,text:{default:"immer"}}]},
                              
-                                {type:"radiogroup", name:"zufriedenheit", title: "Treffen solche Empfehlungen in der Regel ihr Geschmack?", isRequired: true, 
+                                {type:"radiogroup", name:"zufriedenheit", title: "Treffen solche Empfehlungen in der Regel Ihren Geschmack?", isRequired: true, 
                                 choices:[{value: 0,text:{default:"nie"}}, 
                                           {value: 1,text:{default:"selten"}},
                                           {value: 2,text:{default:"manchmal"}},
                                           {value: 3,text:{default:"meistens"}},
                                           {value: 4,text:{default:"immer"}}]},
+                                                  
+                                { type: "matrix", name: "anzahl_filme", title: "Wie wichtig ist es für Sie, dass Empfehlungen: ", isAllRowRequired: true,
+                                    columns: [{ value: 0, text: "unverzichtbar" },
+                                        { value: 1, text: "wichtig" },
+                                        { value: 2, text: "neutral" },
+                                        { value: 3, text: "unwichtig" },
+                                        { value: 4, text: "verzichtbar" }],
+                                    rows: [{
+                                        value: "viele",
+                                        text: "Viele Filme enthalten"
+                                    }, {
+                                        value: "wenige",
+                                        text: "Möglichst wenige Filme enthalten"
+                                    },]
+                                },
+                                
+                                { type: "matrix", name: "merkmale_filme", title: "Wie wichtig ist es für Sie, dass Empfehlungen die Filme enthalten, die folgende Kriterien erfüllen?", isAllRowRequired: true,
+                                    columns: [{ value: 0, text: "unverzichtbar" },
+                                        { value: 1, text: "wichtig" },
+                                        { value: 2, text: "neutral" },
+                                        { value: 3, text: "unwichtig" },
+                                        { value: 4, text: "verzichtbar" }],
+                                    rows: [{
+                                        value: "bekannte",
+                                        text: "Der Nutzer kennt"
+                                    }, {
+                                        value: "unbekannte",
+                                        text: "Enthält nur Filme, die der Nutzer nicht kennt"
+                                    }, {
+                                        value: "gemischt",
+                                        text: "Enthält für den Nutzer bekannte und unbekannte Filme"
+                                    },]
+                                },
+                                                  
+                                {type: "text", name: "erfahrung_empfehlungen",isRequired: true,
+                                    title: "Wie Finden Sie Filmempfehlungen von anderen Streamdienstanbieter wie Amazon Prime oder Netflix?"}      
                             ],                           
                         }]
                 });
@@ -1279,7 +1375,7 @@ $(document).ready(function() {
         
         var parameter = $('.searchParameter input[type="checkbox"]:checked').length;
         var paramList = scenarioObject.getSearchPreference();
-        alert(paramList);
+ 
         if(paramList.indexOf('actor')>=0){
             if(actors == ""){
                 $('#messageSearch').css("display","block");
@@ -1304,17 +1400,14 @@ $(document).ready(function() {
         
         if(parameter < 3){
              $('#messageSearch').css("display","block");
-             $('#messageSearch').html("<font color='red'>Wählen Sie bitte mind. drei Suchparameter aus</font>")
+             $('#messageSearch').html("<font color='red'>Wählen Sie bitte mind. drei Suchparameter aus</font>");
              return;
         }
          
         else{
              $('#messageSearch').css("display","none");
-             //var actorList = searchObject.covertToArray(actors,'a');
-             //var genreList = searchObject.covertToArray(genres,'g');
-             //alert(actorList);
-             //alert(genreList);
              $('#id02').css("display","none");
+
              delDivContent();
              
              $.ajax({
@@ -1348,9 +1441,12 @@ $(document).ready(function() {
                             errorevalShowInfos = false;
                             var jsonStr = JSON.stringify(response);
                             var jsonObj = JSON.parse(jsonStr);
-                            alert(jsonObj[0]);
+                            
                             sortData(jsonObj);
-
+                            //$('#Result .btnStatistics').css("display","block");
+                            showStatistics();
+                            hideEvalCheckboxes();
+                            hideEvalButtons();
                         }
                     else
                         {
@@ -1400,9 +1496,10 @@ $(document).ready(function() {
     $(document).on("click", ".seachScenario", function(event){
         // Get search parameter from scenarios
         searchPrameter = scenarioObject.getSearchParameter();
-        alert("Scenario Num: "+scenarioNum);
+        /*alert("Scenario Num: "+scenarioNum);
         alert("Comparations: "+searchPrameter[scenarioNum][evalNum-1]);
-        alert("Scenario: "+scenarios[scenarioNum]);
+        alert("Num Compaations: "+searchPrameter[scenarioNum].length);
+        alert("Scenario: "+scenarios[scenarioNum]);*/
         $('#id03').css("display","none");
         delDivContent();
         surveryInfor==false;
@@ -1432,7 +1529,11 @@ $(document).ready(function() {
                             var jsonStr = JSON.stringify(response);
                             var jsonObj = JSON.parse(jsonStr);
                             sortData(jsonObj);
-
+                            // Hide statistics normaly but in test show
+                            //hideStatistics();
+                            showStatistics();
+                            showEvalCheckboxes();
+                            showEvalButtons();
                         }
                     else
                         {
@@ -1485,7 +1586,6 @@ $(document).ready(function() {
                 
                 for(var j = 0; j<jsonObj[0][mt][cl].movies.length; j++){
                     movies += jsonObj[0][mt][cl].movies[j].title+", ";
-                    //alert("FIlm ID: "+jsonObj[mt][cl].movies[j].movieId+" Cluster: "+cluster);
                 }
                 displayData(method,cluster,movies);
                 slideIndex[mt][cl] = 0;
@@ -1529,7 +1629,7 @@ $(document).ready(function() {
             $('.submitSurvey').css('display', 'block');
         }
         else if(movies == 'FAILURE'){
-            alert('fehler');
+            alert('Fehler');
         }
     }
     
@@ -1542,7 +1642,6 @@ $(document).ready(function() {
      */
     function displayCharts(dataList,method, labels)
     {
-        alert(labels);
         var data = new Array();
 
         //number of movie objects
