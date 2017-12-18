@@ -6,58 +6,23 @@
 /* global noUiSlider */
 
 $(document).ready(function() {
+    var released;
+    var releasedText = [
+	$('#released .range_min'), // 0
+	$('#released .range_max')  // 1
+    ];    
+    var lenght;
+    var lenghtText = [
+	$('#lenght .range_min'), // 0
+	$('#lenght .range_max')  // 1
+    ];
+    
+    var rating;   
+    
     createSiders();
     /*Lenght Range Ranking slider*/
     $('#star1').prop('checked', true); 
-    $('#star input[type="range"]').on( 'input', rangeInputChangeEventHandler);
-    $('#lenght input[type="range"]').on( 'input', rangeInputChangeEventHandlerAll);
-    $('#released input[type="range"]').on( 'input', rangeInputChangeEventHandlerAll);
     
-    function rangeInputChangeEventHandlerAll(e){
-        var rangeGroup = $(this).attr('name'),
-            minBtn = $(this).parent().children('.min'),
-            maxBtn = $(this).parent().children('.max'),
-            range_min = $(this).parent().children('.range_min'),
-            range_max = $(this).parent().children('.range_max'),
-            minVal = parseInt($(minBtn).val()),
-            maxVal = parseInt($(maxBtn).val()),
-            origin = $(this).context.className;            
-            var parent = $(this).parent().attr('id');
-            
-        if(origin === 'min' && minVal > maxVal-1){
-            $(minBtn).val(maxVal-1);
-        }
-        var minVal = parseInt($(minBtn).val());
-        $(range_min).html(minVal);
-
-
-        if(origin === 'max' && maxVal-1 < minVal){
-            $(maxBtn).val(1+ minVal);
-        }
-        var maxVal = parseInt($(maxBtn).val());
-        $(range_max).html(maxVal);
-
-        /*if(origin === 'min'){
-            $("#" + parent + " .min").css("z-index", "1");
-            $("#" + parent + " .min").css("background-color", "transparent");
-        }
-        if(origin === 'max'){
-            $("#" + parent + " .min").css("z-index", "");
-            //$("#" + parent + " .max").css("background-color", "transparent");
-        }*/
-
-
-        var startval = (minVal - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
-        var endval = (maxVal - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
-        /*$(this).css('background-image',
-        '-webkit-gradient(linear, left top, right top, '
-        + 'color-stop(' + startval + ', #c5c5c5),'
-        + 'color-stop(' + startval + ', #ee7d13),'
-        + 'color-stop(' + endval + ', #ee7d13),'
-        + 'color-stop(' + endval + ', #c5c5c5)'
-        + ')'
-        );*/
-    }
  
     /************************* Actor Field *************************************/
     $("#actors").on('change keyup paste', function(){
@@ -145,61 +110,20 @@ $(document).ready(function() {
 
         if (value<10) {
             $(range_star).html(value);
-            var val = (value - $('#star input[type="range"]').attr('min')) / ($('#star input[type="range"]').attr('max') - $('#star input[type="range"]').attr('min'));
-            
-            $('#star input[type="range"]').val(""+value);
-            $('#star .min').css('background-image',
-            '-webkit-gradient(linear, left top, right top, '
-            + 'color-stop(' + val + ', #C5C5C5), '
-            + 'color-stop(' + val + ', #ee7d13)'
-            + ')');
+            rating.noUiSlider.set([value, null]);
+            return false;
         }
         if(value == 10){
             var defVal = 9; 
             $('#star' + defVal).prop('checked', true); 
 
             $(range_star).html(defVal);
-            var val = (defVal - $('#star input[type="range"]').attr('min')) / ($('#star input[type="range"]').attr('max') - $('#star input[type="range"]').attr('min'));
-
-            $('#star input[type="range"]').val(""+defVal);
-            $('#star .min').css('background-image',
-            '-webkit-gradient(linear, left top, right top, '
-            + 'color-stop(' + val + ', #C5C5C5), '
-            + 'color-stop(' + val + ', #ee7d13)'
-            + ')');
+            rating.noUiSlider.set([defVal, null]);
+            return false;
         }
+        
     });
     
-    function rangeInputChangeEventHandler(e){
-        var value = $(this).val();
-        range_star = $(this).parent().children('.range_star');
-
-        if (value >= 0 && value<10) {
-            for (i = value; i <=10; i++) { 
-                if(i>=value)
-                {
-                    $('#star' + value).prop('checked', true); 
-                }
-            }
-        }
-        else
-        {
-            for (i = 0; i <=10; i++) 
-            { 
-                $('#star' + i).prop('checked', false); 
-            }
-        }
-        $(range_star).html(value);
-        var val = ($(this).val() - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
-
-        $(this).css('background-image',
-        '-webkit-gradient(linear, left top, right top, '
-        + 'color-stop(' + val + ', #C5C5C5), '
-        + 'color-stop(' + val + ', #ee7d13)'
-        + ')'
-        );
-    }
-
 
     /**
      * If Actor search enabled
@@ -295,25 +219,20 @@ $(document).ready(function() {
      * @returns {undefined}
      */
     function enableRealeaseYear(){
-        $(".search-tab #released").children().prop('disabled',false);
-        $(".search-tab #released").css('background-color' , '');
+        released.removeAttribute('disabled');
     }
     function disableRealeaseYear(){
-        $(".search-tab #released").children().prop('disabled',true);
-        $(".search-tab #released").css('background-color' , '#DEDEDE');
+        released.setAttribute('disabled', true);
     }
-
     /*
      * eanable and disable release lenght 
      * @returns {undefined}
      */    
     function enableLenght(){
-        $(".search-tab #lenght").children().prop('disabled',false);
-        $(".search-tab #lenght").css('background-color' , '');
+        lenght.removeAttribute('disabled');
     }
     function disableLenght(){
-        $(".search-tab #lenght").children().prop('disabled',true);
-        $(".search-tab #lenght").css('background-color' , '#DEDEDE');
+        lenght.setAttribute('disabled', true);
     }
     
     /*
@@ -321,30 +240,78 @@ $(document).ready(function() {
      * @returns {undefined}
      */   
     function enableRanking(){
-        $(".search-tab #star").children().prop('disabled',false);
+        rating.removeAttribute('disabled');
         $(".rating").children().prop('disabled',false);
-        $(".search-tab #star").css('background-color' , '');
         $(".rating").css('background-color' , '');
     }    
     function disableRanking(){
-        $(".search-tab #star").children().prop('disabled',true);
+        rating.setAttribute('disabled', true);
         $(".rating").children().prop('disabled',true);
-        $(".search-tab #star").css('background-color' , '#DEDEDE');
         $(".rating").css('background-color' , '#DEDEDE');
     }
     
     function createSiders(){
         alert("create sliders");
-        var slider = document.getElementById('lenght');
+        //lenght slider range
+        lenght = document.getElementById('lenght');
 
-        noUiSlider.create(slider, {
+        noUiSlider.create(lenght, {
                 start: [60, 240],
+                step: 15,
                 connect: true,
                 range: {
-                        'min': 0,
-                        'max': 100
+                        'min': 60,
+                        'max': 240
                 }
         });
+        
+        //lenght slider range
+        released = document.getElementById('released');
 
+        noUiSlider.create(released, {
+                start: [1970, 2017],
+                step: 1,
+                connect: true,
+                range: {
+                        'min': 1970,
+                        'max': 2017
+                }
+        });        
+
+        //lenght slider range
+        rating = document.getElementById('star');
+
+        noUiSlider.create(rating, {
+                start: 0,
+                step: 1,
+                connect: [false, true],
+               
+                range: {
+                        'min': 0,
+                        'max': 9
+                }
+        });  
     }
+     
+    lenght.noUiSlider.on('update', function( values, handle ){
+        lenghtText[handle].html(Math.round(values[handle]));
+    });
+    
+    released.noUiSlider.on('update', function( values, handle ){
+        releasedText[handle].html(Math.round(values[handle]));
+    });
+    
+    rating.noUiSlider.on('update', function( values, handle ){
+        $('#star .range_star').html(Math.round(values[handle]));
+        
+        for (var i = 0; i <Math.round(values[handle]); i++) {
+            $('#star' + Math.round(values[handle])).prop('checked', false); 
+        }
+        
+        for (var i = Math.round(values[handle]); i <=10; i++) { 
+            $('#star' + Math.round(values[handle])).prop('checked', true); 
+        }
+        
+    });
+
 }); 
