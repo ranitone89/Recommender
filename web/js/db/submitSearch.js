@@ -72,7 +72,6 @@ $(document).ready(function() {
         var cluster = $(this).parents().eq(2).attr('id').match(/\d+/)[0];
         resizeMethod(method, 865);
 
-        //$('#ck-buttons').css('display','none');
         hideEvalButtons();
         movieObject.showMovie(method,cluster,num); 
         movie = $(this).closest('.Movie');
@@ -97,7 +96,6 @@ $(document).ready(function() {
     /*BAck from movie Detail*/
     $(document).on("click", ".search-back-nav ", function(event){
         $('.survey').css('display', 'block');
-        //$('#ck-buttons').css('display','block');
         showEvalButtons();
         $('.btnStatistics').css('display','block');
         $('.Method1').css("width","643");
@@ -468,16 +466,12 @@ $(document).ready(function() {
             $('.search-tab').appendTo('.search .tab');
             $('.search-tab-cluster').appendTo('.search .search-tab');
             
-            /*$('#Result .cb_text').css("display","block");
-            $('.Cluster1 #Result .cb_text').css("display","block");
-            $('.Method1 .Cluster1 #Result .cb_text').css("display","block");*/
             showTestMode();
             hideEvalMode();
             $('#testSearch').css("display","block");
             $('#evalSearch').css("display","none");
             $('#id01').css('display','none');
-            /*$('#Result .btnStatistics').css("display","block");
-            $('#Result .cb_text').css("display","none");*/
+            $('.search').css("display","block");
        }
        else{
            //if scenarios empty
@@ -489,6 +483,8 @@ $(document).ready(function() {
                 hideTestMode();
                 $('#testSearch').css("display","none");
                 $('#evalSearch').css("display","block");
+                $('.search').css("display","none");
+                
                 $('#Result .cb_text').css("display","block");
                 
                 scenarios = scenarioObject.getUserChoise();

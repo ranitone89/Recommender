@@ -616,7 +616,7 @@ html, body {
     overflow: hidden;
     border-top: none;
     margin: 0 auto;
-    margin-top: -3.6%;
+    margin-top: -50px;
     width: 1348px;
     background-color: transparent;
 }
@@ -741,7 +741,13 @@ html, body {
  * ---------------------------------------------
  */
 
-input[type="range"]{
+/*input[type="range"]::-moz-range-track{
+    -webkit-appearance: none;
+    height: 6px;
+    width: 230px;
+}*/
+
+input[type="range"],input[type="range"]::-moz-range-track {
     -webkit-appearance: none;
     height: 6px;
     width: 230px;

@@ -347,8 +347,9 @@
             for(var c=0; c<num[m]; c++){
                 var cl = ''+(c+1);
                 if(cluster===cl){
-                    $('.Method'+method+' #Cluster'+cluster).css('width', 'auto');
-                    $('.Method'+method+' #Cluster'+cluster).css('height', 'auto');                    
+                    $('.Method'+method+' #Cluster'+cluster).css('width', '100%');
+                    $('.Method'+method+' #Cluster'+cluster).css('height', '100%');
+                    $('.Method'+method+' #Cluster'+cluster).css('display', 'block');
                 }
                 if(cluster!==cl){
                     $('.Method'+method+' #Cluster'+cl).hide();

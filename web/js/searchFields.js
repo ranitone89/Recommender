@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+/* global noUiSlider */
+
 $(document).ready(function() {
-    
+    createSiders();
     /*Lenght Range Ranking slider*/
     $('#star1').prop('checked', true); 
     $('#star input[type="range"]').on( 'input', rangeInputChangeEventHandler);
-    $('input[type="range"]').on( 'input', rangeInputChangeEventHandlerAll);
+    $('#lenght input[type="range"]').on( 'input', rangeInputChangeEventHandlerAll);
+    $('#released input[type="range"]').on( 'input', rangeInputChangeEventHandlerAll);
     
     function rangeInputChangeEventHandlerAll(e){
         var rangeGroup = $(this).attr('name'),
@@ -34,27 +37,29 @@ $(document).ready(function() {
         var maxVal = parseInt($(maxBtn).val());
         $(range_max).html(maxVal);
 
-        if(origin === 'min'){
+        /*if(origin === 'min'){
             $("#" + parent + " .min").css("z-index", "1");
+            $("#" + parent + " .min").css("background-color", "transparent");
         }
         if(origin === 'max'){
             $("#" + parent + " .min").css("z-index", "");
-        }
+            //$("#" + parent + " .max").css("background-color", "transparent");
+        }*/
 
 
         var startval = (minVal - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
         var endval = (maxVal - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
-        $(this).css('background-image',
+        /*$(this).css('background-image',
         '-webkit-gradient(linear, left top, right top, '
         + 'color-stop(' + startval + ', #c5c5c5),'
         + 'color-stop(' + startval + ', #ee7d13),'
         + 'color-stop(' + endval + ', #ee7d13),'
         + 'color-stop(' + endval + ', #c5c5c5)'
         + ')'
-        );
+        );*/
     }
  
-    /*Actor Field*/
+    /************************* Actor Field *************************************/
     $("#actors").on('change keyup paste', function(){
         var OriginalHeight = $(".dropdown").height();
         if (!$.trim($(this).val())) {
@@ -85,7 +90,7 @@ $(document).ready(function() {
         $("#favoriteActors").attr('rows', '1');
     });
     
-    /*Genre Boxes*/
+    /******************************* Genre Boxes *************************************/
     $(document).on("click", ".dropdown dt a", function(event){
         $(".dropdown dd ul").slideToggle('fast');
     });
@@ -132,23 +137,6 @@ $(document).ready(function() {
           $('#actors').css('height',genreHeight);
     });
     
-    /*$("#actors").on('change keyup paste', function(){
-        var OriginalHeight = $(".dropdown").height();
-
-        if (!$.trim($(this).val())) {
-            actorHeight = $(this).height();
-            $(this).css('height','');
-            $('.dropdown dt a').css('min-height','');
-            $(this).css('padding','13 19 12 10');
-        }
-        else{
-            $(this).css('height','auto');
-            $(this).height(this.scrollHeight-15);
-            $('.dropdown dt a').css('min-height',this.scrollHeight-15);
-            actorHeight = $(this).height();
-        }
-        $("#actors").attr('rows', '1');
-    });*/
  
     /************************Ranking*******************************/
     $(document).on("click", ".rating input", function(event){
@@ -227,7 +215,7 @@ $(document).ready(function() {
     });
     
 
-$(document).on("click",".searchParameter input[name=genre]", function(){       
+    $(document).on("click",".searchParameter input[name=genre]", function(){       
         var checked = $(this).is(":checked");
         if(checked==true){
             enableGenre();
@@ -343,5 +331,20 @@ $(document).on("click",".searchParameter input[name=genre]", function(){
         $(".rating").children().prop('disabled',true);
         $(".search-tab #star").css('background-color' , '#DEDEDE');
         $(".rating").css('background-color' , '#DEDEDE');
-    }    
+    }
+    
+    function createSiders(){
+        alert("create sliders");
+        var slider = document.getElementById('lenght');
+
+        noUiSlider.create(slider, {
+                start: [20, 80],
+                connect: true,
+                range: {
+                        'min': 0,
+                        'max': 100
+                }
+        });
+
+    }
 }); 

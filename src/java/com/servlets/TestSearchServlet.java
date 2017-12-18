@@ -57,6 +57,9 @@ public class TestSearchServlet extends HttpServlet {
             String minStar = request.getParameter("minStar");
             String method1[] = request.getParameterValues("method1[]"); 
             String method2[] = request.getParameterValues("method2[]");
+            String json1 = "";
+            String json2 = "";
+            String bothJson = "";
             
             System.out.println("######################## Method1 ###################");
             for(int i=0; i<method1.length; i++){
@@ -71,10 +74,7 @@ public class TestSearchServlet extends HttpServlet {
 
             ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres,parameter);
             ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<>();
-            String json1 = "";
-            String json2 = "";
-            String bothJson = "";
-            System.out.println("com.servlets.TestSearchServlet.doGet(): "+movies.size());
+
             
             if(movies.size()>0){
                 Score.calcScores(movies, genres, actors,parameter);
