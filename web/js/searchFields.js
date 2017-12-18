@@ -338,7 +338,7 @@ $(document).ready(function() {
         var slider = document.getElementById('lenght');
 
         noUiSlider.create(slider, {
-                start: [20, 80],
+                start: [60, 240],
                 connect: true,
                 range: {
                         'min': 0,
