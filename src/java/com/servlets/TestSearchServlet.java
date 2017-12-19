@@ -20,15 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.recommender.Movie;
 import com.recommender.Recommendation;
 import com.recommender.Score;
-import com.recommender.Search;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 /**
  *
  * @author Nemanja Ranitovic
@@ -61,7 +57,7 @@ public class TestSearchServlet extends HttpServlet {
             String json2 = "";
             String bothJson = "";
             
-            System.out.println("######################## Method1 ###################");
+            /*System.out.println("######################## Method1 ###################");
             for(int i=0; i<method1.length; i++){
                 System.out.println(method1[i]);
             }
@@ -69,7 +65,7 @@ public class TestSearchServlet extends HttpServlet {
             System.out.println("######################## Method2 ###################");
             for(int i=0; i<method2.length; i++){
                 System.out.println(method2[i]);
-            }            
+            }*/           
             DataDB dataDao = new DataDB();
 
             ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres,parameter);
@@ -109,7 +105,6 @@ public class TestSearchServlet extends HttpServlet {
                 bothJson = new Gson().toJson("");                
             }
 
-            System.out.println(bothJson);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(bothJson);
@@ -137,7 +132,7 @@ public class TestSearchServlet extends HttpServlet {
             }
         if(methParam.get(0).compareTo(0)<=0){
             System.out.println("Borda");
-            method = Kmeans.kMeansClusteringBorda(points, methParam.get(1), 
+            method = Kmeans.kMeansClusteringBordaNew(points, methParam.get(1), 
                         methParam.get(3));
             }
         return method;

@@ -12,7 +12,6 @@ public class DBConnection {
                     return connection;
                 }
 		else {
-                        System.out.println("JMDB ");
 			Class.forName("org.postgresql.Driver");
 
 			// set the url, username and password for the databse

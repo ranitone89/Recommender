@@ -27,7 +27,7 @@ public class Score {
         for(String par: parameter){
             for(Movie m: movies){
                 if(par.equals("actor")){
-                    calcActorScore(actors, m);
+                    calcActorScore(removeString(actors), m);
                 }
                 if(par.equals("genre")){
                     calcGenreScore(genres, m);
@@ -76,6 +76,7 @@ public class Score {
      */
     private static void calcActorScore(String[] actors, Movie movie) 
     {
+        
         int movieActors = movie.getActors().length;
         int searchActors = actors.length;
         int commonActors = 0;
@@ -87,9 +88,23 @@ public class Score {
                 }
             }
         }
-        float actorScore = ((float)commonActors) /((float)movieActors+searchActors-commonActors);    
+        float actorScore = ((float)commonActors) /((float)movieActors+searchActors-commonActors); 
+        /*System.out.println("Movie actors: "+movieActors);
+        System.out.println("Search actors: "+searchActors);
+        System.out.println("Common: "+commonActors); 
+        System.out.println("Score: "+actorScore);*/
         movie.setActorScore(actorScore);
     }
 
-
+    
+    public static String[] removeString(String[] actors){
+        for(int i =0; i<actors.length; i++){
+            actors[i] = actors[i].replace("%", "");
+        }
+        
+        for(String actor: actors){
+            System.out.println(actor);
+        }
+        return actors;
+    }
 }

@@ -64,17 +64,17 @@ $(document).ready(function() {
         }
 
         if(paramList.indexOf('year')>=0){
-            maxReleased = $('#id01 .search-tab #released .range_max').text();
-            minReleased = $('#id01 .search-tab #released .range_min').text();
+            maxReleased = $('#id01 .search-tab #released_slider .range_max').text();
+            minReleased = $('#id01 .search-tab #released_slider .range_min').text();
         }
         
         if(paramList.indexOf('lenght')>=0){
-            maxLenght = $('#id01 .search-tab #lenght .range_max').text();
-            minLenght = $('#id01 .search-tab #lenght .range_min').text();
+            maxLenght = $('#id01 .search-tab #lenght_slider .range_max').text();
+            minLenght = $('#id01 .search-tab #lenght_slider .range_min').text();
         }
 
         if(paramList.indexOf('rating')>=0){
-            minStar = $('#id01 .search-tab #star .range_star').text();
+            minStar = $('#id01 .search-tab #star_slider .range_star').text();
         }
         if(description == ""){
              $('#messageEval').css("display","block");
@@ -82,9 +82,9 @@ $(document).ready(function() {
              return;
         }
         
-        if(parameter < 3){
+        if(parameter < 2){
              $('#messageEval').css("display","block");
-             $('#messageEval').html("<font color='red'>Wählen Sie bitte mind. drei Suchparameter aus</font>")
+             $('#messageEval').html("<font color='red'>Wählen Sie bitte mind. zwei Suchparameter aus</font>")
              return;
          }
          
@@ -588,7 +588,7 @@ $(document).ready(function() {
 
 
      /* Same number of clusters for all methods
-     * 
+     *  Eval mode
      */
     $(document).on('click','.searchMethodParameterSlider .evalCluster', function(){
         var value = $(this).val();
@@ -600,6 +600,15 @@ $(document).ready(function() {
         
     });
     
+    
+     /* Same number of clusters for all methods
+     *  Test mode
+     */
+    $(document).on('click','.testMode .evalCluster', function(){
+        var value = $(this).val();
+        $('.method-1 .evalCluster').val(value);
+        $('.method-2 .evalCluster').val(value);
+    });
     
     /* Set Parameter of new scenatio depending of user choise
      * 

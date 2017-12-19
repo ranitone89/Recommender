@@ -1,6 +1,7 @@
 package com.clustering.kmeans;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -242,7 +243,8 @@ public class Kmeans {
 		// System.out.println("Start kmeans with borda k="+k+" and "+points.size()+" points");
 		boolean firstRound = true;
 		ArrayList<ArrayList<Cluster>> clustersOld = new ArrayList<ArrayList<Cluster>>();
-		int[] currentClustering = new int[points.size()];
+		HashMap<Integer, Integer> currentClustering = new HashMap<>(); 
+		//int[] currentClustering = new int[points.size()];
 		long start1 = System.nanoTime();
 		// initialize the k clusters with clustering-centroids
 		ArrayList<Cluster> clusters;
@@ -279,12 +281,12 @@ public class Kmeans {
 				if (!firstRound) {
 					//long f1 = System.nanoTime();
 					
-					lastClustering = currentClustering[p.getId()];
+					lastClustering = currentClustering.get(p.getId());
 					int newPos = new BordaNew(clusters, p, lastClustering).getBestObject1();
 					//long f2= System.nanoTime();
 					//System.out.println("create Borda object: "+(f2-f1));
 					clusters.get(newPos).getClusterPoints().add(p);
-					currentClustering[p.getId()] = newPos;
+					currentClustering.put(p.getId(), newPos);
 					//long f3=System.nanoTime();
 					//System.out.println("best Borda object: "+(f3-f2));
 
@@ -298,7 +300,7 @@ public class Kmeans {
 					//long f3=System.nanoTime();
 					//System.out.println("best Borda object: "+(f3-f2));
 					
-					currentClustering[p.getId()] = newPos;
+					currentClustering.put(p.getId(), newPos);
 				}
 
 				//long s2 = System.nanoTime(); 

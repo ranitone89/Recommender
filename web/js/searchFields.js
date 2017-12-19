@@ -8,13 +8,13 @@
 $(document).ready(function() {
     var released;
     var releasedText = [
-	$('#released .range_min'), // 0
-	$('#released .range_max')  // 1
+	$('#released_slider .range_min'), // 0
+	$('#released_slider .range_max')  // 1
     ];    
     var lenght;
     var lenghtText = [
-	$('#lenght .range_min'), // 0
-	$('#lenght .range_max')  // 1
+	$('#lenght_slider .range_min'), // 0
+	$('#lenght_slider .range_max')  // 1
     ];
     
     var rating;   
@@ -111,7 +111,6 @@ $(document).ready(function() {
         if (value<10) {
             $(range_star).html(value);
             rating.noUiSlider.set([value, null]);
-            return false;
         }
         if(value == 10){
             var defVal = 9; 
@@ -119,7 +118,12 @@ $(document).ready(function() {
 
             $(range_star).html(defVal);
             rating.noUiSlider.set([defVal, null]);
-            return false;
+        }
+        
+        /******************* On star click ***************/
+        for (var i = 0; i <value; i++) {
+            alert(i);
+            $('#star' + i).prop('checked', false); 
         }
         
     });
@@ -250,8 +254,11 @@ $(document).ready(function() {
         $(".rating").css('background-color' , '#DEDEDE');
     }
     
+    /**
+     * Create range slider for movie lenght, released year and rating
+     * @returns {undefined}
+     */
     function createSiders(){
-        alert("create sliders");
         //lenght slider range
         lenght = document.getElementById('lenght');
 
@@ -302,7 +309,7 @@ $(document).ready(function() {
     });
     
     rating.noUiSlider.on('update', function( values, handle ){
-        $('#star .range_star').html(Math.round(values[handle]));
+        $('#star_slider .range_star').html(Math.round(values[handle]));
         
         for (var i = 0; i <Math.round(values[handle]); i++) {
             $('#star' + Math.round(values[handle])).prop('checked', false); 

@@ -470,15 +470,15 @@ input[type=text], input[type=password] {
 }
 
 /* Add padding to container elements */
-.formular-container-actor {
+.formular-container-actor, .formular-container-email {
     display: none;
 }
 
-.formular-container, .formular-container-genre, .formular-container-actor{
+.formular-container, .formular-container-genre, .formular-container-actor, .formular-container-email{
     padding: 16px;
     padding: 16px;
     width: 670px;
-    /*min-height: 500px;*/
+    min-height: 400px;
 }
 
 .formular-container h2, .formular-container-genre h2, .formular-container-actor h2{
@@ -555,7 +555,7 @@ input[type=text], input[type=password] {
     display: table;
 }
 
-textarea#favoriteActors{
+textarea#favoriteActors, #email{
     width: 40%;
     color: #666;
     resize: none;

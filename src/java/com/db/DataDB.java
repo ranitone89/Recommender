@@ -35,19 +35,26 @@ public class DataDB {
 	public ArrayList<String> doAutocomplete(String term) throws Exception {
                 ArrayList<String> list = new ArrayList<String>();
 		PreparedStatement ps = null;
-
+                ResultSet rs = null;
+                System.out.println("Auto complete");
 		try {
                     String sql = "SELECT name FROM top_actors WHERE name LIKE ?";
                     ps = connection.prepareStatement(sql);
                     ps.setString(1, term + "%");
-                    ResultSet rs = ps.executeQuery();
+                    rs = ps.executeQuery();
                     while (rs.next()) {
                             list.add(rs.getString("name"));
                     }
-		} catch (Exception e) {
+		} 
+                catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-
+                finally {
+                    if (ps != null) ps.close();
+                    if (rs != null) rs.close();
+                    //if (connection != null) connection.close();
+                }
+                
 		return list;
 	}
         
@@ -60,6 +67,7 @@ public class DataDB {
         public String doLogin(String ipAdresse) throws Exception{
             String message = null;
             PreparedStatement ps = null;
+            ResultSet rs = null;
             try {
                 String sql = "SELECT usersid FROM evaluation_users WHERE ip = ?";
                 ps = connection.prepareStatement(sql);
@@ -68,7 +76,7 @@ public class DataDB {
                 ps.setString(1, ipAdresse);
                 
                 //executing the prepared statement, which returns a ResultSet
-                ResultSet rs = ps.executeQuery();
+                rs = ps.executeQuery();
                 if(rs.next()){
                     message = "USER EXIST";
                 }else{
@@ -77,6 +85,11 @@ public class DataDB {
             } catch (Exception e) {
                 message = "FAILURE";
                 e.printStackTrace();
+            }
+            finally {
+                if (ps != null) ps.close();
+                if (rs != null) rs.close();
+                //if (connection != null) connection.close();
             }
             return message;
         }
@@ -107,6 +120,10 @@ public class DataDB {
                 message = "FAILURE";
                 e.printStackTrace();
             }
+            finally {
+                if (ps != null) ps.close();
+                //if (connection != null) connection.close();
+            }            
             return message;
     }
     
@@ -118,12 +135,13 @@ public class DataDB {
     public ArrayList<Scenario> loadScenarios() throws Exception{
         ArrayList<Scenario> scenarios = new ArrayList<Scenario>();
         PreparedStatement ps = null;
+        ResultSet rs  = null;
         try {
             String sql = "SELECT * FROM scenarios";
             ps = connection.prepareStatement(sql);
 
             //executing the prepared statement, which returns a ResultSet
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             while(rs.next())
             {   
                 Array actorsArray = rs.getArray(3);
@@ -145,6 +163,11 @@ public class DataDB {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        finally {
+            if (ps != null) ps.close();
+            if (rs != null) rs.close();
+            //if (connection != null) connection.close();
+        }  
         return scenarios;
     }     
     
@@ -275,27 +298,29 @@ public class DataDB {
     /**
      * Register new user
      * @param ip
+     * @param email
      * @param genres
      * @param actors
      * @return
      * @throws Exception 
      */
-  public String doRegistration(String ip,String[] genres, String[] actors) throws Exception {
+    public String doRegistration(String ip,String email,String[] genres, String[] actors) throws Exception {
         String message = null;
         PreparedStatement ps = null;
         boolean action = false;
         try {
             String sql = "INSERT INTO evaluation_users"
-		+ "(ip, genres, actors) VALUES"
-		+ "(?,?,?)";
+		+ "(ip, email, genres, actors) VALUES"
+		+ "(?,?,?,?)";
             
             
             ps = connection.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
             
             //setting the parameters
             ps.setString(1, ip);
-            ps.setArray(2, connection.createArrayOf("text", genres));
-            ps.setArray(3, connection.createArrayOf("text", actors));
+            ps.setString(2, email);
+            ps.setArray(3, connection.createArrayOf("text", genres));
+            ps.setArray(4, connection.createArrayOf("text", actors));
             int count = ps.executeUpdate();
             action = (count > 0);
             
@@ -303,13 +328,10 @@ public class DataDB {
             
             // was executeUpdate succes
             if(action==false){
-                System.out.println("FAILURE INSERT");
                 message = "";
             }
             else{ 
                 if (keyResultSet.next()) {
-                    System.out.println(keyResultSet.getInt(3));
-                    System.out.println("SUCCESS");
                     message = Integer.toString(keyResultSet.getInt(3));
                 }
             }
@@ -349,6 +371,7 @@ public class DataDB {
                 search = entry.getValue();
             }        
 
+            
             ps = connection.prepareStatement(query);
             
             //setting the parameters
@@ -410,60 +433,68 @@ public class DataDB {
         HashMap<String, List<String>> params = new HashMap<>();
         List<String> search = new ArrayList<>();       
 
-        String query = "SELECT m.movieid,array_to_string(array_agg(distinct md.title),',') AS title, "
+        String query = "SELECT md.movieid,array_to_string(array_agg(distinct md.title),',') AS title, "
             + "array_to_string(array_agg(distinct md.genre),',') AS genres, "
-            + "array_to_string(array_agg(distinct a.name),',') AS actors, "
+            + "array_to_string(array_agg(distinct md.name),',') AS actors, "
             + "MAX(movie_runtime(run.time)), "
             + "MAX(movie_year(m.year)), "
             + "MAX(rank.rank::float) "
             + "FROM moviedata md "
             + "INNER JOIN runningtimes run ON md.movieid = run.movieid "
             + "INNER JOIN ratings rank ON run.movieid = rank.movieid "
-            + "INNER JOIN genres genre ON rank.movieid = genre.movieid "
+            + "INNER JOIN genres genre ON md.movieid = genre.movieid "
             + "INNER JOIN movies m ON genre.movieid = m.movieid "
-            + "INNER JOIN language l ON m.movieid = l.movieid "
-            + "LEFT JOIN actors a ON md.actorid = a.actorid "
-            + "WHERE ";
+            + "WHERE md.movieid IN ("
+            + "SELECT DISTINCT m1.movieid "
+                + "FROM moviedata md1 "
+                + "INNER JOIN runningtimes run1 ON md1.movieid = run1.movieid "
+                + "INNER JOIN ratings rank1 ON run1.movieid = rank1.movieid "
+                + "INNER JOIN genres genre1 ON md1.movieid = genre1.movieid "
+                + "INNER JOIN movies m1 ON genre1.movieid = m1.movieid "
+                + "INNER JOIN language l1 ON m1.movieid = l1.movieid "
+                + "INNER JOIN actors a1 ON md1.actorid = a1.actorid "
+                + "WHERE ";
         
         if(Arrays.asList(parameter).contains("lenght")){
-            query += "movie_runtime(run.time) BETWEEN (?) AND (?) AND ";
+            query += "movie_runtime(run1.time) BETWEEN (?) AND (?) AND ";
             search.add("min lenght");
             search.add("max lenght");
         }
 
         if(Arrays.asList(parameter).contains("year")){
-            query += "movie_year(m.year) BETWEEN (?) AND (?) AND ";
+            query += "movie_year(m1.year) BETWEEN (?) AND (?) AND ";
             search.add("min released");
             search.add("max released");
         }
 
         if(Arrays.asList(parameter).contains("rating")){
-            query += "rank.rank::float BETWEEN (?) AND 10.0 AND ";
+            query += "rank1.rank::float BETWEEN (?) AND 10.0 AND ";
             search.add("rating");
         }
         
         if(Arrays.asList(parameter).contains("actor") && Arrays.asList(parameter).contains("genre")){
-            query += "( a.name LIKE ANY(?) OR genre.genre = ANY(?)) AND ";
+            query += "( a1.name LIKE ANY(?) OR genre1.genre = ANY(?)) AND ";
             search.add("actor");
             search.add("genre"); 
         }
         
         if(Arrays.asList(parameter).contains("actor") && Arrays.asList(parameter).contains("genre")== false){
-            query += "( a.name LIKE ANY(?)) AND ";
+            //query += "( a1.name LIKE ANY(?)) AND ";
+            query += "( a1.name LIKE ANY(?) OR genre1.genre = ANY(SELECT genre FROM genres group by genre)) AND ";
             search.add("actor");
         }
         
         if(Arrays.asList(parameter).contains("genre") && Arrays.asList(parameter).contains("actor") == false){
-            query += "( genre.genre = ANY(?)) AND ";
+            query += "( genre1.genre = ANY(?)) AND ";
             search.add("genre"); 
         }
         
 
-        query += "md.title NOT LIKE '%(TV)%' AND md.title NOT LIKE '%(#%)%' AND md.title NOT LIKE '%(V)%' "
-                + "AND genre.genre NOT LIKE '%Documentary' "
-                + "AND l.language IN('English','French','German') "
-                + "AND rank.votes > 140000 "
-                + "GROUP BY m.movieid "
+        query += "md1.title NOT LIKE '%(TV)%' AND md1.title NOT LIKE '%(#%)%' AND md1.title NOT LIKE '%(V)%' "
+                + "AND genre1.genre NOT LIKE '%Documentary' "
+                + "AND l1.language IN('English','French','German') "
+                + "AND rank1.votes > 140000 )"
+                + "GROUP BY md.movieid "
                 + "order by MAX(rank.rank::float) DESC "
                 + "LIMIT 150"; //200 300
         params.put(query, search);
@@ -504,12 +535,10 @@ public class DataDB {
         catch (Exception e) {
             e.printStackTrace();
         }
-
         finally
         {
           ps.close();
         }
-        
     }
     
     /**
@@ -590,9 +619,6 @@ public class DataDB {
 		+ "(userid, scenarioid, method1, method2, ranking, clusters1,clusters2) VALUES"
 		+ "(?,?,?,?,?,?,?)";
             
-            System.out.println("############################");
-            System.out.println(alg1);
-            System.out.println(alg2);
             
             ps = connection.prepareStatement(query);
             //setting the parameters
@@ -623,7 +649,7 @@ public class DataDB {
         
             finally
             {
-              ps.close();
+               try { ps.close(); } catch (Exception e){ /* ignored */ }
             }
             return message;
     }    

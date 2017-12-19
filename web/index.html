@@ -16,10 +16,8 @@ and open the template in the editor.
         <script src="js/libs/jssor.slider-25.1.0.min.js" type="text/javascript"></script>
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+        <script src="js/sliderIndexMovies.js" type="text/javascript"></script>
         <script src="js/db/userData.js"></script>
-
-
-        <script src="js/db/submit.js" type="text/javascript"></script>
         <script src="js/db/autocomplete.js" type="text/javascript"></script>
         <link rel="stylesheet" href="css/index.css">
     </head>
@@ -255,11 +253,24 @@ and open the template in the editor.
                             <textarea rows="1" contentEditable="true" placeholder="Enter the actor's name..." class="input" id="favoriteActors"></textarea>
                        </div>
                     <div class="clearfix">
-                        <button type="button" class="sendbtn" id="registerUser">Ok</button>
+                        <button type="button" class="sendbtn" id="submit2">Ok</button>
                     </div>
                    
                     <div id="messageQuastionaireActor" style="display:none;"></div>  
-                </div>    
+                </div>
+                  
+                  <div class="formular-container-email">
+                      
+                    <p>Unter allen Teilnehmern verlose ich einen 50 € Amazon-Gutschein. <br><br>Geben Sie bitte hierfür Ihre E-Mail-Adresse ein. 
+                       <div class="item">
+                            <textarea rows="1" contentEditable="true" placeholder="Ihre E-Mail Adresse..." class="input" id="email"></textarea>
+                       </div>
+                    <div class="clearfix">
+                        <button type="button" class="sendbtn" id="registerUser">Ok</button>
+                    </div>
+                   
+                    <div id="messageQuastionaireEmail" style="display:none;"></div>   
+                  </div>  
             </div>
             </div>
 

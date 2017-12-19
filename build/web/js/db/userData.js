@@ -49,7 +49,9 @@ $(document).ready(function() {
         $('#id03').css("display","block");
     });
     
-    
+    /**
+     * After favorite genres are entered show actor field
+     */
     $("#submit1").on('click', function(){
         var checked = $(".genre input:checked").length > 3;
 
@@ -67,16 +69,34 @@ $(document).ready(function() {
             $('.formular-container-actor').css("display","block");
         }
     });
-    
-    /** Register user if unique
-     * 
+
+    /**
+     * After favorite genres are entered show actor field
      */
-    $("#registerUser").on('click', function(){
+    $("#submit2").on('click', function(){
         var actors = removeLastComma($('#favoriteActors').val());
         actorList = covertToArray(actors,'a');
         if(actorList.length==0){
              $('#messageQuastionaireActor').css("display","block");
              $('#messageQuastionaireActor').html("<font color='red'>Geben Sie bitte zumindest einen Namen </font>")
+             return;
+         }
+        
+        else{
+            $('.formular-container-actor').css("display","none");
+            $('.formular-container-email').css("display","block");
+        }
+        
+    });    
+    
+    /** Register user if unique
+     * 
+     */
+    $("#registerUser").on('click', function(){
+        var email = $('#email').val();
+        if(email.length==0){
+             $('#messageQuastionaireEmail').css("display","block");
+             $('#messageQuastionaireEmail').html("<font color='red'> Überprüfen Sie ihre E-Mail Adresse</font>");
              return;
          }
         
@@ -87,7 +107,8 @@ $(document).ready(function() {
                 data : {
                     ip       : ip,
                     genres   : genres,
-                    actors   : actorList
+                    actors   : actorList,
+                    email : email
                 },
                 success : function(results){
                     if(results != null && results != ""){
@@ -104,9 +125,10 @@ $(document).ready(function() {
     function showMessage(results){
         if(results != ""){
             window.location="start.html?userId="+results;
-        }else if(results == ""){
-            $('#messageDiv').html("<font color='red'>Username or password incorrect </font>");
-        }
+        }/*else if(results == ""){
+            //$('#messageDiv').html("<font color='red'>Username or password incorrect </font>");
+            alert("");
+        }*/
     }
     
     /**

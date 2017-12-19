@@ -34,7 +34,7 @@ public class AutocompleteServlet extends HttpServlet {
 
                         DataDB dataDao = new DataDB();
                         ArrayList<String> list = dataDao.doAutocomplete(term);
-
+                        
                         String searchList = new Gson().toJson(list);
                         response.getWriter().write(searchList);
                 } catch (Exception e) {

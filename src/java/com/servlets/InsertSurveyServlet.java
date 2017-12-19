@@ -5,32 +5,12 @@
  */
 package com.servlets;
 
-import com.clustering.kmeans.Kmeans;
-import com.clustering.objects.Cluster;
-import com.clustering.objects.FinalClustering;
-import com.clustering.objects.PointdDim;
 import com.db.DataDB;
-import com.google.gson.Gson;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.recommender.Movie;
-import com.recommender.Recommendation;
-import com.recommender.Scenario;
-import com.recommender.Score;
-import com.recommender.Search;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import javax.json.Json;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 /**
  *
  * @author Nemanja Ranitovic

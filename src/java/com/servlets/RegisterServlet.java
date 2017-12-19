@@ -36,11 +36,12 @@ public class RegisterServlet extends HttpServlet {
         
         try {
             String ip = request.getParameter("ip");
+            String email = request.getParameter("email");
             String genres[] = request.getParameterValues("genres[]");
             String actors[] = request.getParameterValues("actors[]");
             
             DataDB dataDao = new DataDB();
-            String message = dataDao.doRegistration(ip,genres, actors);
+            String message = dataDao.doRegistration(ip,email,genres, actors);
             response.getWriter().write(message);
 
         } 

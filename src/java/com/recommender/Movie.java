@@ -89,8 +89,8 @@ public class Movie {
     
       
     private String[] stringToArray(String str, String mode){
-        String[] temp = new String[20];
-
+        String[] temp = new String[200];
+        System.out.println("com.recommender.Movie.stringToArray(): "+str);
         if("Genre".equals(mode)){
             /* delimiter */
             String delimiter = ",";

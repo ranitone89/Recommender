@@ -35,7 +35,7 @@ $(document).ready(function() {
             // remove the current input
             terms.pop();
             // add the selected item
-            terms.push( ui.item.value );
+            terms.push( ui.item.value+", " );
             // join all terms with a comma
             this.value = terms.join( ", " );
             return false;

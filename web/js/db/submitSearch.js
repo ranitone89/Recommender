@@ -116,13 +116,38 @@ $(document).ready(function() {
    });
    
    
+   
+   /**
+    * Show method buttons for evaluation
+    * @returns {undefined}
+    */
    function showEvalButtons(){
        $('#ck-buttons').css('display','block');
    }
-
+   /**
+    * Hide buttons for eval
+    * @returns {undefined}
+    */
    function hideEvalButtons(){
        $('#ck-buttons').css('display','none');
    }
+   
+   /**
+    * Show info for evaluation
+    * @returns {undefined}
+    */
+   function showEvalInfoButton(){
+       $('.info').css('display','block');
+   }
+   /**
+    * Hide eval info
+    * @returns {undefined}
+    */
+   function hideEvalInfoButton(){
+       $('.info').css('display','none');
+   }   
+   
+   
     /*
      * 
      * @returns {undefined}
@@ -582,15 +607,11 @@ $(document).ready(function() {
         $('#Result .btnStatistics').css("display","none");        
     }     
     
-    
-    
-    
-    /*$(document).on("click", ".surveyclose ", function(event){
-        surveryInfor = true;
-        $('.submitBtn').trigger('click');
-    }); */  
-    
-    
+
+    /**
+     * Check the number of chosen scenarios; min 3
+     * @returns {Boolean}
+     */
     function chechScenarios(){
         var error = false;
         $('#messageEval').css("display","none");
@@ -646,7 +667,7 @@ $(document).ready(function() {
                     getSurveyVaues();
                     evalNum = 1;
                     resetSurvey();
-                    searchObject.resetSearchPram();
+                    //searchObject.resetSearchPram();
                     scenarioNum = scenarioNum+1;
                     unbindSearchButtons();
                     scenarioObject.displayScenario(scenarioNum);
@@ -666,7 +687,7 @@ $(document).ready(function() {
                     getSurveyVaues();
                     evalNum = 1;
                     resetSurvey();
-                    searchObject.resetSearchPram();
+                    //searchObject.resetSearchPram();
                     scenarioObject.hideScenarioMessages();
                     scenarioObject.removeScenarioMessage();
                     scenarioObject.closeScenarioMessages();
@@ -683,7 +704,7 @@ $(document).ready(function() {
             hideResult();
             movieObject.showMovies();
             hideGoodbye();
-            searchObject.resetSearchPram();
+            //searchObject.resetSearchPram();
             scenarioNum = 0;
             evalShowInfos = false;
             errorevalShowInfos = false;
@@ -706,7 +727,7 @@ $(document).ready(function() {
     * @returns {undefined}
     */
    function showResult(){
-        bindSearchButtons();
+        //bindSearchButtons();
         if(errorevalShowInfos==false){
             $('#Result').css("display","block");
             $('.survey').css("display","block");
@@ -904,8 +925,8 @@ $(document).ready(function() {
         var max = released[1];
 
        if(min>=1970 && max<=2017){
-           $('#released input.min').val(min);
-           $('#released input.max').val(max);
+           $('#released_slider input.min').val(min);
+           $('#released_slider input.max').val(max);
            $('#released .range_min').text(min);
            $('#released .range_max').text(max); 
            $('#released input.min').trigger('change');
@@ -1122,26 +1143,27 @@ $(document).ready(function() {
                                     },]
                                 },
                                 
-                                { type: "matrix", name: "merkmale_filme", title: "Wie wichtig ist es für Sie, dass Empfehlungen die Filme enthalten, die folgende Kriterien erfüllen?", isAllRowRequired: true,
-                                    columns: [{ value: 0, text: "unverzichtbar" },
+                                { type: "matrix", name: "merkmale_filme", title: "Wie wichtig ist es für Sie, dass Empfehlungen nur die Filme enthalten, die", isAllRowRequired: true,
+                                    columns: [
+                                        { value: 0, text: "unverzichtbar" },
                                         { value: 1, text: "wichtig" },
                                         { value: 2, text: "neutral" },
                                         { value: 3, text: "unwichtig" },
                                         { value: 4, text: "verzichtbar" }],
                                     rows: [{
                                         value: "bekannte",
-                                        text: "Der Nutzer kennt"
+                                        text: "der Nutzer schon kennt"
                                     }, {
                                         value: "unbekannte",
-                                        text: "Enthält nur Filme, die der Nutzer nicht kennt"
+                                        text: "der Nutzer nicht kennt"
                                     }, {
                                         value: "gemischt",
-                                        text: "Enthält für den Nutzer bekannte und unbekannte Filme"
+                                        text: "der Nutzer zum Teil kennt"
                                     },]
                                 },
                                                   
                                 {type: "text", name: "erfahrung_empfehlungen",isRequired: true,
-                                    title: "Wie Finden Sie Filmempfehlungen von anderen Streamdienstanbieter wie Amazon Prime oder Netflix?"}      
+                                    title: "Wie Finden Sie Filmempfehlungen von anderen Streamdienstanbieter wie Amazon Prime oder Netflix?"}
                             ],                           
                         }]
                 });
@@ -1363,11 +1385,11 @@ $(document).ready(function() {
         
         var actors = removeLastComma($('#actors').val());
         var genres = removeLastComma($('.multiSel').text());
-        var maxReleased = $('#released .range_max').text();
-        var minReleased = $('#released .range_min').text();
-        var maxLenght = $('#lenght .range_max').text();
-        var minLenght = $('#lenght .range_min').text();
-        var minStar = $('#star .range_star').text();
+        var maxReleased = $('#released_slider .range_max').text();
+        var minReleased = $('#released_slider .range_min').text();
+        var maxLenght = $('#lenght_slider .range_max').text();
+        var minLenght = $('#lenght_slider .range_min').text();
+        var minStar = $('#star_slider .range_star').text();
         
         var parameter = $('.searchParameter input[type="checkbox"]:checked').length;
         var paramList = scenarioObject.getSearchPreference();
@@ -1394,9 +1416,9 @@ $(document).ready(function() {
             }
         }
         
-        if(parameter < 3){
+        if(parameter < 2){
              $('#messageSearch').css("display","block");
-             $('#messageSearch').html("<font color='red'>Wählen Sie bitte mind. drei Suchparameter aus</font>");
+             $('#messageSearch').html("<font color='red'>Wählen Sie bitte mind. zwei Suchparameter aus</font>");
              return;
         }
          
@@ -1443,6 +1465,8 @@ $(document).ready(function() {
                             showStatistics();
                             hideEvalCheckboxes();
                             hideEvalButtons();
+                            hideEvalInfoButton();
+                            $('.button-container .open').trigger('click');
                         }
                     else
                         {
@@ -1526,10 +1550,11 @@ $(document).ready(function() {
                             var jsonObj = JSON.parse(jsonStr);
                             sortData(jsonObj);
                             // Hide statistics normaly but in test show
-                            //hideStatistics();
-                            showStatistics();
+                            hideStatistics();
+                            //showStatistics();
                             showEvalCheckboxes();
                             showEvalButtons();
+                            showEvalInfoButton();
                         }
                     else
                         {
