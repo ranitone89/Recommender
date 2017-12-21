@@ -5,31 +5,18 @@
  */
 package com.servlets;
 
-import com.clustering.kmeans.Kmeans;
-import com.clustering.objects.Cluster;
-import com.clustering.objects.FinalClustering;
-import com.clustering.objects.PointdDim;
 import com.db.DataDB;
 import com.google.gson.Gson;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.recommender.Movie;
-import com.recommender.Recommendation;
-import com.recommender.Score;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 /**
  *
  * @author Nemanja Ranitovic
  */
-public class CloseSearchServlet extends HttpServlet {
+public class CloseConnectionServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     /**
      *

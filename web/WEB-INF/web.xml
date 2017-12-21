@@ -68,7 +68,6 @@
         <servlet-name>EvalSearchServlet</servlet-name>
         <url-pattern>/EvalSearchServlet</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>GetScenarioServlet</servlet-name>
         <servlet-class>com.servlets.GetScenarioServlet</servlet-class>
@@ -76,8 +75,7 @@
     <servlet-mapping>
         <servlet-name>GetScenarioServlet</servlet-name>
         <url-pattern>/GetScenarioServlet</url-pattern>
-    </servlet-mapping>    
-
+    </servlet-mapping>
     <servlet>
         <servlet-name>InsertSurveyServlet</servlet-name>
         <servlet-class>com.servlets.InsertSurveyServlet</servlet-class>
@@ -85,15 +83,13 @@
     <servlet-mapping>
         <servlet-name>InsertSurveyServlet</servlet-name>
         <url-pattern>/InsertSurveyServlet</url-pattern>
-    </servlet-mapping>      
-    
+    </servlet-mapping>
     <servlet>
         <servlet-name>CloseSearchServlet</servlet-name>
-        <servlet-class>com.servlets.CloseSearchServlet</servlet-class>
+        <servlet-class>com.servlets.CloseConnectionServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CloseSearchServlet</servlet-name>
         <url-pattern>/CloseSearchServlet</url-pattern>
-    </servlet-mapping> 
-
+    </servlet-mapping>
 </web-app>

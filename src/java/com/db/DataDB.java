@@ -16,11 +16,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DataDB {
-	private final Connection connection;
+	/*private Connection connection = null;
 	public DataDB() throws Exception {
             connection = DBConnection.getDBConnection();  
            
-	}
+	}*/
 
         /**
          * Close connection
@@ -42,10 +42,11 @@ public class DataDB {
                 ArrayList<String> list = new ArrayList<>();
 		PreparedStatement ps = null;
                 ResultSet rs = null;
-                //Connection connection = DBConnection.getDBConnection();
+                Connection connection = null;
                 System.out.println("Auto complete");
 		try {
                     String sql = "SELECT name FROM top_actors WHERE name LIKE ?";
+                    connection = DBConnection.getDBConnection();
                     ps = connection.prepareStatement(sql);
                     ps.setString(1, term + "%");
                     rs = ps.executeQuery();
@@ -59,7 +60,7 @@ public class DataDB {
                 finally {
                     if (ps != null) ps.close();
                     if (rs != null) rs.close();
-                    //if (connection != null) connection.close();
+                    if (connection != null) DBConnection.closeDBConnection();
                 }
                 
 		return list;
@@ -74,10 +75,12 @@ public class DataDB {
         public String doLogin(String ipAdresse) throws Exception{
             String message = null;
             PreparedStatement ps = null;
-            //Connection connection = DBConnection.getDBConnection();
+            Connection connection = null;
             ResultSet rs = null;
             try {
                 String sql = "SELECT usersid FROM evaluation_users WHERE ip = ?";
+                
+                connection = DBConnection.getDBConnection();
                 ps = connection.prepareStatement(sql);
                 
                 //setting the parameters
@@ -97,7 +100,7 @@ public class DataDB {
             finally {
                 if (ps != null) ps.close();
                 if (rs != null) rs.close();
-                //if (connection != null) connection.close();
+                if (connection != null) DBConnection.closeDBConnection();
             }
             return message;
         }
@@ -107,10 +110,12 @@ public class DataDB {
             String message = null;
             PreparedStatement ps = null;
             ResultSet rs = null;
-            //Connection connection = DBConnection.getDBConnection();
+            Connection connection = null;
             String data;
+            
             try {
                 String sql = "SELECT name FROM users WHERE name = ?";
+                connection = DBConnection.getDBConnection();
                 ps = connection.prepareStatement(sql);
                 
                 //setting the parameters
@@ -133,7 +138,7 @@ public class DataDB {
             finally {
                 if (ps != null) ps.close();
                 if (rs != null) rs.close();
-                //if (connection != null) connection.close();
+                if (connection != null) DBConnection.closeDBConnection();
             }          
             return message;
     }
@@ -147,9 +152,10 @@ public class DataDB {
         ArrayList<Scenario> scenarios = new ArrayList<Scenario>();
         PreparedStatement ps = null;
         ResultSet rs  = null;
-        //Connection connection = DBConnection.getDBConnection();
+        Connection connection = null;
         try {
             String sql = "SELECT * FROM scenarios";
+            connection = DBConnection.getDBConnection();
             ps = connection.prepareStatement(sql);
 
             //executing the prepared statement, which returns a ResultSet
@@ -178,7 +184,7 @@ public class DataDB {
         finally {
             if (ps != null) ps.close();
             if (rs != null) rs.close();
-            //if (connection != null) connection.close();
+            if (connection != null) DBConnection.closeDBConnection();
         }  
         return scenarios;
     }     
@@ -201,7 +207,7 @@ public class DataDB {
             String[] released,String[] lenght,String[] parameter,String rating,String comparation) throws Exception{
         PreparedStatement ps = null;
         ResultSet rs = null;
-        //Connection connection = DBConnection.getDBConnection();
+        Connection connection = null;
         boolean action = false;
         int generatedKey = 0;
         try {
@@ -219,6 +225,7 @@ public class DataDB {
             
             int ratingInt = Integer.parseInt(rating);
             
+            connection = DBConnection.getDBConnection();
             ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             //setting the parameters
@@ -246,7 +253,7 @@ public class DataDB {
             finally {
                 if (ps != null) ps.close();
                 if (rs != null) rs.close();
-                //if (connection != null) connection.close();
+                if (connection != null) DBConnection.closeDBConnection();
             }
         
             return generatedKey;
@@ -269,14 +276,14 @@ public class DataDB {
             String[] released,String[] lenght,String[] parameter,String rating) throws Exception{
         String message = null;
         PreparedStatement ps = null;
-        //Connection connection = DBConnection.getDBConnection();
+        Connection connection = null;
         boolean action = false;
         try {
             String sql = "INSERT INTO scenarios"
 		+ "(description, actors, genres, released, lenght, parameters, rating) VALUES"
 		+ "(?,?,?,?,?,?,?)";
             
-            
+            connection = DBConnection.getDBConnection();
             Array listActors = connection.createArrayOf("text", actors);
             Array listGenres = connection.createArrayOf("text", genres);
             Array listReleased = connection.createArrayOf("int4", released);
@@ -315,7 +322,7 @@ public class DataDB {
             }
             finally {
                 if (ps != null) ps.close();
-                //if (connection != null) connection.close();
+                if (connection != null) DBConnection.closeDBConnection();
             }
 
             return message;
@@ -333,7 +340,7 @@ public class DataDB {
     public String doRegistration(String ip,String email,String[] genres, String[] actors) throws Exception {
         String message = null;
         PreparedStatement ps = null;
-        //Connection connection = DBConnection.getDBConnection();
+        Connection connection = null;
         ResultSet keyResultSet = null;
                 
         boolean action = false;
@@ -342,7 +349,7 @@ public class DataDB {
 		+ "(ip, email, genres, actors) VALUES"
 		+ "(?,?,?,?)";
             
-            
+            connection = DBConnection.getDBConnection();
             ps = connection.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
             
             //setting the parameters
@@ -372,7 +379,7 @@ public class DataDB {
         finally {
             if (ps != null) ps.close();
             if (keyResultSet != null) keyResultSet.close();
-            //if (connection != null) connection.close();
+            if (connection != null) DBConnection.closeDBConnection();
         }
         return message;
     }
@@ -393,7 +400,7 @@ public class DataDB {
         String message = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        //Connection connection = DBConnection.getDBConnection();
+        Connection connection = null;
         
         ArrayList<Movie> movieList = new ArrayList<>();        
         HashMap<String, List<String>> param =  new HashMap<>();
@@ -406,9 +413,11 @@ public class DataDB {
             for (Map.Entry<String, List<String>> entry : param.entrySet()) {
                 query = entry.getKey();
                 search = entry.getValue();
+                System.out.println(query);
+                System.out.println(search);
             }        
 
-            
+            connection = DBConnection.getDBConnection();
             ps = connection.prepareStatement(query);
             
             //setting the parameters
@@ -460,7 +469,7 @@ public class DataDB {
         finally {
             if (ps != null) ps.close();
             if (rs != null) rs.close();
-            //if (connection != null) connection.close();
+            if (connection != null) DBConnection.closeDBConnection();
         }
         return movieList;
     }
@@ -473,9 +482,11 @@ public class DataDB {
      */
     private HashMap<String, List<String>> createQuery(String[] parameter) throws SQLException{ 
         HashMap<String, List<String>> params = new HashMap<>();
-        List<String> search = new ArrayList<>();       
-
-        String query = "SELECT md.movieid,array_to_string(array_agg(distinct md.title),',') AS title, "
+        List<String> first = new ArrayList<>();
+        List<String> second = new ArrayList<>(); 
+        List<String> search = new ArrayList<>();
+        
+        String first_part = "SELECT md.movieid,array_to_string(array_agg(distinct md.title),',') AS title, "
             + "array_to_string(array_agg(distinct md.genre),',') AS genres, "
             + "array_to_string(array_agg(distinct md.name),',') AS actors, "
             + "MAX(movie_runtime(run.time)), "
@@ -497,48 +508,61 @@ public class DataDB {
                 + "INNER JOIN actors a1 ON md1.actorid = a1.actorid "
                 + "WHERE ";
         
+        
+        String  second_part = ""; //200 300
+        
         if(Arrays.asList(parameter).contains("lenght")){
-            query += "movie_runtime(run1.time) BETWEEN (?) AND (?) AND ";
-            search.add("min lenght");
-            search.add("max lenght");
+            first_part += "movie_runtime(run1.time) BETWEEN (?) AND (?) AND ";
+            second_part += "movie_runtime(run.time) BETWEEN (?) AND (?) AND ";
+            first.add("min lenght");
+            first.add("max lenght");
+            second.add("min lenght");
+            second.add("max lenght");
         }
 
         if(Arrays.asList(parameter).contains("year")){
-            query += "movie_year(m1.year) BETWEEN (?) AND (?) AND ";
-            search.add("min released");
-            search.add("max released");
+            first_part += "movie_year(m1.year) BETWEEN (?) AND (?) AND ";
+            second_part += "movie_year(m.year) BETWEEN (?) AND (?) AND ";
+            first.add("min released");
+            first.add("max released");
+            second.add("min released");
+            second.add("max released");
         }
 
         if(Arrays.asList(parameter).contains("rating")){
-            query += "rank1.rank::float BETWEEN (?) AND 10.0 AND ";
-            search.add("rating");
+            first_part += "rank1.rank::float BETWEEN (?) AND 10.0 AND ";
+            first.add("rating");
         }
         
         if(Arrays.asList(parameter).contains("actor") && Arrays.asList(parameter).contains("genre")){
-            query += "( a1.name LIKE ANY(?) OR genre1.genre = ANY(?)) AND ";
-            search.add("actor");
-            search.add("genre"); 
+            first_part += "( a1.name LIKE ANY(?) OR genre1.genre = ANY(?)) AND ";
+            first.add("actor");
+            first.add("genre"); 
         }
         
         if(Arrays.asList(parameter).contains("actor") && Arrays.asList(parameter).contains("genre")== false){
             //query += "( a1.name LIKE ANY(?)) AND ";
-            query += "( a1.name LIKE ANY(?) OR genre1.genre = ANY(SELECT genre FROM genres group by genre)) AND ";
-            search.add("actor");
+            first_part += "( a1.name LIKE ANY(?) OR genre1.genre = ANY(SELECT genre FROM genres group by genre)) AND ";
+            first.add("actor");
         }
         
         if(Arrays.asList(parameter).contains("genre") && Arrays.asList(parameter).contains("actor") == false){
-            query += "( genre1.genre = ANY(?)) AND ";
-            search.add("genre"); 
+            first_part += "( genre1.genre = ANY(?)) AND ";
+            first.add("genre"); 
         }
         
 
-        query += "md1.title NOT LIKE '%(TV)%' AND md1.title NOT LIKE '%(#%)%' AND md1.title NOT LIKE '%(V)%' "
+        second_part += "md1.title NOT LIKE '%(TV)%' AND md1.title NOT LIKE '%(#%)%' AND md1.title NOT LIKE '%(V)%' "
                 + "AND genre1.genre NOT LIKE '%Documentary' "
                 + "AND l1.language IN('English','French','German') "
                 + "AND rank1.votes > 140000 )"
                 + "GROUP BY md.movieid "
                 + "order by MAX(rank.rank::float) DESC "
                 + "LIMIT 150"; //200 300
+        
+        String query = first_part+second_part;
+        search.addAll(first);
+        search.addAll(second);
         params.put(query, search);
         return params;
     }
@@ -553,7 +577,7 @@ public class DataDB {
      */
     public void insertClustering(String method, int scenario, ArrayList<Recommendation> firstRecommendation) throws SQLException, Exception {
         PreparedStatement ps = null;
-        //Connection connection = DBConnection.getDBConnection();
+        Connection connection = null;
         try {
             String query = "INSERT INTO clustering"
                 + "(clusterid, methodid, movieid, scenarioid) VALUES"
@@ -561,6 +585,8 @@ public class DataDB {
 
 
             int methodId = Integer.parseInt(method);
+            
+            connection = DBConnection.getDBConnection();
             ps = connection.prepareStatement(query);
 
             // now loop through nearly 1,500 nodes in the list
@@ -580,7 +606,7 @@ public class DataDB {
         }
         finally {
             if (ps != null) ps.close();
-            //if (connection != null) connection.close();
+            if (connection != null) DBConnection.closeDBConnection();
         }    
     }
     
@@ -594,12 +620,13 @@ public class DataDB {
     public String insertMovies(ArrayList<Movie> movies, int scenario) throws SQLException, Exception {
         String message = null;
         PreparedStatement ps = null;
-        //Connection connection = DBConnection.getDBConnection();
+        Connection connection = null;
         try {
             String query = "INSERT INTO movies2scenario"
 		+ "(scenarioid, movieid, title,genres,actors,releaseyear,movielenght,rating,scores, stringscores) VALUES"
 		+ "(?,?,?,?,?,?,?,?,?,?)";
             
+            connection = DBConnection.getDBConnection();
             ps = connection.prepareStatement(query);
             
             // now loop through nearly 1,500 nodes in the list
@@ -633,7 +660,7 @@ public class DataDB {
             }
             finally {
                 if (ps != null) ps.close();
-                //if (connection != null) connection.close();
+                if (connection != null) DBConnection.closeDBConnection();
             }            
         return message;
                 
@@ -656,13 +683,13 @@ public class DataDB {
         String message = null;
         boolean action = false;
         PreparedStatement ps = null;
-        //Connection connection = DBConnection.getDBConnection();
+        Connection connection = null;
         try {
             String query = "INSERT INTO evaluation"
 		+ "(userid, scenarioid, method1, method2, ranking, clusters1,clusters2) VALUES"
 		+ "(?,?,?,?,?,?,?)";
             
-            
+            connection = DBConnection.getDBConnection();
             ps = connection.prepareStatement(query);
             //setting the parameters
             ps.setInt(1, Integer.parseInt(userId));
@@ -691,7 +718,7 @@ public class DataDB {
             }
             finally {
                 if (ps != null) ps.close();
-                //if (connection != null) connection.close();
+                if (connection != null) DBConnection.closeDBConnection();
             }            
             return message;
     }    
@@ -707,7 +734,7 @@ public class DataDB {
         ArrayList<Recommendation> recommendations = new ArrayList<Recommendation>();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        //Connection connection = DBConnection.getDBConnection();
+        Connection connection = null;
         ArrayList<Integer> clusterIds = getClusterId(scenario);
  
         try {
@@ -718,7 +745,8 @@ public class DataDB {
                 + "AND s.scenarioid = (?) "
                 + "AND s.methodid = (?) "
                 + "AND s.clusterid = (?) ";
-            
+                
+                connection = DBConnection.getDBConnection();
                 ps = connection.prepareStatement(query);        
 
                 for (Integer clusterId : clusterIds) {
@@ -744,7 +772,7 @@ public class DataDB {
             finally {
                 if (ps != null) ps.close();
                 if (rs != null) rs.close();
-                //if (connection != null) connection.close();
+                if (connection != null) DBConnection.closeDBConnection();
             }            
 
             return recommendations;
@@ -761,7 +789,7 @@ public class DataDB {
         ArrayList<Integer> clusterids = new ArrayList<Integer>();
         String message = null;
         PreparedStatement ps = null;
-        //Connection connection = DBConnection.getDBConnection();
+        Connection connection = null;
         ResultSet rs = null;
         try {
             String query = "SELECT c.id "
@@ -771,6 +799,7 @@ public class DataDB {
                 + "GROUP BY c.id "
                 + "ORDER BY c.id ASC ";
             
+            connection = DBConnection.getDBConnection();
             ps = connection.prepareStatement(query);
             
             ps.setInt(1, scenario);
@@ -791,7 +820,7 @@ public class DataDB {
         finally {
             if (ps != null) ps.close();
             if (rs != null) rs.close();
-            //if (connection != null) connection.close();
+            if (connection != null) DBConnection.closeDBConnection();
         } 
         return clusterids;
     }    
@@ -805,10 +834,12 @@ public class DataDB {
         ArrayList<Scenario> scenarios = new ArrayList<Scenario>();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        //Connection connection = DBConnection.getDBConnection();
+        Connection connection = null;
         try {
             String sql = "SELECT * FROM scenarios "
                     + "WHERE id = (?) ";
+            
+            connection = DBConnection.getDBConnection();
             ps = connection.prepareStatement(sql);
             
             for(int i = 0; i<evalScenarios.length; i++){
@@ -841,7 +872,7 @@ public class DataDB {
         finally {
             if (ps != null) ps.close();
             if (rs != null) rs.close();
-            //if (connection != null) connection.close();
+            if (connection != null) DBConnection.closeDBConnection();
         } 
         return scenarios;
     }
@@ -854,8 +885,9 @@ public class DataDB {
     public int insertSurveyResults(String[] result) throws SQLException, Exception {
         PreparedStatement ps = null;
         ResultSet rs = null;
-        Connection connection = DBConnection.getDBConnection();
+        Connection connection = null;
         int generatedKey = 0;
+        
         try {
             String query = "INSERT INTO survey"
 		+ "(gender, age, employment_status, job, video_usage, payment_readiness, "
@@ -864,7 +896,7 @@ public class DataDB {
                 + ",recommendation_char_known, recommendation_char_unknown, recommendation_char_mix,recommendation_experience ) VALUES"
 		+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             
-            
+            connection = DBConnection.getDBConnection();
             ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             //setting the parameters
@@ -914,7 +946,7 @@ public class DataDB {
             finally {
                 if (ps != null) ps.close();
                 if (rs != null) rs.close();
-                //if (connection != null) connection.close();
+                if (connection != null) DBConnection.closeDBConnection();
             } 
             return generatedKey;        
     }
@@ -928,7 +960,7 @@ public class DataDB {
     public String insertSurvey2User(int userid, int survey) throws SQLException, Exception {
         String message = null;
         PreparedStatement ps = null;
-        //Connection connection = DBConnection.getDBConnection();
+        Connection connection = null;
         boolean action = false;
 
         try {
@@ -936,7 +968,7 @@ public class DataDB {
 		+ "SET surveyid = (?) "
                 + "WHERE usersid = (?)";
             
-            
+            connection = DBConnection.getDBConnection();
             ps = connection.prepareStatement(query);
 
             ps.setInt(1, survey);
@@ -962,7 +994,7 @@ public class DataDB {
         }
         finally {
             if (ps != null) ps.close();
-            //if (connection != null) connection.close();
+            if (connection != null) DBConnection.closeDBConnection();
         }         
         return message;
         
@@ -977,14 +1009,16 @@ public class DataDB {
     public String[] getSearchParam(Integer scenario) throws SQLException, Exception {
         PreparedStatement ps = null;
         ResultSet rs = null;
-        //Connection connection = DBConnection.getDBConnection();
+        Connection connection = null;
         String [] param = null;
         System.out.println(" SEARCH PARAM FROM SCENARIO ");
+        
         try {
             String query = "SELECT s.parameters "
 		+ "FROM scenarios s "
 		+ "WHERE s.id = (?) ";
-            
+                
+            connection = DBConnection.getDBConnection();
                 ps = connection.prepareStatement(query);        
                 
                 ps.setInt(1, scenario);
@@ -1007,7 +1041,7 @@ public class DataDB {
             finally {
                 if (ps != null) ps.close();
                 if (rs != null) rs.close();
-                //if (connection != null) connection.close();
+                if (connection != null) DBConnection.closeDBConnection();
             } 
 
             return param;

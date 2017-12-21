@@ -28,13 +28,14 @@ public class DBConnection {
         
 	public static String closeDBConnection() throws Exception {
 		String message = "";
+                System.out.println("Close connection");
                 try{
                     connection.close();
+                    connection = null;
                     message = "Success";
                 }
                 catch (SQLException e) {
                     System.out.println("Error closing connection");
-                    connection = null;
                     message = "Error closing connection";
 		}
 		return message;
