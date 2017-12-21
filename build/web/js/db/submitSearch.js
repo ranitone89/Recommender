@@ -1274,6 +1274,19 @@ $(document).ready(function() {
      */
     $(document).on("click", "#id05 .infoClose", function(event){
         $('#id05').css("display","none");
+        /*$.ajax({
+             url : "CloseSearchServlet",
+             type : "GET",
+
+             dataType: "json",
+             success : function(response){
+                        if(response != null && response != "")
+                        {
+                            alert("Index");
+                            location.href = "index.html";
+                        }
+                }
+            });*/     
         location.href = "index.html"
     });
     

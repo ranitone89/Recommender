@@ -86,4 +86,14 @@
         <servlet-name>InsertSurveyServlet</servlet-name>
         <url-pattern>/InsertSurveyServlet</url-pattern>
     </servlet-mapping>      
+    
+    <servlet>
+        <servlet-name>CloseSearchServlet</servlet-name>
+        <servlet-class>com.servlets.CloseSearchServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CloseSearchServlet</servlet-name>
+        <url-pattern>/CloseSearchServlet</url-pattern>
+    </servlet-mapping> 
+
 </web-app>

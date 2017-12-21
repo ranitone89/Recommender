@@ -8,6 +8,7 @@ public class DBConnection {
 	private static Connection connection = null;
 
 	public static Connection getDBConnection() throws Exception {
+            System.out.println("GET DB CONNECTION");
 		if (connection != null){
                     return connection;
                 }
@@ -20,6 +21,21 @@ public class DBConnection {
 					"ma1_2ranitovic3");
 			return connection;
 		}
+	}
+        
+        
+	public static String closeDBConnection() throws Exception {
+		String message = "";
+                try{
+                    connection.close();
+                    message = "Success";
+                }
+                catch (Exception e) {
+                    System.out.println("Error closing connection");
+                    connection = null;
+                    message = "Error closing connection";
+		}
+		return message;
 	}
         
 }

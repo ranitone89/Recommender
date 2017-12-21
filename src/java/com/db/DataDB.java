@@ -20,11 +20,21 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 public class DataDB {
-	private Connection connection;
+	private final Connection connection;
 	public DataDB() throws Exception {
             connection = DBConnection.getDBConnection();  
            
 	}
+
+        /**
+         * Close connection
+        * @throws java.lang.Exception
+         */
+	public String closeConnection() throws Exception {      
+            //String message = DBConnection.closeDBConnection()
+            return DBConnection.closeDBConnection();
+	
+        }
         
         /**
          * Autocomplete
@@ -33,9 +43,10 @@ public class DataDB {
          * @throws Exception 
          */
 	public ArrayList<String> doAutocomplete(String term) throws Exception {
-                ArrayList<String> list = new ArrayList<String>();
+                ArrayList<String> list = new ArrayList<>();
 		PreparedStatement ps = null;
                 ResultSet rs = null;
+                //Connection connection = DBConnection.getDBConnection();
                 System.out.println("Auto complete");
 		try {
                     String sql = "SELECT name FROM top_actors WHERE name LIKE ?";
@@ -67,6 +78,7 @@ public class DataDB {
         public String doLogin(String ipAdresse) throws Exception{
             String message = null;
             PreparedStatement ps = null;
+            //Connection connection = DBConnection.getDBConnection();
             ResultSet rs = null;
             try {
                 String sql = "SELECT usersid FROM evaluation_users WHERE ip = ?";
@@ -98,6 +110,8 @@ public class DataDB {
             System.out.println("DRIN");
             String message = null;
             PreparedStatement ps = null;
+            ResultSet rs = null;
+            //Connection connection = DBConnection.getDBConnection();
             String data;
             try {
                 String sql = "SELECT name FROM users WHERE name = ?";
@@ -107,7 +121,7 @@ public class DataDB {
                 ps.setString(1, username);
                 
                 //executing the prepared statement, which returns a ResultSet
-                ResultSet rs = ps.executeQuery();
+                rs = ps.executeQuery();
                 if(rs.next()){
                     System.out.println("SUCCESS");
                     message = "SUCCESS";
@@ -122,8 +136,9 @@ public class DataDB {
             }
             finally {
                 if (ps != null) ps.close();
+                if (rs != null) rs.close();
                 //if (connection != null) connection.close();
-            }            
+            }          
             return message;
     }
     
@@ -136,6 +151,7 @@ public class DataDB {
         ArrayList<Scenario> scenarios = new ArrayList<Scenario>();
         PreparedStatement ps = null;
         ResultSet rs  = null;
+        //Connection connection = DBConnection.getDBConnection();
         try {
             String sql = "SELECT * FROM scenarios";
             ps = connection.prepareStatement(sql);
@@ -188,6 +204,8 @@ public class DataDB {
     public int getIdOnInsertScenario(String description,String[] actors,String[] genres,
             String[] released,String[] lenght,String[] parameter,String rating,String comparation) throws Exception{
         PreparedStatement ps = null;
+        ResultSet rs = null;
+        //Connection connection = DBConnection.getDBConnection();
         boolean action = false;
         int generatedKey = 0;
         try {
@@ -220,7 +238,7 @@ public class DataDB {
             
             ps.executeUpdate();
             
-            ResultSet rs = ps.getGeneratedKeys();
+            rs = ps.getGeneratedKeys();
                 if (rs.next()) {
                     generatedKey = rs.getInt(1);
                 }
@@ -229,6 +247,12 @@ public class DataDB {
             catch (Exception e) {
                 e.printStackTrace();
             }
+            finally {
+                if (ps != null) ps.close();
+                if (rs != null) rs.close();
+                //if (connection != null) connection.close();
+            }
+        
             return generatedKey;
     }    
     
@@ -249,6 +273,7 @@ public class DataDB {
             String[] released,String[] lenght,String[] parameter,String rating) throws Exception{
         String message = null;
         PreparedStatement ps = null;
+        //Connection connection = DBConnection.getDBConnection();
         boolean action = false;
         try {
             String sql = "INSERT INTO scenarios"
@@ -292,6 +317,11 @@ public class DataDB {
                 message = "FAILURE";
                 e.printStackTrace();
             }
+            finally {
+                if (ps != null) ps.close();
+                //if (connection != null) connection.close();
+            }
+
             return message;
     }     
     
@@ -307,6 +337,9 @@ public class DataDB {
     public String doRegistration(String ip,String email,String[] genres, String[] actors) throws Exception {
         String message = null;
         PreparedStatement ps = null;
+        //Connection connection = DBConnection.getDBConnection();
+        ResultSet keyResultSet = null;
+                
         boolean action = false;
         try {
             String sql = "INSERT INTO evaluation_users"
@@ -324,7 +357,7 @@ public class DataDB {
             int count = ps.executeUpdate();
             action = (count > 0);
             
-            ResultSet keyResultSet = ps.getGeneratedKeys();
+            keyResultSet = ps.getGeneratedKeys();
             
             // was executeUpdate succes
             if(action==false){
@@ -339,6 +372,11 @@ public class DataDB {
         catch (Exception e) {
             message = "";
             e.printStackTrace();
+        }
+        finally {
+            if (ps != null) ps.close();
+            if (keyResultSet != null) keyResultSet.close();
+            //if (connection != null) connection.close();
         }
         return message;
     }
@@ -358,6 +396,9 @@ public class DataDB {
     public ArrayList<Movie> search(String minLenght, String maxLenght, String minReleased, String maxReleased,String minStar, String[] actors, String[] genres, String[] parameter) throws Exception {
         String message = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
+        //Connection connection = DBConnection.getDBConnection();
+        
         ArrayList<Movie> movieList = new ArrayList<>();        
         HashMap<String, List<String>> param =  new HashMap<>();
         List<String> search = new ArrayList<>();
@@ -401,7 +442,7 @@ public class DataDB {
             }           
             
 
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             if(rs.next()){
                 while(rs.next())
                 {
@@ -419,6 +460,11 @@ public class DataDB {
         catch (Exception e) {
             message = "FAILURE";
             e.printStackTrace();
+        }
+        finally {
+            if (ps != null) ps.close();
+            if (rs != null) rs.close();
+            //if (connection != null) connection.close();
         }
         return movieList;
     }
@@ -509,8 +555,9 @@ public class DataDB {
      * @param firstRecommendation
      * @throws SQLException 
      */
-    public void insertClustering(String method, int scenario, ArrayList<Recommendation> firstRecommendation) throws SQLException {
+    public void insertClustering(String method, int scenario, ArrayList<Recommendation> firstRecommendation) throws SQLException, Exception {
         PreparedStatement ps = null;
+        //Connection connection = DBConnection.getDBConnection();
         try {
             String query = "INSERT INTO clustering"
                 + "(clusterid, methodid, movieid, scenarioid) VALUES"
@@ -535,10 +582,10 @@ public class DataDB {
         catch (Exception e) {
             e.printStackTrace();
         }
-        finally
-        {
-          ps.close();
-        }
+        finally {
+            if (ps != null) ps.close();
+            //if (connection != null) connection.close();
+        }    
     }
     
     /**
@@ -548,10 +595,10 @@ public class DataDB {
      * @return
      * @throws SQLException 
      */
-    public String insertMovies(ArrayList<Movie> movies, int scenario) throws SQLException {
+    public String insertMovies(ArrayList<Movie> movies, int scenario) throws SQLException, Exception {
         String message = null;
         PreparedStatement ps = null;
-
+        //Connection connection = DBConnection.getDBConnection();
         try {
             String query = "INSERT INTO movies2scenario"
 		+ "(scenarioid, movieid, title,genres,actors,releaseyear,movielenght,rating,scores, stringscores) VALUES"
@@ -588,12 +635,11 @@ public class DataDB {
                 e.printStackTrace();
                 message = "FAILURE";
             }
-        
-            finally
-            {
-              ps.close();
-            }
-            return message;
+            finally {
+                if (ps != null) ps.close();
+                //if (connection != null) connection.close();
+            }            
+        return message;
                 
     }
     
@@ -610,10 +656,11 @@ public class DataDB {
      * @throws SQLException 
      */
     public String insertEvaluation(String userId,String scenarioId, String alg1, String alg2,
-        String methodEval,String[] cluster1Eval,String[] cluster2Eval) throws SQLException {
+        String methodEval,String[] cluster1Eval,String[] cluster2Eval) throws SQLException, Exception {
         String message = null;
         boolean action = false;
         PreparedStatement ps = null;
+        //Connection connection = DBConnection.getDBConnection();
         try {
             String query = "INSERT INTO evaluation"
 		+ "(userid, scenarioid, method1, method2, ranking, clusters1,clusters2) VALUES"
@@ -646,11 +693,10 @@ public class DataDB {
             catch (Exception e) {
                 e.printStackTrace();
             }
-        
-            finally
-            {
-               try { ps.close(); } catch (Exception e){ /* ignored */ }
-            }
+            finally {
+                if (ps != null) ps.close();
+                //if (connection != null) connection.close();
+            }            
             return message;
     }    
     
@@ -661,9 +707,11 @@ public class DataDB {
      * @return
      * @throws SQLException 
      */
-    public ArrayList<Recommendation> getMovies2Scenario(Integer scenario, Integer method) throws SQLException {
+    public ArrayList<Recommendation> getMovies2Scenario(Integer scenario, Integer method) throws SQLException, Exception {
         ArrayList<Recommendation> recommendations = new ArrayList<Recommendation>();
         PreparedStatement ps = null;
+        ResultSet rs = null;
+        //Connection connection = DBConnection.getDBConnection();
         ArrayList<Integer> clusterIds = getClusterId(scenario);
  
         try {
@@ -681,7 +729,7 @@ public class DataDB {
                     ps.setInt(1, scenario);
                     ps.setInt(2, method);
                     ps.setInt(3, clusterId);
-                    ResultSet rs = ps.executeQuery();
+                    rs = ps.executeQuery();
                     ArrayList<Movie> movieList = new ArrayList<Movie>();
 
                     while(rs.next())
@@ -697,11 +745,11 @@ public class DataDB {
             catch (Exception e) {
                 e.printStackTrace();
             }
-        
-            finally
-            {
-              ps.close();
-            }
+            finally {
+                if (ps != null) ps.close();
+                if (rs != null) rs.close();
+                //if (connection != null) connection.close();
+            }            
 
             return recommendations;
     }
@@ -712,12 +760,13 @@ public class DataDB {
      * @return
      * @throws SQLException 
      */
-    public ArrayList<Integer> getClusterId(Integer scenario) throws SQLException {
+    public ArrayList<Integer> getClusterId(Integer scenario) throws SQLException, Exception {
         
         ArrayList<Integer> clusterids = new ArrayList<Integer>();
         String message = null;
         PreparedStatement ps = null;
-        
+        //Connection connection = DBConnection.getDBConnection();
+        ResultSet rs = null;
         try {
             String query = "SELECT c.id "
 		+ "FROM clustering s, cluster c "
@@ -732,22 +781,23 @@ public class DataDB {
 
             
             //executing the prepared statement, which returns a ResultSet
-            ResultSet rs = ps.executeQuery();
-                while(rs.next())
-                {
-                    clusterids.add(rs.getInt(1));
-                }
-
-            }
-            catch (Exception e) {
-                message = "FAILURE";
-                e.printStackTrace();
-            }
-            finally
+            rs = ps.executeQuery();
+            while(rs.next())
             {
-              ps.close();
+                clusterids.add(rs.getInt(1));
             }
-            return clusterids;
+
+        }
+        catch (Exception e) {
+            message = "FAILURE";
+            e.printStackTrace();
+        }
+        finally {
+            if (ps != null) ps.close();
+            if (rs != null) rs.close();
+            //if (connection != null) connection.close();
+        } 
+        return clusterids;
     }    
     
     /** Get scenarios for evaluation
@@ -755,9 +805,11 @@ public class DataDB {
      * @param scenarios
      * @return 
      */
-    public ArrayList<Scenario> getScenarios(String[] evalScenarios) {
+    public ArrayList<Scenario> getScenarios(String[] evalScenarios) throws SQLException, Exception {
         ArrayList<Scenario> scenarios = new ArrayList<Scenario>();
         PreparedStatement ps = null;
+        ResultSet rs = null;
+        //Connection connection = DBConnection.getDBConnection();
         try {
             String sql = "SELECT * FROM scenarios "
                     + "WHERE id = (?) ";
@@ -767,7 +819,7 @@ public class DataDB {
                 ps.setInt(1, Integer.parseInt(evalScenarios[i]));
                 
                 //executing the prepared statement, which returns a ResultSet
-                ResultSet rs = ps.executeQuery();
+                rs = ps.executeQuery();
                 
                 while(rs.next())
                 {
@@ -790,6 +842,11 @@ public class DataDB {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        finally {
+            if (ps != null) ps.close();
+            if (rs != null) rs.close();
+            //if (connection != null) connection.close();
+        } 
         return scenarios;
     }
     
@@ -798,8 +855,10 @@ public class DataDB {
      * @param result
      * @return 
      */
-    public int insertSurveyResults(String[] result) {
+    public int insertSurveyResults(String[] result) throws SQLException, Exception {
         PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection connection = DBConnection.getDBConnection();
         int generatedKey = 0;
         try {
             String query = "INSERT INTO survey"
@@ -848,7 +907,7 @@ public class DataDB {
             
             ps.executeUpdate();
             
-            ResultSet rs = ps.getGeneratedKeys();
+            rs = ps.getGeneratedKeys();
                 if (rs.next()) {
                     generatedKey = rs.getInt(1);
                 }
@@ -856,6 +915,11 @@ public class DataDB {
             catch (Exception e) {
                 e.printStackTrace();
             }
+            finally {
+                if (ps != null) ps.close();
+                if (rs != null) rs.close();
+                //if (connection != null) connection.close();
+            } 
             return generatedKey;        
     }
     
@@ -865,9 +929,10 @@ public class DataDB {
      * @param survey
      * @return 
      */
-    public String insertSurvey2User(int userid, int survey) {
+    public String insertSurvey2User(int userid, int survey) throws SQLException, Exception {
         String message = null;
         PreparedStatement ps = null;
+        //Connection connection = DBConnection.getDBConnection();
         boolean action = false;
 
         try {
@@ -899,6 +964,10 @@ public class DataDB {
         catch (Exception e) {
             e.printStackTrace();
         }
+        finally {
+            if (ps != null) ps.close();
+            //if (connection != null) connection.close();
+        }         
         return message;
         
     }
@@ -909,8 +978,10 @@ public class DataDB {
      * @return
      * @throws SQLException 
      */
-    public String[] getSearchParam(Integer scenario) throws SQLException {
+    public String[] getSearchParam(Integer scenario) throws SQLException, Exception {
         PreparedStatement ps = null;
+        ResultSet rs = null;
+        //Connection connection = DBConnection.getDBConnection();
         String [] param = null;
         System.out.println(" SEARCH PARAM FROM SCENARIO ");
         try {
@@ -921,7 +992,7 @@ public class DataDB {
                 ps = connection.prepareStatement(query);        
                 
                 ps.setInt(1, scenario);
-                ResultSet rs = ps.executeQuery();
+                rs = ps.executeQuery();
 
                 if(rs.next())
                 {
@@ -937,10 +1008,11 @@ public class DataDB {
                 e.printStackTrace();
             }
         
-            finally
-            {
-              ps.close();
-            }
+            finally {
+                if (ps != null) ps.close();
+                if (rs != null) rs.close();
+                //if (connection != null) connection.close();
+            } 
 
             return param;
     }
