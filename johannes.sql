@@ -3,7 +3,7 @@
                        array_to_string(array_agg(distinct md.genre),',') AS genres,
                        array_to_string(array_agg(distinct md.name),',') AS actors,
                        MAX(movie_runtime(run.time)),
-                       MAX(movie_year(m.year)),
+                       MIN(movie_year(m.year)),
                        MAX(rank.rank::float),
                        MAX(rank.votes) as rating
 
@@ -27,13 +27,13 @@
 				       INNER JOIN language l1 ON m1.movieid = l1.movieid
 				       INNER JOIN actors a1 ON md1.actorid = a1.actorid
 				WHERE 
-					movie_runtime(run1.time) BETWEEN 60 AND 120
-					and movie_year(m1.year) BETWEEN 1970 AND 2017
+					movie_runtime(run1.time) BETWEEN 75 AND 150
+					and movie_year(m1.year) BETWEEN  AND 2017
 					AND rank1.rank::float BETWEEN 0.0 AND 10.0
 				AND(
-					   a1.name LIKE ANY('{"Denzel, Washington%"}')
-					    OR
-					    genre1.genre = ANY(SELECT genre FROM genres group by genre) --IN ('Drama','Fanatasy','Adventure') 
+					   --a1.name LIKE ANY('{"Denzel, Washington%"}')
+					   -- OR
+					    genre1.genre = ANY('Mystery','Thriller','Adventure') --IN ('Drama','Fanatasy','Adventure') 
 				    )
 				AND md1.title NOT LIKE '%(TV)%' AND md1.title NOT LIKE '%(#%)%' AND md1.title NOT LIKE '%(V)%'
 				AND genre1.genre NOT LIKE '%Documentary'

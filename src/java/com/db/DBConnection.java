@@ -1,18 +1,20 @@
 package com.db;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DBConnection {
 	private static Connection connection = null;
 
 	public static Connection getDBConnection() throws Exception {
-            System.out.println("GET DB CONNECTION");
+                System.out.println("com.db.DBConnection.getDBConnection()");
 		if (connection != null){
+                    System.out.println("DB CONNECTION Not Closed");
                     return connection;
                 }
 		else {
+                        System.out.println("DB CONNECTION Closed");
 			Class.forName("org.postgresql.Driver");
 
 			// set the url, username and password for the databse
@@ -30,7 +32,7 @@ public class DBConnection {
                     connection.close();
                     message = "Success";
                 }
-                catch (Exception e) {
+                catch (SQLException e) {
                     System.out.println("Error closing connection");
                     connection = null;
                     message = "Error closing connection";

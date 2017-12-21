@@ -161,7 +161,7 @@ public class EvalSearchServlet extends HttpServlet {
     /* Change id of each cluster according to sorting order
     *
     */
-    public static void setClusterIds(ArrayList<Recommendation> secondMethod, HashMap hmap){
+    public static void setClusterIds(ArrayList<Recommendation> secondMethod, HashMap<Integer, Integer> hmap){
         for(Recommendation cluster: secondMethod){
             int tempId= (int) hmap.get(cluster.getClusterId()-1);
             cluster.setClusterId(tempId+1);
@@ -175,7 +175,7 @@ public class EvalSearchServlet extends HttpServlet {
     /*
     *   Get cluster with maximal simularity and disable affected row and column
     */
-    public static void getClusterPair(float[][] scores, Set usedRows, Set usedColumns, HashMap hmap){
+    public static void getClusterPair(float[][] scores, Set<Integer> usedRows, Set<Integer> usedColumns, HashMap<Integer, Integer> hmap){
         System.out.println("Cluster Pair");
         for(int i =0; i<scores.length; i++){
             System.out.println("Max: "+getMaxValue(scores,usedRows,usedColumns,hmap));
@@ -183,7 +183,7 @@ public class EvalSearchServlet extends HttpServlet {
     }
     
     /*Transform Matrix*/
-    public static float getMaxValue(float[][] numbers, Set usedRows, Set usedColumns, HashMap hmap) {
+    public static float getMaxValue(float[][] numbers, Set<Integer> usedRows, Set<Integer> usedColumns, HashMap<Integer, Integer> hmap) {
         float maxValue = 0f;
         int row = Integer.MIN_VALUE;
         int column = Integer.MIN_VALUE;

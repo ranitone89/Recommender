@@ -1136,10 +1136,10 @@ $(document).ready(function() {
                                         { value: 4, text: "verzichtbar" }],
                                     rows: [{
                                         value: "viele",
-                                        text: "Viele Filme enthalten"
+                                        text: "viele Filme enthalten"
                                     }, {
                                         value: "wenige",
-                                        text: "Möglichst wenige Filme enthalten"
+                                        text: "ehe wenige Filme enthalten"
                                     },]
                                 },
                                 

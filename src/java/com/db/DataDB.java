@@ -1,11 +1,9 @@
 package com.db;
 
-import com.google.gson.Gson;
 import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.List;
 import com.recommender.Movie;
@@ -16,8 +14,6 @@ import java.sql.Statement;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 public class DataDB {
 	private final Connection connection;
@@ -879,7 +875,7 @@ public class DataDB {
             //beschäftigung
             ps.setInt(3, Integer.parseInt(result[2]));
             //beruf
-            ps.setString(4, result[3]);
+            ps.setString(4, ""+result[3]);
             // filme
             ps.setInt(5, Integer.parseInt(result[4]));
             // zahlbereitschaft
@@ -903,7 +899,7 @@ public class DataDB {
             ps.setInt(15, Integer.parseInt(result[14]));
             ps.setInt(16, Integer.parseInt(result[15]));
             ps.setInt(17, Integer.parseInt(result[16]));
-            ps.setString(18, result[17]);
+            ps.setString(18, ""+result[17]);
             
             ps.executeUpdate();
             

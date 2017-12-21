@@ -195,7 +195,7 @@ public class TestSearchServlet extends HttpServlet {
      * @param secondMethod
      * @param hmap 
      */
-    public static void setClusterIds(ArrayList<Recommendation> secondMethod, HashMap hmap){
+    public static void setClusterIds(ArrayList<Recommendation> secondMethod, HashMap<Integer, Integer> hmap){
         
         for(Recommendation cluster: secondMethod){
             int tempId= (int) hmap.get(cluster.getClusterId());
@@ -215,7 +215,7 @@ public class TestSearchServlet extends HttpServlet {
      * @param usedColumns
      * @param hmap 
      */
-    public static void getClusterPair(float[][] scores, Set usedRows, Set usedColumns, HashMap hmap){
+    public static void getClusterPair(float[][] scores, Set<Integer> usedRows, Set<Integer> usedColumns, HashMap<Integer, Integer> hmap){
         for(int i =0; i<scores.length; i++){
             System.out.println("Max: "+getMaxValue(scores,usedRows,usedColumns,hmap));
         }
@@ -230,7 +230,7 @@ public class TestSearchServlet extends HttpServlet {
      * @param hmap
      * @return 
      */
-    public static float getMaxValue(float[][] numbers, Set usedRows, Set usedColumns, HashMap hmap) {
+    public static float getMaxValue(float[][] numbers, Set<Integer> usedRows, Set<Integer> usedColumns, HashMap<Integer, Integer> hmap) {
         float maxValue = 0f;
         int row = Integer.MIN_VALUE;
         int column = Integer.MIN_VALUE;
