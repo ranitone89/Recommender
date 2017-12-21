@@ -28,18 +28,21 @@
 				       INNER JOIN actors a1 ON md1.actorid = a1.actorid
 				WHERE 
 					movie_runtime(run1.time) BETWEEN 75 AND 150
-					and movie_year(m1.year) BETWEEN  AND 2017
-					AND rank1.rank::float BETWEEN 0.0 AND 10.0
+					and movie_year(m1.year) BETWEEN 1995 AND 2005
+					AND rank1.rank::float BETWEEN 7.0 AND 10.0
 				AND(
 					   --a1.name LIKE ANY('{"Denzel, Washington%"}')
 					   -- OR
-					    genre1.genre = ANY('Mystery','Thriller','Adventure') --IN ('Drama','Fanatasy','Adventure') 
+					    genre1.genre = ANY('{Mystery,Thriller,Adventure}') --IN ('Drama','Fanatasy','Adventure') 
 				    )
 				AND md1.title NOT LIKE '%(TV)%' AND md1.title NOT LIKE '%(#%)%' AND md1.title NOT LIKE '%(V)%'
 				AND genre1.genre NOT LIKE '%Documentary'
 				AND l1.language IN('English','French','German')
 				AND rank1.votes > 140000    
 				    )
+				AND movie_runtime(run.time) BETWEEN 75 AND 150
+				AND movie_year(m.year) BETWEEN 1995 AND 2005
+					
 
                       -- AND md.title NOT LIKE '%(TV)%' AND md.title NOT LIKE '%(#%)%' AND md.title NOT LIKE '%(V)%'
                        --AND genre.genre NOT LIKE '%Documentary'
