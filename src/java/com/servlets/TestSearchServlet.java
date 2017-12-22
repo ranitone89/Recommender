@@ -56,16 +56,7 @@ public class TestSearchServlet extends HttpServlet {
             String json1 = "";
             String json2 = "";
             String bothJson = "";
-            
-            /*System.out.println("######################## Method1 ###################");
-            for(int i=0; i<method1.length; i++){
-                System.out.println(method1[i]);
-            }
-            
-            System.out.println("######################## Method2 ###################");
-            for(int i=0; i<method2.length; i++){
-                System.out.println(method2[i]);
-            }*/           
+                     
             DataDB dataDao = new DataDB();
 
             ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres,parameter);
@@ -110,7 +101,7 @@ public class TestSearchServlet extends HttpServlet {
             response.getWriter().write(bothJson);
         } 
         catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.getMessage();
         }
     }
 
@@ -124,14 +115,11 @@ public class TestSearchServlet extends HttpServlet {
     private FinalClustering getMethod(ArrayList<PointdDim> points,  ArrayList<Integer> methParam)
     {
         FinalClustering method = null;
-        System.out.println("Parameter 0: "+methParam.get(0).intValue());
         if(methParam.get(0).compareTo(0)>0){
-            System.out.println("Cluster");
             method = Kmeans.kMeansClustering(points, methParam.get(1), 
                         methParam.get(2), methParam.get(3));
             }
         if(methParam.get(0).compareTo(0)<=0){
-            System.out.println("Borda");
             method = Kmeans.kMeansClusteringBordaNew(points, methParam.get(1), 
                         methParam.get(3));
             }
@@ -201,10 +189,6 @@ public class TestSearchServlet extends HttpServlet {
             int tempId= (int) hmap.get(cluster.getClusterId());
             cluster.setClusterId(tempId);
         }
-        /*Delete in order to remove error*/
-        for (Object row: hmap.keySet()){
-            System.out.println(row + " " + hmap.get(row));  
-        }
     }
     
 
@@ -217,7 +201,7 @@ public class TestSearchServlet extends HttpServlet {
      */
     public static void getClusterPair(float[][] scores, Set<Integer> usedRows, Set<Integer> usedColumns, HashMap<Integer, Integer> hmap){
         for(int i =0; i<scores.length; i++){
-            System.out.println("Max: "+getMaxValue(scores,usedRows,usedColumns,hmap));
+            getMaxValue(scores,usedRows,usedColumns,hmap);
         }
     }
     
@@ -234,11 +218,9 @@ public class TestSearchServlet extends HttpServlet {
         float maxValue = 0f;
         int row = Integer.MIN_VALUE;
         int column = Integer.MIN_VALUE;
-        
-        System.out.println("#################################");
+
         for (int j = 0; j < numbers.length; j++) {
             for (int i = 0; i < numbers[j].length; i++) {
-                System.out.println(numbers[i][j]);
                 if ( usedRows.contains(i) || usedColumns.contains(j)){
                    
                 continue;
@@ -250,9 +232,7 @@ public class TestSearchServlet extends HttpServlet {
                 }
                 
             }
-            System.out.println("#################################");
         }
-        System.out.println(column+":"+row);
         hmap.put(column, row);
         usedRows.add(row);
         usedColumns.add(column);
@@ -333,12 +313,12 @@ public class TestSearchServlet extends HttpServlet {
      * create search parameter
      * @param points 
      */    
-    private void printPointes(ArrayList<PointdDim> points){
+    /*private void printPointes(ArrayList<PointdDim> points){
         for(PointdDim p: points){
             System.out.println("id "+p.getId()+" Dims: "+p.toString()+" Dims: "+p.getMovieDim().getTitle());
         }
         
-    }
+    }*/
     
     /**
      * 

@@ -35,14 +35,13 @@ public class LoadScenariosServlet extends HttpServlet {
             DataDB dataDao = new DataDB();
             ArrayList<Scenario> scenarios = dataDao.loadScenarios();
             String json = new Gson().toJson(scenarios);
-            //System.out.println(json);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
             
         } 
         catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.getMessage();
         }
     }
 }

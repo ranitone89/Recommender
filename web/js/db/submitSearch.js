@@ -823,6 +823,8 @@ $(document).ready(function() {
        $('.testMode').css('display', 'block');
        $('.testMode  .evalChoise').trigger('click');
        $('.searchParameter').appendTo('.searchParameterTest');
+       $('#defineBtn').css('display', 'none');
+       $('.clusterbtn').css('display', 'block');
    }
    
    /* Hide test mode
@@ -1165,7 +1167,7 @@ $(document).ready(function() {
                                 },
                                                   
                                 {type: "text", name: "erfahrung_empfehlungen",isRequired: true,
-                                    title: "Wie Finden Sie Filmempfehlungen von anderen Streamdienstanbieter wie Amazon Prime oder Netflix?"}
+                                    title: "Wie Finden Sie Filmempfehlungen von anderen Streamdienstanbieter wie z.B Amazon Prime oder Netflix?"}
                             ],                           
                         }]
                 });
@@ -1276,7 +1278,7 @@ $(document).ready(function() {
      */
     $(document).on("click", "#id05 .infoClose", function(event){
         $('#id05').css("display","none");
-        /*$.ajax({
+        $.ajax({
              url : "CloseConnectionServlet",
              type : "GET",
 
@@ -1287,8 +1289,8 @@ $(document).ready(function() {
                             location.href = "index.html";
                         }
                 }
-            });*/   
-        location.href = "index.html"
+            });
+        //location.href = "index.html"
     });
     
     

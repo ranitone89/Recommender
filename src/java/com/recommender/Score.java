@@ -89,10 +89,6 @@ public class Score {
             }
         }
         float actorScore = ((float)commonActors) /((float)movieActors+searchActors-commonActors); 
-        /*System.out.println("Movie actors: "+movieActors);
-        System.out.println("Search actors: "+searchActors);
-        System.out.println("Common: "+commonActors); 
-        System.out.println("Score: "+actorScore);*/
         movie.setActorScore(actorScore);
     }
 
@@ -100,10 +96,6 @@ public class Score {
     public static String[] removeString(String[] actors){
         for(int i =0; i<actors.length; i++){
             actors[i] = actors[i].replace("%", "");
-        }
-        
-        for(String actor: actors){
-            System.out.println(actor);
         }
         return actors;
     }

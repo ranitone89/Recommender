@@ -8,13 +8,10 @@ public class DBConnection {
 	private static Connection connection = null;
 
 	public static Connection getDBConnection() throws Exception {
-                System.out.println("com.db.DBConnection.getDBConnection()");
 		if (connection != null){
-                    System.out.println("DB CONNECTION Not Closed");
                     return connection;
                 }
 		else {
-                        System.out.println("DB CONNECTION Closed");
 			Class.forName("org.postgresql.Driver");
 
 			// set the url, username and password for the databse
@@ -28,14 +25,12 @@ public class DBConnection {
         
 	public static String closeDBConnection() throws Exception {
 		String message = "";
-                System.out.println("Close connection");
                 try{
                     connection.close();
                     connection = null;
                     message = "Success";
                 }
                 catch (SQLException e) {
-                    System.out.println("Error closing connection");
                     message = "Error closing connection";
 		}
 		return message;

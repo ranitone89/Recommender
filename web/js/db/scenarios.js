@@ -126,7 +126,7 @@ $(document).ready(function() {
                             loadScenariosDB();
                             $('.clusterbtn').css("display","block");
                             $('#defineBtn').css("display","none");
-                            $('#id01 .search-tab').css("display","none"); 
+                            $('#id01 .search-tab').trigger('click');
                             $('#messageEval').css("display","none");
                             openEval(event, 'EvalScenario');
                         }
@@ -135,7 +135,6 @@ $(document).ready(function() {
                             resetScenario();
                             $('#messageEval').css("display","block");
                             $('#messageEval').html("<font color='red'>Die angegebene Parameter sind zu spezifisch. </font>");
-                            alert("Insert Error");
                         }
                 }
             });
@@ -248,9 +247,6 @@ $(document).ready(function() {
             for(var j=0; j<jsonObj[i].comparations.length; j++){
                 searchPrameter[i][j] = jsonObj[i].comparations[j];
             }
-           
-            /*alert("Lenge: "+jsonObj[i].comparations.length);
-            alert("Param: "+searchPrameter[i]);*/
 
             $('#nScenarios').append('<option value="'+jsonObj[i].id+'"'+'>Szenario ' + jsonObj[i].id + '</option>');
             $('#EvalScenario').append('<textarea id="desc'+jsonObj[i].id+'" rows="1" class="descriptions" contenteditable="true">'+jsonObj[i].desc+'</textarea>');

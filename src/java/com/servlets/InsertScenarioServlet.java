@@ -52,23 +52,7 @@ public class InsertScenarioServlet extends HttpServlet {
             String searchparameter = request.getParameter("searchParameterMethods");
             String searchMethodparameter[][] = getSearchMethodParameter( searchparameter );
             String comparation = request.getParameter("comparation");
-            
-            System.out.println("Parameter: "+parameter); 
-            System.out.println("Erscheinungsjahr min: "+minReleased+" max: "+maxReleased);
-            System.out.println("Lenght min: "+minLenght+" max: "+maxLenght);
-            System.out.println("Rating: "+minStar);
-            
-            System.out.println("############################# Actors ########################################");
-            for(int i=0; i<actors.length; i++){
-                System.out.println(actors[i]);
-            }
-            
-            System.out.println("############################# Genres ########################################");
-            for(int i=0; i<genres.length; i++){
-                System.out.println(genres[i]);
-            }
-                        
-            
+         
             //Get movies according to search parameter
             ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres,parameter);
             String message = "";
@@ -94,10 +78,6 @@ public class InsertScenarioServlet extends HttpServlet {
                     FinalClustering methodCluster = new FinalClustering();
                     methodCluster = getMethod(points,methodParam);
                     
-                    System.out.println("Method for cluster");
-                    for(int j = 0; j<methodParam.size(); j++){
-                        System.out.println(methodParam.get(j));
-                    }
                     ArrayList<Recommendation> recommendation = getMethodElements(methodCluster,Integer.parseInt(searchMethodparameter[i][4]));
                     dataDao.insertClustering(searchMethodparameter[i][4],scenario, recommendation);
                 }
@@ -107,7 +87,7 @@ public class InsertScenarioServlet extends HttpServlet {
             
         } 
         catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.getMessage();
         }
     }
         
@@ -158,12 +138,10 @@ public class InsertScenarioServlet extends HttpServlet {
     {
         FinalClustering method = null;
         if(methParam.get(0).compareTo(0)>0){
-            System.out.println("Cluster");
             method = Kmeans.kMeansClustering(points, methParam.get(1), 
                         methParam.get(2), methParam.get(3));
             }
         if(methParam.get(0).compareTo(0)<=0){
-            System.out.println("Borda");
             method = Kmeans.kMeansClusteringBorda(points, methParam.get(1), 
                         methParam.get(3));
             }

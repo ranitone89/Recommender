@@ -51,7 +51,7 @@ public class InsertEvaluationServlet extends HttpServlet {
             
         } 
         catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.getMessage();
         }
     }
         
@@ -93,14 +93,11 @@ public class InsertEvaluationServlet extends HttpServlet {
     private FinalClustering getMethod(ArrayList<PointdDim> points,  ArrayList<Integer> methParam)
     {
         FinalClustering method = null;
-        System.out.println("Parameter 0: "+methParam.get(0).intValue());
         if(methParam.get(0).compareTo(0)>0){
-            System.out.println("Cluster");
             method = Kmeans.kMeansClustering(points, methParam.get(1), 
                         methParam.get(2), methParam.get(3));
             }
         if(methParam.get(0).compareTo(0)<=0){
-            System.out.println("Borda");
             method = Kmeans.kMeansClusteringBorda(points, methParam.get(1), 
                         methParam.get(3));
             }

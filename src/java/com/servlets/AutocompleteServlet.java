@@ -38,7 +38,7 @@ public class AutocompleteServlet extends HttpServlet {
                         String searchList = new Gson().toJson(list);
                         response.getWriter().write(searchList);
                 } catch (Exception e) {
-                        System.err.println(e.getMessage());
+                        e.getMessage();
                 }
         }
 }

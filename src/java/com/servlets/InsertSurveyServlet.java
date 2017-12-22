@@ -32,18 +32,16 @@ public class InsertSurveyServlet extends HttpServlet {
             DataDB dataDao = new DataDB();
             String message = "";
             String[] surveyResults = request.getParameterValues("surveyResults[]");
-            System.out.println("Rurvey Results: "+surveyResults.length);
             int userid = Integer.parseInt(request.getParameter("user"));
             int survey = dataDao.insertSurveyResults(surveyResults);
             if(survey>0){
-                System.out.println("##############################INSERTATION SURVEY''''''''''''");
                 message = dataDao.insertSurvey2User(userid, survey);                
             }
             response.getWriter().write(message);
             
         } 
         catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.getMessage();
         }
     }
         

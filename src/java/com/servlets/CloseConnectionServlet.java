@@ -34,14 +34,13 @@ public class CloseConnectionServlet extends HttpServlet {
             DataDB dataDao = new DataDB();
 
             message = dataDao.closeConnection();
-            System.out.println(message);
             String respone = new Gson().toJson(message);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(respone);
         } 
         catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.getMessage();
         }
     }
 }

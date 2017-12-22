@@ -122,7 +122,6 @@ $(document).ready(function() {
         
         /******************* On star click ***************/
         for (var i = 0; i <value; i++) {
-            alert(i);
             $('#star' + i).prop('checked', false); 
         }
         

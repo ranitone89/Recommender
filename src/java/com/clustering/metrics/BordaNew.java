@@ -90,7 +90,7 @@ public class BordaNew {
 				}
 			});
 			long s2=System.nanoTime();
-			System.out.println("Sort1: "+(s2-s1));
+			//System.out.println("Sort1: "+(s2-s1));
 			int j = 1;
 			//System.out.println();
 			//System.out.println("Values");
@@ -122,7 +122,7 @@ public class BordaNew {
 			}
 		});
 		long s4=System.nanoTime();
-		System.out.println("Sort2: "+(s4-s3));
+		//System.out.println("Sort2: "+(s4-s3));
 		
 		int counter= 1;
 		int bestPos = Integer.MAX_VALUE;
@@ -354,7 +354,7 @@ public class BordaNew {
 		
 		
 		BordaNew b = new BordaNew(clusters, p1, 1);
-		System.out.println(b.getBestObject1());
+		//System.out.println(b.getBestObject1());
 	}
 	
 	

@@ -48,10 +48,6 @@ public class EvalSearchServlet extends HttpServlet {
             Integer method2 = Integer.parseInt(request.getParameter("method2")); 
             Integer scenario = Integer.parseInt(request.getParameter("scenario"));
             
-            System.out.println("######################### Method s ##################");
-            System.out.println(method1);
-            System.out.println(method2);
-            
             /* Establish connection */
             DataDB dataDao = new DataDB();
             
@@ -83,7 +79,7 @@ public class EvalSearchServlet extends HttpServlet {
             response.getWriter().write(bothJson);
         } 
         catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.getMessage();
         }
     }
 
@@ -93,14 +89,11 @@ public class EvalSearchServlet extends HttpServlet {
     private FinalClustering getMethod(ArrayList<PointdDim> points,  ArrayList<Integer> methParam)
     {
         FinalClustering method = null;
-        System.out.println("Parameter 0: "+methParam.get(0).intValue());
         if(methParam.get(0).compareTo(0)<=0){
-            System.out.println("Cluster");
             method = Kmeans.kMeansClustering(points, methParam.get(1), 
                         methParam.get(2), methParam.get(3));
             }
         if(methParam.get(0).compareTo(0)>0){
-            System.out.println("Borda");
             method = Kmeans.kMeansClusteringBorda(points, methParam.get(1), 
                         methParam.get(3));
             }
@@ -166,19 +159,14 @@ public class EvalSearchServlet extends HttpServlet {
             int tempId= (int) hmap.get(cluster.getClusterId()-1);
             cluster.setClusterId(tempId+1);
         }
-        /*Delete in order to remove error*/
-        for (Object row: hmap.keySet()){
-            System.out.println(row + " " + hmap.get(row));  
-        }
     }
     
     /*
     *   Get cluster with maximal simularity and disable affected row and column
     */
     public static void getClusterPair(float[][] scores, Set<Integer> usedRows, Set<Integer> usedColumns, HashMap<Integer, Integer> hmap){
-        System.out.println("Cluster Pair");
         for(int i =0; i<scores.length; i++){
-            System.out.println("Max: "+getMaxValue(scores,usedRows,usedColumns,hmap));
+            getMaxValue(scores,usedRows,usedColumns,hmap);
         }
     }
     
@@ -188,10 +176,8 @@ public class EvalSearchServlet extends HttpServlet {
         int row = Integer.MIN_VALUE;
         int column = Integer.MIN_VALUE;
         
-        System.out.println("#################################");
         for (int j = 0; j < numbers.length; j++) {
             for (int i = 0; i < numbers[j].length; i++) {
-                System.out.println(numbers[i][j]);
                 if ( usedRows.contains(i) || usedColumns.contains(j)){
                    
                 continue;
@@ -204,7 +190,6 @@ public class EvalSearchServlet extends HttpServlet {
                 
             }
         }
-        System.out.println(column+":"+row);
         hmap.put(column, row);
         usedRows.add(row);
         usedColumns.add(column);

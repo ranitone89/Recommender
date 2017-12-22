@@ -38,14 +38,13 @@ public class GetScenarioServlet extends HttpServlet {
             ArrayList<Scenario> scenarios = dataDao.getScenarios(evalScenarios);
             
             String json = new Gson().toJson(scenarios);
-            System.out.println(json);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
             
         } 
         catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.getMessage();
         }
     }
 }
