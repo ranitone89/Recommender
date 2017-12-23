@@ -617,10 +617,10 @@ $(document).ready(function() {
     function chechScenarios(){
         var error = false;
         $('#messageEval').css("display","none");
-            if (getScenarioLenght()<3)
+            if (getScenarioLenght()<1)
             {
                $('#messageEval').css("display","block");
-               $('#messageEval').html("<font color='red'>Wählen Sie bitte mind drei Szenarien </font>");
+               $('#messageEval').html("<font color='red'>Wählen Sie bitte mind. ein Szenario </font>");
                error = true;
             }
             else{
@@ -1272,6 +1272,7 @@ $(document).ready(function() {
             //evalShowInfos = false;
         }
     }
+    
     
     /* After evaluation ends go to index.com
      * 
