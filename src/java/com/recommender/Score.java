@@ -6,7 +6,6 @@
 package com.recommender;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 /**
  *

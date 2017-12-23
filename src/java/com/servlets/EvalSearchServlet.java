@@ -5,9 +5,6 @@
  */
 package com.servlets;
 
-import com.clustering.kmeans.Kmeans;
-import com.clustering.objects.FinalClustering;
-import com.clustering.objects.PointdDim;
 import com.db.DataDB;
 import com.google.gson.Gson;
 import java.io.IOException;
@@ -19,10 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.recommender.Movie;
 import com.recommender.Recommendation;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 /**
  *
@@ -52,7 +47,7 @@ public class EvalSearchServlet extends HttpServlet {
             DataDB dataDao = new DataDB();
             
             /* Recommendation*/
-            ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<>();
+            ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<ArrayList<Recommendation>>();
             
             /*  Make final recommendations, that includes all clusters and movies for each method */
             ArrayList<Recommendation> firstRecommendation = dataDao.getMovies2Scenario(scenario,method1);
@@ -82,49 +77,6 @@ public class EvalSearchServlet extends HttpServlet {
             e.getMessage();
         }
     }
-
-    /**  Get all cluster for the method
-     *   
-     */
-    private FinalClustering getMethod(ArrayList<PointdDim> points,  ArrayList<Integer> methParam)
-    {
-        FinalClustering method = null;
-        if(methParam.get(0).compareTo(0)<=0){
-            method = Kmeans.kMeansClustering(points, methParam.get(1), 
-                        methParam.get(2), methParam.get(3));
-            }
-        if(methParam.get(0).compareTo(0)>0){
-            method = Kmeans.kMeansClusteringBorda(points, methParam.get(1), 
-                        methParam.get(3));
-            }
-        return method;
-    }     
-    
-    
-    /**
-     * Get Parameter from js as ArrayList for particular method
-     * @param parameters
-     * @return 
-     */
-    private ArrayList<Integer> getParameters(String[] parameters, int method)
-    {
-        ArrayList<Integer> temp = new ArrayList<Integer>();
-        
-        List<Integer> defaultPar = Arrays.asList(method, 3, 0, 1);
-        
-        if(parameters != null){
-            for(int i =0; i<parameters.length; i++){
-                temp.add(i, Integer.parseInt(parameters[i]));
-            }
-        }
-        else{
-            for(int i =0; i<defaultPar.size(); i++){
-                temp.add(i, defaultPar.get(i));
-            }
-        }   
-        return temp;
-    }        
-
 
     /**
      * Sort clusters of two methods in order to display simular clusters in one row
@@ -212,18 +164,6 @@ public class EvalSearchServlet extends HttpServlet {
         }
         float clusterScore = ((float)commonMovies) /((float)numMoviesCl1+numMoviesCl2-commonMovies);   
         return clusterScore;
-    }     
-    
- 
-    private String[] movieArray(String str){
-        String[] temp;
-
-        /* delimiter */
-        String delimiter = ", ";
-        /* given string will be split by the argument delimiter provided. */
-        temp = str.replace("[","").replace("]","").split(delimiter);
-        /* print substrings */
-        return temp;
     }
 
 }

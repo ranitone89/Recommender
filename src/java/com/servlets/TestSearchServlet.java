@@ -319,21 +319,5 @@ public class TestSearchServlet extends HttpServlet {
         }
         
     }*/
-    
-    /**
-     * 
-     * @param str
-     * @return 
-     */
-    private String[] movieArray(String str){
-        String[] temp;
-
-        /* delimiter */
-        String delimiter = ", ";
-        /* given string will be split by the argument delimiter provided. */
-        temp = str.replace("[","").replace("]","").split(delimiter);
-        /* print substrings */
-        return temp;
-    }
 
 }

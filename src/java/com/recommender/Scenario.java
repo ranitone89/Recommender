@@ -5,9 +5,6 @@
  */
 package com.recommender;
 
-import java.sql.Array;
-import java.util.ArrayList;
-
 /**
  *
  * @author Nemanja Ranitovic
@@ -25,13 +22,13 @@ public class Scenario {
     private Integer[][] comparations;
     
     public Scenario(int id, String desc, String[] actors,String[] genres, Integer[] released,Integer[] lenght, int rating,String comparationString) {
-        this.id = id;
-        this.desc = desc;
-        this.genres = genres;
-        this.actors = actors;
-        this.released = released;
-        this.lenght = lenght;
-        this.rating = rating;
+        this.setId(id);
+        this.setDesc(desc);
+        this.setGenres(genres);
+        this.setActors(actors);
+        this.setReleased(released);
+        this.setLenght(lenght);
+        this.setRating(rating);
         setComparations(comparationString);
     } 
     
@@ -48,4 +45,60 @@ public class Scenario {
             }
         }     
     }
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+	public String[] getActors() {
+		return actors;
+	}
+
+	public void setActors(String[] actors) {
+		this.actors = actors;
+	}
+
+	public Integer[] getReleased() {
+		return released;
+	}
+
+	public void setReleased(Integer[] released) {
+		this.released = released;
+	}
+
+	public String[] getGenres() {
+		return genres;
+	}
+
+	public void setGenres(String[] genres) {
+		this.genres = genres;
+	}
+
+	public Integer[] getLenght() {
+		return lenght;
+	}
+
+	public void setLenght(Integer[] lenght) {
+		this.lenght = lenght;
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
 }

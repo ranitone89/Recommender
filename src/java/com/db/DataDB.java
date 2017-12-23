@@ -39,7 +39,7 @@ public class DataDB {
          * @throws Exception 
          */
 	public ArrayList<String> doAutocomplete(String term) throws Exception {
-                ArrayList<String> list = new ArrayList<>();
+                ArrayList<String> list = new ArrayList<String>();
 		PreparedStatement ps = null;
                 ResultSet rs = null;
                 //Connection connection = null;
@@ -108,9 +108,6 @@ public class DataDB {
             String message = null;
             PreparedStatement ps = null;
             ResultSet rs = null;
-            //Connection connection = null;
-            String data;
-            
             try {
                 String sql = "SELECT name FROM users WHERE name = ?";
                 //connection = DBConnection.getDBConnection();
@@ -203,8 +200,6 @@ public class DataDB {
             String[] released,String[] lenght,String[] parameter,String rating,String comparation) throws Exception{
         PreparedStatement ps = null;
         ResultSet rs = null;
-        //Connection connection = null;
-        boolean action = false;
         int generatedKey = 0;
         try {
             String query = "INSERT INTO scenarios"
@@ -390,14 +385,13 @@ public class DataDB {
      * @throws Exception 
      */
     public ArrayList<Movie> search(String minLenght, String maxLenght, String minReleased, String maxReleased,String minStar, String[] actors, String[] genres, String[] parameter) throws Exception {
-        String message = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         //Connection connection = null;
         
-        ArrayList<Movie> movieList = new ArrayList<>();        
-        HashMap<String, List<String>> param =  new HashMap<>();
-        List<String> search = new ArrayList<>();
+        ArrayList<Movie> movieList = new ArrayList<Movie>();        
+        HashMap<String, List<String>> param =  new HashMap<String, List<String>>();
+        List<String> search = new ArrayList<String>();
         String query = null;
         
         param = createQuery(parameter);
@@ -461,13 +455,9 @@ public class DataDB {
                     movieList.add(movie);
 
                 }
-                message = "SUCCESS SEARCH";
-            }else{
-                message = "FAILURE CANNOT SELECT DATA";
             }
         } 
         catch (Exception e) {
-            message = "FAILURE";
             e.printStackTrace();
         }
         finally {
@@ -485,10 +475,10 @@ public class DataDB {
      * @throws SQLException 
      */
     private HashMap<String, List<String>> createQuery(String[] parameter) throws SQLException{ 
-        HashMap<String, List<String>> params = new HashMap<>();
-        List<String> first = new ArrayList<>();
-        List<String> second = new ArrayList<>(); 
-        List<String> search = new ArrayList<>();
+        HashMap<String, List<String>> params = new HashMap<String, List<String>>();
+        List<String> first = new ArrayList<String>();
+        List<String> second = new ArrayList<String>(); 
+        List<String> search = new ArrayList<String>();
         
         String first_part = "SELECT md.movieid,array_to_string(array_agg(distinct md.title),',') AS title, "
             + "array_to_string(array_agg(distinct md.genre),',') AS genres, "
@@ -788,7 +778,6 @@ public class DataDB {
     public ArrayList<Integer> getClusterId(Integer scenario) throws SQLException, Exception {
         
         ArrayList<Integer> clusterids = new ArrayList<Integer>();
-        String message = null;
         PreparedStatement ps = null;
         //Connection connection = null;
         ResultSet rs = null;
@@ -815,7 +804,6 @@ public class DataDB {
 
         }
         catch (Exception e) {
-            message = "FAILURE";
             e.printStackTrace();
         }
         finally {

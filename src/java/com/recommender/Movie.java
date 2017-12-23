@@ -20,8 +20,8 @@ public class Movie {
     private int releaseYear;
     private int movieLenght;
     private float rating;
-    List<Float> scores = new ArrayList<>();
-    List<String> scoresString = new ArrayList<>();
+    List<Float> scores = new ArrayList<Float>();
+    List<String> scoresString = new ArrayList<String>();
 
     public Movie(int movieId, String title, String genres, String actors, int movieLenght, int releaseYear, float rating)
     {

@@ -243,7 +243,7 @@ public class Kmeans {
 		// System.out.println("Start kmeans with borda k="+k+" and "+points.size()+" points");
 		boolean firstRound = true;
 		ArrayList<ArrayList<Cluster>> clustersOld = new ArrayList<ArrayList<Cluster>>();
-		HashMap<Integer, Integer> currentClustering = new HashMap<>(); 
+		HashMap<Integer, Integer> currentClustering = new HashMap<Integer, Integer>(); 
 		//int[] currentClustering = new int[points.size()];
 		long start1 = System.nanoTime();
 		// initialize the k clusters with clustering-centroids

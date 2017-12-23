@@ -76,7 +76,7 @@ public class BordaNew {
 				}
 
 			}
-			long s1= System.nanoTime();
+			//long s1= System.nanoTime();
 			Collections.sort(set, new Comparator<BordaObject>() {
 				@Override
 				public int compare(BordaObject o1, BordaObject o2) {
@@ -89,7 +89,7 @@ public class BordaNew {
 					return 0;
 				}
 			});
-			long s2=System.nanoTime();
+			//long s2=System.nanoTime();
 			//System.out.println("Sort1: "+(s2-s1));
 			int j = 1;
 			//System.out.println();
@@ -108,7 +108,7 @@ public class BordaNew {
 			sets.add(set);
 
 		}
-		long s3=System.nanoTime();
+		//long s3=System.nanoTime();
 		Collections.sort(finalSet, new Comparator<BordaObject>() {
 			@Override
 			public int compare(BordaObject o1, BordaObject o2) {
@@ -121,7 +121,7 @@ public class BordaNew {
 				return 0;
 			}
 		});
-		long s4=System.nanoTime();
+		//long s4=System.nanoTime();
 		//System.out.println("Sort2: "+(s4-s3));
 		
 		int counter= 1;
@@ -353,7 +353,7 @@ public class BordaNew {
 		p1.setDim(dim3);
 		
 		
-		BordaNew b = new BordaNew(clusters, p1, 1);
+		//BordaNew b = new BordaNew(clusters, p1, 1);
 		//System.out.println(b.getBestObject1());
 	}
 	
