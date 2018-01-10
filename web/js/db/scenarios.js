@@ -1,6 +1,7 @@
-/* global scenarioObject */
+/* global scenarioObject, searchObject */
 
 $(document).ready(function() {
+   var scenarioLoad = false;
    loadScenariosDB();
    //init scenarios for evaluation
    initEvalScenarios(1,2,3);
@@ -179,9 +180,21 @@ $(document).ready(function() {
             
    }
    
+    /**
+     * On change scenario dropbox
+     */
+    
+    $(document).on("click", "#nScenarios", function(event){
+        if(scenarioLoad==false){
+            loadScenariosDB();
+            scenarioLoad=true;
+        }
+    });
+   
+
 
     /* Parse informations from scenarios
-     * Initalisation: Scenario 1, Scenario 1, Scenario 1 
+     * Initalisation: Scenario 1, Scenario 2, Scenario 3 
      * @param {type} jsonObj
      * @returns {undefined}
      */
@@ -205,7 +218,6 @@ $(document).ready(function() {
     scenarioObject.getScenariosEvaluation = function(){
 
        var scenarios = scenarioObject.getUserChoise();
-
        $.ajax({
              url : "GetScenarioServlet",
              type : "GET",
@@ -481,6 +493,10 @@ $(document).ready(function() {
             }
         }
         return scenarios;
+    };
+    
+    scenarioObject.scenariosNotLoaded = function(){
+        scenarioLoad = false;
     };
     
    /* Set text for slider

@@ -13,9 +13,10 @@ public class DBConnection {
                 }
 		else {
 			Class.forName("org.postgresql.Driver");
+			//DriverManager.registerDriver(new org.postgresql.Driver() );
 
 			// set the url, username and password for the databse
-                        connection = DriverManager.getConnection(
+                     connection = DriverManager.getConnection(
 					"jdbc:postgresql://canismajor.informatik.uni-augsburg.de/jmdb", "ma_ranitovic",
 					"ma1_2ranitovic3");
 			return connection;

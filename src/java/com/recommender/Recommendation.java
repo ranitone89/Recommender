@@ -21,7 +21,7 @@ public class Recommendation{
     {
         this.clusterid = clusterid;
         this.movies = movies;
-        this.methodid = methodid;
+        this.setMethodid(methodid);
     }
     
     public ArrayList<Movie> getMovies(){

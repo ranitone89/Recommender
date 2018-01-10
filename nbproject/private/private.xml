@@ -3,13 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/js/searchFields.js</file>
-            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/servlets/AutocompleteServlet.java</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/db/DBConnection.java</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/start.html</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/servlets/InsertSurveyServlet.java</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/db/DataDB.java</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/servlets/CloseConnectionServlet.java</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/js/db/userData.js</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/js/db/survey.js</file>
             <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/js/db/scenarios.js</file>
-            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/css/start.css</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/servlets/InsertEvaluationServlet.java</file>
+            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/js/db/evaluation.js</file>
             <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/js/db/submitSearch.js</file>
             <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/src/java/com/servlets/TestSearchServlet.java</file>
-            <file>file:/C:/Users/Nemanja%20Ranitovic/Documents/NetBeansProjects/Recommender/Recommender/web/css/nouislider.min.css</file>
         </group>
     </open-files>
 </project-private>

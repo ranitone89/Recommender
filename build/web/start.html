@@ -19,6 +19,7 @@
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     
+    <script src="js/browser.js" type="text/javascript"></script>
     <script src="js/global.js" type="text/javascript"></script>
     <script src="js/movies.js" type="text/javascript"></script>
     <script src="js/statistics.js" type="text/javascript"></script>
@@ -42,7 +43,7 @@
   </head>
     
     
-  <body class="home_page">
+  <body class="home_page" onkeydown="return (event.keyCode != 116)">
     <div id="page" class="site">
         <!-----------------------------HEADER------------------------------------------------------>
         <header id="masthead" class="site-header header-default">
@@ -97,7 +98,7 @@
                 </div>
                 <div class="button-container" id="evalSearch">
                     <div class="button-content">
-                        <button class="button">Teil nehmen</button>
+                        <button class="button">Teilnehmen</button>
                     </div>
                 </div>
         
@@ -361,7 +362,7 @@
                 <div id="ck-buttons">
                     <div class="ck-button" id="ck-left">
                         <label class="cb_label">
-                           <input id="cl1_like" type="checkbox" value="1">
+                           <input id="cl1_like" name="cl_like" type="checkbox" value="1">
                            <span class="unlike"> <img src="img/unlike.png"/> Unlike</span>
                            <span class="like"> <img src="img/like.png"/> Like</span>
                         </label>
@@ -369,7 +370,7 @@
                     
                     <div class="ck-button" id="ck-center">
                         <label class="cb_label">
-                           <input id="cl0_like" type="checkbox" value="0">
+                           <input id="cl0_like" name="cl_like" type="checkbox" value="0">
                            <span class="unlike"> <img src="img/unequal.png"/> Unequal</span>
                            <span class="like"> <img src="img/equal.png"/> Equal</span>
                         </label>
@@ -377,7 +378,7 @@
                     
                     <div class="ck-button" id="ck-right">
                         <label class="cb_label">
-                           <input id="cl2_like" type="checkbox" value="2">
+                           <input id="cl2_like" name="cl_like" type="checkbox" value="2">
                            <span class="unlike"> <img src="img/unlike.png"/> Unlike</span>
                            <span class="like"> <img src="img/like.png"/> Like</span>
                         </label>
@@ -398,15 +399,23 @@
             <div class="modal-content animate">
                 <div class="formular-container">
                     <h3 class="infoTitel">Bewertung von Szenarien</h3>
-                    <p>Wählen Sie nun bitte zwischen gleichfarbigen Filmgruppen aus und bestätigen Sie Ihre Auswahl mit einem Klick auf das vorgesehene Feld <img src="img/checkbox.PNG"/>. Halten Sie beide Filmgruppen für ansprechend, können Sie beide Felder anklicken. Falls Ihnen keine der Filmengruppen gefällt, können Sie die Felder leer lassen.
-                    <br><br>
-                    Aller Filmgruppen auf der linken Seite sind der ersten Methode zuzuordnen, Filmgruppen auf der rechten Seite gehören der zweiten Methode an.
-                    <br><br>
-                    Unterhalb der Filmgruppen geben Sie bitte Ihre Bewertung zu der jeweiligen Methode ab. Klicken Sie auf den linken Button, so bevorzügen Sie die erste Methode. Durch einen Klick auf den rechten Button ziehen Sie die zweite Methode vor.
-                    Sollten Sie sich zwischen beiden Methoden nicht entscheiden können, so wählen Sie den mittleren Button.
+                    <p>
+                    Im Folgenden bewerten Sie bitte nun eine Auswahl von mehreren Szenarien, dabei beinhaltet jeder der Szenarien zwei Filmmengen. Diese Mengen stellen die Filmempfehlungen dar, die mit zwei Verfahren generiert wurden. 
+                    Auf der linken Seite befinden sich die Filmempfehlungen des ersten, während die Empfehlungen des zweiten Verfahrens auf der rechten Seite positioniert sind.
+                    Jeder der Filmempfehlungen eines Verfahrens ist in mehrere Filmgruppen eingeteilt, die durch unterschiedliche Farben dargestellt sind. Die Bewertung der Szenarien besteht aus zwei Aufgaben.
+                  	</p>
+                    <h4>Aufgabe 1</h4>
+                    <p>Betrachten Sie zuerst paarweise gleichfarbigen Filmgruppen und vergleichen Sie diese miteinander mit einem Klick auf das vorgesehene Feld <img src="img/checkbox.PNG"/>. Halten Sie beide Filmgruppen für ansprechend, können Sie beide Felder anklicken. Falls Ihnen keine der Filmgruppen gefällt, können Sie die Felder leer lassen.
+                    Bitte lassen Sie sowohl Filme, die sie bereits kennen, als auch Filme die sie noch nicht kennen, aber sich eventuell ansehen wollen, gleichermaßen in Ihre Bewertung innerhalb der einzelnen Gruppen einfließen. Berücksichtigen Sie zudem, ob die Filme innerhalb einer Gruppe zueinander passen. 
+                    </p>
+                    <h4>Aufgabe 2</h4>
+                    <p>
+                    Nachdem Sie die gleichfarbigen Filmgruppen bewertet haben, geben Sie bitte Ihre Bewertung für die gesamten Filmmengen ab. Unterhalb der Filmmengen befinden sich drei rote Buttons, mit denen Sie Ihre Bewertung abgeben können.
+                    Klicken Sie auf den linken Button, so bevorzugen Sie die linke Filmmenge. Durch einen Klick auf den rechten Button ziehen Sie die rechte Filmmenge vor.
+                    Sollten Sie sich zwischen beiden Mengen nicht entscheiden können, so wählen Sie den mittleren Button.
                     </p>
                     <p>Sollten Sie sich die Angaben nochmals ansehen wollen, klicken Sie auf 
-                    <img src="img/info_default.png">.</p>
+                    <img src="img/info_default.png">. Wenn Sie fertig mit Ihrer Entscheidung sind, gelangen Sie über den Ok Button zum nächsten Vergleich.</p>
 
                 </div>
                 <div class="clearfix">
@@ -422,11 +431,12 @@
                     <!--h3 class="infoTitel">Umfrage zu Empfehlungssystemen</h3-->
                     <p>Liebe Teilnehmerin, lieber Teilnehmer,
                         <br><br>vielen lieben Dank für die rege Teilnahme an der Evaluation.<br><br>
+                        Als kleines Dankeschön soll unter allen Teilnehmern 3 x 15 € Amazongutschein verlost werden. Die Bekanntgabe des Gewinners erfolgt, nach dem vollständigen Abschluss der Evaluation, per E-Mail. 
                         <br><br>
                     </p>    
                 </div>
                 <div class="clearfix">
-                    <button name="infoClose" onclick="document.getElementById('id05').style.display='none'" class="infoClose" id="infoClose">Ok</button>
+                    <button name="infoClose" onclick="document.getElementById('id05').style.display='none'" class="infoClose" id="infoClose">Umfrage beenden</button>
                 </div>
             </div>
         </div>
@@ -435,7 +445,7 @@
         <div id="id04" class="modal" style="display:none">
             <div class="modal-content animate">
                 <div class="formular-container">
-                    <h3 class="infoTitel">Klicken Sie bitte auf der linken Seite auf "Teil nehmen" und folgen Sie den weiteren Instruktionen.</h3>
+                    <h3 class="infoTitel">Klicken Sie bitte auf der linken Seite auf "Teilnehmen" und folgen Sie den weiteren Instruktionen.</h3>
                     <!--p>Klicken Sie bitte auf "Filmsuche" und folgen Sie den weiteren Instruktionen.
                     </p-->    
                 </div>

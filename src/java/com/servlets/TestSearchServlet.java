@@ -60,7 +60,7 @@ public class TestSearchServlet extends HttpServlet {
             DataDB dataDao = new DataDB();
 
             ArrayList<Movie> movies = dataDao.search(minLenght,maxLenght,minReleased,maxReleased,minStar,actors,genres,parameter);
-            ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<>();
+            ArrayList<ArrayList<Recommendation>> recommendations = new ArrayList<ArrayList<Recommendation>>();
 
             
             if(movies.size()>0){

@@ -1,8 +1,9 @@
 var statisticObject = {};
+var scenarioObject = {};
 var methodObject = {};
 var movieObject = {};
 var surveyObject = {};
-var scenarioObject = {};
+
 var searchObject = {};
 var evaluationObject = {};
 

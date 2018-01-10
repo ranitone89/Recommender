@@ -25,7 +25,8 @@
         surveyResults.push(result.data.merkmale_filme.bekannte);
         surveyResults.push(result.data.merkmale_filme.unbekannte);
         surveyResults.push(result.data.merkmale_filme.gemischt);
-        surveyResults.push(result.data.erfahrung_empfehlungen);
+        surveyResults.push(result.data.erfahrung_empfehlungen.positive);
+        surveyResults.push(result.data.erfahrung_empfehlungen.negative);
         
         $.ajax({
              url : "InsertSurveyServlet",

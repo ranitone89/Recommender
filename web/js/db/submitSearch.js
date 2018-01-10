@@ -31,9 +31,10 @@ $(document).ready(function() {
     var surveryInfor = false;
     var surveyIndex = 1;
     var surveyPar = false;
-
+    
     initMode();
     initWelcomeScreen();
+    
     
     
     /*Scroll statistics*/
@@ -155,9 +156,15 @@ $(document).ready(function() {
      * @returns {undefined}
      */
     function getUserId() {
-        var url = window.location.href;
+        /*var url = window.location.href;
         var userid = url.substring(url.lastIndexOf('=') + 1);
-        return userid;
+        return userid;*/
+    	
+        var url = window.location.href;
+        var temp = url.substring(url.lastIndexOf('=') + 1);
+        var userId = temp.replace(/[^0-9]/g, '');
+        
+        return userId;
     }
 
     /*
@@ -442,12 +449,14 @@ $(document).ready(function() {
             //}
         }
         
-        if(mode==1 && $('#cl0_like').is(':checked')==true && $('#cl1_like').is(':checked')==true && $('#cl2_like').is(':checked')==true ){
+        alert($("#ck-buttons input[name = cl_like]:checked").length);
+        
+        if(mode==1 && $("#ck-buttons input[name = cl_like]:checked").length>1){
            $('#messageSurvey').css("display","block");
            $('#messageSurvey').html("<font color='red'>Sie können nur eine der Möglichkeiten auswählen</font>");
            return;
         }           
-        if(mode==1 && $('#cl0_like').is(':checked')==false && $('#cl1_like').is(':checked')==false && $('#cl2_like').is(':checked')==false ){
+        if(mode==1 &&  $("#ck-buttons input[name = cl_like]:checked").length<=0){
            $('#messageSurvey').css("display","block");
            $('#messageSurvey').html("<font color='red'>Wählen Sie mindestens eine Option</font>");
            return;
@@ -514,6 +523,7 @@ $(document).ready(function() {
                 
                 $('#Result .cb_text').css("display","block");
                 
+                scenarioObject.scenariosNotLoaded();
                 scenarios = scenarioObject.getUserChoise();
                 scenarioObject.createScenarioMessage(scenarios);
                 getModeParameter(mode);   
@@ -527,7 +537,12 @@ $(document).ready(function() {
        initWelcomeScreen();
    });
    
-   
+   /**
+    * LoadScenarios on eval mode
+    */
+   $(document).on("click", ".header-right .search-tab-cluster", function(event){
+       $('.search-tab-cluster').appendTo('.header-right');
+   });
     /* Change design is value is Borda
     * 
     */
@@ -736,7 +751,7 @@ $(document).ready(function() {
             $('.recom-text').css("display","block");
             $('.tab-back-nav').css("display","none");       
         }
-        showEvalInfo(evalShowInfos,errorevalShowInfos);
+        //showEvalInfo(evalShowInfos,errorevalShowInfos);
    }
    
    /* Hide loading animation
@@ -1053,6 +1068,7 @@ $(document).ready(function() {
         $('.search-tab-cluster').css("display","none");
              $('#id02').css("display","block");
                 window.survey = new Survey.Model({ 
+                	locale: "de",
                     pages: [
                         { title: "Demographische Daten",
                             questions: [
@@ -1062,7 +1078,7 @@ $(document).ready(function() {
                                 {type:"radiogroup", name:"alter",title:"Alter: ",
                                  colCount: 4, isRequired: true,
                                  choices:[
-                                          {value: 0,text:{default:"18<"}},
+                                          {value: 0,text:{default:"bis 18"}},
                                           {value: 1,text:{default:"18-24"}}, 
                                           {value: 2,text:{default:"25-34"}}, 
                                           {value: 3,text:{default:"35-44"}}, 
@@ -1079,7 +1095,7 @@ $(document).ready(function() {
                         },
                         { title: "Allgemeine Nutzungsfragen",
                             questions: [
-                                {type:"radiogroup", name:"filme", title: "Wie häufig nutzen Sie Videoinhalte wie z.B Filme und Serien?", isRequired: true, 
+                                {type:"radiogroup", name:"filme", title: "Wie häufig konsumieren Sie Videoinhalte wie Filme und Serien?", isRequired: true, 
                                     choices:[{ value: 0, text: "Täglich oder fast täglich"}, 
                                              { value: 1, text: "Mindestens einmal pro Woche"}, 
                                              { value: 2, text: "Mindestens einmal im Monat"}, 
@@ -1100,14 +1116,14 @@ $(document).ready(function() {
                                         text: "Video-Streaming-Dienste"
                                     }, {
                                         value: "tv",
-                                        text: "TV-Sendern"
+                                        text: "TV-Sender"
                                     }, {
                                         value: "portale",
                                         text: "Kostenlose Portale(z.B YouTube)"
                                     }]
                                 },
                                                                
-                                { type: "radiogroup", name: "empfehlung", title: "Wie oft werden Ihnen Filme auf  Ihr Lieblingsplattform empfohlen?", isRequired: true,
+                                { type: "radiogroup", name: "empfehlung", title: "Wie oft werden Ihnen Filme auf Ihrer Lieblingsplattform empfohlen?", isRequired: true,
                                  choices:[{value: 0,text:{default:"nie"}}, 
                                           {value: 1,text:{default:"selten"}},
                                           {value: 2,text:{default:"manchmal"}},
@@ -1118,7 +1134,7 @@ $(document).ready(function() {
                         },
                         { title: "Zufriedenheit", 
                             questions: [
-                                { type: "radiogroup", name: "sinn", title: "Halten Sie automatisch generierte Filmempfehlugen für lästig?", isRequired: true,
+                                { type: "radiogroup", name: "sinn", title: "Halten Sie automatisch generierte Filmempfehlungen für lästig?", isRequired: true,
                                  choices:[{value: 0,text:{default:"nie"}}, 
                                           {value: 1,text:{default:"selten"}},
                                           {value: 2,text:{default:"manchmal"}},
@@ -1140,14 +1156,16 @@ $(document).ready(function() {
                                         { value: 4, text: "verzichtbar" }],
                                     rows: [{
                                         value: "viele",
-                                        text: "viele Filme enthalten"
+                                        text: "Möglichst viele Filme enthalten"
                                     }, {
                                         value: "wenige",
-                                        text: "ehe wenige Filme enthalten"
+                                        text: "Wenige Filme enthalten, \n\
+                                        die Hauptsächlich \n\
+                                        meinen Interessen entsprechen"
                                     },]
                                 },
                                 
-                                { type: "matrix", name: "merkmale_filme", title: "Wie wichtig ist es für Sie, dass Empfehlungen nur die Filme enthalten, die", isAllRowRequired: true,
+                                { type: "matrix", name: "merkmale_filme", title: "Wie wichtig ist es für Sie, dass Empfehlungen die Filme enthalten, die", isAllRowRequired: true,
                                     columns: [
                                         { value: 0, text: "unverzichtbar" },
                                         { value: 1, text: "wichtig" },
@@ -1162,12 +1180,25 @@ $(document).ready(function() {
                                         text: "der Nutzer nicht kennt"
                                     }, {
                                         value: "gemischt",
-                                        text: "der Nutzer zum Teil kennt"
+                                        text: "der Nutzer beabsichtigt anzuschauen"
                                     },]
                                 },
                                                   
-                                {type: "text", name: "erfahrung_empfehlungen",isRequired: true,
-                                    title: "Wie Finden Sie Filmempfehlungen von anderen Streamdienstanbieter wie z.B Amazon Prime oder Netflix?"}
+                                {type: "multipletext",
+                                    name: "erfahrung_empfehlungen",
+                                    title: "Wie Finden Sie Filmempfehlungen von Streamdienstanbieter wie z.B Amazon Video oder Netflix?",
+                                    colCount: 1,
+                                    items: [
+                                        {
+                                            name: "positive",
+                                            isRequired: true,
+                                            title: "Was gefällt Ihnen daran?"
+                                        }, {
+                                            name: "negative",
+                                            isRequired: true,
+                                            title: "Was gefällt Ihnen nicht?"
+                                        }
+                                    ]}
                             ],                           
                         }]
                 });
@@ -1194,9 +1225,24 @@ $(document).ready(function() {
         var inserted = surveyObject.insertSurveyResults(result, getUserId());
         if(inserted){
             $('#id02').css("display","none");
-            scenarioObject.displayScenario(scenarioNum);
+            /*scenarioObject.displayScenario(scenarioNum);*/
+            showEvalInfo(evalShowInfos,errorevalShowInfos)
         }
     }
+    
+    
+    /**
+     * First show information about the task and then the description of first scenario
+     */
+    $(document).on("click", "#id06 .infoClose", function(event){
+        if(scenarioNum == 0){
+           scenarioObject.displayScenario(scenarioNum); 
+        }
+        else{
+            $('#id06').css("display","none");
+        }
+    });  
+    
     
     /**
      * 
@@ -1232,6 +1278,36 @@ $(document).ready(function() {
      */
     function showGoodbye(){
         $('#id05').css("display","block");
+    }
+    
+    /* After evaluation ends go to index.com
+     * 
+     */
+    $(document).on("click", "#id05 .infoClose", function(event){
+        $('#id05').css("display","none");
+        $.ajax({
+             url : "CloseConnectionServlet",
+             type : "GET",
+
+             dataType: "json",
+             success : function(response){
+                        if(response != null && response != "")
+                        {
+                            location.href = "index.html";
+                        }
+                }
+            });
+        //location.href = "index.html"
+    });
+    
+    /**
+     * if response ok dann go back
+     * @param response
+     * @returns
+     */
+    function backToIndex(response){
+             location.href = "index.html";
+        	 $('#id05').css("display","none")
     }
     
     /* Hide Goodbye Screen
@@ -1277,7 +1353,7 @@ $(document).ready(function() {
     /* After evaluation ends go to index.com
      * 
      */
-    $(document).on("click", "#id05 .infoClose", function(event){
+    /*$(document).on("click", "#id05 .infoClose", function(event){
         $('#id05').css("display","none");
         $.ajax({
              url : "CloseConnectionServlet",
@@ -1291,8 +1367,8 @@ $(document).ready(function() {
                         }
                 }
             });
-        //location.href = "index.html"
-    });
+
+    });*/
     
     
     $(document).on("click", "#id05 #infoClose", function(event){

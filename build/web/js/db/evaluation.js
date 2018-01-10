@@ -43,7 +43,7 @@ $(document).ready(function() {
      */
     function showMessage(results){
         if(results == ""){
-            alert("Fehler Fragebogen");
+            alert("Error Insert Evaluation");
         }
     }
 });

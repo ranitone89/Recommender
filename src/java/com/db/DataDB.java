@@ -16,93 +16,95 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DataDB {
-	private Connection connection = null;
-	public DataDB() throws Exception {
+    private Connection connection = null;
+    public DataDB() throws Exception {
             connection = DBConnection.getDBConnection();  
            
 	}
 
-        /**
-         * Close connection
-        * @throws java.lang.Exception
-         */
-	public String closeConnection() throws Exception {      
-            //String message = DBConnection.closeDBConnection()
-            return DBConnection.closeDBConnection();
-	
-        }
+    /**
+     * Close connection
+     * @return 
+    * @throws java.lang.Exception
+     */
+    public String closeConnection() throws Exception {      
+        //String message = DBConnection.closeDBConnection()
+        return DBConnection.closeDBConnection();
+
+    }
         
-        /**
-         * Autocomplete
-         * @param term
-         * @return
-         * @throws Exception 
-         */
-	public ArrayList<String> doAutocomplete(String term) throws Exception {
-                ArrayList<String> list = new ArrayList<String>();
-		PreparedStatement ps = null;
-                ResultSet rs = null;
-                //Connection connection = null;
-		try {
-                    String sql = "SELECT name FROM top_actors WHERE name LIKE ?";
-                    //connection = DBConnection.getDBConnection();
-                    ps = connection.prepareStatement(sql);
-                    ps.setString(1, term + "%");
-                    rs = ps.executeQuery();
-                    while (rs.next()) {
-                            list.add(rs.getString("name"));
-                    }
-		} 
-                catch (Exception e) {
-			e.getMessage();
-		}
-                finally {
-                    if (ps != null) ps.close();
-                    if (rs != null) rs.close();
-                    //if (connection != null) DBConnection.closeDBConnection();
-                }
-                
-		return list;
-	}
-        
-        /**
-         * Check if User exist
-         * @param ip
-         * @return
-         * @throws Exception 
-         */
-        public String doLogin(String ipAdresse) throws Exception{
-            String message = null;
+    /**
+     * Autocomplete
+     * @param term
+     * @return
+     * @throws Exception 
+     */
+    public ArrayList<String> doAutocomplete(String term) throws Exception {
+            ArrayList<String> list = new ArrayList<String>();
             PreparedStatement ps = null;
-            //Connection connection = null;
             ResultSet rs = null;
+            //Connection connection = null;
             try {
-                String sql = "SELECT usersid FROM evaluation_users WHERE ip = ?";
-                
+                String sql = "SELECT name FROM top_actors WHERE name LIKE ?";
                 //connection = DBConnection.getDBConnection();
                 ps = connection.prepareStatement(sql);
-                
-                //setting the parameters
-                ps.setString(1, ipAdresse);
-                
-                //executing the prepared statement, which returns a ResultSet
+                ps.setString(1, term + "%");
                 rs = ps.executeQuery();
-                if(rs.next()){
-                    message = "USER EXIST";
-                }else{
-                    message = "NEW USER";
+                while (rs.next()) {
+                        list.add(rs.getString("name"));
                 }
-            } catch (Exception e) {
-                message = "FAILURE";
-                e.printStackTrace();
+            } 
+            catch (Exception e) {
+                    e.getMessage();
             }
             finally {
                 if (ps != null) ps.close();
                 if (rs != null) rs.close();
                 //if (connection != null) DBConnection.closeDBConnection();
             }
-            return message;
+
+            return list;
+    }
+
+    /**
+     * Check if User exist
+     * @param ipAdresse
+     * @param ip
+     * @return
+     * @throws Exception 
+     */
+    public String doLogin(String ipAdresse) throws Exception{
+        String message = null;
+        PreparedStatement ps = null;
+        //Connection connection = null;
+        ResultSet rs = null;
+        try {
+            String sql = "SELECT usersid FROM evaluation_users WHERE ip = ?";
+
+            //connection = DBConnection.getDBConnection();
+            ps = connection.prepareStatement(sql);
+
+            //setting the parameters
+            ps.setString(1, ipAdresse);
+
+            //executing the prepared statement, which returns a ResultSet
+            rs = ps.executeQuery();
+            if(rs.next()){
+                message = "USER EXIST";
+            }else{
+                message = "NEW USER";
+            }
+        } catch (Exception e) {
+            message = "FAILURE";
+            e.printStackTrace();
         }
+        finally {
+            if (ps != null) ps.close();
+            if (rs != null) rs.close();
+            //if (connection != null) DBConnection.closeDBConnection();
+        }
+        return message;
+    }
 
     public String checkUsername(String username) throws Exception {
             String message = null;
@@ -565,10 +567,10 @@ public class DataDB {
      * Insert clustered movies to database 
      * @param method
      * @param scenario
-     * @param firstRecommendation
+     * @param recommendations
      * @throws SQLException 
      */
-    public void insertClustering(String method, int scenario, ArrayList<Recommendation> firstRecommendation) throws SQLException, Exception {
+    public void insertClustering(String method, int scenario, ArrayList<Recommendation> recommendations) throws SQLException, Exception {
         PreparedStatement ps = null;
         //Connection connection = null;
         try {
@@ -583,7 +585,7 @@ public class DataDB {
             ps = connection.prepareStatement(query);
 
             // now loop through nearly 1,500 nodes in the list
-            for (Recommendation rec : firstRecommendation)
+            for (Recommendation rec : recommendations)
             {
                 for(Movie m: rec.getMovies()){
                     ps.setInt(1, (rec.getClusterId()+1));
@@ -882,8 +884,8 @@ public class DataDB {
 		+ "(gender, age, employment_status, job, video_usage, payment_readiness, "
                 + "platformen_stream, platformen_tv, platformen_portale, "
                 + "recommendation_frequency,recommendation_sense,recommendation_satisfaction,recommendation_number_few,recommendation_number_lots "
-                + ",recommendation_char_known, recommendation_char_unknown, recommendation_char_mix,recommendation_experience ) VALUES"
-		+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                + ",recommendation_char_known, recommendation_char_unknown, recommendation_char_mix,recommendation_experience_positive, recommendation_experience_negative  ) VALUES"
+		+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             
             //connection = DBConnection.getDBConnection();
             ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -921,6 +923,7 @@ public class DataDB {
             ps.setInt(16, Integer.parseInt(result[15]));
             ps.setInt(17, Integer.parseInt(result[16]));
             ps.setString(18, ""+result[17]);
+            ps.setString(19, ""+result[18]);
             
             ps.executeUpdate();
             
