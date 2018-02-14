@@ -249,6 +249,7 @@ $(document).ready(function() {
      * @returns {undefined}
      */
     function parseEvalScenarios(jsonObj){
+        alert("parse eval scenarios");
         removeAllScenarios();
         removeAllScenariosMessages();
         

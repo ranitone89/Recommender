@@ -190,8 +190,9 @@ $(document).ready(function() {
                 if(tmp.toString().indexOf('"')=== 0){
                     tmp = tmp.match(/\"(.*?)\"/)[1];
                 }
-                
-                if(text==$.trim(tmp)){
+                //movie title contains title of statistic point
+                if(text.indexOf($.trim(tmp))>0){
+                    alert($.trim(tmp));
                     charts[method][j].series[0].data[i].setState('hover');
                     
                 }
@@ -1589,6 +1590,7 @@ $(document).ready(function() {
      **/    
     function initScenarios(){
         scenarios = scenarioObject.getUserChoise();
+        alert(scenarios);
         scenarioObject.getScenariosEvaluation();
         scenarioObject.createScenarioMessage(scenarios);
         getModeParameter(mode);
